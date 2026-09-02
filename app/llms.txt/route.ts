@@ -39,7 +39,7 @@ ${articleLinks}
 
 ## Contact and accuracy notes
 
-- Project enquiries: hello@creativex.ai
+- Project enquiries: info@creativexlab.online
 - Delivery: worldwide
 - Language: English
 - Project pages clearly distinguish product concepts and representative work from verified named client deployments.

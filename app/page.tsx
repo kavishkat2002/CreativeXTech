@@ -8,13 +8,13 @@ import { Button } from "@/components/ui/button";
 import { projects } from "@/lib/projects";
 import { services } from "@/lib/services";
 
-const partnerPlatforms = [
-  { name: "OpenAI", style: "openai" },
-  { name: "AWS", style: "aws" },
-  { name: "Microsoft Azure", style: "azure" },
-  { name: "Google Cloud", style: "google" },
-  { name: "Snowflake", style: "snowflake" },
-  { name: "Databricks", style: "databricks" },
+const partnerLogos = [
+  { name: "Partner 1", src: "/partners/partner-1.png" },
+  { name: "Partner 2", src: "/partners/partner-2.png" },
+  { name: "Partner 4", src: "/partners/partner-4.png" },
+  { name: "Partner 6", src: "/partners/partner-6.png" },
+  { name: "Partner 9", src: "/partners/partner-9.png" },
+  { name: "Partner 8", src: "/partners/partner-8.png" },
 ];
 
 const faqs = [
@@ -174,7 +174,7 @@ export default function Home() {
           <div className="reference-grid" aria-hidden="true" />
           <div className="site-width reference-hero-inner">
             <div className="reference-copy">
-              <p className="reference-kicker"><span /> CreativeX Technology AI / 2026</p>
+              <p className="reference-kicker"><span /> Think Creative. Build Smart.</p>
               <h1>We turn complex operations into intelligent systems that <em>move.</em></h1>
               <p className="reference-note">
                 — AI, data, cloud, and product engineering grounded in real
@@ -197,27 +197,29 @@ export default function Home() {
               <div className="reference-actions">
                 <a className="reference-secondary" href="#services">Explore our approach <ArrowUpRight /></a>
                 <Button asChild className="reference-cta">
-                  <a href="#contact">Start an AI project <ArrowUpRight /></a>
+                  <a href="#contact">Start Creative Project <ArrowUpRight /></a>
                 </Button>
               </div>
             </div>
           </div>
-          <div className="reference-side-note" aria-hidden="true">INTELLIGENCE / BUILT FOR WORK</div>
+          <div className="reference-side-note" aria-hidden="true">© {new Date().getFullYear()} CreativeX Technology PVT LTD</div>
         </section>
 
         <section className="partner-band" aria-labelledby="partner-band-title">
           <div className="partner-band-label" id="partner-band-title">
-            <span>Technology ecosystem</span>
-            <strong>Platforms we build with</strong>
+
+            <strong>Partners we work with</strong>
           </div>
-          <div className="partner-logo-row site-width">
-            {partnerPlatforms.map((platform) => (
-              <div className={`partner-wordmark ${platform.style}`} key={platform.name}>
-                <span>{platform.name}</span>
-              </div>
-            ))}
+          <div className="partner-logo-marquee-container">
+            <div className="partner-logo-marquee">
+              {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((partner, index) => (
+                <div className="partner-logo-item" key={index}>
+                  <img src={partner.src} alt={partner.name} />
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="partner-band-note">Platform names identify technologies we work with and do not imply formal partnership or endorsement.</p>
+
         </section>
 
         <section className="truth-section reveal">
@@ -296,9 +298,7 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="technology-disclaimer site-width">
-            Technology names identify platforms CreativeX builds with and do not imply formal endorsement or partnership.
-          </p>
+
         </section>
 
         <section id="projects" className="home-projects-section section-pad" aria-labelledby="home-projects-heading">
@@ -342,7 +342,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <p className="home-project-motion-note site-width">Scroll or swipe to explore · Motion pauses on interaction</p>
+
         </section>
 
         <section id="method" className="method-section section-pad">
@@ -380,7 +380,7 @@ export default function Home() {
           <div className="site-width">
             <div className="client-feedback-heading reveal">
               <p className="section-index">Client feedback / 06</p>
-              <div><span>AI & software delivery</span><h2 id="client-feedback-heading">What clients say about working with CreativeX.</h2><p>The cards below demonstrate how approved customer feedback will be presented. Replace each sample with an exact client quotation before public use.</p></div>
+              <div><span>AI & software delivery</span><h2 id="client-feedback-heading">What clients say about working with CreativeX.</h2></div>
             </div>
 
             <div className="client-feedback-grid">
@@ -430,19 +430,30 @@ export default function Home() {
               <h2>Bring us the problem you keep circling.</h2>
               <p>We’ll help you work out whether AI belongs in the answer—and what the smallest credible first move looks like.</p>
               <Button asChild className="contact-action">
-                <a href="mailto:hello@creativex.ai?subject=CreativeX%20project%20conversation&body=Hello%20CreativeX%2C%0A%0AThe%20workflow%20I%20want%20to%20improve%3A%0AWho%20does%20this%20work%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0A%0A">Start a conversation <ArrowUpRight /></a>
+                <a href="mailto:info@creativexlab.online?subject=CreativeX%20project%20conversation&body=Hello%20CreativeX%2C%0A%0AThe%20workflow%20I%20want%20to%20improve%3A%0AWho%20does%20this%20work%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0A%0A">Start a conversation <ArrowUpRight /></a>
               </Button>
               <div className="brief-prompt">
                 <span>A useful first note includes</span>
                 <p>The workflow · who uses it · the result you want · any important constraints</p>
               </div>
             </div>
-            <div className="contact-detail">
-              <span>Email</span><a href="mailto:hello@creativex.ai">hello@creativex.ai</a>
-              <span>Focus</span><p>AI agents · analytics · IoT · software products · cloud</p>
-              <span>Based</span><p>Working globally</p>
+            <div className="contact-detail-card">
+              <div className="contact-info-group">
+                <div className="info-item">
+                  <span>Email</span>
+                  <a href="mailto:info@creativexlab.online" className="contact-link">info@creativexlab.online</a>
+                </div>
+                <div className="info-item">
+                  <span>Focus</span>
+                  <p>AI agents · analytics · IoT · software products · cloud</p>
+                </div>
+                <div className="info-item">
+                  <span>Based</span>
+                  <p>Working globally</p>
+                </div>
+              </div>
               <div className="contact-brand-card">
-                <img src="/brand/creativex-robot-lockup.webp" alt="CreativeX Technology logo with AI android" />
+                <img src="/brand/creativex-robot-lockup.webp" alt="CreativeX Technology logo" />
               </div>
             </div>
           </div>

@@ -73,7 +73,7 @@ export default function ServicesPage() {
       </section>
 
       <section className="services-page-cta">
-        <div className="site-width services-page-cta-layout"><p className="section-index">Not sure where to start?</p><div><h2>Bring the workflow. We’ll shape the right engagement.</h2><a href="/contact">Talk with CreativeX <ArrowUpRight /></a></div></div>
+        <div className="site-width services-page-cta-layout"><p className="section-index">Not sure where to start?</p><div><h2>Bring the workflow. We’ll shape the right engagement.</h2><a href="/contact">Talk with Team Creative <ArrowUpRight /></a></div></div>
       </section>
       <SiteFooter />
     </main>

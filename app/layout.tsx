@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: "CreativeX Technology AI | AI & Software Engineering Company",
   description:
-    "CreativeX Technology AI designs AI agents, predictive analytics, IoT systems, cloud platforms, and web and mobile software for real business operations.",
+    "A premium tech consultancy delivering highly innovative and strategic solutions to help businesses scale and thrive. We build AI agents, data analytics, and cloud software for real business operations.",
   applicationName: "CreativeX Technology AI",
   authors: [{ name: "CreativeX Technology AI", url: baseUrl }],
   creator: "CreativeX Technology AI",
@@ -57,11 +57,11 @@ export default function RootLayout({
         name: "CreativeX Technology AI",
         url: baseUrl,
         logo: `${baseUrl}/brand/creativex-wordmark.webp`,
-        email: "hello@creativex.ai",
+        email: "info@creativexlab.online",
         description: "AI and software engineering company delivering AI automation, predictive analytics, IoT, cloud platforms, and web and mobile products.",
         areaServed: "Worldwide",
         knowsAbout: ["AI automation and agents", "predictive analytics", "IoT and smart operations", "web and mobile product engineering", "cloud solutions", "AI business consultation"],
-        contactPoint: { "@type": "ContactPoint", email: "hello@creativex.ai", contactType: "sales and project enquiries", availableLanguage: "English" },
+        contactPoint: { "@type": "ContactPoint", email: "info@creativexlab.online", contactType: "sales and project enquiries", availableLanguage: "English" },
       },
       {
         "@type": "WebSite",

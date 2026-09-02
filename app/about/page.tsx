@@ -114,7 +114,7 @@ export default function AboutPage() {
       </section>
 
       <section className="about-cta">
-        <div className="site-width about-cta-layout"><p className="section-index">Start with one useful problem</p><div><h2>Let’s work out what the system should do.</h2><a href="/contact">Talk with CreativeX <ArrowUpRight /></a></div></div>
+        <div className="site-width about-cta-layout"><p className="section-index">Start with one useful problem</p><div><h2>Let’s work out what the system should do.</h2><a href="/contact">Talk with Team Creative <ArrowUpRight /></a></div></div>
       </section>
       <SiteFooter />
     </main>

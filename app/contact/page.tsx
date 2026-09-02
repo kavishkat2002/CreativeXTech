@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowDownRight, ArrowUpRight, Check, Mail, MapPin, Network } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Check, Mail, MapPin, Network, Phone } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-const mailto = "mailto:hello@creativex.ai?subject=CreativeX%20project%20conversation&body=Hello%20CreativeX%2C%0A%0ACompany%20and%20role%3A%0AThe%20workflow%20or%20product%20I%20want%20to%20improve%3A%0AWho%20uses%20it%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0ATimeline%20or%20important%20constraints%3A%0A%0A";
+const mailto = "mailto:info@creativexlab.online?subject=CreativeX%20project%20conversation&body=Hello%20CreativeX%2C%0A%0ACompany%20and%20role%3A%0AThe%20workflow%20or%20product%20I%20want%20to%20improve%3A%0AWho%20uses%20it%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0ATimeline%20or%20important%20constraints%3A%0A%0A";
 
 export default function ContactPage() {
   const contactJsonLd = {
@@ -23,7 +23,7 @@ export default function ContactPage() {
     "@type": "ContactPage",
     name: "Contact CreativeX Technology AI",
     url: "https://creativex-ai.kavishkathilakarathn.chatgpt.site/contact",
-    about: { "@type": "Organization", name: "CreativeX Technology AI", email: "hello@creativex.ai" },
+    about: { "@type": "Organization", name: "CreativeX Technology AI", email: "info@creativexlab.online" },
   };
 
   return (
@@ -50,20 +50,63 @@ export default function ContactPage() {
         <div className="site-width contact-page-layout">
           <aside className="contact-page-details">
             <p className="section-index">Direct contact / 01</p>
-            <div><Mail /><span>Email</span><a href="mailto:hello@creativex.ai">hello@creativex.ai</a></div>
-            <div><MapPin /><span>Delivery</span><p>Working globally</p></div>
-            <div><Network /><span>Focus</span><p>AI agents · analytics · IoT · software products · cloud</p></div>
+            <div><Mail /><span>Email</span><a href="mailto:info@creativexlab.online">info@creativexlab.online</a></div>
+            <div><MapPin /><span>Address</span><p>16/B Perera Mawatha Rajagiriya Sri Lanka</p></div>
+            <div><Phone /><span>Hotline</span><a href="tel:0762345336">076 2345 336</a></div>
           </aside>
 
           <div className="contact-brief">
-            <p className="section-index">A useful first note / 02</p>
-            <h2>You do not need a finished specification.</h2>
-            <p>Enough context to understand the work is the best place to begin. Include what you know, leave the rest for the conversation.</p>
-            <ul>
-              {["The workflow or product you want to improve", "The people who use or manage it today", "The outcome that would make the project worthwhile", "The systems, data, and integrations already involved", "Any timing, security, regulatory, or budget constraints"].map((item) => <li key={item}><Check /><span>{item}</span></li>)}
-            </ul>
-            <a className="contact-email-action" href={mailto}>Compose project email <ArrowUpRight /></a>
-            <small>Your email application will open with a structured project brief. CreativeX will only receive it after you choose to send.</small>
+            <p className="section-index">Send a message / 02</p>
+            <h2>Let's talk about your project.</h2>
+            <form action="https://formsubmit.co/tkavishka101@gmail.com" method="POST" className="contact-form">
+              <input type="hidden" name="_next" value="https://creativexlab.online/contact" />
+              <input type="hidden" name="_captcha" value="false" />
+              
+              <div className="form-group">
+                <label htmlFor="name">Your name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">Email address</label>
+                <input type="email" id="email" name="email" placeholder="john@example.com" required />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="subject">Subject</label>
+                <input type="text" id="subject" name="subject" placeholder="What's this about?" required />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="date">Preferred Meeting Date</label>
+                <input type="date" id="date" name="date" required />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="time">Preferred Meeting Time (7 PM - 11 PM)</label>
+                <select id="time" name="time" required defaultValue="">
+                  <option value="" disabled>Select a time</option>
+                  <option value="7:00 PM">7:00 PM</option>
+                  <option value="7:30 PM">7:30 PM</option>
+                  <option value="8:00 PM">8:00 PM</option>
+                  <option value="8:30 PM">8:30 PM</option>
+                  <option value="9:00 PM">9:00 PM</option>
+                  <option value="9:30 PM">9:30 PM</option>
+                  <option value="10:00 PM">10:00 PM</option>
+                  <option value="10:30 PM">10:30 PM</option>
+                  <option value="11:00 PM">11:00 PM</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="message">Your message</label>
+                <textarea id="message" name="message" rows={5} placeholder="Include what you know, leave the rest for the conversation." required></textarea>
+              </div>
+
+              <button type="submit" className="contact-email-action" style={{ alignSelf: "flex-start", border: "none", cursor: "pointer", fontFamily: "inherit", borderRadius: "4px" }}>
+                Send message <ArrowUpRight />
+              </button>
+            </form>
           </div>
         </div>
       </section>
