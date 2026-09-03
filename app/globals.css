@@ -1998,12 +1998,7 @@ summary:focus-visible {
 @media (max-width: 620px) {
   .home-projects-heading h2 { font-size: clamp(3.4rem, 15vw, 5rem); }
   .home-projects-heading div > p { font-size: 15px; }
-  .home-project-marquee { overflow-x: auto; mask-image: none; scrollbar-width: none; scroll-snap-type: x proximity; }
-  .home-project-marquee::-webkit-scrollbar { display: none; }
-  .home-project-track { animation: none; }
-  .home-project-set[aria-hidden="true"] { display: none; }
-  .home-project-set { padding-inline: 14px 0; }
-  .home-project-card { width: min(82vw, 340px); min-height: 455px; grid-template-rows: 235px 1fr; scroll-snap-align: start; }
+  .home-project-card { width: min(82vw, 340px); min-height: 455px; grid-template-rows: 235px 1fr; }
   .home-project-card-copy { min-height: 220px; padding: 22px 20px 20px; }
   .home-project-card-copy h3 { font-size: 27px; }
   .home-project-motion-note { text-align: left; }
