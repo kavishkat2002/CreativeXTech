@@ -67,11 +67,11 @@ const technologies = [
 const clientFeedback = [
   {
     number: "01",
-    label: "Export & logistics",
-    quote: "CreativeX gave our operations team one clear view of the workflow before discussing technology. The proposed AI controls were practical, understandable, and designed around how our people actually make decisions.",
-    role: "Operations Director",
-    company: "Sample logistics client",
-    initials: "OD",
+    label: "",
+    quote: "Working with CreativeX Technology felt less like hiring an outside development team and more like adding a product partner to our company. We came in with an ambitious idea for Alexxa AI Agent, but the team helped us turn that concept into a clear, usable digital product. What stood out most was their ability to understand both the technology and the business behind it. Communication was easy, decisions were explained clearly, and the final experience felt polished without losing the original vision. I’d happily work with CreativeX again as we continue building the product.",
+    role: "Deshan Thilakarathna",
+    company: "Founder, Alexxa AI",
+    initials: "DT",
   },
   {
     number: "02",
@@ -446,10 +446,10 @@ export default function Home() {
             <div className="client-feedback-grid">
               {clientFeedback.map((item) => (
                 <article key={item.number} className="client-feedback-card reveal">
-                  <header><span>{item.number}</span><small>Demo feedback</small></header>
+                  <header><span>{item.number}</span></header>
                   <div className="client-feedback-quote-mark" aria-hidden="true">“</div>
                   <blockquote>{item.quote}</blockquote>
-                  <footer><span className="client-feedback-avatar" aria-hidden="true">{item.initials}</span><div><strong>{item.role}</strong><small>{item.company} · {item.label}</small></div></footer>
+                  <footer><span className="client-feedback-avatar" aria-hidden="true">{item.initials}</span><div><strong>{item.role}</strong><small>{item.company}{item.label ? ` · ${item.label}` : ''}</small></div></footer>
                 </article>
               ))}
             </div>
