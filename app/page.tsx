@@ -324,7 +324,7 @@ export default function Home() {
                       aria-label={technology.name}
                     >
                       {technology.icon ? (
-                        <img src={technology.icon} alt="" className="technology-mark-img" aria-hidden="true" style={{ width: 32, height: 32, objectFit: "contain", opacity: 0.9, filter: "grayscale(100%) brightness(10)" }} />
+                        <img src={technology.icon} alt="" className="technology-mark-img" aria-hidden="true" style={{ width: 32, height: 32, objectFit: "contain" }} />
                       ) : (
                         <span className="technology-mark" aria-hidden="true">{technology.mark}</span>
                       )}
