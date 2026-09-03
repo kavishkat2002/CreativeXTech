@@ -105,11 +105,11 @@ export default function ProjectEditorPage() {
       const ext = file.name.split(".").pop();
       const path = `projects/${formData.slug || "draft"}-${Date.now()}.${ext}`;
       const { error: uploadError } = await supabaseBrowserClient.storage
-        .from("project-media")
+        .from("project_media")
         .upload(path, file, { upsert: true, contentType: file.type });
       if (uploadError) throw uploadError;
       const { data: urlData } = supabaseBrowserClient.storage
-        .from("project-media")
+        .from("project_media")
         .getPublicUrl(path);
       setFormData(prev => ({ ...prev, media_url: urlData.publicUrl }));
     } catch (err: any) {
