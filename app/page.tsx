@@ -6,7 +6,8 @@ import { ArrowUpRight } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { projects } from "@/lib/projects";
-import { services } from "@/lib/services";
+import { services as staticServices, getServices, Service } from "@/lib/services";
+import { supabaseBrowserClient } from "@/lib/supabase-client";
 
 const partnerLogos = [
   { name: "Partner 1", src: "/partners/partner-1.png" },
@@ -114,6 +115,35 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState(0);
   const [activeSection, setActiveSection] = useState("top");
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [services, setServices] = useState<Service[]>(staticServices);
+  
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  useEffect(() => {
+    getServices().then(data => {
+      if (data.length > 0) setServices(data);
+    });
+  }, []);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail) return;
+    setNewsletterStatus("loading");
+    
+    try {
+      const { error } = await supabaseBrowserClient
+        .from("subscribers")
+        .insert([{ email: newsletterEmail }]);
+        
+      if (error && error.code !== '23505') throw error; // ignore duplicate email error
+      setNewsletterStatus("success");
+      setNewsletterEmail("");
+    } catch (err) {
+      console.error(err);
+      setNewsletterStatus("error");
+    }
+  };
 
   useEffect(() => {
     const sectionIds = ["services", "technologies", "projects", "method", "faq", "contact"];
@@ -438,19 +468,28 @@ export default function Home() {
               </div>
             </div>
             <div className="contact-detail-card">
-              <div className="contact-info-group">
+              <div className="newsletter-group">
                 <div className="info-item">
-                  <span>Email</span>
-                  <a href="mailto:info@creativexlab.online" className="contact-link">info@creativexlab.online</a>
+                  <span>Newsletter</span>
+                  <p style={{ marginTop: "8px", fontSize: "15px", lineHeight: 1.5, color: "#111" }}>
+                    Get practical field notes on AI products, technical SEO, and generative discovery delivered straight to your inbox.
+                  </p>
                 </div>
-                <div className="info-item">
-                  <span>Focus</span>
-                  <p>AI agents · analytics · IoT · software products · cloud</p>
-                </div>
-                <div className="info-item">
-                  <span>Based</span>
-                  <p>Working globally</p>
-                </div>
+                <form className="newsletter-form" onSubmit={handleSubscribe}>
+                  <input 
+                    type="email" 
+                    placeholder="Email address" 
+                    required 
+                    aria-label="Email address for newsletter" 
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    disabled={newsletterStatus === "loading" || newsletterStatus === "success"}
+                  />
+                  <button type="submit" disabled={newsletterStatus === "loading" || newsletterStatus === "success"}>
+                    {newsletterStatus === "loading" ? "Subscribing..." : newsletterStatus === "success" ? "Subscribed!" : "Subscribe"}
+                  </button>
+                  {newsletterStatus === "error" && <span style={{ fontSize: "12px", color: "red", marginTop: "4px" }}>Something went wrong. Please try again.</span>}
+                </form>
               </div>
               <div className="contact-brand-card">
                 <img src="/brand/creativex-robot-lockup.webp" alt="CreativeX Technology logo" />

@@ -4,17 +4,18 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { getService, services } from "@/lib/services";
+import { getService, getServices } from "@/lib/services";
 
 const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
 
-export function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
+export async function generateStaticParams() {
+  const allServices = await getServices();
+  return allServices.map((service) => ({ slug: service.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const service = getService(slug);
+  const service = await getService(slug);
   if (!service) return {};
   return {
     title: `${service.title} | CreativeX Technology AI`,
@@ -26,11 +27,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const service = getService(slug);
+  const service = await getService(slug);
   if (!service) notFound();
+  
+  // Fetch all services dynamically for "Next service" link instead of using static array
+  const allServices = await getServices();
+  
   const ServiceIcon = service.icon;
-  const serviceIndex = services.findIndex((item) => item.slug === service.slug);
-  const nextService = services[(serviceIndex + 1) % services.length];
+  const serviceIndex = allServices.findIndex((item) => item.slug === service.slug);
+  const nextService = allServices[(serviceIndex + 1) % allServices.length];
+  
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",

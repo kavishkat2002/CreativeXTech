@@ -1,4 +1,25 @@
-import { AppWindow, Bot, BriefcaseBusiness, ChartNoAxesCombined, CloudCog, RadioTower } from "lucide-react";
+import { AppWindow, Bot, BriefcaseBusiness, ChartNoAxesCombined, CloudCog, RadioTower, HelpCircle } from "lucide-react";
+import { supabaseSelect } from "./supabase";
+
+export interface Service {
+  id: string;
+  slug: string;
+  number: string;
+  eyebrow: string;
+  title: string;
+  headline: string;
+  copy: string;
+  overview: string;
+  details: string[];
+  features: string[];
+  useCases: string[];
+  process: string[];
+  controls: string[];
+  outcomes: string[];
+  media_url?: string | null;
+  created_at?: string;
+  icon?: any; // the resolved React component
+}
 
 export const services = [
   {
@@ -72,7 +93,7 @@ export const services = [
     title: "Cloud Solutions",
     headline: "Build a cloud foundation the product can depend on.",
     copy: "We create resilient cloud foundations, modernize applications, and build delivery platforms with security, observability, and operating cost considered from the beginning.",
-    overview: "CreativeX helps teams move from fragile infrastructure to secure, observable, and repeatable cloud operations. Architecture choices are connected to the product roadmap, team capabilities, compliance needs, and total operating cost.",
+    overview: "CreativeX helps teams move from fragile infrastructure to secure, observable, and repeatable cloud operations. Architecture layout choices are connected to the product roadmap, team capabilities, compliance needs, and total operating cost.",
     details: ["Cloud architecture", "Platform engineering", "Security & observability"],
     features: ["Cloud architecture and workload assessment", "Application and data-platform modernization", "Infrastructure automation and delivery pipelines", "Identity, security, backup, and recovery design", "Monitoring, observability, and cost visibility"],
     useCases: ["New SaaS and AI product foundations", "Legacy application modernization", "Secure data and integration platforms", "Reliable multi-environment delivery"],
@@ -97,8 +118,53 @@ export const services = [
     outcomes: ["A focused portfolio of credible opportunities", "Shared leadership understanding of risk", "A roadmap teams can fund and execute"],
     icon: BriefcaseBusiness,
   },
-] as const;
+] as any[];
 
-export function getService(slug: string) {
-  return services.find((service) => service.slug === slug);
+const iconMap: Record<string, any> = {
+  "ai-automation-agents": Bot,
+  "data-predictive-analytics": ChartNoAxesCombined,
+  "iot-smart-operations": RadioTower,
+  "web-mobile-product-engineering": AppWindow,
+  "cloud-solutions": CloudCog,
+  "ai-business-consultation": BriefcaseBusiness,
+};
+
+export async function getServices(): Promise<Service[]> {
+  try {
+    const data = await supabaseSelect<any>("services", { order: "number.asc" });
+    if (!data) return [];
+    return data.map((service: any) => ({
+      ...service,
+      details: service.details || [],
+      features: service.features || [],
+      useCases: service.useCases || service.use_cases || [],
+      process: service.process || [],
+      controls: service.controls || [],
+      outcomes: service.outcomes || [],
+      icon: iconMap[service.slug] || HelpCircle
+    }));
+  } catch (err: any) {
+    console.error("Error fetching services:", err?.message);
+    return [];
+  }
+}
+
+export async function getService(slug: string): Promise<Service | undefined> {
+  try {
+    const data = await supabaseSelect<any>("services", { slug: `eq.${slug}` });
+    if (!data || data.length === 0) return undefined;
+    const serviceData = data[0];
+    return {
+      ...serviceData,
+      details: serviceData.details || [],
+      features: serviceData.features || [],
+      useCases: serviceData.useCases || serviceData.use_cases || [],
+      process: serviceData.process || [],
+      controls: serviceData.controls || [],
+      outcomes: serviceData.outcomes || [],
+      icon: iconMap[serviceData.slug] || HelpCircle
+    };
+  } catch (err: any) {
+    return undefined;
+  }
 }

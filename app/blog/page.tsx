@@ -3,7 +3,7 @@ import { ArrowDownRight, ArrowUpRight, BookOpen, Braces, ChartNoAxesCombined, Ga
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { articles, formatArticleDate } from "@/lib/articles";
+import { getArticles, formatArticleDate } from "@/lib/articles";
 
 export const metadata: Metadata = {
   title: "Technology, SEO & GEO Insights | CreativeX Technology AI",
@@ -19,7 +19,8 @@ export const metadata: Metadata = {
 
 const icons = [ScanSearch, Network, Braces, BookOpen, Gauge, ChartNoAxesCombined];
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const articles = await getArticles();
   const [featured, ...rest] = articles;
   const FeaturedIcon = icons[0];
   const blogJsonLd = {
@@ -71,10 +72,15 @@ export default function BlogPage() {
 
           <a className="blog-feature-card" href={`/blog/${featured.slug}`}>
             <div className="blog-feature-visual">
-              <span>{featured.number} / {String(articles.length).padStart(2, "0")}</span>
-              <FeaturedIcon aria-hidden="true" />
-              <i aria-hidden="true" />
-              <small>Research note · {featured.category}</small>
+              {featured.media_url && <img src={featured.media_url} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: 0.8 }} />}
+              <span style={{ zIndex: 5 }}>{featured.number} / {String(articles.length).padStart(2, "0")}</span>
+              {!featured.media_url && (
+                <>
+                  <FeaturedIcon aria-hidden="true" />
+                  <i aria-hidden="true" />
+                </>
+              )}
+              <small style={{ zIndex: 5 }}>Research note · {featured.category}</small>
             </div>
             <div className="blog-feature-copy">
               <div className="blog-card-meta">
@@ -90,13 +96,18 @@ export default function BlogPage() {
 
           <div className="blog-card-grid">
             {rest.map((article, index) => {
-              const Icon = icons[index + 1];
+              const Icon = icons[(index + 1) % icons.length];
               return (
                 <a className="blog-card" href={`/blog/${article.slug}`} key={article.slug}>
-                  <div className="blog-card-visual">
-                    <span>{article.number}</span>
-                    <Icon aria-hidden="true" />
-                    <i aria-hidden="true" />
+                  <div className="blog-card-visual" style={{ position: "relative" }}>
+                    {article.media_url && <img src={article.media_url} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: 0.9 }} />}
+                    <span style={{ zIndex: 5 }}>{article.number}</span>
+                    {!article.media_url && (
+                      <>
+                        <Icon aria-hidden="true" />
+                        <i aria-hidden="true" />
+                      </>
+                    )}
                   </div>
                   <div className="blog-card-copy">
                     <div className="blog-card-meta"><span>{article.category}</span><time dateTime={article.publishedDate}>{formatArticleDate(article.publishedDate)}</time></div>

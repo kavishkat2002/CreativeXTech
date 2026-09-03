@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { services } from "@/lib/services";
+import { getServices } from "@/lib/services";
 
 export const metadata: Metadata = {
   title: "AI & Software Engineering Services | CreativeX Technology AI",
@@ -16,12 +16,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const allServices = await getServices();
   const serviceListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "CreativeX Technology AI services",
-    itemListElement: services.map((service, index) => ({
+    itemListElement: allServices.map((service, index) => ({
       "@type": "ListItem",
       position: index + 1,
       url: `https://creativex-ai.kavishkathilakarathn.chatgpt.site/services/${service.slug}`,
@@ -56,7 +57,7 @@ export default function ServicesPage() {
             <p>Each service can begin as a focused engagement or combine with the others into a complete product and operating system.</p>
           </div>
           <div className="services-directory-grid">
-            {services.map((service) => {
+            {allServices.map((service) => {
               const Icon = service.icon;
               return (
                 <a href={`/services/${service.slug}`} className="service-directory-card" key={service.slug}>

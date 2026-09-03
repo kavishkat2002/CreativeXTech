@@ -4,17 +4,18 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { articles, formatArticleDate, getArticle } from "@/lib/articles";
+import { getArticles, getArticle, getArticleSlugs, formatArticleDate } from "@/lib/articles";
 
 const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
 
-export function generateStaticParams() {
-  return articles.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+  const slugs = await getArticleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = await getArticle(slug);
   if (!article) return {};
   return {
     title: `${article.title} | CreativeX Technology AI`,
@@ -35,11 +36,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = await getArticle(slug);
   if (!article) notFound();
 
-  const articleIndex = articles.findIndex((item) => item.slug === article.slug);
-  const nextArticle = articles[(articleIndex + 1) % articles.length];
+  const allArticles = await getArticles();
+  const articleIndex = allArticles.findIndex((item) => item.slug === article.slug);
+  const nextArticle = allArticles[(articleIndex + 1) % allArticles.length];
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
@@ -104,6 +106,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <section id={section.id} className="article-section" key={section.id}>
                 <div className="article-section-label"><span>0{index + 1}</span><i /></div>
                 <h2>{section.heading}</h2>
+                {section.media_url && (
+                  <div style={{ margin: "24px 0", borderRadius: "8px", overflow: "hidden" }}>
+                    <img src={section.media_url} alt={section.heading} style={{ width: "100%", height: "auto", display: "block", borderRadius: "8px" }} />
+                  </div>
+                )}
                 {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 {section.bullets && <ul>{section.bullets.map((bullet) => <li key={bullet}><Check /> <span>{bullet}</span></li>)}</ul>}
               </section>
