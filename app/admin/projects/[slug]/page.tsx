@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2, Plus, Trash2, Upload, X, ImageIcon, Video } from "lucide-react";
-import { supabaseBrowserClient } from "@/lib/supabase-client";
+import { getSupabaseClient } from "@/lib/supabase-client";
 
 export default function ProjectEditorPage() {
   const router = useRouter();
@@ -51,7 +51,8 @@ export default function ProjectEditorPage() {
 
     async function fetchProject() {
       try {
-        const { data, error } = await supabaseBrowserClient
+        const client = await getSupabaseClient();
+        const { data, error } = await client
           .from("projects")
           .select("*")
           .eq("slug", slug)
@@ -102,13 +103,14 @@ export default function ProjectEditorPage() {
     setIsUploading(true);
     setError(null);
     try {
+      const client = await getSupabaseClient();
       const ext = file.name.split(".").pop();
       const path = `projects/${formData.slug || "draft"}-${Date.now()}.${ext}`;
-      const { error: uploadError } = await supabaseBrowserClient.storage
+      const { error: uploadError } = await client.storage
         .from("project_media")
         .upload(path, file, { upsert: true, contentType: file.type });
       if (uploadError) throw uploadError;
-      const { data: urlData } = supabaseBrowserClient.storage
+      const { data: urlData } = client.storage
         .from("project_media")
         .getPublicUrl(path);
       setFormData(prev => ({ ...prev, media_url: urlData.publicUrl }));
@@ -151,15 +153,17 @@ export default function ProjectEditorPage() {
         media_url: formData.media_url || null,
       };
 
+      const client = await getSupabaseClient();
+
       if (isNew) {
-        const { error } = await supabaseBrowserClient
+        const { error } = await client
           .from("projects")
           .insert([dataToSave])
           .select();
         if (error) throw error;
         router.push("/admin/projects");
       } else {
-        const { error } = await supabaseBrowserClient
+        const { error } = await client
           .from("projects")
           .update(dataToSave)
           .eq("slug", slug)
