@@ -3,12 +3,40 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
+let globalAudioCtx: any = null;
+let isAudioInitialized = false;
+
+function initAudio() {
+  if (isAudioInitialized) return;
+  const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+  if (!AudioContextClass) return;
+  try {
+    globalAudioCtx = new AudioContextClass();
+    // Play silent buffer to unlock audio
+    const buffer = globalAudioCtx.createBuffer(1, 1, 22050);
+    const source = globalAudioCtx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(globalAudioCtx.destination);
+    source.start(0);
+    isAudioInitialized = true;
+  } catch (e) {}
+
+  window.removeEventListener("mousedown", initAudio);
+  window.removeEventListener("touchstart", initAudio);
+  window.removeEventListener("keydown", initAudio);
+}
+
 export function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHopping, setIsHopping] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
+    // Listen for first interaction to unlock audio
+    window.addEventListener("mousedown", initAudio);
+    window.addEventListener("touchstart", initAudio);
+    window.addEventListener("keydown", initAudio);
+
     // Show after a slight delay
     const showTimer = setTimeout(() => {
       setIsVisible(true);
@@ -16,28 +44,24 @@ export function WhatsAppButton() {
 
     // Audio synthesis function for a clean "pop" notification
     const playPopSound = () => {
+      if (!globalAudioCtx || globalAudioCtx.state === "suspended") return;
       try {
-        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
-        if (ctx.state === "suspended") return; // Audio is blocked until user interacts
-
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+        const osc = globalAudioCtx.createOscillator();
+        const gain = globalAudioCtx.createGain();
 
         osc.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(globalAudioCtx.destination);
 
         osc.type = "sine";
-        osc.frequency.setValueAtTime(600, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.05);
+        osc.frequency.setValueAtTime(600, globalAudioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, globalAudioCtx.currentTime + 0.05);
 
-        gain.gain.setValueAtTime(0, ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0, globalAudioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.2, globalAudioCtx.currentTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.1);
 
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + 0.1);
+        osc.start(globalAudioCtx.currentTime);
+        osc.stop(globalAudioCtx.currentTime + 0.1);
       } catch (e) {
         // Ignore errors if audio is unavailable
       }
