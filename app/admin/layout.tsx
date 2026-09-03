@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { supabaseBrowserClient } from "@/lib/supabase-client";
+import { supabaseBrowserClient, getSupabaseClient } from "@/lib/supabase-client";
 import { LayoutDashboard, FileText, Briefcase, Lightbulb, FolderKanban, LogOut, Mail } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -15,25 +15,31 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
 
   useEffect(() => {
-    supabaseBrowserClient.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setLoading(false);
+    let subscription: any;
+    
+    getSupabaseClient().then((client) => {
+      client.auth.getSession().then(({ data: { session } }) => {
+        setSession(session);
+        setLoading(false);
+      });
+
+      const { data } = client.auth.onAuthStateChange((_event, session) => {
+        setSession(session);
+      });
+      subscription = data.subscription;
     });
 
-    const {
-      data: { subscription },
-    } = supabaseBrowserClient.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
+    return () => {
+      if (subscription) subscription.unsubscribe();
+    };
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError("");
     setLoading(true);
-    const { error } = await supabaseBrowserClient.auth.signInWithPassword({
+    const client = await getSupabaseClient();
+    const { error } = await client.auth.signInWithPassword({
       email,
       password,
     });
@@ -44,7 +50,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   const handleLogout = async () => {
-    await supabaseBrowserClient.auth.signOut();
+    const client = await getSupabaseClient();
+    await client.auth.signOut();
   };
 
   if (loading) {
