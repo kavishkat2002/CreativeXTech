@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Plus, Settings } from "lucide-react";
+import { ArrowDown, ArrowUp, Plus, Settings, Loader2 } from "lucide-react";
 import { supabaseBrowserClient } from "@/lib/supabase-client";
 import type { Solution } from "@/lib/solutions";
 
 export default function SolutionsAdminPage() {
   const [solutions, setSolutions] = useState<Solution[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMoving, setIsMoving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -30,6 +31,41 @@ export default function SolutionsAdminPage() {
 
     fetchSolutions();
   }, []);
+
+  const handleMove = async (index: number, direction: "up" | "down") => {
+    if (direction === "up" && index === 0) return;
+    if (direction === "down" && index === solutions.length - 1) return;
+    
+    setIsMoving(true);
+    const newSolutions = [...solutions];
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    
+    const currentItem = { ...newSolutions[index] };
+    const swapItem = { ...newSolutions[swapIndex] };
+    
+    const currentNum = currentItem.number;
+    currentItem.number = swapItem.number;
+    swapItem.number = currentNum;
+    
+    newSolutions[index] = swapItem;
+    newSolutions[swapIndex] = currentItem;
+    
+    try {
+      const { error } = await supabaseBrowserClient
+        .from("solutions")
+        .upsert([
+          { id: currentItem.id, number: currentItem.number },
+          { id: swapItem.id, number: swapItem.number }
+        ]);
+        
+      if (error) throw error;
+      setSolutions(newSolutions);
+    } catch (err: any) {
+      setError("Failed to reorder: " + err.message);
+    } finally {
+      setIsMoving(false);
+    }
+  };
 
   return (
     <div>
@@ -72,21 +108,39 @@ export default function SolutionsAdminPage() {
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ borderBottom: "1px solid #eaeaea", background: "#fafafa" }}>
-                <th style={{ padding: "16px", textAlign: "left", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>No.</th>
+                <th style={{ padding: "16px", textAlign: "left", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600", width: "80px" }}>No.</th>
                 <th style={{ padding: "16px", textAlign: "left", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Label</th>
                 <th style={{ padding: "16px", textAlign: "left", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Headline</th>
                 <th style={{ padding: "16px", textAlign: "right", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {solutions.map((sol) => (
+            <tbody style={{ opacity: isMoving ? 0.6 : 1, transition: "opacity 0.2s" }}>
+              {solutions.map((sol, index) => (
                 <tr key={sol.id} style={{ borderBottom: "1px solid #eaeaea" }}>
                   <td style={{ padding: "16px", color: "#666", fontSize: "14px" }}>{sol.number}</td>
                   <td style={{ padding: "16px", fontWeight: "500" }}>{sol.label}</td>
                   <td style={{ padding: "16px", color: "#666", fontSize: "14px" }}>
                     {sol.headline.substring(0, 60)}...
                   </td>
-                  <td style={{ padding: "16px", textAlign: "right" }}>
+                  <td style={{ padding: "16px", textAlign: "right", display: "flex", justifyContent: "flex-end", gap: "8px" }}>
+                    <div style={{ display: "flex", gap: "4px", marginRight: "8px" }}>
+                      <button 
+                        onClick={() => handleMove(index, "up")}
+                        disabled={index === 0 || isMoving}
+                        style={{ padding: "6px", background: "transparent", border: "1px solid #ddd", borderRadius: "4px", cursor: index === 0 || isMoving ? "not-allowed" : "pointer", opacity: index === 0 ? 0.3 : 1 }}
+                        title="Move Up"
+                      >
+                        <ArrowUp size={14} />
+                      </button>
+                      <button 
+                        onClick={() => handleMove(index, "down")}
+                        disabled={index === solutions.length - 1 || isMoving}
+                        style={{ padding: "6px", background: "transparent", border: "1px solid #ddd", borderRadius: "4px", cursor: index === solutions.length - 1 || isMoving ? "not-allowed" : "pointer", opacity: index === solutions.length - 1 ? 0.3 : 1 }}
+                        title="Move Down"
+                      >
+                        <ArrowDown size={14} />
+                      </button>
+                    </div>
                     <Link 
                       href={`/admin/solutions/${sol.slug}`}
                       style={{ 
