@@ -31,7 +31,11 @@ export function WhatsAppButton() {
   const [isHopping, setIsHopping] = useState(false);
   const pathname = usePathname();
 
+  const isAdmin = pathname?.startsWith("/admin");
+
   useEffect(() => {
+    if (isAdmin) return;
+
     // Listen for first interaction to unlock audio
     window.addEventListener("mousedown", initAudio);
     window.addEventListener("touchstart", initAudio);
@@ -82,10 +86,10 @@ export function WhatsAppButton() {
       clearTimeout(showTimer);
       clearInterval(interval);
     };
-  }, []);
+  }, [isAdmin]);
 
   // If we are in the admin section, do not render the WhatsApp button
-  if (pathname?.startsWith("/admin")) {
+  if (isAdmin) {
     return null;
   }
 
