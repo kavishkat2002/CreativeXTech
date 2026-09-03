@@ -69,8 +69,8 @@ const clientFeedback = [
     number: "01",
     label: "",
     quote: "CreativeX didn’t just build what we asked for—they understood what we were trying to achieve as a business. The whole process felt collaborative, clear, and genuinely well thought out.",
-    role: "Deshan Thilakarathna",
-    company: "Founder, Alexxa AI",
+    role: "Deshan Thilakarathna, Founder",
+    company: "Alexxa AI",
     initials: "DT",
   },
   {
