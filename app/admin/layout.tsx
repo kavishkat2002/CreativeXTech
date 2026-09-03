@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (!session) {
     return (
-      <div style={{ maxWidth: "400px", margin: "100px auto", padding: "40px", background: "#fff", border: "1px solid #ddd", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
+      <div style={{ maxWidth: "400px", margin: "100px auto", padding: "40px", background: "#fff", color: "#111", border: "1px solid #ddd", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
         <h1 style={{ fontSize: "24px", marginBottom: "24px", fontWeight: "600", textAlign: "center" }}>Admin Login</h1>
         <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div>
@@ -67,7 +67,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
+              style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px", color: "#111", background: "#fff" }}
             />
           </div>
           <div>
@@ -77,7 +77,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               required 
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
+              style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px", color: "#111", background: "#fff" }}
             />
           </div>
           {authError && <div style={{ color: "red", fontSize: "14px" }}>{authError}</div>}
