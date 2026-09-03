@@ -454,11 +454,6 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="client-feedback-proof reveal">
-              <div><span>Ready for approved testimonials</span><strong>Real feedback, published with permission.</strong></div>
-              <p>Send the client name, role, company, exact quotation, and written approval. The demo label can then be replaced with a verified-client state.</p>
-              <a href="#contact">Request a relevant reference <ArrowUpRight /></a>
-            </div>
           </div>
         </section>
 
