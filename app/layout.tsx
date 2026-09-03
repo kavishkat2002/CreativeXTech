@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteLoader } from "@/components/site-loader";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import "./globals.css";
 
 const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
@@ -89,6 +90,7 @@ export default function RootLayout({
         <SiteLoader />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c") }} />
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );
