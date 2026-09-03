@@ -35,7 +35,30 @@ export function ProjectGallery() {
           {visibleProjects.map((project, index) => {
             const Icon = project.icon;
             const cardContent = <>
-              <div className="project-card-visual" aria-hidden="true"><span className="project-card-number">{project.number}</span><Icon /><span className="project-card-orbit" /><span className="project-card-signal">CX / SYSTEM</span></div>
+              <div className="project-card-visual" aria-hidden="true">
+                {project.media_url ? (
+                  /\.(mp4|webm)/i.test(project.media_url) ? (
+                    <video
+                      src={project.media_url}
+                      autoPlay muted loop playsInline
+                      className="project-card-cover-video"
+                    />
+                  ) : (
+                    <img
+                      src={project.media_url}
+                      alt=""
+                      className="project-card-cover-img"
+                    />
+                  )
+                ) : (
+                  <>
+                    <span className="project-card-number">{project.number}</span>
+                    <Icon />
+                    <span className="project-card-orbit" />
+                    <span className="project-card-signal">CX / SYSTEM</span>
+                  </>
+                )}
+              </div>
               <div className="project-card-body">
                 <div className="project-card-status"><span>{project.category}</span>{project.caseStudyHref ? <strong><i /> Case study available</strong> : <strong className="pending"><LockKeyhole /> Concept overview</strong>}</div>
                 <h3>{project.title}</h3><p>{project.summary}</p>

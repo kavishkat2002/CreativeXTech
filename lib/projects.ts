@@ -1,6 +1,19 @@
 import { Bot, Building2, Rocket, Ship, Store, HelpCircle } from "lucide-react";
 import { supabaseSelect } from "./supabase";
 
+export interface ProjectWorkflowStep {
+  number: string;
+  title: string;
+  copy: string;
+}
+
+export interface ProjectSystemConsole {
+  status: string;
+  title: string;
+  bullets: string[];
+  action: string;
+}
+
 export interface Project {
   id?: string;
   slug: string;
@@ -19,6 +32,15 @@ export interface Project {
   outcomes: string[];
   cta: string;
   href: string;
+  media_url?: string | null;
+  opportunityTitle?: string;
+  opportunityCopy?: string;
+  conceptStatus?: string;
+  workflow?: ProjectWorkflowStep[];
+  systemDirectionTitle?: string;
+  systemDirectionCopy?: string;
+  systemConsole?: ProjectSystemConsole;
+  buildVersionTitle?: string;
   icon?: any;
 }
 
@@ -138,6 +160,14 @@ export async function getProjects(): Promise<Project[]> {
       capabilities: proj.capabilities || [],
       integrations: proj.integrations || [],
       outcomes: proj.outcomes || [],
+      opportunityTitle: proj.opportunity_title,
+      opportunityCopy: proj.opportunity_copy,
+      conceptStatus: proj.concept_status,
+      workflow: proj.workflow,
+      systemDirectionTitle: proj.system_direction_title,
+      systemDirectionCopy: proj.system_direction_copy,
+      systemConsole: proj.system_console,
+      buildVersionTitle: proj.build_version_title,
       icon: iconMap[proj.slug] || HelpCircle
     }));
   } catch (err: any) {
