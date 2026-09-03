@@ -99,11 +99,11 @@ const clientFeedback = [
   },
   {
     number: "05",
-    label: "Startup & SaaS",
-    quote: "The team challenged our assumptions early, then turned the strongest idea into a focused product plan. We left with a clearer release, a credible architecture, and fewer expensive unknowns.",
-    role: "Product Founder",
-    company: "Sample SaaS company",
-    initials: "PF",
+    label: "",
+    quote: "CreativeX Technology helped us bring TL Packing Global’s digital vision into a much clearer and more professional direction. The team understood what we needed as a growing business and created an experience that feels practical, scalable, and built to support our next stage of growth.",
+    role: "Tim Lee",
+    company: "Founder, TL Packing Global",
+    initials: "TL",
   },
   {
     number: "06",
