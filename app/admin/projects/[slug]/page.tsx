@@ -158,16 +158,14 @@ export default function ProjectEditorPage() {
       if (isNew) {
         const { error } = await client
           .from("projects")
-          .insert([dataToSave])
-          .select();
+          .insert([dataToSave]);
         if (error) throw error;
         router.push("/admin/projects");
       } else {
         const { error } = await client
           .from("projects")
           .update(dataToSave)
-          .eq("slug", slug)
-          .select();
+          .eq("slug", slug);
         if (error) throw error;
         router.push("/admin/projects");
         router.refresh();

@@ -93,10 +93,10 @@ export default function EditServicePage() {
 
     let error;
     if (formData.id) {
-      const res = await supabaseBrowserClient.from("services").update(dbPayload).eq("id", formData.id).select();
+      const res = await supabaseBrowserClient.from("services").update(dbPayload).eq("id", formData.id);
       error = res.error;
     } else {
-      const res = await supabaseBrowserClient.from("services").insert([dbPayload]).select();
+      const res = await supabaseBrowserClient.from("services").insert([dbPayload]);
       error = res.error;
     }
 

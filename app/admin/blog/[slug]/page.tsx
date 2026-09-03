@@ -175,21 +175,19 @@ export default function AdminBlogEditor() {
     setSaving(true);
     
     try {
-      const payload = { ...formData };
+      const dataToSave = { ...formData };
 
       if (isNew) {
         const { error } = await supabaseBrowserClient
           .from("articles")
-          .insert([payload])
-          .select();
+          .insert([dataToSave]);
         if (error) throw error;
         router.push("/admin/blog");
       } else {
         const { error } = await supabaseBrowserClient
           .from("articles")
-          .update(payload)
-          .eq("slug", slug)
-          .select();
+          .update(dataToSave)
+          .eq("slug", slug);
         if (error) throw error;
         alert("Article updated successfully!");
       }
