@@ -42,22 +42,26 @@ const faqs = [
 ];
 
 const technologies = [
-  { name: "React", mark: "R", style: "react" },
+  { name: "React", mark: "R", icon: "/tech/React.svg", style: "react" },
   { name: "Next.js", mark: "N", style: "next" },
-  { name: "TypeScript", mark: "TS", style: "typescript" },
-  { name: "Node.js", mark: "JS", style: "node" },
-  { name: "Python", mark: "Py", style: "python" },
-  { name: "AWS", mark: "aws", style: "aws" },
-  { name: "Microsoft Azure", mark: "A", style: "azure" },
-  { name: "Google Cloud", mark: "G", style: "google" },
-  { name: "Docker", mark: "D", style: "docker" },
-  { name: "Kubernetes", mark: "K8s", style: "kubernetes" },
-  { name: "PostgreSQL", mark: "PG", style: "postgres" },
-  { name: "MongoDB", mark: "M", style: "mongo" },
-  { name: "TensorFlow", mark: "TF", style: "tensorflow" },
-  { name: "Tailwind CSS", mark: "TW", style: "tailwind" },
-  { name: "GitHub", mark: "GH", style: "github" },
+  { name: "TypeScript", mark: "TS", icon: "/tech/TypeScript.svg", style: "typescript" },
+  { name: "Node.js", mark: "JS", icon: "/tech/Node.js.svg", style: "node" },
+  { name: "Python", mark: "Py", icon: "/tech/Python.svg", style: "python" },
+  { name: "AWS", mark: "aws", icon: "/tech/AWS.svg", style: "aws" },
+  { name: "Microsoft Azure", mark: "A", icon: "/tech/Azure.svg", style: "azure" },
+  { name: "Google Cloud", mark: "G", icon: "/tech/Google Cloud.svg", style: "google" },
+  { name: "Docker", mark: "D", icon: "/tech/Docker.svg", style: "docker" },
+  { name: "Kubernetes", mark: "K8s", icon: "/tech/Kubernetes.svg", style: "kubernetes" },
+  { name: "PostgreSQL", mark: "PG", icon: "/tech/PostgresSQL.svg", style: "postgres" },
+  { name: "MongoDB", mark: "M", icon: "/tech/MongoDB.svg", style: "mongo" },
+  { name: "TensorFlow", mark: "TF", icon: "/tech/TensorFlow.svg", style: "tensorflow" },
+  { name: "Tailwind CSS", mark: "TW", icon: "/tech/Tailwind CSS.svg", style: "tailwind" },
+  { name: "GitHub", mark: "GH", icon: "/tech/GitHub.svg", style: "github" },
   { name: "OpenAI", mark: "AI", style: "openai" },
+  { name: "Flutter", mark: "Fl", icon: "/tech/Flutter.svg", style: "flutter" },
+  { name: "Figma", mark: "Fg", icon: "/tech/Figma.svg", style: "figma" },
+  { name: "Java", mark: "J", icon: "/tech/Java.svg", style: "java" },
+  { name: "Swift", mark: "Sw", icon: "/tech/Swift.svg", style: "swift" },
 ];
 
 const clientFeedback = [
@@ -319,7 +323,11 @@ export default function Home() {
                       className={`technology-tile technology-${technology.style}`}
                       aria-label={technology.name}
                     >
-                      <span className="technology-mark" aria-hidden="true">{technology.mark}</span>
+                      {technology.icon ? (
+                        <img src={technology.icon} alt="" className="technology-mark-img" aria-hidden="true" style={{ width: 32, height: 32, objectFit: "contain", opacity: 0.9, filter: "grayscale(100%) brightness(10)" }} />
+                      ) : (
+                        <span className="technology-mark" aria-hidden="true">{technology.mark}</span>
+                      )}
                       <span className="technology-name">{technology.name}</span>
                     </div>
                   ))}
