@@ -6,6 +6,8 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 // On Cloudflare Workers the runtime fetches them from /_env/supabase instead.
 let _client: SupabaseClient | null = null;
 
+let _isPlaceholder = true;
+
 function makePlaceholder(): SupabaseClient {
   return createClient(
     "https://placeholder.supabase.co",
@@ -15,6 +17,7 @@ function makePlaceholder(): SupabaseClient {
 
 function buildClient(url: string, key: string): SupabaseClient {
   if (!url || !key) return makePlaceholder();
+  _isPlaceholder = false;
   return createClient(url, key);
 }
 
@@ -31,7 +34,7 @@ if (buildUrl && buildKey) {
  * the build-time env vars were not inlined (Cloudflare Workers deployment).
  */
 export async function getSupabaseClient(): Promise<SupabaseClient> {
-  if (_client && _client.supabaseUrl !== "https://placeholder.supabase.co") {
+  if (_client && !_isPlaceholder) {
     return _client;
   }
 
