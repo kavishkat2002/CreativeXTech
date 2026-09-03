@@ -38,13 +38,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     e.preventDefault();
     setAuthError("");
     setLoading(true);
-    const client = await getSupabaseClient();
-    const { error } = await client.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      setAuthError(error.message);
+    try {
+      const client = await getSupabaseClient();
+      const { data, error } = await client.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        setAuthError(error.message);
+      } else if (data?.session) {
+        setSession(data.session);
+      } else {
+        setAuthError("Login failed: No session returned.");
+      }
+    } catch (err: any) {
+      setAuthError(err?.message || "An unexpected error occurred.");
     }
     setLoading(false);
   };
