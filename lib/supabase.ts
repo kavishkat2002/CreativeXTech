@@ -49,6 +49,7 @@ export async function supabaseSelect<T = unknown>(
   const res = await fetch(url.toString(), {
     method: "GET",
     headers: headers({ Prefer: "return=representation" }),
+    cache: "no-store",
   });
 
   if (!res.ok) {
