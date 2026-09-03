@@ -107,11 +107,11 @@ const clientFeedback = [
   },
   {
     number: "06",
-    label: "AI transformation",
-    quote: "What stood out was the transparency. Progress was visible, risks were discussed directly, and every model decision was tied back to the business outcome and the people responsible for it.",
-    role: "Transformation Lead",
-    company: "Sample enterprise client",
-    initials: "TL",
+    label: "",
+    quote: "CreativeX Technology helped us modernize the way our business operates, bringing customer management, internal workflows, and digital services into one connected experience. The result feels professional, easy for our team to use, and flexible enough to support the business as we continue to grow.",
+    role: "Operations Manager",
+    company: "GAC international",
+    initials: "OM",
   },
 ];
 
