@@ -68,7 +68,7 @@ const clientFeedback = [
   {
     number: "01",
     label: "",
-    quote: "Working with CreativeX Technology felt less like hiring an outside development team and more like adding a product partner to our company. We came in with an ambitious idea for Alexxa AI Agent, but the team helped us turn that concept into a clear, usable digital product. What stood out most was their ability to understand both the technology and the business behind it. Communication was easy, decisions were explained clearly, and the final experience felt polished without losing the original vision. I’d happily work with CreativeX again as we continue building the product.",
+    quote: "CreativeX didn’t just build what we asked for—they understood what we were trying to achieve as a business. The whole process felt collaborative, clear, and genuinely well thought out.",
     role: "Deshan Thilakarathna",
     company: "Founder, Alexxa AI",
     initials: "DT",
