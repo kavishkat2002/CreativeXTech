@@ -55,7 +55,7 @@ export default function ProjectEditorPage() {
         const { data, error } = await client
           .from("projects")
           .select("*")
-          .eq("slug", slug)
+          .ilike("slug", slug)
           .single();
 
         if (error) throw error;
@@ -165,7 +165,7 @@ export default function ProjectEditorPage() {
         const { error } = await client
           .from("projects")
           .update(dataToSave)
-          .eq("slug", slug);
+          .ilike("slug", slug);
         if (error) throw error;
         router.push("/admin/projects");
         router.refresh();

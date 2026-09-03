@@ -29,7 +29,7 @@ function ProjectDetailPage() {
         const { data, error } = await client
           .from("projects")
           .select("*")
-          .eq("slug", slug)
+          .ilike("slug", slug)
           .single();
 
         if (!error && data) {
