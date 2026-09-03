@@ -53,10 +53,7 @@ export default function SolutionsAdminPage() {
     try {
       const { error } = await supabaseBrowserClient
         .from("solutions")
-        .upsert([
-          { id: currentItem.id, number: currentItem.number },
-          { id: swapItem.id, number: swapItem.number }
-        ]);
+        .upsert([currentItem, swapItem]);
         
       if (error) throw error;
       setSolutions(newSolutions);

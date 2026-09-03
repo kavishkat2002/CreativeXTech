@@ -53,10 +53,7 @@ export default function ServicesAdminPage() {
     try {
       const { error } = await supabaseBrowserClient
         .from("services")
-        .upsert([
-          { id: currentItem.id, number: currentItem.number },
-          { id: swapItem.id, number: swapItem.number }
-        ]);
+        .upsert([currentItem, swapItem]);
         
       if (error) throw error;
       setServices(newServices);
