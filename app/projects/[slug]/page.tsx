@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, Check, HelpCircle } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, CircleDot, HelpCircle, MessageCircleMore, Network, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
@@ -193,18 +193,74 @@ function ProjectDetailPage() {
               </div>
               {project.systemConsole && (
                 <div className="case-study-console" aria-label="Illustrative agent workspace">
+                  {/* Top bar */}
                   <div className="case-study-console-top">
-                    <span><i /> {project.systemConsole.status || "LIVE WORKSPACE"}</span>
+                    <span>
+                      <i />
+                      {project.systemConsole.status
+                        ? project.systemConsole.status.toUpperCase()
+                        : `${(project.system || "AGENT").toUpperCase()} / LIVE WORKSPACE`}
+                    </span>
                     <strong>{project.systemConsole.title || "Human review on"}</strong>
                   </div>
+
+                  {/* Body */}
                   <div className="case-study-console-body">
+                    {/* Sidebar nav icons */}
+                    <div className="case-study-console-nav">
+                      <MessageCircleMore />
+                      <Network />
+                      <ShieldCheck />
+                    </div>
+
+                    {/* Content */}
                     <div>
-                      {project.systemConsole.bullets?.map((b: string, i: number) => (
-                        <p key={i}>{b}</p>
-                      ))}
-                      {project.systemConsole.action && (
-                        <button type="button">{project.systemConsole.action} <ArrowUpRight size={14} /></button>
+                      <p>{project.category || "System review queue"}</p>
+                      <h3>{project.headline || project.title}</h3>
+
+                      {/* Bullets as styled list items */}
+                      {project.systemConsole.bullets && project.systemConsole.bullets.length > 0 && (
+                        <ul>
+                          {project.systemConsole.bullets.map((bullet: string, i: number) => (
+                            <li key={i}>
+                              <CircleDot />
+                              {bullet}
+                            </li>
+                          ))}
+                        </ul>
                       )}
+
+                      {/* Action button */}
+                      {project.systemConsole.action && (
+                        <button type="button">
+                          {project.systemConsole.action} <ArrowUpRight size={14} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Fallback: no systemConsole but has system direction — show a clean placeholder */}
+              {!project.systemConsole && (project.systemDirectionTitle || project.systemDirectionCopy) && (
+                <div className="case-study-console" aria-label="System overview">
+                  <div className="case-study-console-top">
+                    <span><i /> {(project.system || "SYSTEM").toUpperCase()} / OVERVIEW</span>
+                    <strong>In development</strong>
+                  </div>
+                  <div className="case-study-console-body">
+                    <div className="case-study-console-nav">
+                      <MessageCircleMore />
+                      <Network />
+                      <ShieldCheck />
+                    </div>
+                    <div>
+                      <p>{project.category}</p>
+                      <h3>{project.headline || project.title}</h3>
+                      {project.capabilities?.slice(0, 3).map((cap: string, i: number) => (
+                        <ul key={i}><li><CircleDot />{cap}</li></ul>
+                      ))}
+                      <button type="button">Request a demo <ArrowUpRight size={14} /></button>
                     </div>
                   </div>
                 </div>
