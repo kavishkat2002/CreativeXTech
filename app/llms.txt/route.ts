@@ -1,10 +1,13 @@
 import { articles } from "@/lib/articles";
-import { services } from "@/lib/services";
-import { solutions } from "@/lib/solutions";
+import { getServices } from "@/lib/services";
+import { getSolutions } from "@/lib/solutions";
 
 const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
 
-export function GET() {
+export async function GET() {
+  const services = await getServices();
+  const solutions = await getSolutions();
+
   const serviceLinks = services.map((service) => `- [${service.title}](${baseUrl}/services/${service.slug}): ${service.copy}`).join("\n");
   const solutionLinks = solutions.map((solution) => `- [${solution.label}](${baseUrl}/solutions#${solution.slug}): ${solution.copy}`).join("\n");
   const articleLinks = articles.map((article) => `- [${article.title}](${baseUrl}/blog/${article.slug}): ${article.excerpt}`).join("\n");

@@ -188,8 +188,7 @@ export default function EditServicePage() {
       </div>
 
       <div style={{ background: "#fff", border: "1px solid #eaeaea", borderRadius: "12px", padding: "32px", marginBottom: "32px" }}>
-        <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>Core Details</h2>
-        
+        <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>Hero Section & SEO</h2>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 3fr", gap: "16px", marginBottom: "20px" }}>
           <div>
             <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Number</label>
@@ -200,40 +199,55 @@ export default function EditServicePage() {
             <input type="text" value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px" }} placeholder="ai-automation-agents" />
           </div>
         </div>
-
         <div style={{ marginBottom: "20px" }}>
           <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Eyebrow</label>
           <input type="text" value={formData.eyebrow} onChange={e => setFormData({ ...formData, eyebrow: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px" }} />
         </div>
-
         <div style={{ marginBottom: "20px" }}>
-          <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Title</label>
+          <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Title (H1)</label>
           <input type="text" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", fontSize: "16px", fontWeight: "500" }} />
         </div>
-
         <div style={{ marginBottom: "20px" }}>
-          <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Headline</label>
-          <input type="text" value={formData.headline} onChange={e => setFormData({ ...formData, headline: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px" }} />
-        </div>
-
-        <div style={{ marginBottom: "20px" }}>
-          <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Copy</label>
+          <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Copy (SEO Description)</label>
           <textarea value={formData.copy} onChange={e => setFormData({ ...formData, copy: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", minHeight: "80px", resize: "vertical" }} />
-        </div>
-
-        <div style={{ marginBottom: "20px" }}>
-          <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Overview</label>
-          <textarea value={formData.overview} onChange={e => setFormData({ ...formData, overview: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", minHeight: "120px", resize: "vertical" }} />
         </div>
       </div>
 
-      <div style={{ background: "#fff", border: "1px solid #eaeaea", borderRadius: "12px", padding: "32px" }}>
-        <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>Lists & Arrays</h2>
-        {renderArrayEditor("Details", "details")}
+      <div style={{ background: "#fff", border: "1px solid #eaeaea", borderRadius: "12px", padding: "32px", marginBottom: "32px" }}>
+        <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>Service Overview / 01</h2>
+        <div style={{ marginBottom: "20px" }}>
+          <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Headline (H2)</label>
+          <input type="text" value={formData.headline} onChange={e => setFormData({ ...formData, headline: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px" }} />
+        </div>
+        <div style={{ marginBottom: "20px" }}>
+          <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Overview Paragraph</label>
+          <textarea value={formData.overview} onChange={e => setFormData({ ...formData, overview: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", minHeight: "120px", resize: "vertical" }} />
+        </div>
+        {renderArrayEditor("Tags (e.g. Workflow orchestration, Agent systems)", "details")}
+      </div>
+
+      <div style={{ background: "#fff", border: "1px solid #eaeaea", borderRadius: "12px", padding: "32px", marginBottom: "32px" }}>
+        <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>What we deliver / 02</h2>
         {renderArrayEditor("Features", "features")}
+      </div>
+
+      <div style={{ background: "#fff", border: "1px solid #eaeaea", borderRadius: "12px", padding: "32px", marginBottom: "32px" }}>
+        <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>Where it creates value / 03</h2>
         {renderArrayEditor("Use Cases", "useCases")}
-        {renderArrayEditor("Process", "process")}
+      </div>
+
+      <div style={{ background: "#fff", border: "1px solid #eaeaea", borderRadius: "12px", padding: "32px", marginBottom: "32px" }}>
+        <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>How we deliver / 04</h2>
+        {renderArrayEditor("Process Steps", "process")}
+      </div>
+
+      <div style={{ background: "#fff", border: "1px solid #eaeaea", borderRadius: "12px", padding: "32px", marginBottom: "32px" }}>
+        <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>Built-in controls / 05</h2>
         {renderArrayEditor("Controls", "controls")}
+      </div>
+
+      <div style={{ background: "#fff", border: "1px solid #eaeaea", borderRadius: "12px", padding: "32px" }}>
+        <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>Designed outcomes / 06</h2>
         {renderArrayEditor("Outcomes", "outcomes")}
       </div>
     </div>

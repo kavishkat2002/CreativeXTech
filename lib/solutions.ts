@@ -1,6 +1,22 @@
-import { Handshake, Hotel, Rocket, Ship, Store } from "lucide-react";
+import { Handshake, Hotel, Rocket, Ship, Store, HelpCircle } from "lucide-react";
+import { supabaseSelect } from "./supabase";
 
-export const solutions = [
+export interface Solution {
+  id: string;
+  slug: string;
+  number: string;
+  label: string;
+  headline: string;
+  copy: string;
+  capabilities: string[];
+  outcomes: string[];
+  system: string;
+  media_url?: string | null;
+  created_at?: string;
+  icon?: any; // the resolved React component
+}
+
+export const staticSolutions = [
   {
     slug: "export-logistics",
     number: "01",
@@ -56,5 +72,44 @@ export const solutions = [
     system: "AI-native SaaS platform",
     icon: Rocket,
   },
-] as const;
+];
 
+const iconMap: Record<string, any> = {
+  "export-logistics": Ship,
+  "hospitality-smart-facilities": Hotel,
+  "retail-distribution": Store,
+  "professional-services": Handshake,
+  "startups-saas-products": Rocket,
+};
+
+export async function getSolutions(): Promise<Solution[]> {
+  try {
+    const data = await supabaseSelect<any>("solutions", { order: "number.asc" });
+    if (!data || data.length === 0) return staticSolutions; // Fallback to static if empty DB
+    return data.map((sol: any) => ({
+      ...sol,
+      capabilities: sol.capabilities || [],
+      outcomes: sol.outcomes || [],
+      icon: iconMap[sol.slug] || HelpCircle
+    }));
+  } catch (err: any) {
+    console.error("Error fetching solutions:", err?.message);
+    return staticSolutions;
+  }
+}
+
+export async function getSolution(slug: string): Promise<Solution | undefined> {
+  try {
+    const data = await supabaseSelect<any>("solutions", { slug: `eq.${slug}` });
+    if (!data || data.length === 0) return undefined;
+    const solData = data[0];
+    return {
+      ...solData,
+      capabilities: solData.capabilities || [],
+      outcomes: solData.outcomes || [],
+      icon: iconMap[solData.slug] || HelpCircle
+    };
+  } catch (err: any) {
+    return undefined;
+  }
+}

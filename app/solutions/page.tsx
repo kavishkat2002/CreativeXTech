@@ -3,7 +3,7 @@ import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { solutions } from "@/lib/solutions";
+import { getSolutions } from "@/lib/solutions";
 
 export const metadata: Metadata = {
   title: "Industry Solutions | CreativeX Technology AI",
@@ -12,7 +12,9 @@ export const metadata: Metadata = {
   openGraph: { title: "AI & Software Solutions by Industry | CreativeX", description: "Operational AI and software solutions for logistics, hospitality, retail, professional services, and SaaS businesses.", url: "/solutions", type: "website" },
 };
 
-export default function SolutionsPage() {
+export default async function SolutionsPage() {
+  const solutions = await getSolutions();
+
   const solutionListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
