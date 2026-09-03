@@ -34,6 +34,10 @@ export async function supabaseSelect<T = unknown>(
   table: string,
   params?: Record<string, string>
 ): Promise<T[]> {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    return [];
+  }
+
   const url = new URL(`${SUPABASE_URL}/rest/v1/${table}`);
   url.searchParams.set("select", "*");
   if (params) {
