@@ -152,14 +152,18 @@ export default function ProjectEditorPage() {
       };
 
       if (isNew) {
-        const { error } = await supabaseBrowserClient.from("projects").insert([dataToSave]);
+        const { error } = await supabaseBrowserClient
+          .from("projects")
+          .insert([dataToSave])
+          .select();
         if (error) throw error;
         router.push("/admin/projects");
       } else {
         const { error } = await supabaseBrowserClient
           .from("projects")
           .update(dataToSave)
-          .eq("slug", slug);
+          .eq("slug", slug)
+          .select();
         if (error) throw error;
         router.push("/admin/projects");
         router.refresh();

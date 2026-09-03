@@ -180,14 +180,16 @@ export default function AdminBlogEditor() {
       if (isNew) {
         const { error } = await supabaseBrowserClient
           .from("articles")
-          .insert([payload]);
+          .insert([payload])
+          .select();
         if (error) throw error;
         router.push("/admin/blog");
       } else {
         const { error } = await supabaseBrowserClient
           .from("articles")
           .update(payload)
-          .eq("slug", slug);
+          .eq("slug", slug)
+          .select();
         if (error) throw error;
         alert("Article updated successfully!");
       }

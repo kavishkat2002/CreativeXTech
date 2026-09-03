@@ -66,14 +66,15 @@ export default function SolutionEditorPage() {
     setError(null);
     try {
       if (isNew) {
-        const { error } = await supabaseBrowserClient.from("solutions").insert([formData]);
+        const { error } = await supabaseBrowserClient.from("solutions").insert([formData]).select();
         if (error) throw error;
         router.push("/admin/solutions");
       } else {
         const { error } = await supabaseBrowserClient
           .from("solutions")
           .update(formData)
-          .eq("slug", slug);
+          .eq("slug", slug)
+          .select();
         if (error) throw error;
         router.push("/admin/solutions");
         router.refresh();
