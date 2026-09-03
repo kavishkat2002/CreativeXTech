@@ -5,6 +5,8 @@ import handler from "vinext/server/app-router-entry";
 interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
+  NEXT_PUBLIC_SUPABASE_URL?: string;
+  NEXT_PUBLIC_SUPABASE_ANON_KEY?: string;
   IMAGES: {
     input(stream: ReadableStream): {
       transform(options: Record<string, unknown>): {
@@ -38,6 +40,22 @@ const worker = {
           return result.response();
         },
       }, allowedWidths);
+    }
+
+    // Expose Supabase env vars to the client via a config endpoint
+    if (url.pathname === "/_env/supabase") {
+      return new Response(
+        JSON.stringify({
+          url: env.NEXT_PUBLIC_SUPABASE_URL ?? "",
+          key: env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-store",
+          },
+        }
+      );
     }
 
     return handler.fetch(request, env, ctx);

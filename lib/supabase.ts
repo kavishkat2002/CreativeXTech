@@ -6,23 +6,45 @@
  * reliable approach in a Cloudflare Workers / vinext environment.
  */
 
-// These NEXT_PUBLIC_ vars are inlined at build time by Vite, so they're
-// available in both client and Worker (server) contexts.
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+// These are inlined at build time by Vite/Next when available.
+// On Cloudflare Workers they may be empty — we fall back to the
+// runtime /_env/supabase endpoint exposed by worker/index.ts.
+let _SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+let _SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+let _envFetched = false;
 
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+async function resolveEnv(): Promise<{ url: string; key: string }> {
+  if ((_SUPABASE_URL && _SUPABASE_ANON_KEY) || _envFetched) {
+    return { url: _SUPABASE_URL, key: _SUPABASE_ANON_KEY };
+  }
+  try {
+    const res = await fetch("/_env/supabase", { cache: "no-store" });
+    if (res.ok) {
+      const json = await res.json() as { url: string; key: string };
+      if (json.url && json.key) {
+        _SUPABASE_URL = json.url;
+        _SUPABASE_ANON_KEY = json.key;
+      }
+    }
+  } catch {
+    // ignore — will return empty strings and caller handles it
+  }
+  _envFetched = true;
+  return { url: _SUPABASE_URL, key: _SUPABASE_ANON_KEY };
+}
+
+if (!_SUPABASE_URL || !_SUPABASE_ANON_KEY) {
   console.warn(
     "[supabase] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. " +
-    "Check your .env.local file."
+    "Will attempt to resolve from /_env/supabase at runtime."
   );
 }
 
 /** Standard headers for all Supabase REST requests. */
-function headers(extra?: Record<string, string>): HeadersInit {
+function makeHeaders(key: string, extra?: Record<string, string>): HeadersInit {
   return {
-    apikey: SUPABASE_ANON_KEY,
-    Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+    apikey: key,
+    Authorization: `Bearer ${key}`,
     "Content-Type": "application/json",
     Prefer: "return=minimal",
     ...extra,
@@ -34,9 +56,8 @@ export async function supabaseSelect<T = unknown>(
   table: string,
   params?: Record<string, string>
 ): Promise<T[]> {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    return [];
-  }
+  const { url: SUPABASE_URL, key: SUPABASE_ANON_KEY } = await resolveEnv();
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
 
   const url = new URL(`${SUPABASE_URL}/rest/v1/${table}`);
   url.searchParams.set("select", "*");
@@ -48,7 +69,7 @@ export async function supabaseSelect<T = unknown>(
 
   const res = await fetch(url.toString(), {
     method: "GET",
-    headers: headers({ Prefer: "return=representation" }),
+    headers: makeHeaders(SUPABASE_ANON_KEY, { Prefer: "return=representation" }),
     cache: "no-store",
   });
 
@@ -65,11 +86,12 @@ export async function supabaseInsert(
   table: string,
   row: Record<string, unknown>
 ): Promise<string | null> {
+  const { url: SUPABASE_URL, key: SUPABASE_ANON_KEY } = await resolveEnv();
   const url = `${SUPABASE_URL}/rest/v1/${table}`;
 
   const res = await fetch(url, {
     method: "POST",
-    headers: headers(),
+    headers: makeHeaders(SUPABASE_ANON_KEY),
     body: JSON.stringify(row),
   });
 
@@ -88,11 +110,12 @@ export async function supabaseUpdate(
   matchValue: string,
   row: Record<string, unknown>
 ): Promise<string | null> {
+  const { url: SUPABASE_URL, key: SUPABASE_ANON_KEY } = await resolveEnv();
   const url = `${SUPABASE_URL}/rest/v1/${table}?${matchColumn}=eq.${encodeURIComponent(matchValue)}`;
 
   const res = await fetch(url, {
     method: "PATCH",
-    headers: headers(),
+    headers: makeHeaders(SUPABASE_ANON_KEY),
     body: JSON.stringify(row),
   });
 
@@ -110,11 +133,12 @@ export async function supabaseDelete(
   matchColumn: string,
   matchValue: string
 ): Promise<string | null> {
+  const { url: SUPABASE_URL, key: SUPABASE_ANON_KEY } = await resolveEnv();
   const url = `${SUPABASE_URL}/rest/v1/${table}?${matchColumn}=eq.${encodeURIComponent(matchValue)}`;
 
   const res = await fetch(url, {
     method: "DELETE",
-    headers: headers(),
+    headers: makeHeaders(SUPABASE_ANON_KEY),
   });
 
   if (!res.ok) {
@@ -131,6 +155,7 @@ export async function supabaseUploadMedia(
   path: string,
   file: File
 ): Promise<{ url?: string; error?: string }> {
+  const { url: SUPABASE_URL, key: SUPABASE_ANON_KEY } = await resolveEnv();
   const url = `${SUPABASE_URL}/storage/v1/object/${bucket}/${path}`;
 
   const res = await fetch(url, {
@@ -148,7 +173,6 @@ export async function supabaseUploadMedia(
     return { error: `Supabase upload failed (${res.status}): ${text}` };
   }
 
-  // If successful, return the public URL
   const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`;
   return { url: publicUrl };
 }
