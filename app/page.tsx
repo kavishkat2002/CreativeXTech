@@ -75,11 +75,11 @@ const clientFeedback = [
   },
   {
     number: "02",
-    label: "Hospitality & facilities",
-    quote: "The smart-operations prototype made complex building data feel useful. Our teams could immediately see how alerts, service requests, and maintenance decisions could work together in one experience.",
-    role: "General Manager",
-    company: "Sample hospitality group",
-    initials: "GM",
+    label: "",
+    quote: "CreativeX Technology helped us shape a more connected digital experience for Fink Restaurant, bringing reservations, guest service, and day-to-day operations into a clearer workflow. The approach felt practical, well considered, and aligned with how our team actually works, while also improving the overall experience we want to deliver to our guests.",
+    role: "Graham Ackling, General Manager",
+    company: "Fink Restaurant",
+    initials: "GA",
   },
   {
     number: "03",
