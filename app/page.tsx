@@ -94,7 +94,7 @@ const clientFeedback = [
     label: "Professional services",
     quote: "The AI workflow was presented with clear evidence, approval steps, and escalation paths. That gave our leadership team confidence that automation would support professional judgment rather than bypass it.",
     role: "Managing Partner",
-    company: "Sample advisory firm",
+    company: "Hatch Consulting",
     initials: "MP",
   },
   {
