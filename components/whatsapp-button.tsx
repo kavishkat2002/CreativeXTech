@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHopping, setIsHopping] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     // Show after a slight delay
@@ -57,6 +59,11 @@ export function WhatsAppButton() {
       clearInterval(interval);
     };
   }, []);
+
+  // If we are in the admin section, do not render the WhatsApp button
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <a
