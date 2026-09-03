@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
 
-import { articles } from "@/lib/articles";
+import { getArticles } from "@/lib/articles";
 import { services } from "@/lib/services";
 
 const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const articles = await getArticles();
   const updated = new Date("2026-09-02");
   const coreRoutes = [
     { path: "", priority: 1, changeFrequency: "weekly" as const },

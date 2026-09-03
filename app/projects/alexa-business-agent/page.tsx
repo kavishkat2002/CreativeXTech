@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight, Bot, Check, CircleDot, MessageCircleMore, Netw
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { projects } from "@/lib/projects";
+import { staticProjects as projects } from "@/lib/projects";
 
 const project = projects[0];
 

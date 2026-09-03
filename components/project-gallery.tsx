@@ -1,14 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowUpRight, LockKeyhole } from "lucide-react";
 
-import { projects } from "@/lib/projects";
+import { staticProjects, getProjects, Project } from "@/lib/projects";
 
 const filters = ["All", "AI agents", "Operations", "IoT", "Product"] as const;
 
 export function ProjectGallery() {
   const [activeFilter, setActiveFilter] = useState<(typeof filters)[number]>("All");
+  const [projects, setProjects] = useState<Project[]>(staticProjects as Project[]);
+
+  useEffect(() => {
+    getProjects().then(data => {
+      if (data.length > 0) setProjects(data);
+    });
+  }, []);
+
   const visibleProjects = activeFilter === "All" ? projects : projects.filter((project) => project.filter === activeFilter);
 
   return (

@@ -1,6 +1,28 @@
-import { Bot, Building2, Rocket, Ship, Store } from "lucide-react";
+import { Bot, Building2, Rocket, Ship, Store, HelpCircle } from "lucide-react";
+import { supabaseSelect } from "./supabase";
 
-export const projects = [
+export interface Project {
+  id?: string;
+  slug: string;
+  number: string;
+  category: string;
+  title: string;
+  headline: string;
+  summary: string;
+  stage: string;
+  filter: string;
+  tags: string[];
+  caseStudyHref: string | null;
+  system: string;
+  capabilities: string[];
+  integrations: string[];
+  outcomes: string[];
+  cta: string;
+  href: string;
+  icon?: any;
+}
+
+export const staticProjects = [
   {
     slug: "alexa-business-agent",
     number: "01",
@@ -96,4 +118,30 @@ export const projects = [
     href: "/#contact",
     icon: Rocket,
   },
-] as const;
+];
+
+const iconMap: Record<string, any> = {
+  "alexa-business-agent": Bot,
+  "export-control-tower": Ship,
+  "smart-facility-hub": Building2,
+  "retail-intelligence": Store,
+  "ai-saas-platform": Rocket,
+};
+
+export async function getProjects(): Promise<Project[]> {
+  try {
+    const data = await supabaseSelect<any>("projects", { order: "number.asc" });
+    if (!data || data.length === 0) return staticProjects;
+    return data.map((proj: any) => ({
+      ...proj,
+      tags: proj.tags || [],
+      capabilities: proj.capabilities || [],
+      integrations: proj.integrations || [],
+      outcomes: proj.outcomes || [],
+      icon: iconMap[proj.slug] || HelpCircle
+    }));
+  } catch (err: any) {
+    console.error("Error fetching projects:", err?.message);
+    return staticProjects;
+  }
+}

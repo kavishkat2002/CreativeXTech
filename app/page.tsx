@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
-import { projects } from "@/lib/projects";
+import { staticProjects, getProjects, Project } from "@/lib/projects";
 import { services as staticServices, getServices, Service } from "@/lib/services";
 import { supabaseBrowserClient } from "@/lib/supabase-client";
 
@@ -120,6 +120,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("top");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [services, setServices] = useState<Service[]>(staticServices);
+  const [liveProjects, setLiveProjects] = useState<Project[]>(staticProjects as Project[]);
   
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -127,6 +128,9 @@ export default function Home() {
   useEffect(() => {
     getServices().then(data => {
       if (data.length > 0) setServices(data);
+    });
+    getProjects().then(data => {
+      if (data.length > 0) setLiveProjects(data);
     });
   }, []);
 
@@ -353,7 +357,7 @@ export default function Home() {
             <div className="home-project-track">
               {[0, 1].map((copyIndex) => (
                 <div className="home-project-set" aria-hidden={copyIndex === 1} key={copyIndex}>
-                  {projects.map((project) => {
+                  {liveProjects.map((project) => {
                     const Icon = project.icon;
                     return (
                       <a

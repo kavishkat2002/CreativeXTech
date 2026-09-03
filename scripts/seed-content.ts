@@ -1,6 +1,6 @@
 import { services } from "../lib/services";
 import { staticSolutions as solutions } from "../lib/solutions";
-import { projects } from "../lib/projects";
+import { staticProjects as projects } from "../lib/projects";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;

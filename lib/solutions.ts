@@ -2,7 +2,7 @@ import { Handshake, Hotel, Rocket, Ship, Store, HelpCircle } from "lucide-react"
 import { supabaseSelect } from "./supabase";
 
 export interface Solution {
-  id: string;
+  id?: string;
   slug: string;
   number: string;
   label: string;
