@@ -2835,6 +2835,15 @@ body.cx-is-loading { overflow: hidden; }
   transform: translateY(0) scale(1);
 }
 
+@keyframes whatsapp-hop {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.05); }
+}
+
+.whatsapp-fab.hop {
+  animation: whatsapp-hop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 .whatsapp-fab:hover {
   background-color: #128C7E;
   transform: translateY(-5px) scale(1.05);

@@ -4,13 +4,58 @@ import { useEffect, useState } from "react";
 
 export function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isHopping, setIsHopping] = useState(false);
 
   useEffect(() => {
-    // Show after a slight delay to allow entrance animations
-    const timer = setTimeout(() => {
+    // Show after a slight delay
+    const showTimer = setTimeout(() => {
       setIsVisible(true);
     }, 1500);
-    return () => clearTimeout(timer);
+
+    // Audio synthesis function for a clean "pop" notification
+    const playPopSound = () => {
+      try {
+        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        if (ctx.state === "suspended") return; // Audio is blocked until user interacts
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(600, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.05);
+
+        gain.gain.setValueAtTime(0, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.1);
+      } catch (e) {
+        // Ignore errors if audio is unavailable
+      }
+    };
+
+    // Trigger animation and sound every 3 seconds
+    const interval = setInterval(() => {
+      setIsHopping(true);
+      playPopSound();
+
+      // Reset animation class so it can trigger again
+      setTimeout(() => {
+        setIsHopping(false);
+      }, 400); // 400ms matches the CSS animation duration
+    }, 3000);
+
+    return () => {
+      clearTimeout(showTimer);
+      clearInterval(interval);
+    };
   }, []);
 
   return (
@@ -18,7 +63,7 @@ export function WhatsAppButton() {
       href="https://wa.me/94762345336"
       target="_blank"
       rel="noopener noreferrer"
-      className={`whatsapp-fab ${isVisible ? "visible" : ""}`}
+      className={`whatsapp-fab ${isVisible ? "visible" : ""} ${isHopping ? "hop" : ""}`}
       aria-label="Chat with us on WhatsApp"
     >
       <svg
