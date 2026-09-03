@@ -61,8 +61,8 @@ export function SiteHeader({
   scrollProgress?: number;
   homePage?: boolean;
 }) {
-  const [liveServices, setLiveServices] = useState<Service[]>(services);
-  const [liveSolutions, setLiveSolutions] = useState<Solution[]>(solutions);
+  const [liveServices, setLiveServices] = useState<Service[]>(services as Service[]);
+  const [liveSolutions, setLiveSolutions] = useState<Solution[]>(solutions as Solution[]);
 
   useEffect(() => {
     async function fetchLiveNav() {
