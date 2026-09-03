@@ -43,7 +43,7 @@ const faqs = [
 
 const technologies = [
   { name: "React", mark: "R", icon: "/tech/React.svg", style: "react" },
-  { name: "Next.js", mark: "N", style: "next" },
+  { name: "Next.js", mark: "N", icon: "/tech/Next.js.png", style: "next" },
   { name: "TypeScript", mark: "TS", icon: "/tech/TypeScript.svg", style: "typescript" },
   { name: "Node.js", mark: "JS", icon: "/tech/Node.js.svg", style: "node" },
   { name: "Python", mark: "Py", icon: "/tech/Python.svg", style: "python" },
