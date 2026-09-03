@@ -3,7 +3,7 @@
 import { ArrowUpRight, ChevronDown, Menu } from "lucide-react";
 import Link from "next/link";
 
-import { solutions } from "@/lib/solutions";
+import { staticSolutions as solutions } from "@/lib/solutions";
 import { services } from "@/lib/services";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
@@ -47,6 +47,11 @@ export function Brand() {
   );
 }
 
+import { useEffect, useState } from "react";
+import { supabaseBrowserClient } from "@/lib/supabase-client";
+import type { Solution } from "@/lib/solutions";
+import type { Service } from "@/lib/services";
+
 export function SiteHeader({
   activeSection = "top",
   scrollProgress = 0,
@@ -56,6 +61,26 @@ export function SiteHeader({
   scrollProgress?: number;
   homePage?: boolean;
 }) {
+  const [liveServices, setLiveServices] = useState<Service[]>(services);
+  const [liveSolutions, setLiveSolutions] = useState<Solution[]>(solutions);
+
+  useEffect(() => {
+    async function fetchLiveNav() {
+      try {
+        const [srvRes, solRes] = await Promise.all([
+          supabaseBrowserClient.from("services").select("*").order("number", { ascending: true }),
+          supabaseBrowserClient.from("solutions").select("*").order("number", { ascending: true })
+        ]);
+        
+        if (srvRes.data && srvRes.data.length > 0) setLiveServices(srvRes.data);
+        if (solRes.data && solRes.data.length > 0) setLiveSolutions(solRes.data);
+      } catch (err) {
+        console.error("Failed to fetch live nav", err);
+      }
+    }
+    fetchLiveNav();
+  }, []);
+
   return (
     <header className="site-header">
       <span className="scroll-progress" style={{ width: `${scrollProgress}%` }} aria-hidden="true" />
@@ -76,7 +101,7 @@ export function SiteHeader({
                   <span>AI & software services</span>
                   <strong>Choose a capability</strong>
                 </div>
-                {services.map((service) => (
+                {liveServices.map((service) => (
                   <Link href={`/services/${service.slug}`} key={service.slug}>
                     <span>{service.number}</span>
                     <strong>{service.title}</strong>
@@ -100,7 +125,7 @@ export function SiteHeader({
                   <span>Industry solutions</span>
                   <strong>Choose an operating context</strong>
                 </div>
-                {solutions.map((solution) => (
+                {liveSolutions.map((solution) => (
                   <Link href={`/solutions#${solution.slug}`} key={solution.slug}>
                     <span>{solution.number}</span>
                     <strong>{solution.label}</strong>
@@ -146,7 +171,7 @@ export function SiteHeader({
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="flex flex-col pl-8">
-                      {services.map((service) => (
+                      {liveServices.map((service) => (
                         <SheetClose asChild key={service.slug}>
                           <Link href={`/services/${service.slug}`} className="py-4 border-t border-white/10 flex items-center gap-4 text-white/80">
                             <span className="font-mono text-[9px] font-semibold text-[#ff5a36]">{service.number}</span>
@@ -172,7 +197,7 @@ export function SiteHeader({
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="flex flex-col pl-8">
-                      {solutions.map((solution) => (
+                      {liveSolutions.map((solution) => (
                         <SheetClose asChild key={solution.slug}>
                           <Link href={`/solutions#${solution.slug}`} className="py-4 border-t border-white/10 flex items-center gap-4 text-white/80">
                             <span className="font-mono text-[9px] font-semibold text-[#ff5a36]">{solution.number}</span>
