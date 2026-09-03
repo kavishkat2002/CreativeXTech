@@ -367,10 +367,28 @@ export default function Home() {
                         tabIndex={copyIndex === 1 ? -1 : undefined}
                       >
                         <div className="home-project-thumbnail">
-                          <span>{project.number} / 05</span>
-                          <Icon />
-                          <i />
-                          <small>CX / PROJECT SYSTEM</small>
+                          {project.media_url ? (
+                            /\.(mp4|webm)/i.test(project.media_url) ? (
+                              <video
+                                src={project.media_url}
+                                autoPlay muted loop playsInline
+                                className="home-project-cover-video"
+                              />
+                            ) : (
+                              <img
+                                src={project.media_url}
+                                alt=""
+                                className="home-project-cover-img"
+                              />
+                            )
+                          ) : (
+                            <>
+                              <span>{project.number} / 05</span>
+                              <Icon />
+                              <i />
+                              <small>CX / PROJECT SYSTEM</small>
+                            </>
+                          )}
                         </div>
                         <div className="home-project-card-copy">
                           <p>{project.category}</p>
