@@ -83,11 +83,11 @@ const clientFeedback = [
   },
   {
     number: "03",
-    label: "Retail & distribution",
-    quote: "They translated our inventory and fulfilment challenges into a product direction everyone could understand. The design connected commercial goals with the daily decisions made by store and warehouse teams.",
-    role: "Head of Commercial",
-    company: "Sample retail business",
-    initials: "HC",
+    label: "",
+    quote: "CreativeX Technology helped us turn MEDDoc from a complex healthcare concept into a clear, connected digital experience. The team brought AI, patient workflows, telemedicine, and clinical services together in a way that felt practical, intuitive, and ready to evolve into a real healthcare platform.",
+    role: "Mark Neumeier, Founder",
+    company: "MEDDoc",
+    initials: "MN",
   },
   {
     number: "04",
