@@ -40,17 +40,33 @@ export async function POST(request: NextRequest) {
     if (resendApiKey) {
       try {
         const resend = new Resend(resendApiKey);
-        await resend.emails.send({
+        const { data, error } = await resend.emails.send({
           from: "CreativeXTech Contact Form <onboarding@resend.dev>",
           to: "tkavishka101@gmail.com",
           subject: `New Submission: ${subject}`,
           text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nDate: ${date || "N/A"}\nTime: ${time || "N/A"}\n\nMessage:\n${message}`,
         });
-      } catch (emailError) {
-        console.error("[contact] Resend email error:", emailError);
+        
+        if (error) {
+          console.error("[contact] Resend returned an error:", error);
+          return NextResponse.json(
+            { error: "Failed to send email via Resend: " + (error.message || JSON.stringify(error)) },
+            { status: 500 }
+          );
+        }
+      } catch (emailError: any) {
+        console.error("[contact] Resend threw an exception:", emailError);
+        return NextResponse.json(
+          { error: "Failed to send email via Resend (Exception): " + emailError.message },
+          { status: 500 }
+        );
       }
     } else {
       console.warn("[contact] RESEND_API_KEY is not set. Skipping email notification.");
+      return NextResponse.json(
+        { error: "RESEND_API_KEY is not set in Cloudflare Pages." },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ success: true }, { status: 200 });
