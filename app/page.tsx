@@ -84,10 +84,10 @@ const clientFeedback = [
   {
     number: "03",
     label: "",
-    quote: "CreativeX Technology helped us turn MEDDoc from a complex healthcare concept into a clear, connected digital experience. The team brought AI, patient workflows, telemedicine, and clinical services together in a way that felt practical, intuitive, and ready to evolve into a real healthcare platform.",
-    role: "Mark Neumeier",
-    company: "Founder, MEDDoc",
-    initials: "MN",
+    quote: "CreativeX Technology helped us bring student records, attendance, communication, and day-to-day administration into one more organized system. The platform made routine tasks easier for our staff and gave us a clearer way to manage student information while supporting a smoother experience for both teachers and families.",
+    role: "School Administrator",
+    company: "Anthonies School",
+    initials: "AS",
   },
   {
     number: "04",
