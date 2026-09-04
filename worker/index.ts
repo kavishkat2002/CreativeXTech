@@ -59,8 +59,8 @@ const worker = {
     }
 
     // Inject Cloudflare env vars into process.env for Next.js API routes
-    globalThis.process = globalThis.process || { env: {} };
-    if (!globalThis.process.env) globalThis.process.env = {};
+    globalThis.process = (globalThis.process || { env: {} as any }) as any;
+    if (!globalThis.process.env) globalThis.process.env = {} as any;
     globalThis.process.env.RESEND_API_KEY = (env as any).RESEND_API_KEY;
 
     return handler.fetch(request, env, ctx);
