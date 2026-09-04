@@ -6,7 +6,7 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getService, getServices } from "@/lib/services";
 
-const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+const baseUrl = "https://creativexlab.online";
 
 export async function generateStaticParams() {
   const allServices = await getServices();

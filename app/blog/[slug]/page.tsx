@@ -6,7 +6,7 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getArticles, getArticle, getArticleSlugs, formatArticleDate } from "@/lib/articles";
 
-const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+const baseUrl = "https://creativexlab.online";
 
 export async function generateStaticParams() {
   const slugs = await getArticleSlugs();

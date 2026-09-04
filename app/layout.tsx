@@ -3,7 +3,7 @@ import { SiteLoader } from "@/components/site-loader";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import "./globals.css";
 
-const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

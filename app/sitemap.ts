@@ -4,7 +4,7 @@ import { getArticles } from "@/lib/articles";
 import { getProjects } from "@/lib/projects";
 import { services } from "@/lib/services";
 
-const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+const baseUrl = "https://creativexlab.online";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articles = await getArticles();

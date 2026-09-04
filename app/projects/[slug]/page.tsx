@@ -106,7 +106,7 @@ function ProjectDetailPage() {
   const outcomes = project.outcomes || [];
   const tags = project.tags || [];
 
-  const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+  const baseUrl = "https://creativexlab.online";
 
   const projectJsonLd = {
     "@context": "https://schema.org",

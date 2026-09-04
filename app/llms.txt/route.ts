@@ -2,7 +2,7 @@ import { getArticles } from "@/lib/articles";
 import { getServices } from "@/lib/services";
 import { getSolutions } from "@/lib/solutions";
 
-const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+const baseUrl = "https://creativexlab.online";
 
 export async function GET() {
   const services = await getServices();

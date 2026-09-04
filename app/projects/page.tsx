@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ProjectGallery } from "@/components/project-gallery";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
-const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "AI Agents & Software Engineering Projects | CreativeX Technology AI",

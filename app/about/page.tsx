@@ -3,7 +3,7 @@ import { ArrowDownRight, ArrowUpRight, Bot, BriefcaseBusiness, ChartNoAxesCombin
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
-const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "About CreativeX Technology AI | Global AI & Software Engineering Consultancy",

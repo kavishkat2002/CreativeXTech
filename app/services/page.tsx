@@ -4,6 +4,8 @@ import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getServices } from "@/lib/services";
 
+const baseUrl = "https://creativexlab.online";
+
 export const metadata: Metadata = {
   title: "AI & Software Engineering Services | CreativeX Technology AI",
   description: "Explore CreativeX services across AI automation, predictive analytics, IoT, web and mobile product engineering, cloud solutions, and AI business consultation.",
@@ -25,7 +27,7 @@ export default async function ServicesPage() {
     itemListElement: allServices.map((service, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: `https://creativex-ai.kavishkathilakarathn.chatgpt.site/services/${service.slug}`,
+      url: `${baseUrl}/services/${service.slug}`,
       name: service.title,
       description: service.copy,
     })),

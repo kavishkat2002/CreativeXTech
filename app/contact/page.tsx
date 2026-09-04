@@ -21,7 +21,7 @@ export default function ContactPage() {
     "@context": "https://schema.org",
     "@type": "ContactPage",
     name: "Contact CreativeX Technology AI",
-    url: "https://creativex-ai.kavishkathilakarathn.chatgpt.site/contact",
+    url: "https://creativexlab.online/contact",
     about: { "@type": "Organization", name: "CreativeX Technology AI", email: "info@creativexlab.online" },
   };
 

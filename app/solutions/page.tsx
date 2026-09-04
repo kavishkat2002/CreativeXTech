@@ -5,7 +5,7 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getSolutions } from "@/lib/solutions";
 
-const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "Industry AI & Enterprise Software Solutions | CreativeX Technology AI",
