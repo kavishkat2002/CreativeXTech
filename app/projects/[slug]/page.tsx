@@ -106,9 +106,40 @@ function ProjectDetailPage() {
   const outcomes = project.outcomes || [];
   const tags = project.tags || [];
 
+  const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+
+  const projectJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        name: project.title,
+        description: project.summary || project.headline,
+        applicationCategory: project.category || "BusinessApplication",
+        operatingSystem: "Cloud, Web, Mobile",
+        provider: { "@id": `${baseUrl}/#organization` },
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+          { "@type": "ListItem", position: 2, name: "Projects", item: `${baseUrl}/projects` },
+          { "@type": "ListItem", position: 3, name: project.title, item: `${baseUrl}/projects/${project.slug}` },
+        ],
+      },
+    ],
+  };
+
   return (
     <main id="top" className="site-shell case-study-page">
       <a className="skip-link" href="#case-study-content">Skip to case study</a>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd).replace(/</g, "\\u003c") }} />
       <SiteHeader activeSection="projects" />
 
       <div id="case-study-content">

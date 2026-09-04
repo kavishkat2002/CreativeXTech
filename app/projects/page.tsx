@@ -5,17 +5,37 @@ import Link from "next/link";
 import { ProjectGallery } from "@/components/project-gallery";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
+const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+
 export const metadata: Metadata = {
-  title: "Projects | CreativeX Technology AI",
-  description: "Explore CreativeX AI agents, intelligent operations, IoT, data, and software product work.",
-  alternates: { canonical: "/projects" },
-  openGraph: { title: "CreativeX AI & Software Projects", description: "Representative AI agents, intelligent operations, IoT, data, and software product work.", url: "/projects", type: "website" },
+  title: "AI Agents & Software Engineering Projects | CreativeX Technology AI",
+  description: "Discover CreativeX Technology AI projects—from enterprise AI business agents and export logistics control towers to smart facility hubs and AI-native SaaS platforms.",
+  alternates: {
+    canonical: "/projects",
+    languages: { "en-US": `${baseUrl}/projects`, "x-default": `${baseUrl}/projects` },
+  },
+  openGraph: {
+    title: "AI & Software Engineering Projects | CreativeX Technology AI",
+    description: "Explore operational AI agents, smart facility platforms, logistics control towers, and SaaS product engineering by CreativeX.",
+    url: "/projects",
+    type: "website",
+  },
 };
 
 export default function ProjectsPage() {
+  const projectsBreadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+      { "@type": "ListItem", position: 2, name: "Projects", item: `${baseUrl}/projects` },
+    ],
+  };
+
   return (
     <main id="top" className="site-shell projects-page">
       <a className="skip-link" href="#projects-content">Skip to projects</a>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(projectsBreadcrumbJsonLd).replace(/</g, "\\u003c") }} />
       <SiteHeader activeSection="projects" />
       <div id="projects-content">
         <section className="projects-page-hero">

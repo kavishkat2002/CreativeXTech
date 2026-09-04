@@ -201,9 +201,23 @@ export default function Home() {
     event.currentTarget.style.setProperty("--hero-y", `${y * 9}px`);
   }
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map(([question, answer]) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: answer,
+      },
+    })),
+  };
+
   return (
     <main id="top" className="site-shell">
       <a className="skip-link" href="#main-content">Skip to content</a>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }} />
 
       <SiteHeader activeSection={activeSection} scrollProgress={scrollProgress} homePage />
 

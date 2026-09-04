@@ -5,13 +5,18 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getArticles, formatArticleDate } from "@/lib/articles";
 
+const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+
 export const metadata: Metadata = {
-  title: "Technology, SEO & GEO Insights | CreativeX Technology AI",
-  description: "Practical CreativeX field notes on technical SEO, generative engine optimization, structured data, content systems, performance, and AI visibility.",
-  alternates: { canonical: "/blog" },
+  title: "Technology, Technical SEO & Generative Engine Insights | CreativeX Technology AI",
+  description: "Practical research and engineering field notes on AI system design, Generative Engine Optimization (GEO), technical SEO, structured data, web performance, and reliable AI agents.",
+  alternates: {
+    canonical: "/blog",
+    languages: { "en-US": `${baseUrl}/blog`, "x-default": `${baseUrl}/blog` },
+  },
   openGraph: {
-    title: "CreativeX Technology Insights",
-    description: "Practical thinking for discoverable, useful, and dependable technology.",
+    title: "Technology & GEO Insights | CreativeX Technology AI",
+    description: "Practical thinking for discoverable, useful, and dependable AI technology and software systems.",
     url: "/blog",
     type: "website",
   },
@@ -25,19 +30,30 @@ export default async function BlogPage() {
   const FeaturedIcon = icons[0];
   const blogJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Blog",
-    name: "CreativeX Technology Insights",
-    description: "Original, evidence-led articles about AI products, technical SEO, generative engine optimization, structured data, performance, and dependable software.",
-    url: "https://creativex-ai.kavishkathilakarathn.chatgpt.site/blog",
-    publisher: { "@id": "https://creativex-ai.kavishkathilakarathn.chatgpt.site/#organization" },
-    inLanguage: "en",
-    blogPost: articles.map((article) => ({
-      "@type": "TechArticle",
-      headline: article.title,
-      url: `https://creativex-ai.kavishkathilakarathn.chatgpt.site/blog/${article.slug}`,
-      datePublished: article.publishedDate,
-      dateModified: article.updatedDate,
-    })),
+    "@graph": [
+      {
+        "@type": "Blog",
+        name: "CreativeX Technology Insights",
+        description: "Original, evidence-led articles about AI products, technical SEO, generative engine optimization, structured data, performance, and dependable software.",
+        url: `${baseUrl}/blog`,
+        publisher: { "@id": `${baseUrl}/#organization` },
+        inLanguage: "en-US",
+        blogPost: articles.map((article) => ({
+          "@type": "TechArticle",
+          headline: article.title,
+          url: `${baseUrl}/blog/${article.slug}`,
+          datePublished: article.publishedDate,
+          dateModified: article.updatedDate,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+          { "@type": "ListItem", position: 2, name: "Technology insights", item: `${baseUrl}/blog` },
+        ],
+      },
+    ],
   };
 
   return (

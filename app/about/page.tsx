@@ -3,13 +3,18 @@ import { ArrowDownRight, ArrowUpRight, Bot, BriefcaseBusiness, ChartNoAxesCombin
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
+const baseUrl = "https://creativex-ai.kavishkathilakarathn.chatgpt.site";
+
 export const metadata: Metadata = {
-  title: "About CreativeX Technology AI | AI & Software Engineering Company",
-  description: "Meet CreativeX Technology AI—an AI and software engineering company designing automation, data, IoT, cloud, and digital product systems around real business operations.",
-  alternates: { canonical: "/about" },
+  title: "About CreativeX Technology AI | Global AI & Software Engineering Consultancy",
+  description: "Learn about CreativeX Technology AI—an elite AI and software engineering consultancy building autonomous AI agents, predictive data analytics, smart IoT operations, and cloud platforms for global businesses.",
+  alternates: {
+    canonical: "/about",
+    languages: { "en-US": `${baseUrl}/about`, "x-default": `${baseUrl}/about` },
+  },
   openGraph: {
     title: "About CreativeX Technology AI",
-    description: "AI and software engineering grounded in real operations, responsible delivery, and measurable business outcomes.",
+    description: "Enterprise AI and software engineering grounded in real operations, responsible AI delivery, and measurable business outcomes.",
     url: "/about",
     type: "website",
   },
@@ -34,12 +39,23 @@ const approach = [
 export default function AboutPage() {
   const aboutJsonLd = {
     "@context": "https://schema.org",
-    "@type": "AboutPage",
-    name: "CreativeX Technology AI",
-    url: "https://creativex-ai.kavishkathilakarathn.chatgpt.site/about",
-    description: "AI and software engineering company delivering automation, analytics, IoT, cloud, and digital product systems.",
-    about: { "@id": "https://creativex-ai.kavishkathilakarathn.chatgpt.site/#organization" },
-    inLanguage: "en",
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        name: "About CreativeX Technology AI",
+        url: `${baseUrl}/about`,
+        description: "AI and software engineering company delivering automation, analytics, IoT, cloud, and digital product systems worldwide.",
+        about: { "@id": `${baseUrl}/#organization` },
+        inLanguage: "en-US",
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+          { "@type": "ListItem", position: 2, name: "About", item: `${baseUrl}/about` },
+        ],
+      },
+    ],
   };
 
   return (
