@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseInsert } from "@/lib/supabase";
 import { Resend } from "resend";
 
+// @ts-ignore
+import { env } from "cloudflare:workers";
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -33,7 +36,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Try sending email via Resend
-    const resendApiKey = process.env.RESEND_API_KEY;
+    const resendApiKey = process.env.RESEND_API_KEY || (env as any)?.RESEND_API_KEY;
     if (resendApiKey) {
       try {
         const resend = new Resend(resendApiKey);
