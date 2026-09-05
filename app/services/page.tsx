@@ -9,7 +9,13 @@ const baseUrl = "https://creativexlab.online";
 export const metadata: Metadata = {
   title: "AI & Software Engineering Services | CreativeX Technology AI",
   description: "Explore CreativeX services across AI automation, predictive analytics, IoT, web and mobile product engineering, cloud solutions, and AI business consultation.",
-  alternates: { canonical: "/services" },
+  alternates: {
+    canonical: "/services",
+    languages: {
+      "en-US": `${baseUrl}/services`,
+      "x-default": `${baseUrl}/services`,
+    },
+  },
   openGraph: {
     title: "CreativeX AI & Software Engineering Services",
     description: "Strategy, intelligent systems, and production engineering designed around real business operations.",
@@ -20,23 +26,35 @@ export const metadata: Metadata = {
 
 export default async function ServicesPage() {
   const allServices = await getServices();
-  const serviceListJsonLd = {
+  const servicesJsonLd = {
     "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "CreativeX Technology AI services",
-    itemListElement: allServices.map((service, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      url: `${baseUrl}/services/${service.slug}`,
-      name: service.title,
-      description: service.copy,
-    })),
+    "@graph": [
+      {
+        "@type": "ItemList",
+        name: "CreativeX Technology AI services",
+        itemListElement: allServices.map((service, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${baseUrl}/services/${service.slug}`,
+          name: service.title,
+          description: service.copy,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+          { "@type": "ListItem", position: 2, name: "Services", item: `${baseUrl}/services` },
+        ],
+      },
+    ],
   };
+
   return (
     <main id="top" className="site-shell services-page">
       <a className="skip-link" href="#services-directory">Skip to services</a>
       <SiteHeader activeSection="services" />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceListJsonLd).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd).replace(/</g, "\\u003c") }} />
 
       <section className="services-page-hero">
         <div className="services-page-grid" aria-hidden="true" />

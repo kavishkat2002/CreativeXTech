@@ -132,39 +132,46 @@ const iconMap: Record<string, any> = {
 export async function getServices(): Promise<Service[]> {
   try {
     const data = await supabaseSelect<any>("services", { order: "number.asc" });
-    if (!data) return [];
-    return data.map((service: any) => ({
-      ...service,
-      details: service.details || [],
-      features: service.features || [],
-      useCases: service.useCases || service.use_cases || [],
-      process: service.process || [],
-      controls: service.controls || [],
-      outcomes: service.outcomes || [],
-      icon: iconMap[service.slug] || HelpCircle
-    }));
+    if (data && data.length > 0) {
+      return data.map((service: any) => ({
+        ...service,
+        details: service.details || [],
+        features: service.features || [],
+        useCases: service.useCases || service.use_cases || [],
+        process: service.process || [],
+        controls: service.controls || [],
+        outcomes: service.outcomes || [],
+        icon: iconMap[service.slug] || HelpCircle
+      }));
+    }
   } catch (err: any) {
     console.error("Error fetching services:", err?.message);
-    return [];
   }
+  return services.map((s) => ({ ...s, icon: iconMap[s.slug] || HelpCircle }));
 }
 
 export async function getService(slug: string): Promise<Service | undefined> {
   try {
     const data = await supabaseSelect<any>("services", { slug: `eq.${slug}` });
-    if (!data || data.length === 0) return undefined;
-    const serviceData = data[0];
-    return {
-      ...serviceData,
-      details: serviceData.details || [],
-      features: serviceData.features || [],
-      useCases: serviceData.useCases || serviceData.use_cases || [],
-      process: serviceData.process || [],
-      controls: serviceData.controls || [],
-      outcomes: serviceData.outcomes || [],
-      icon: iconMap[serviceData.slug] || HelpCircle
-    };
+    if (data && data.length > 0) {
+      const serviceData = data[0];
+      return {
+        ...serviceData,
+        details: serviceData.details || [],
+        features: serviceData.features || [],
+        useCases: serviceData.useCases || serviceData.use_cases || [],
+        process: serviceData.process || [],
+        controls: serviceData.controls || [],
+        outcomes: serviceData.outcomes || [],
+        icon: iconMap[serviceData.slug] || HelpCircle
+      };
+    }
   } catch (err: any) {
-    return undefined;
+    // fall through to static
   }
+  const staticMatch = services.find((s) => s.slug === slug);
+  if (staticMatch) {
+    return { ...staticMatch, icon: iconMap[staticMatch.slug] || HelpCircle };
+  }
+  return undefined;
 }
