@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, ChevronDown, Menu } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Menu, Mail, Phone } from "lucide-react";
 import Link from "next/link";
 
 import { staticSolutions as solutions } from "@/lib/solutions";
@@ -152,81 +152,124 @@ export function SiteHeader({
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="mobile-menu md:hidden" aria-label="Open menu">
-              <Menu />
+              <Menu className="w-5 h-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent className="mobile-sheet">
-            <SheetHeader>
-              <SheetTitle><Brand /></SheetTitle>
-              <SheetDescription>Think Creative. Build Smart.</SheetDescription>
-            </SheetHeader>
-            <Accordion type="multiple" className="sheet-nav w-full" aria-label="Mobile navigation">
-              {navigation.map((item, index) => item.section === "services" ? (
-                <AccordionItem value={item.section} key={item.section} className="border-b border-white/10">
-                  <AccordionTrigger className="hover:no-underline py-5 text-[19px] font-normal data-[state=open]:text-[#ff5a36]">
-                    <div className="flex items-center gap-4">
-                      <span className="font-mono text-[9px] font-semibold text-[#ff5a36]">0{index + 1}</span>
-                      Services
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="flex flex-col pl-8">
-                      {liveServices.map((service) => (
-                        <SheetClose asChild key={service.slug}>
-                          <Link href={`/services/${service.slug}`} className="py-4 border-t border-white/10 flex items-center gap-4 text-white/80">
-                            <span className="font-mono text-[9px] font-semibold text-[#ff5a36]">{service.number}</span>
-                            <span className="text-[15px]">{service.title}</span>
-                          </Link>
-                        </SheetClose>
-                      ))}
-                      <SheetClose asChild>
-                        <Link href="/services" className="py-4 border-t border-white/10 flex items-center text-[15px] text-white/50">
-                          View all services
-                        </Link>
-                      </SheetClose>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ) : item.section === "solutions" ? (
-                <AccordionItem value={item.section} key={item.section} className="border-b border-white/10">
-                  <AccordionTrigger className="hover:no-underline py-5 text-[19px] font-normal data-[state=open]:text-[#ff5a36]">
-                    <div className="flex items-center gap-4">
-                      <span className="font-mono text-[9px] font-semibold text-[#ff5a36]">0{index + 1}</span>
-                      Solutions
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="flex flex-col pl-8">
-                      {liveSolutions.map((solution) => (
-                        <SheetClose asChild key={solution.slug}>
-                          <Link href={`/solutions#${solution.slug}`} className="py-4 border-t border-white/10 flex items-center gap-4 text-white/80">
-                            <span className="font-mono text-[9px] font-semibold text-[#ff5a36]">{solution.number}</span>
-                            <span className="text-[15px]">{solution.label}</span>
-                          </Link>
-                        </SheetClose>
-                      ))}
-                      <SheetClose asChild>
-                        <Link href="/solutions" className="py-4 border-t border-white/10 flex items-center text-[15px] text-white/50">
-                          View all solutions
-                        </Link>
-                      </SheetClose>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ) : (
-                <div key={item.section} className="border-b border-white/10">
-                  <SheetClose asChild>
-                    <Link href={sectionHref(item.section, homePage)} className="flex items-center justify-between py-5 text-[19px] hover:text-[#ff5a36] transition-colors">
-                      <div className="flex items-center gap-4">
-                        <span className="font-mono text-[9px] font-semibold text-[#ff5a36]">0{index + 1}</span>
-                        {item.label}
+          <SheetContent side="right" className="mobile-sheet">
+            <div className="mobile-sheet-content">
+              <div className="mobile-sheet-header">
+                <SheetTitle><Brand /></SheetTitle>
+                <SheetDescription asChild>
+                  <p className="text-[11px] text-white/50 font-mono tracking-wider uppercase mt-1">Think Creative. Build Smart.</p>
+                </SheetDescription>
+              </div>
+
+              <Accordion type="multiple" className="sheet-nav w-full" aria-label="Mobile navigation">
+                {navigation.map((item, index) => item.section === "services" ? (
+                  <AccordionItem value={item.section} key={item.section} className="border-b border-white/[0.07]">
+                    <AccordionTrigger className="hover:no-underline py-3.5 text-[16px] font-medium text-white/85 data-[state=open]:text-[#ff5a36] transition-colors">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-[11px] font-semibold text-[#ff5a36]">0{index + 1}</span>
+                        <span>Services</span>
                       </div>
-                      <ArrowUpRight className="w-[17px] text-white/45" />
-                    </Link>
-                  </SheetClose>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="sheet-nav-subbox">
+                        <div className="sheet-nav-subhead">Capabilities</div>
+                        {liveServices.map((service) => (
+                          <SheetClose asChild key={service.slug}>
+                            <Link href={`/services/${service.slug}`} className="sheet-nav-sublink">
+                              <div className="flex items-center gap-2">
+                                <span className="font-mono text-[10px] text-[#ff5a36] font-bold">{service.number}</span>
+                                <span>{service.title}</span>
+                              </div>
+                              <ArrowUpRight className="w-3.5 h-3.5 opacity-40" />
+                            </Link>
+                          </SheetClose>
+                        ))}
+                        <SheetClose asChild>
+                          <Link href="/services" className="sheet-nav-sublink text-[#ff5a36] font-semibold pt-2">
+                            <span>View all services</span>
+                            <ArrowUpRight className="w-3.5 h-3.5" />
+                          </Link>
+                        </SheetClose>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ) : item.section === "solutions" ? (
+                  <AccordionItem value={item.section} key={item.section} className="border-b border-white/[0.07]">
+                    <AccordionTrigger className="hover:no-underline py-3.5 text-[16px] font-medium text-white/85 data-[state=open]:text-[#ff5a36] transition-colors">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-[11px] font-semibold text-[#ff5a36]">0{index + 1}</span>
+                        <span>Solutions</span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="sheet-nav-subbox">
+                        <div className="sheet-nav-subhead">Industries</div>
+                        {liveSolutions.map((solution) => (
+                          <SheetClose asChild key={solution.slug}>
+                            <Link href={`/solutions#${solution.slug}`} className="sheet-nav-sublink">
+                              <div className="flex items-center gap-2">
+                                <span className="font-mono text-[10px] text-[#ff5a36] font-bold">{solution.number}</span>
+                                <span>{solution.label}</span>
+                              </div>
+                              <ArrowUpRight className="w-3.5 h-3.5 opacity-40" />
+                            </Link>
+                          </SheetClose>
+                        ))}
+                        <SheetClose asChild>
+                          <Link href="/solutions" className="sheet-nav-sublink text-[#ff5a36] font-semibold pt-2">
+                            <span>View all solutions</span>
+                            <ArrowUpRight className="w-3.5 h-3.5" />
+                          </Link>
+                        </SheetClose>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ) : (
+                  <div key={item.section} className="border-b border-white/[0.07]">
+                    <SheetClose asChild>
+                      <Link href={sectionHref(item.section, homePage)} className="flex items-center justify-between py-3.5 group transition-colors">
+                        <div className="flex items-center gap-3">
+                          <span className="font-mono text-[11px] font-semibold text-[#ff5a36]">0{index + 1}</span>
+                          <span className="text-[16px] font-medium text-white/90 group-hover:text-[#ff5a36] transition-colors">{item.label}</span>
+                        </div>
+                        <ArrowUpRight className="w-4 h-4 text-white/30 group-hover:text-[#ff5a36] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                      </Link>
+                    </SheetClose>
+                  </div>
+                ))}
+              </Accordion>
+
+              <div className="sheet-footer-card">
+                <SheetClose asChild>
+                  <Link href="/contact" className="sheet-cta-button">
+                    Book a Free Call <ArrowUpRight className="w-4 h-4" />
+                  </Link>
+                </SheetClose>
+
+                <div className="sheet-contact-row">
+                  <a href="tel:0762345336"><Phone className="w-3.5 h-3.5 text-[#ff5a36]" /> 076 2345 336</a>
+                  <a href="mailto:info@creativexlab.online"><Mail className="w-3.5 h-3.5 text-[#ff5a36]" /> info@creativexlab.online</a>
                 </div>
-              ))}
-            </Accordion>
+
+                <div className="sheet-social-bar">
+                  <a href="https://www.facebook.com/CreativeTechlk" target="_blank" rel="noopener noreferrer" className="sheet-social-icon" aria-label="Facebook">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  </a>
+                  <a href="https://www.instagram.com/creativex_tech/" target="_blank" rel="noopener noreferrer" className="sheet-social-icon" aria-label="Instagram">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                  </a>
+                  <a href="#" className="sheet-social-icon" aria-label="X (Twitter)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  </a>
+                  <a href="https://www.tiktok.com/@creativex_techno" target="_blank" rel="noopener noreferrer" className="sheet-social-icon" aria-label="TikTok">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
           </SheetContent>
         </Sheet>
       </div>
