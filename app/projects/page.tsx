@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   title: "AI Agents & Software Engineering Projects | CreativeX Technology AI",
   description: "Discover CreativeX Technology AI projects—from enterprise AI business agents and export logistics control towers to smart facility hubs and AI-native SaaS platforms.",
   alternates: {
-    canonical: "/projects",
+    canonical: `${baseUrl}/projects`,
     languages: { "en-US": `${baseUrl}/projects`, "x-default": `${baseUrl}/projects` },
   },
   openGraph: {
     title: "AI & Software Engineering Projects | CreativeX Technology AI",
     description: "Explore operational AI agents, smart facility platforms, logistics control towers, and SaaS product engineering by CreativeX.",
-    url: "/projects",
+    url: `${baseUrl}/projects`,
     type: "website",
   },
 };

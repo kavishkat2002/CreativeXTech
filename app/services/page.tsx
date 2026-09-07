@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "AI & Software Engineering Services | CreativeX Technology AI",
   description: "Explore CreativeX services across AI automation, predictive analytics, IoT, web and mobile product engineering, cloud solutions, and AI business consultation.",
   alternates: {
-    canonical: "/services",
+    canonical: `${baseUrl}/services`,
     languages: {
       "en-US": `${baseUrl}/services`,
       "x-default": `${baseUrl}/services`,
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "CreativeX AI & Software Engineering Services",
     description: "Strategy, intelligent systems, and production engineering designed around real business operations.",
-    url: "/services",
+    url: `${baseUrl}/services`,
     type: "website",
   },
 };

@@ -9,13 +9,13 @@ export const metadata: Metadata = {
   title: "About CreativeX Technology AI | Global AI & Software Engineering Consultancy",
   description: "Learn about CreativeX Technology AI—an elite AI and software engineering consultancy building autonomous AI agents, predictive data analytics, smart IoT operations, and cloud platforms for global businesses.",
   alternates: {
-    canonical: "/about",
+    canonical: `${baseUrl}/about`,
     languages: { "en-US": `${baseUrl}/about`, "x-default": `${baseUrl}/about` },
   },
   openGraph: {
     title: "About CreativeX Technology AI",
     description: "Enterprise AI and software engineering grounded in real operations, responsible AI delivery, and measurable business outcomes.",
-    url: "/about",
+    url: `${baseUrl}/about`,
     type: "website",
   },
 };

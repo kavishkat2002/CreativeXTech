@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   title: "Industry AI & Enterprise Software Solutions | CreativeX Technology AI",
   description: "Explore tailored AI automation, predictive data models, IoT operations, and custom software solutions for export & logistics, hospitality, retail, professional services, and startups worldwide.",
   alternates: {
-    canonical: "/solutions",
+    canonical: `${baseUrl}/solutions`,
     languages: { "en-US": `${baseUrl}/solutions`, "x-default": `${baseUrl}/solutions` },
   },
   openGraph: {
     title: "Enterprise AI & Software Solutions by Industry | CreativeX Technology AI",
     description: "Operational AI, data analytics, IoT platforms, and digital product engineering tailored for logistics, hospitality, retail, professional services, and tech SaaS.",
-    url: "/solutions",
+    url: `${baseUrl}/solutions`,
     type: "website",
   },
 };

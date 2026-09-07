@@ -16,16 +16,27 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const article = await getArticle(slug);
-  if (!article) return {};
+  if (!article) {
+    return {
+      title: "Article Not Found | CreativeX Technology AI",
+      robots: { index: false, follow: false },
+    };
+  }
   return {
     title: `${article.title} | CreativeX Technology AI`,
     description: article.excerpt,
-    alternates: { canonical: `/blog/${article.slug}` },
+    alternates: {
+      canonical: `${baseUrl}/blog/${article.slug}`,
+      languages: {
+        "en-US": `${baseUrl}/blog/${article.slug}`,
+        "x-default": `${baseUrl}/blog/${article.slug}`,
+      },
+    },
     openGraph: {
       title: article.title,
       description: article.excerpt,
       type: "article",
-      url: `/blog/${article.slug}`,
+      url: `${baseUrl}/blog/${article.slug}`,
       publishedTime: article.publishedDate,
       modifiedTime: article.updatedDate,
       authors: ["CreativeX Technology AI"],

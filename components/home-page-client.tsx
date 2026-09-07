@@ -495,10 +495,6 @@ export function HomePageClient() {
               <Button asChild className="contact-action">
                 <a href="mailto:info@creativexlab.online?subject=CreativeX%20project%20conversation&body=Hello%20CreativeX%2C%0A%0AThe%20workflow%20I%20want%20to%20improve%3A%0AWho%20does%20this%20work%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0A%0A">Start a conversation <ArrowUpRight /></a>
               </Button>
-              <div className="brief-prompt">
-                <span>A useful first note includes</span>
-                <p>The workflow · who uses it · the result you want · any important constraints</p>
-              </div>
             </div>
             <div className="contact-detail-card">
               <div className="newsletter-group">

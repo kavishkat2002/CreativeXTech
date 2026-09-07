@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   title: "Technology, Technical SEO & Generative Engine Insights | CreativeX Technology AI",
   description: "Practical research and engineering field notes on AI system design, Generative Engine Optimization (GEO), technical SEO, structured data, web performance, and reliable AI agents.",
   alternates: {
-    canonical: "/blog",
+    canonical: `${baseUrl}/blog`,
     languages: { "en-US": `${baseUrl}/blog`, "x-default": `${baseUrl}/blog` },
   },
   openGraph: {
     title: "Technology & GEO Insights | CreativeX Technology AI",
     description: "Practical thinking for discoverable, useful, and dependable AI technology and software systems.",
-    url: "/blog",
+    url: `${baseUrl}/blog`,
     type: "website",
   },
 };

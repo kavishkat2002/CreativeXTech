@@ -7,11 +7,19 @@ import { staticProjects as projects } from "@/lib/projects";
 
 const project = projects[0];
 
+const baseUrl = "https://creativexlab.online";
+
 export const metadata: Metadata = {
   title: "Alexa AI Business Agent — Case Study | CreativeX",
   description: "A CreativeX product concept for an omnichannel AI agent that captures leads, follows up, tracks orders, and keeps people in control.",
-  alternates: { canonical: "/projects/alexa-business-agent" },
-  openGraph: { title: "Alexa AI Business Agent — CreativeX Product Concept", description: "An omnichannel AI agent concept for leads, follow-ups, orders, and human-controlled decisions.", url: "/projects/alexa-business-agent", type: "article" },
+  alternates: {
+    canonical: `${baseUrl}/projects/alexa-business-agent`,
+    languages: {
+      "en-US": `${baseUrl}/projects/alexa-business-agent`,
+      "x-default": `${baseUrl}/projects/alexa-business-agent`,
+    },
+  },
+  openGraph: { title: "Alexa AI Business Agent — CreativeX Product Concept", description: "An omnichannel AI agent concept for leads, follow-ups, orders, and human-controlled decisions.", url: `${baseUrl}/projects/alexa-business-agent`, type: "article" },
 };
 
 const workflow = [

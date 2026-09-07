@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Get in touch with CreativeX Technology AI to discuss your AI agents, predictive data analytics, IoT operations, cloud, or digital product engineering project.",
   alternates: {
-    canonical: "/contact",
+    canonical: `${baseUrl}/contact`,
     languages: {
       "en-US": `${baseUrl}/contact`,
       "x-default": `${baseUrl}/contact`,
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Contact CreativeX Technology AI | AI & Software Consultation",
     description:
       "Get in touch with CreativeX Technology AI to discuss your AI, software, or digital product project.",
-    url: "/contact",
+    url: `${baseUrl}/contact`,
     type: "website",
   },
 };

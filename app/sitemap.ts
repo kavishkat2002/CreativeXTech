@@ -5,11 +5,11 @@ import { getProjects } from "@/lib/projects";
 import { services } from "@/lib/services";
 
 const baseUrl = "https://creativexlab.online";
+const siteLastUpdated = new Date("2026-03-01T00:00:00.000Z");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articles = await getArticles();
   const projects = await getProjects();
-  const updated = new Date();
 
   const coreRoutes = [
     { path: "", priority: 1.0, changeFrequency: "weekly" as const },
@@ -23,21 +23,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const projectRoutes = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.slug}`,
-    lastModified: updated,
+    lastModified: siteLastUpdated,
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }));
 
   const serviceRoutes = services.map((service) => ({
     url: `${baseUrl}/services/${service.slug}`,
-    lastModified: updated,
+    lastModified: siteLastUpdated,
     changeFrequency: "monthly" as const,
     priority: 0.85,
   }));
 
   const articleRoutes = articles.map((article) => ({
     url: `${baseUrl}/blog/${article.slug}`,
-    lastModified: article.updatedDate ? new Date(article.updatedDate) : updated,
+    lastModified: article.updatedDate ? new Date(article.updatedDate) : siteLastUpdated,
     changeFrequency: "monthly" as const,
     priority: article.featured ? 0.85 : 0.75,
   }));
@@ -45,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...coreRoutes.map((route) => ({
       url: `${baseUrl}${route.path}`,
-      lastModified: updated,
+      lastModified: siteLastUpdated,
       changeFrequency: route.changeFrequency,
       priority: route.priority,
     })),

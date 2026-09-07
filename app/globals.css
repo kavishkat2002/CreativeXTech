@@ -369,8 +369,43 @@ button { font: inherit; }
 .contact-grid > .section-index { padding-top: 12px; }
 .contact-grid h2 { max-width: 780px; margin: 0; font-size: clamp(3.8rem, 6.5vw, 7.5rem); line-height: .88; letter-spacing: -.075em; font-weight: 620; }
 .contact-grid > div:nth-child(2) > p { max-width: 620px; margin-top: 28px; font: italic 400 clamp(1.1rem, 1.7vw, 1.5rem)/1.45 Georgia, serif; color: rgba(11,12,11,.64); }
-.contact-action { height: 52px !important; margin-top: 36px; border: 1px solid var(--ink) !important; border-radius: 0 !important; background: var(--ink) !important; color: var(--paper-bright) !important; padding-inline: 22px !important; font-weight: 700 !important; }
-.contact-action:hover { background: var(--paper-bright) !important; color: var(--ink) !important; }
+.contact-action {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  min-height: 54px !important;
+  height: auto !important;
+  margin-top: 32px;
+  border: 1px solid var(--ink) !important;
+  border-radius: 9999px !important;
+  background: var(--ink) !important;
+  color: #ffffff !important;
+  padding: 14px 28px !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.01em !important;
+  white-space: nowrap !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+.contact-action:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25) !important;
+}
+.contact-action svg {
+  width: 18px !important;
+  height: 18px !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.25s ease !important;
+}
+.contact-action:hover svg {
+  transform: translate(3px, -3px) !important;
+}
 .contact-detail-card {
   display: flex;
   flex-direction: column;
@@ -2400,9 +2435,41 @@ summary:focus-visible {
 .contact-brief ul { margin: 42px 0 0; border-top: 1px solid rgba(11,12,11,.22); padding: 0; list-style: none; }
 .contact-brief li { display: grid; grid-template-columns: 30px 1fr; align-items: start; gap: 12px; border-bottom: 1px solid rgba(11,12,11,.18); padding: 17px 0; font-size: 15px; line-height: 1.58; color: rgba(11,12,11,.65); }
 .contact-brief li svg { width: 16px; color: var(--signal); }
-.contact-email-action { display: inline-flex; align-items: center; gap: 9px; margin-top: 36px; padding: 16px 19px; background: var(--ink); color: white; font-size: 13px; font-weight: 740; }
-.contact-email-action:hover { background: var(--signal); color: var(--ink); }
-.contact-email-action svg { width: 15px; }
+.contact-email-action {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  min-height: 52px !important;
+  height: auto !important;
+  margin-top: 32px;
+  padding: 14px 28px !important;
+  background: var(--ink) !important;
+  color: #ffffff !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+  border-radius: 9999px !important;
+  border: 1px solid var(--ink) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+}
+.contact-email-action:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+}
+.contact-email-action svg {
+  width: 18px !important;
+  height: 18px !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.25s ease !important;
+}
+.contact-email-action:hover svg {
+  transform: translate(3px, -3px) !important;
+}
 .contact-brief > small { display: block; max-width: 630px; margin-top: 16px; font-size: 12px; line-height: 1.55; color: rgba(11,12,11,.46); }
 .contact-next-steps { padding-block: 116px 124px; background: #c5c8c3; }
 .contact-next-head { display: grid; grid-template-columns: .31fr 1.69fr; gap: 52px; }
@@ -2890,3 +2957,13 @@ body.cx-is-loading { overflow: hidden; }
   }
 }
 
+@media (max-width: 640px) {
+  .contact-action,
+  .contact-email-action {
+    width: 100% !important;
+    white-space: normal !important;
+    padding: 14px 20px !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+}

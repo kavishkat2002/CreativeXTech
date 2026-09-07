@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "A premium global tech consultancy delivering highly innovative AI & software engineering solutions. We build AI agents, predictive data analytics, IoT platforms, and scalable cloud software for real business operations worldwide.",
   alternates: {
-    canonical: "/",
+    canonical: baseUrl,
     languages: {
       "en-US": baseUrl,
       "en-GB": baseUrl,
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description:
       "Global AI agents, predictive analytics, IoT, cloud platforms, and digital product engineering designed for high-performance operations.",
     type: "website",
-    url: "/",
+    url: baseUrl,
   },
 };
 

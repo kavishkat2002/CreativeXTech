@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   publisher: "CreativeX Technology AI",
   category: "AI and software engineering",
   alternates: {
+    canonical: baseUrl,
     languages: {
       "en-US": baseUrl,
       "en-GB": baseUrl,

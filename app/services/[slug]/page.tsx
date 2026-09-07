@@ -16,12 +16,23 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const service = await getService(slug);
-  if (!service) return {};
+  if (!service) {
+    return {
+      title: "Service Not Found | CreativeX Technology AI",
+      robots: { index: false, follow: false },
+    };
+  }
   return {
     title: `${service.title} | CreativeX Technology AI`,
     description: service.copy,
-    alternates: { canonical: `/services/${service.slug}` },
-    openGraph: { title: service.title, description: service.copy, url: `/services/${service.slug}`, type: "website" },
+    alternates: {
+      canonical: `${baseUrl}/services/${service.slug}`,
+      languages: {
+        "en-US": `${baseUrl}/services/${service.slug}`,
+        "x-default": `${baseUrl}/services/${service.slug}`,
+      },
+    },
+    openGraph: { title: service.title, description: service.copy, url: `${baseUrl}/services/${service.slug}`, type: "website" },
   };
 }
 
