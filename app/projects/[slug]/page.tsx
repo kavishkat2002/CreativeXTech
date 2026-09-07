@@ -32,6 +32,7 @@ export async function generateMetadata({
   return {
     title: `${project.title} | CreativeX Case Study`,
     description: project.headline || project.summary,
+    keywords: project.tags,
     alternates: {
       canonical: `${baseUrl}/projects/${project.slug}`,
       languages: {
@@ -44,6 +45,7 @@ export async function generateMetadata({
       description: project.headline || project.summary,
       url: `${baseUrl}/projects/${project.slug}`,
       type: "article",
+      images: (project as any).media_url ? [{ url: (project as any).media_url }] : [{ url: `${baseUrl}/brand/creativex-robot-lockup.webp` }],
     },
   };
 }

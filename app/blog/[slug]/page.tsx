@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${article.title} | CreativeX Technology AI`,
     description: article.excerpt,
+    keywords: article.tags,
     alternates: {
       canonical: `${baseUrl}/blog/${article.slug}`,
       languages: {
@@ -55,14 +56,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const nextArticle = allArticles[(articleIndex + 1) % allArticles.length];
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "TechArticle",
+    "@type": "Article",
     headline: article.title,
     description: article.excerpt,
+    image: article.media_url ? [article.media_url] : [`${baseUrl}/brand/creativex-robot-lockup.webp`],
     datePublished: article.publishedDate,
     dateModified: article.updatedDate,
     mainEntityOfPage: `${baseUrl}/blog/${article.slug}`,
     author: { "@type": "Organization", name: "CreativeX Technology AI", url: baseUrl },
-    publisher: { "@type": "Organization", name: "CreativeX Technology AI", url: baseUrl },
+    publisher: { "@type": "Organization", name: "CreativeX Technology AI", url: baseUrl, logo: { "@type": "ImageObject", url: `${baseUrl}/brand/creativex-robot-lockup.webp` } },
     keywords: article.tags.join(", "),
     inLanguage: "en",
     isAccessibleForFree: true,

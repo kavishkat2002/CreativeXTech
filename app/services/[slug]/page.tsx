@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${service.title} | CreativeX Technology AI`,
     description: service.copy,
+    keywords: service.features,
     alternates: {
       canonical: `${baseUrl}/services/${service.slug}`,
       languages: {

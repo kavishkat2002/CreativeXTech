@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Check, CircleDot, HelpCircle, MessageCircleMore, Network, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getSupabaseClient } from "@/lib/supabase-client";
@@ -116,6 +117,8 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
         "@type": "SoftwareApplication",
         name: project.title,
         description: project.summary || project.headline,
+        keywords: tags.join(", "),
+        image: project.media_url ? [project.media_url] : [],
         applicationCategory: project.category || "BusinessApplication",
         operatingSystem: "Cloud, Web, Mobile",
         provider: { "@id": `${baseUrl}/#organization` },
@@ -154,7 +157,9 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
                 {project.media_url && /\.(mp4|webm)/i.test(project.media_url) ? (
                   <video src={project.media_url} autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
                 ) : project.media_url ? (
-                  <img src={project.media_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
+                  <div style={{ position: "relative", width: "100%", height: "100%" }}>
+                    <Image src={project.media_url} alt="" fill sizes="(max-width: 768px) 100vw, 50vw" priority style={{ objectFit: "cover", borderRadius: 8 }} />
+                  </div>
                 ) : (
                   <span style={{ fontSize: 32, fontWeight: 700, fontFamily: "var(--font-mono)" }}>{project.number}</span>
                 )}
