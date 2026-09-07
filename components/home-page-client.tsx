@@ -234,9 +234,17 @@ export function HomePageClient() {
               </p>
             </div>
 
-            <div className="reference-figure" aria-hidden="true">
+            <div className="reference-figure">
               <div className="reference-halo" />
-              <img src="/creativex-android-v2.png" alt="" />
+              <img
+                src="/creativex-android-v2.png"
+                alt="CreativeX AI Systems Visual"
+                fetchPriority="high"
+                decoding="async"
+                loading="eager"
+                width={640}
+                height={640}
+              />
               <div className="reference-scan" />
             </div>
 
@@ -265,7 +273,7 @@ export function HomePageClient() {
             <div className="partner-logo-marquee">
               {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((partner, index) => (
                 <div className="partner-logo-item" key={index}>
-                  <img src={partner.src} alt={partner.name} />
+                  <img src={partner.src} alt={partner.name} loading="lazy" width={140} height={40} />
                 </div>
               ))}
             </div>
@@ -340,7 +348,7 @@ export function HomePageClient() {
                       aria-label={technology.name}
                     >
                       {technology.icon ? (
-                        <img src={technology.icon} alt="" className="technology-mark-img" aria-hidden="true" style={{ width: 32, height: 32, objectFit: "contain" }} />
+                        <img src={technology.icon} alt={technology.name} className="technology-mark-img" loading="lazy" width={32} height={32} style={{ width: 32, height: 32, objectFit: "contain" }} />
                       ) : (
                         <span className="technology-mark" aria-hidden="true">{technology.mark}</span>
                       )}

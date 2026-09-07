@@ -1,18 +1,26 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { SiteLoader } from "@/components/site-loader";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import "./globals.css";
 
 const baseUrl = "https://creativexlab.online";
+const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0b0c0b",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "CreativeX Technology AI | AI & Software Engineering Company",
-    template: "%s | CreativeX Technology AI",
+    default: "CreativeX Technology AI | AI & Software Engineering",
+    template: "%s | CreativeX AI",
   },
   description:
-    "A premium global tech consultancy delivering highly innovative AI & software engineering solutions. We build AI agents, predictive data analytics, IoT platforms, and scalable cloud software for real business operations worldwide.",
+    "Global AI & software consultancy building autonomous AI agents, predictive data analytics, IoT platforms, and scalable cloud solutions for enterprise operations.",
   applicationName: "CreativeX Technology AI",
   authors: [{ name: "CreativeX Technology AI", url: baseUrl }],
   creator: "CreativeX Technology AI",
@@ -41,18 +49,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "CreativeX Technology AI | AI & Software Engineering Company",
+    title: "CreativeX Technology AI | AI & Software Engineering",
     description:
       "Global AI agents, predictive analytics, IoT, cloud platforms, and digital product engineering designed for high-performance operations.",
     type: "website",
-    url: "/",
+    url: baseUrl,
     siteName: "CreativeX Technology AI",
     locale: "en_US",
     images: [{ url: "/og.png", width: 1730, height: 909, alt: "CreativeX Technology AI" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CreativeX Technology AI | AI & Software Engineering Company",
+    title: "CreativeX Technology AI | AI & Software Engineering",
     description:
       "Global AI agents, analytics, IoT, cloud, and digital product engineering for real enterprise operations.",
     images: ["/og.png"],
@@ -60,6 +68,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
 };
 
@@ -150,6 +159,19 @@ export default function RootLayout({
             __html: "try{if(sessionStorage.getItem('creativex-loader-seen')==='true')document.documentElement.classList.add('cx-loader-seen')}catch(e){}",
           }}
         />
+        {gaId && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}');
+              `}
+            </Script>
+          </>
+        )}
       </head>
       <body className="antialiased">
         <SiteLoader />

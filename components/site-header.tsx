@@ -41,7 +41,7 @@ export function Brand() {
   return (
     <span className="brand-lockup" aria-label="CreativeX">
       <span className="brand-logo-frame" aria-hidden="true">
-        <img src="/brand/creativex-wordmark.webp" alt="" />
+        <img src="/brand/creativex-wordmark.webp" alt="CreativeX Technology AI" width={160} height={40} />
       </span>
     </span>
   );
@@ -282,7 +282,7 @@ export function SiteFooter({ homePage = false }: { homePage?: boolean }) {
     <footer className="site-footer">
       <div className="site-width footer-grid">
         <Brand />
-        <p>A premium tech consultancy delivering innovative and strategic solutions to help businesses scale and thrive.</p>
+        <p>A premium tech consultancy delivering innovative AI & software solutions to help businesses scale and thrive.</p>
         <div>
           {navigation.map((item) => (
             <Link key={item.section} href={sectionHref(item.section, homePage)}>{item.label}</Link>
@@ -302,7 +302,13 @@ export function SiteFooter({ homePage = false }: { homePage?: boolean }) {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
           </a>
         </div>
-        <span>© {new Date().getFullYear()} CreativeX Technology PVT LTD</span>
+        <div style={{ gridColumn: "1 / -1", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid rgba(255,255,255,.1)", paddingTop: "16px", flexWrap: "wrap", gap: "12px" }}>
+          <span style={{ font: "600 9px/1 var(--font-mono)", letterSpacing: ".1em", color: "rgba(255,255,255,.35)" }}>© {new Date().getFullYear()} CreativeX Technology PVT LTD. All rights reserved.</span>
+          <div style={{ display: "flex", gap: "16px" }}>
+            <a href="/contact" style={{ fontSize: "11px", color: "rgba(255,255,255,.45)", textDecoration: "none" }}>Privacy Policy</a>
+            <a href="/contact" style={{ fontSize: "11px", color: "rgba(255,255,255,.45)", textDecoration: "none" }}>Terms of Service</a>
+          </div>
+        </div>
       </div>
     </footer>
   );
