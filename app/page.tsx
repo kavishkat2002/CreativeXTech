@@ -4,7 +4,9 @@ import { HomePageClient } from "@/components/home-page-client";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "CreativeX Technology AI | AI & Software Company",
+  title: {
+    absolute: "CreativeX Technology | AI & Software Company",
+  },
   description:
     "Global AI & software consultancy engineering autonomous AI agents, predictive analytics, IoT platforms, and scalable cloud solutions for enterprise operations.",
   alternates: {

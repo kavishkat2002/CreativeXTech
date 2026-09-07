@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type MouseEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
@@ -236,12 +237,10 @@ export function HomePageClient() {
 
             <div className="reference-figure">
               <div className="reference-halo" />
-              <img
+              <Image
                 src="/creativex-android-v2.png"
                 alt="CreativeX AI Systems Visual"
-                fetchPriority="high"
-                decoding="async"
-                loading="eager"
+                priority
                 width={640}
                 height={640}
               />
@@ -273,7 +272,7 @@ export function HomePageClient() {
             <div className="partner-logo-marquee">
               {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((partner, index) => (
                 <div className="partner-logo-item" key={index}>
-                  <img src={partner.src} alt={partner.name} loading="lazy" width={140} height={40} />
+                  <Image src={partner.src} alt={partner.name} width={140} height={40} />
                 </div>
               ))}
             </div>
@@ -348,7 +347,7 @@ export function HomePageClient() {
                       aria-label={technology.name}
                     >
                       {technology.icon ? (
-                        <img src={technology.icon} alt={technology.name} className="technology-mark-img" loading="lazy" width={32} height={32} style={{ width: 32, height: 32, objectFit: "contain" }} />
+                        <Image src={technology.icon} alt={technology.name} className="technology-mark-img" width={32} height={32} style={{ objectFit: "contain" }} />
                       ) : (
                         <span className="technology-mark" aria-hidden="true">{technology.mark}</span>
                       )}
@@ -389,14 +388,17 @@ export function HomePageClient() {
                             /\.(mp4|webm)/i.test(project.media_url) ? (
                               <video
                                 src={project.media_url}
-                                autoPlay muted loop playsInline
+                                autoPlay muted loop playsInline preload="none"
                                 className="home-project-cover-video"
                               />
                             ) : (
-                              <img
+                              <Image
                                 src={project.media_url}
-                                alt=""
+                                alt={project.title}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 50vw"
                                 className="home-project-cover-img"
+                                style={{ objectFit: "cover" }}
                               />
                             )
                           ) : (
@@ -527,7 +529,7 @@ export function HomePageClient() {
                 </form>
               </div>
               <div className="contact-brand-card">
-                <img src="/brand/creativex-robot-lockup.webp" alt="CreativeX Technology logo" />
+                <Image src="/brand/creativex-robot-lockup.webp" alt="CreativeX Technology logo" width={600} height={400} style={{ width: "100%", height: "auto" }} />
               </div>
             </div>
           </div>

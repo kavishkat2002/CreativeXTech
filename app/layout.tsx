@@ -81,13 +81,15 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
+        "@type": "LocalBusiness",
         "@id": `${baseUrl}/#organization`,
         name: "CreativeX Technology AI",
         alternateName: ["CreativeX", "CreativeX Tech", "CreativeX AI Lab"],
         url: baseUrl,
         logo: `${baseUrl}/brand/creativex-wordmark.webp`,
+        image: `${baseUrl}/brand/creativex-wordmark.webp`,
         email: "info@creativexlab.online",
+        telephone: "+94762345336",
         description:
           "Global AI and software engineering consultancy delivering autonomous AI agents, predictive analytics, smart IoT operations, resilient cloud platforms, and digital products.",
         areaServed: [
