@@ -368,7 +368,7 @@ export function HomePageClient() {
               <h2 id="home-projects-heading">Systems built around real work.</h2>
               <p>Explore AI agents, connected operations, data products, and cloud software designed for the workflows businesses depend on.</p>
             </div>
-            <a href="/projects">View all projects <ArrowUpRight /></a>
+            <a className="contact-action" href="/projects">View all projects <ArrowUpRight /></a>
           </div>
 
           <div className="home-project-marquee" aria-label="Selected CreativeX projects">
@@ -500,9 +500,7 @@ export function HomePageClient() {
             <div>
               <h2>Bring us the problem you keep circling.</h2>
               <p>We’ll help you work out whether AI belongs in the answer—and what the smallest credible first move looks like.</p>
-              <Button asChild className="contact-action">
-                <a href="mailto:info@creativexlab.online?subject=CreativeX%20project%20conversation&body=Hello%20CreativeX%2C%0A%0AThe%20workflow%20I%20want%20to%20improve%3A%0AWho%20does%20this%20work%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0A%0A">Start a conversation <ArrowUpRight /></a>
-              </Button>
+              <a className="contact-action" href="mailto:info@creativexlab.online?subject=CreativeX%20project%20conversation&body=Hello%20CreativeX%2C%0A%0AThe%20workflow%20I%20want%20to%20improve%3A%0AWho%20does%20this%20work%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0A%0A">Start a conversation <ArrowUpRight /></a>
             </div>
             <div className="contact-detail-card">
               <div className="newsletter-group">

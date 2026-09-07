@@ -372,36 +372,37 @@ button { font: inherit; }
 .contact-action {
   display: inline-flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  min-height: 54px !important;
+  gap: 9px !important;
+  margin-top: 40px !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(11, 12, 11, 0.45) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+  padding: 0 0 10px 0 !important;
   height: auto !important;
-  margin-top: 32px;
-  border: 1px solid var(--ink) !important;
-  border-radius: 9999px !important;
-  background: var(--ink) !important;
-  color: #ffffff !important;
-  padding: 14px 28px !important;
-  font-size: 15px !important;
-  font-weight: 650 !important;
+  min-height: 0 !important;
+  font-size: clamp(1.05rem, 1.3vw, 1.25rem) !important;
+  font-weight: 700 !important;
   letter-spacing: -0.01em !important;
   white-space: nowrap !important;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15) !important;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  text-decoration: none !important;
+  width: fit-content !important;
+  box-shadow: none !important;
   cursor: pointer !important;
+  text-decoration: none !important;
+  transition: border-color 0.2s ease, opacity 0.2s ease !important;
 }
 .contact-action:hover {
-  background: #000000 !important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25) !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+  border-bottom-color: var(--ink) !important;
+  opacity: 0.8 !important;
 }
 .contact-action svg {
-  width: 18px !important;
-  height: 18px !important;
+  width: 16px !important;
+  height: 16px !important;
   flex-shrink: 0 !important;
-  transition: transform 0.25s ease !important;
+  transition: transform 0.2s ease !important;
 }
 .contact-action:hover svg {
   transform: translate(3px, -3px) !important;
@@ -2439,33 +2440,31 @@ summary:focus-visible {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 10px !important;
+  gap: 12px !important;
   min-height: 52px !important;
   height: auto !important;
-  margin-top: 32px;
-  padding: 14px 28px !important;
+  margin-top: 36px;
+  padding: 16px 24px !important;
   background: var(--ink) !important;
   color: #ffffff !important;
-  font-size: 15px !important;
-  font-weight: 650 !important;
-  border-radius: 9999px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  border-radius: 0 !important;
   border: 1px solid var(--ink) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
   cursor: pointer !important;
   text-decoration: none !important;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
 }
 .contact-email-action:hover {
-  background: #000000 !important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+  background: var(--signal) !important;
+  color: var(--ink) !important;
+  border-color: var(--ink) !important;
 }
 .contact-email-action svg {
-  width: 18px !important;
-  height: 18px !important;
+  width: 16px !important;
+  height: 16px !important;
   flex-shrink: 0 !important;
-  transition: transform 0.25s ease !important;
+  transition: transform 0.2s ease !important;
 }
 .contact-email-action:hover svg {
   transform: translate(3px, -3px) !important;

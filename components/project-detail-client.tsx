@@ -337,7 +337,7 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
           <div className="site-width">
             <p className="section-index">{project.buildVersionTitle || "Start your project"}</p>
             <h2>Build your version.</h2>
-            <Link href="/#contact">
+            <Link className="contact-action" href="/#contact">
               {project.cta || "Discuss this project"} <ArrowUpRight />
             </Link>
           </div>
