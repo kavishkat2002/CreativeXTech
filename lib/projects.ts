@@ -159,7 +159,7 @@ export async function getProjects(): Promise<Project[]> {
       tags: proj.tags || [],
       capabilities: proj.capabilities || [],
       integrations: proj.integrations || [],
-      outcomes: proj.outcomes || [],
+      caseStudyHref: proj.case_study_href ?? proj.caseStudyHref ?? null,
       opportunityTitle: proj.opportunity_title,
       opportunityCopy: proj.opportunity_copy,
       conceptStatus: proj.concept_status,

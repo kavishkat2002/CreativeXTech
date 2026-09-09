@@ -308,13 +308,9 @@ export function SiteFooter({ homePage = false }: { homePage?: boolean }) {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
           </a>
         </div>
-        <div className="col-span-full flex flex-wrap justify-between items-center border-t border-white/10 pt-4 gap-3">
-          <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 font-mono font-semibold text-[9px] tracking-widest text-white/40 uppercase">
+        <div className="footer-bottom-bar col-span-full flex flex-wrap justify-between items-center border-t border-white/10 pt-4 gap-3" style={{ justifyContent: "space-between" }}>
+          <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 font-mono font-semibold text-[9px] tracking-widest text-white/40 uppercase" style={{ textAlign: "left" }}>
             <span>© {new Date().getFullYear()} CreativeX Technology PVT LTD. All rights reserved.</span>
-            <span className="hidden lg:inline">•</span>
-            <span>16/B Perera Mawatha, Rajagiriya, LK</span>
-            <span className="hidden lg:inline">•</span>
-            <span>Tel: <a href="tel:+94762345336" className="hover:text-white/70 transition-colors">+94 76 2345 336</a></span>
           </div>
           <div className="flex gap-4 text-[11px] text-white/45">
             <a href="/contact" className="hover:text-white transition-colors">Privacy Policy</a>

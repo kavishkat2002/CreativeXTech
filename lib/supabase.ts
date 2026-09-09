@@ -24,12 +24,12 @@ async function resolveEnv(): Promise<{ url: string; key: string }> {
       if (json.url && json.key) {
         _SUPABASE_URL = json.url;
         _SUPABASE_ANON_KEY = json.key;
+        _envFetched = true;
       }
     }
   } catch {
     // ignore — will return empty strings and caller handles it
   }
-  _envFetched = true;
   return { url: _SUPABASE_URL, key: _SUPABASE_ANON_KEY };
 }
 

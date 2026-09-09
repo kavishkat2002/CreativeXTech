@@ -241,6 +241,7 @@ export function HomePageClient() {
                 src="/creativex-android-v2.png"
                 alt="CreativeX AI Systems Visual"
                 priority
+                unoptimized
                 width={640}
                 height={640}
               />
@@ -272,7 +273,7 @@ export function HomePageClient() {
             <div className="partner-logo-marquee">
               {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((partner, index) => (
                 <div className="partner-logo-item" key={index}>
-                  <Image src={partner.src} alt={partner.name} width={140} height={40} />
+                  <Image src={partner.src} alt={partner.name} width={140} height={40} unoptimized />
                 </div>
               ))}
             </div>
@@ -347,7 +348,7 @@ export function HomePageClient() {
                       aria-label={technology.name}
                     >
                       {technology.icon ? (
-                        <Image src={technology.icon} alt={technology.name} className="technology-mark-img" width={32} height={32} style={{ objectFit: "contain" }} />
+                        <Image src={technology.icon} alt={technology.name} className="technology-mark-img" width={32} height={32} style={{ objectFit: "contain" }} unoptimized />
                       ) : (
                         <span className="technology-mark" aria-hidden="true">{technology.mark}</span>
                       )}
@@ -392,18 +393,16 @@ export function HomePageClient() {
                                 className="home-project-cover-video"
                               />
                             ) : (
-                              <Image
+                              <img
                                 src={project.media_url}
                                 alt={project.title}
-                                fill
-                                sizes="(max-width: 768px) 100vw, 50vw"
                                 className="home-project-cover-img"
-                                style={{ objectFit: "cover" }}
+                                loading="lazy"
                               />
                             )
                           ) : (
                             <>
-                              <span>{project.number} / 05</span>
+                              <span>{project.number} / {String(liveProjects.length).padStart(2, "0")}</span>
                               <Icon />
                               <i />
                               <small>CX / PROJECT SYSTEM</small>
@@ -529,7 +528,7 @@ export function HomePageClient() {
                 </form>
               </div>
               <div className="contact-brand-card">
-                <Image src="/brand/creativex-robot-lockup.webp" alt="CreativeX Technology logo" width={600} height={400} style={{ width: "100%", height: "auto" }} />
+                <Image src="/brand/creativex-robot-lockup.webp" alt="CreativeX Technology logo" width={600} height={400} style={{ width: "100%", height: "auto" }} unoptimized />
               </div>
             </div>
           </div>

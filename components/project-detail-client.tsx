@@ -158,7 +158,7 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
                   <video src={project.media_url} autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
                 ) : project.media_url ? (
                   <div style={{ position: "relative", width: "100%", height: "100%" }}>
-                    <Image src={project.media_url} alt="" fill sizes="(max-width: 768px) 100vw, 50vw" priority style={{ objectFit: "cover", borderRadius: 8 }} />
+                    <img src={project.media_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
                   </div>
                 ) : (
                   <span style={{ fontSize: 32, fontWeight: 700, fontFamily: "var(--font-mono)" }}>{project.number}</span>

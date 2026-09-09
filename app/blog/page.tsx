@@ -89,7 +89,7 @@ export default async function BlogPage() {
 
           <a className="blog-feature-card" href={`/blog/${featured.slug}`}>
             <div className="blog-feature-visual" style={{ position: "relative" }}>
-              {featured.media_url && <Image src={featured.media_url} alt="" fill sizes="(max-width: 768px) 100vw, 50vw" priority style={{ objectFit: "cover", zIndex: 0, opacity: 0.8 }} />}
+              {featured.media_url && <img src={featured.media_url} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: 0.8 }} />}
               <span style={{ zIndex: 5 }}>{featured.number} / {String(articles.length).padStart(2, "0")}</span>
               {!featured.media_url && (
                 <>
@@ -117,7 +117,7 @@ export default async function BlogPage() {
               return (
                 <a className="blog-card" href={`/blog/${article.slug}`} key={article.slug}>
                   <div className="blog-card-visual" style={{ position: "relative" }}>
-                    {article.media_url && <Image src={article.media_url} alt="" fill sizes="(max-width: 768px) 100vw, 33vw" style={{ objectFit: "cover", zIndex: 0, opacity: 0.9 }} />}
+                    {article.media_url && <img src={article.media_url} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: 0.9 }} />}
                     <span style={{ zIndex: 5 }}>{article.number}</span>
                     {!article.media_url && (
                       <>
