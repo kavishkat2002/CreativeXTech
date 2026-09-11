@@ -2,6 +2,7 @@
 
 import { ArrowUpRight, ChevronDown, Menu, Mail, Phone } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 import { staticSolutions as solutions } from "@/lib/solutions";
 import { services } from "@/lib/services";
@@ -23,6 +24,17 @@ const navigation = [
   { label: "Solutions", section: "solutions" },
   { label: "Projects", section: "projects" },
   { label: "Blog", section: "blog" },
+  { label: "About", section: "about" },
+  { label: "Contact", section: "contact" },
+];
+
+const footerNavigation = [
+  { label: "Home", section: "home" },
+  { label: "Services", section: "services" },
+  { label: "Solutions", section: "solutions" },
+  { label: "Projects", section: "projects" },
+  { label: "Blog", section: "blog" },
+  { label: "Careers", section: "careers", disabled: true },
   { label: "About", section: "about" },
   { label: "Contact", section: "contact" },
 ];
@@ -284,8 +296,26 @@ export function SiteFooter({ homePage = false }: { homePage?: boolean }) {
         <Brand />
         <p>A premium tech consultancy delivering innovative AI & software solutions to help businesses scale and thrive.</p>
         <div>
-          {navigation.map((item) => (
-            <Link key={item.section} href={sectionHref(item.section, homePage)}>{item.label}</Link>
+          {footerNavigation.map((item) => (
+            item.disabled ? (
+              <button
+                type="button"
+                key={item.section}
+                onClick={(e) => {
+                  e.preventDefault();
+                  toast.info("Careers at CreativeX Technology", {
+                    description: "Engineering and AI roles are opening soon! Contact us directly for early inquiries.",
+                  });
+                }}
+                className="footer-nav-link inline-flex items-center gap-1 cursor-pointer focus:outline-none"
+                title="Careers (Opening Soon)"
+              >
+                <span>{item.label}</span>
+                <span className="text-[9px] text-[#ff5a36] font-mono font-medium px-1.5 py-0.5 rounded-full bg-[#ff5a36]/10 border border-[#ff5a36]/20 leading-none">Soon</span>
+              </button>
+            ) : (
+              <Link key={item.section} href={sectionHref(item.section, homePage)} className="footer-nav-link">{item.label}</Link>
+            )
           ))}
         </div>
         <div className="footer-social-links">

@@ -463,11 +463,15 @@ button { font: inherit; }
 .site-footer .brand-logo-frame img { filter: invert(1) grayscale(1) brightness(2); mix-blend-mode: screen; }
 .footer-grid { display: grid; min-height: 180px; grid-template-columns: 1fr 1fr auto auto; align-items: center; gap: 32px; }
 .footer-grid > p { font: italic 400 16px/1.4 Georgia, serif; color: rgba(255,255,255,.45); }
-.footer-grid > div { display: flex; justify-content: flex-end; gap: 18px; }
+.footer-grid > div { display: flex; justify-content: flex-end; align-items: center; gap: 18px; }
 .footer-grid > div.footer-bottom-bar { justify-content: space-between !important; }
 .footer-social-links { gap: 24px !important; margin-left: 24px; border-left: 1px solid rgba(255,255,255,.15); padding-left: 32px; }
-.footer-grid > div a { padding-block: 4px; font-size: 12px; color: rgba(255,255,255,.58); transition: color 0.2s ease; }
-.footer-grid > div a:hover { color: white; }
+.footer-grid > div a,
+.footer-grid > div button,
+.footer-nav-link { padding-block: 4px; font-size: 12px; font-family: inherit; font-weight: 400; line-height: 1; color: rgba(255,255,255,.58); transition: color 0.2s ease; background: transparent; border: none; }
+.footer-grid > div a:hover,
+.footer-grid > div button:hover,
+.footer-nav-link:hover { color: white; }
 .footer-grid > span { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.1); padding-top: 16px; font: 600 7px/1 var(--font-mono); letter-spacing: .1em; color: rgba(255,255,255,.25); }
 
 .reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% cover 32%; }

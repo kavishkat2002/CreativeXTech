@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { SiteLoader } from "@/components/site-loader";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const baseUrl = "https://creativexlab.online";
@@ -179,6 +180,7 @@ export default function RootLayout({
         <SiteLoader />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c") }} />
         {children}
+        <Toaster position="top-center" />
         <WhatsAppButton />
       </body>
     </html>
