@@ -11,15 +11,52 @@ const baseUrl = "https://creativexlab.online";
 export const metadata: Metadata = {
   title: "Technology, Technical SEO & Generative Engine Insights | CreativeX Technology AI",
   description: "Practical research and engineering field notes on AI system design, Generative Engine Optimization (GEO), technical SEO, structured data, web performance, and reliable AI agents.",
+  keywords: [
+    "Generative Engine Optimization",
+    "GEO",
+    "Technical SEO",
+    "AI Agents",
+    "Structured Data",
+    "Software Engineering",
+    "CreativeX Technology AI",
+  ],
   alternates: {
     canonical: `${baseUrl}/blog`,
     languages: { "en-US": `${baseUrl}/blog`, "x-default": `${baseUrl}/blog` },
   },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: "Technology & GEO Insights | CreativeX Technology AI",
-    description: "Practical thinking for discoverable, useful, and dependable AI technology and software systems.",
+    title: "Technology, Technical SEO & Generative Engine Insights | CreativeX Technology AI",
+    description: "Practical research and engineering field notes on AI system design, Generative Engine Optimization (GEO), technical SEO, structured data, web performance, and reliable AI agents.",
     url: `${baseUrl}/blog`,
+    siteName: "CreativeX Technology AI",
+    locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: `${baseUrl}/og.png`,
+        width: 1200,
+        height: 630,
+        alt: "CreativeX Technology AI Insights",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Technology, Technical SEO & Generative Engine Insights | CreativeX Technology AI",
+    description: "Practical research and engineering field notes on AI system design, Generative Engine Optimization (GEO), technical SEO, structured data, web performance, and reliable AI agents.",
+    images: [`${baseUrl}/og.png`],
   },
 };
 
@@ -27,24 +64,44 @@ const icons = [ScanSearch, Network, Braces, BookOpen, Gauge, ChartNoAxesCombined
 
 export default async function BlogPage() {
   const articles = await getArticles();
-  const [featured, ...rest] = articles;
+  const featured = articles[0];
+  const rest = articles.slice(1);
+
+  if (!featured) {
+    return null;
+  }
+
   const FeaturedIcon = icons[0];
   const blogJsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Blog",
+        "@id": `${baseUrl}/blog#blog`,
         name: "CreativeX Technology Insights",
         description: "Original, evidence-led articles about AI products, technical SEO, generative engine optimization, structured data, performance, and dependable software.",
         url: `${baseUrl}/blog`,
-        publisher: { "@id": `${baseUrl}/#organization` },
+        publisher: {
+          "@type": "Organization",
+          name: "CreativeX Technology PVT LTD",
+          url: baseUrl,
+          logo: {
+            "@type": "ImageObject",
+            url: `${baseUrl}/brand/creativex-wordmark.webp`,
+          },
+        },
         inLanguage: "en-US",
         blogPost: articles.map((article) => ({
-          "@type": "Article",
+          "@type": "BlogPosting",
           headline: article.title,
+          description: article.excerpt,
           url: `${baseUrl}/blog/${article.slug}`,
           datePublished: article.publishedDate,
           dateModified: article.updatedDate,
+          author: {
+            "@type": "Organization",
+            name: "CreativeX Technology AI",
+          },
         })),
       },
       {

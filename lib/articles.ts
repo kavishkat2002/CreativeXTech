@@ -54,16 +54,188 @@ function mapRow(row: any): Article {
   };
 }
 
+// ─── Static Fallback Data ───────────────────────────────────────────────────
+
+export const staticArticles: Article[] = [
+  {
+    slug: "generative-engine-optimization-practical-guide",
+    number: "01",
+    category: "Generative discovery",
+    title: "Generative Engine Optimization: a practical technical guide",
+    excerpt: "A grounded framework for making useful business content easier for search engines and AI answer systems to find, understand, and reference.",
+    publishedDate: "2026-09-02",
+    updatedDate: "2026-09-02",
+    readTime: "8 min read",
+    featured: true,
+    tags: ["GEO", "SEO", "Content systems"],
+    sections: [
+      {
+        id: "what-geo-is",
+        heading: "GEO is an extension of discoverability—not a shortcut",
+        paragraphs: [
+          "Generative Engine Optimization, or GEO, describes work intended to improve how content appears in answers assembled by generative search systems. The term was formalized in research that treats these systems as a new discovery interface with its own visibility questions.",
+          "For a business, the useful interpretation is simple: publish material that is technically accessible, unambiguous, evidence-led, and genuinely helpful. Google's current guidance frames optimization for its generative features as part of SEO—not a separate collection of hacks.",
+        ],
+      },
+      {
+        id: "strong-foundation",
+        heading: "Build the foundation before optimizing the answer",
+        paragraphs: [
+          "An AI system cannot reliably use a page it cannot discover or interpret. Clear information architecture, descriptive page titles, internal links, stable URLs, fast delivery, and indexable HTML remain the operational baseline.",
+        ],
+        bullets: [
+          "Give every important service, solution, and case study a focused canonical page.",
+          "Use descriptive headings that match the questions decision-makers actually ask.",
+          "Connect related pages with contextual links instead of relying only on navigation menus.",
+          "Keep core explanations in accessible HTML and make important evidence easy to verify.",
+        ],
+      },
+      {
+        id: "answer-quality",
+        heading: "Design information that can survive summarization",
+        paragraphs: [
+          "Strong answer-ready content establishes the subject early, defines unfamiliar terms, separates facts from opinion, and supports claims with primary sources. It should still read naturally to a person; artificial repetition and mass-produced pages weaken trust.",
+          "Use concise summaries where they improve comprehension, then provide the context, method, limitations, and examples a serious reader needs. The goal is not to write for a robot. It is to remove ambiguity for every reader.",
+        ],
+      },
+      {
+        id: "measurement",
+        heading: "Measure business progress, not citation theatre",
+        paragraphs: [
+          "Generative visibility changes quickly and differs by system, prompt, location, and time. Treat mentions and citations as directional signals. Connect them to qualified visits, demo requests, assisted conversions, and the questions sales teams hear from prospects.",
+          "Run a repeatable query set, record the sources surfaced, and improve pages only when the change also makes the content more accurate or useful. Visibility without relevance is not a business outcome.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Treat GEO as discoverability work built on technical SEO and people-first content.",
+      "Make claims explicit, attributable, and easy to verify.",
+      "Evaluate visibility alongside qualified business outcomes.",
+    ],
+    references: [
+      { label: "Google: Optimizing for generative AI features", href: "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" },
+      { label: "Aggarwal et al.: GEO research paper", href: "https://arxiv.org/abs/2311.09735" },
+      { label: "Google: Helpful, reliable, people-first content", href: "https://developers.google.com/search/docs/fundamentals/creating-helpful-content" },
+    ],
+  },
+  {
+    slug: "structured-data-entities-evidence",
+    number: "02",
+    category: "Semantic systems",
+    title: "Structured data, entities, and evidence: making your business easier to understand",
+    excerpt: "How consistent naming, clear relationships, first-party proof, and valid schema help machines interpret what your company actually does.",
+    publishedDate: "2026-09-02",
+    updatedDate: "2026-09-02",
+    readTime: "7 min read",
+    featured: false,
+    tags: ["Structured data", "Entities", "Schema.org"],
+    sections: [
+      {
+        id: "clarity-first",
+        heading: "Start with clarity in the visible page",
+        paragraphs: [
+          "Structured data is a description of page content, not a replacement for it. Before adding markup, make the company name, service, audience, location, authorship, and evidence clear to a person reading the page.",
+          "Use the same core naming across the website, business profiles, social accounts, and trusted directories. Consistency reduces ambiguity; it does not require every description to be identical.",
+        ],
+      },
+      {
+        id: "choose-schema",
+        heading: "Choose schema that matches the page",
+        paragraphs: [
+          "Use Organization details for the business, Service where a page describes an offering, and Article or TechArticle for editorial content. Mark up only information that is present and accurate. More properties do not automatically produce a better result.",
+        ],
+        bullets: [
+          "Use JSON-LD that reflects the primary purpose of the page.",
+          "Keep names, dates, authors, and canonical URLs synchronized with visible content.",
+          "Validate syntax and monitor reports after deployment.",
+          "Never manufacture ratings, reviews, or credentials for markup.",
+        ],
+      },
+      {
+        id: "evidence-layer",
+        heading: "Build an evidence layer around important claims",
+        paragraphs: [
+          "A credible technology company should show how it works, not only what it promises. Case studies, named methods, technical documentation, security practices, and appropriately attributed research give readers a path to verification.",
+          "When a result cannot be publicly named, label the work as representative rather than implying a verified client outcome. Precision is a stronger brand signal than inflated proof.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Visible clarity comes before machine-readable markup.",
+      "Use the narrowest accurate schema type for each page.",
+      "Treat evidence and honest labeling as part of information architecture.",
+    ],
+    references: [
+      { label: "Google: Introduction to structured data", href: "https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data" },
+      { label: "Schema.org: TechArticle", href: "https://schema.org/TechArticle" },
+      { label: "Schema.org: Organization", href: "https://schema.org/Organization" },
+    ],
+  },
+  {
+    slug: "technical-seo-ai-software-companies",
+    number: "03",
+    category: "Technical SEO",
+    title: "Technical SEO for AI and software companies: foundations that compound",
+    excerpt: "A practical architecture for turning complex services, products, documentation, and case studies into a site people and crawlers can navigate.",
+    publishedDate: "2026-09-02",
+    updatedDate: "2026-09-02",
+    readTime: "7 min read",
+    featured: false,
+    tags: ["Technical SEO", "SaaS", "Architecture"],
+    sections: [
+      {
+        id: "intent-map",
+        heading: "Map the site to the buyer's information journey",
+        paragraphs: [
+          "AI companies often compress several distinct ideas into one homepage: capabilities, industries, products, methods, and proof. That creates a striking pitch but a weak research experience. Give each durable topic its own page and connect it to the next logical question.",
+        ],
+        bullets: [
+          "Service pages explain what the team can deliver and how engagements work.",
+          "Solution pages connect capabilities to a specific operating context.",
+          "Project pages show constraints, system design, human controls, and outcomes.",
+          "Articles answer technical and commercial questions with depth.",
+        ],
+      },
+      {
+        id: "crawlable-system",
+        heading: "Make the publishing system crawlable by default",
+        paragraphs: [
+          "Use stable descriptive URLs, server-rendered core content, canonical metadata, a maintained sitemap, and crawlable internal links. Avoid hiding essential information inside interactions that require a person to reveal every state.",
+          "A clean error strategy matters too: removed content should return a meaningful status, redirects should be intentional, and duplicate routes should converge on one canonical location.",
+        ],
+      },
+      {
+        id: "operations",
+        heading: "Treat SEO as an operating practice",
+        paragraphs: [
+          "Technical quality decays when ownership is unclear. Add metadata, internal linking, accessibility, performance, and structured-data checks to the same definition of done used for product releases.",
+          "Monitor indexing, query coverage, broken links, template regressions, and conversions. The compounding advantage comes from a system that stays coherent as the company grows.",
+        ],
+      },
+    ],
+    takeaways: [
+      "Separate services, solutions, projects, and editorial knowledge into clear page types.",
+      "Keep primary information server-rendered, linked, and addressable.",
+      "Make discoverability part of release quality—not a cleanup project.",
+    ],
+    references: [
+      { label: "Google: Search Engine Optimization Starter Guide", href: "https://developers.google.com/search/docs/fundamentals/seo-starter-guide" },
+      { label: "Google: Creating helpful content", href: "https://developers.google.com/search/docs/fundamentals/creating-helpful-content" },
+    ],
+  },
+];
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /** Fetch all articles ordered by their display number. */
 export async function getArticles(): Promise<Article[]> {
   try {
     const rows = await supabaseSelect("articles", { order: "number.asc" });
+    if (!rows || rows.length === 0) return staticArticles;
     return rows.map(mapRow);
   } catch (err) {
     console.error("[articles] Failed to fetch from Supabase:", err);
-    return [];
+    return staticArticles;
   }
 }
 
@@ -74,21 +246,21 @@ export async function getArticle(slug: string): Promise<Article | undefined> {
       slug: `eq.${slug}`,
       limit: "1",
     });
-    if (!rows.length) return undefined;
-    return mapRow(rows[0]);
+    if (rows && rows.length > 0) return mapRow(rows[0]);
+    return staticArticles.find((a) => a.slug === slug);
   } catch (err) {
     console.error("[articles] Failed to fetch article:", err);
-    return undefined;
+    return staticArticles.find((a) => a.slug === slug);
   }
 }
 
 /** Fetch just the slugs — used for generateStaticParams. */
 export async function getArticleSlugs(): Promise<string[]> {
   try {
-    const rows = await supabaseSelect<{ slug: string }>("articles");
-    return rows.map((r) => r.slug);
+    const articles = await getArticles();
+    return articles.map((r) => r.slug);
   } catch {
-    return [];
+    return staticArticles.map((a) => a.slug);
   }
 }
 
