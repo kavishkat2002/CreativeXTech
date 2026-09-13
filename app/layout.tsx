@@ -37,6 +37,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "vb3sWn18iqKIyBI2czOJNniLqFLtlg2mJBl6uxgQkLg",
+    other: {
+      "msvalidate.01": "BCF31216FC65CB0D5A1BBDC8BB3E4983",
+    },
   },
   robots: {
     index: true,
@@ -155,6 +158,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <meta name="google-site-verification" content="vb3sWn18iqKIyBI2czOJNniLqFLtlg2mJBl6uxgQkLg" />
+        <meta name="msvalidate.01" content="BCF31216FC65CB0D5A1BBDC8BB3E4983" />
         <meta name="codex-preview" content="development" />
         <meta name="format-detection" content="telephone=no" />
         <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM Context Summary" />
