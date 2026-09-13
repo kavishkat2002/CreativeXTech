@@ -67,7 +67,8 @@ export function ProjectGallery() {
               </div>
             </>;
 
-            return <a className={`project-card ${index === 0 && activeFilter === "All" ? "project-card-featured" : ""}`} href={project.caseStudyHref ?? "/#contact"} key={project.slug} aria-label={`${project.caseStudyHref ? "View case study" : "Discuss a similar project"}: ${project.title}`}>{cardContent}</a>;
+            const targetHref = project.caseStudyHref || `/projects/${project.slug}`;
+            return <a className={`project-card ${index === 0 && activeFilter === "All" ? "project-card-featured" : ""}`} href={targetHref} key={project.slug} aria-label={`View project case study: ${project.title}`}>{cardContent}</a>;
           })}
         </div>
       </div>
