@@ -204,6 +204,45 @@ const iconMap: Record<string, any> = {
   "black-badge-luxury-car-sales": Car,
 };
 
+const HIDDEN_PROJECTS_KEY = "creativex_hidden_project_slugs";
+
+export function getHiddenProjectSlugs(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(HIDDEN_PROJECTS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function setProjectHiddenInStorage(slug: string, hidden: boolean): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const current = getHiddenProjectSlugs();
+    const normalized = slug.toLowerCase().trim();
+    let updated: string[];
+    if (hidden) {
+      updated = Array.from(new Set([...current, normalized]));
+    } else {
+      updated = current.filter((s) => s.toLowerCase().trim() !== normalized);
+    }
+    localStorage.setItem(HIDDEN_PROJECTS_KEY, JSON.stringify(updated));
+    return updated;
+  } catch {
+    return [];
+  }
+}
+
+export function isProjectPublished(project: Project): boolean {
+  if (!project.slug) return true;
+  const normalized = project.slug.toLowerCase().trim();
+  const hiddenSlugs = getHiddenProjectSlugs();
+  if (hiddenSlugs.includes(normalized)) return false;
+  if (project.published === false || project.is_published === false) return false;
+  return true;
+}
+
 export function getProjectIcon(slug?: string) {
   if (!slug) return HelpCircle;
   const normalized = slug.toLowerCase().trim();
@@ -211,17 +250,31 @@ export function getProjectIcon(slug?: string) {
 }
 
 export async function getProjects(includeHidden: boolean = false): Promise<Project[]> {
+  const hiddenSlugs = getHiddenProjectSlugs();
+
+  const filterHidden = (list: Project[]) => {
+    if (includeHidden) return list;
+    return list.filter((p) => {
+      const slugNorm = p.slug?.toLowerCase().trim();
+      if (slugNorm && hiddenSlugs.includes(slugNorm)) return false;
+      return p.published !== false && p.is_published !== false;
+    });
+  };
+
   try {
     const data = await supabaseSelect<any>("projects", { order: "number.asc" });
     if (!data || data.length === 0) {
-      return includeHidden ? (staticProjects as Project[]) : (staticProjects as any[]).filter((p) => p.published !== false && p.is_published !== false) as Project[];
+      return filterHidden(staticProjects as Project[]);
     }
     
     const dbProjects = data.map((proj: any) => {
       const staticMatch = staticProjects.find((sp) => sp.slug.toLowerCase().trim() === proj.slug?.toLowerCase().trim());
       const hasCS = proj.has_case_study ?? proj.hasCaseStudy ?? staticMatch?.hasCaseStudy ?? (proj.case_study_href !== null && proj.case_study_href !== "" && proj.caseStudyHref !== null && proj.caseStudyHref !== "");
       const csHref = hasCS ? (proj.case_study_href ?? proj.caseStudyHref ?? staticMatch?.caseStudyHref ?? `/projects/${proj.slug}`) : null;
-      const isPub = proj.published ?? proj.is_published ?? true;
+      
+      const slugNorm = proj.slug?.toLowerCase().trim();
+      const isHiddenInStorage = slugNorm ? hiddenSlugs.includes(slugNorm) : false;
+      const isPub = isHiddenInStorage ? false : (proj.published ?? proj.is_published ?? true);
       
       const { icon: _icon, ...restProj } = proj;
       return {
@@ -246,13 +299,13 @@ export async function getProjects(includeHidden: boolean = false): Promise<Proje
       };
     });
 
-    if (includeHidden) return dbProjects;
-    return dbProjects.filter((p: any) => p.published !== false && p.is_published !== false);
+    return filterHidden(dbProjects);
   } catch (err: any) {
     console.error("Error fetching projects:", err?.message);
-    return includeHidden ? (staticProjects as Project[]) : (staticProjects as any[]).filter((p) => p.published !== false && p.is_published !== false) as Project[];
+    return filterHidden(staticProjects as Project[]);
   }
 }
+
 
 
 

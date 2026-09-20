@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2, Plus, Trash2, Upload, X, ImageIcon, Video } from "lucide-react";
 import { getSupabaseClient } from "@/lib/supabase-client";
+import { getHiddenProjectSlugs, setProjectHiddenInStorage } from "@/lib/projects";
 
 export default function ProjectEditorPage() {
   const router = useRouter();
@@ -61,6 +62,10 @@ export default function ProjectEditorPage() {
 
         if (error) throw error;
         if (data) {
+          const hiddenSlugs = getHiddenProjectSlugs();
+          const isHiddenInStorage = hiddenSlugs.includes(slug.toLowerCase().trim());
+          const isPub = isHiddenInStorage ? false : (data.published ?? data.is_published ?? true);
+
           setFormData({
             number: data.number || "",
             slug: data.slug || "",
@@ -87,7 +92,7 @@ export default function ProjectEditorPage() {
             systemConsole: data.system_console || { status: "", title: "", bullets: [], action: "" },
             buildVersionTitle: data.build_version_title || "",
             media_url: data.media_url || "",
-            published: data.published ?? data.is_published ?? true,
+            published: isPub,
           });
         }
       } catch (err: any) {
@@ -126,6 +131,7 @@ export default function ProjectEditorPage() {
   const handleSave = async () => {
     setIsSaving(true);
     setError(null);
+    setProjectHiddenInStorage(formData.slug, !formData.published);
     try {
       const dataToSave: any = {
         number: formData.number,

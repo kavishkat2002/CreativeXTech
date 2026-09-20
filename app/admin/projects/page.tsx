@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowUp, Plus, Settings, Eye, EyeOff } from "lucide-react";
 import { supabaseBrowserClient } from "@/lib/supabase-client";
 import type { Project } from "@/lib/projects";
+import { getHiddenProjectSlugs, setProjectHiddenInStorage, isProjectPublished } from "@/lib/projects";
 
 export default function ProjectsAdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -23,7 +24,13 @@ export default function ProjectsAdminPage() {
           .order("number", { ascending: true });
 
         if (error) throw error;
-        setProjects(data || []);
+        const hiddenSlugs = getHiddenProjectSlugs();
+        const list = (data || []).map((p: any) => {
+          const isHidden = hiddenSlugs.includes(p.slug?.toLowerCase().trim());
+          const isPub = isHidden ? false : (p.published ?? p.is_published ?? true);
+          return { ...p, published: isPub, is_published: isPub };
+        });
+        setProjects(list);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -35,29 +42,31 @@ export default function ProjectsAdminPage() {
   }, []);
 
   const handleTogglePublish = async (proj: Project) => {
-    const currentStatus = proj.published ?? proj.is_published ?? true;
-    const nextStatus = !currentStatus;
+    const isCurrentlyPublic = isProjectPublished(proj);
+    const nextPublicStatus = !isCurrentlyPublic;
+    const isHidden = !nextPublicStatus;
 
+    // Persist in localStorage immediately
+    setProjectHiddenInStorage(proj.slug, isHidden);
+
+    // Update state immediately
     setProjects((prev) =>
-      prev.map((p) => (p.slug === proj.slug ? { ...p, published: nextStatus, is_published: nextStatus } : p))
+      prev.map((p) => (p.slug === proj.slug ? { ...p, published: nextPublicStatus, is_published: nextPublicStatus } : p))
     );
 
+    // Attempt DB sync
     try {
       let { error } = await supabaseBrowserClient
         .from("projects")
-        .update({ published: nextStatus })
+        .update({ published: nextPublicStatus })
         .eq("slug", proj.slug);
 
       if (error && error.message?.includes("published")) {
         const res = await supabaseBrowserClient
           .from("projects")
-          .update({ is_published: nextStatus })
+          .update({ is_published: nextPublicStatus })
           .eq("slug", proj.slug);
         error = res.error;
-      }
-
-      if (error && !error.message?.includes("published") && !error.message?.includes("is_published")) {
-        throw error;
       }
     } catch (err: any) {
       console.warn("Visibility update warning:", err.message);
