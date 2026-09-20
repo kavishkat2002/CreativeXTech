@@ -1,4 +1,4 @@
-import { Bot, Building2, Rocket, Ship, Store, HelpCircle } from "lucide-react";
+import { Bot, Building2, Rocket, Ship, Store, HelpCircle, Car } from "lucide-react";
 import { supabaseSelect } from "./supabase";
 
 export interface ProjectWorkflowStep {
@@ -25,7 +25,10 @@ export interface Project {
   stage: string;
   filter: string;
   tags: string[];
-  caseStudyHref: string | null;
+  hasCaseStudy?: boolean;
+  has_case_study?: boolean;
+  caseStudyHref?: string | null;
+  case_study_href?: string | null;
   system: string;
   capabilities: string[];
   integrations: string[];
@@ -41,6 +44,8 @@ export interface Project {
   systemDirectionCopy?: string;
   systemConsole?: ProjectSystemConsole;
   buildVersionTitle?: string;
+  published?: boolean;
+  is_published?: boolean;
   icon?: any;
 }
 
@@ -55,6 +60,7 @@ export const staticProjects = [
     stage: "CreativeX product concept",
     filter: "AI agents",
     tags: ["Omnichannel AI", "Lead operations", "Human handoff"],
+    hasCaseStudy: true,
     caseStudyHref: "/projects/alexa-business-agent",
     system: "Omnichannel agent workspace",
     capabilities: ["Lead capture and qualification", "Automated follow-ups and reminders", "Order status and customer support"],
@@ -62,7 +68,6 @@ export const staticProjects = [
     outcomes: ["Fewer missed enquiries", "Consistent customer follow-through", "Clear human oversight and handoffs"],
     cta: "Try the Alexa demo",
     href: "/#studio",
-    icon: Bot,
   },
   {
     slug: "export-control-tower",
@@ -74,14 +79,14 @@ export const staticProjects = [
     stage: "Representative engagement",
     filter: "Operations",
     tags: ["Logistics", "Predictive alerts", "Workflow"],
-    caseStudyHref: "/projects/export-control-tower",
+    hasCaseStudy: false,
+    caseStudyHref: null,
     system: "Operations intelligence platform",
     capabilities: ["Shipment milestone visibility", "Document and compliance workflows", "Predictive exception alerts"],
     integrations: ["Carrier and freight systems", "ERP and document repositories", "Customer communication channels"],
     outcomes: ["Earlier exception response", "Less repetitive coordination", "Clearer customer communication"],
     cta: "Discuss a logistics project",
     href: "/#contact",
-    icon: Ship,
   },
   {
     slug: "smart-facility-hub",
@@ -93,14 +98,14 @@ export const staticProjects = [
     stage: "Representative engagement",
     filter: "IoT",
     tags: ["Connected facilities", "IoT", "Field operations"],
-    caseStudyHref: "/projects/smart-facility-hub",
+    hasCaseStudy: false,
+    caseStudyHref: null,
     system: "Smart facility command center",
     capabilities: ["IoT monitoring and alerting", "Preventive maintenance workflows", "Guest and staff service automation"],
     integrations: ["Sensors and building systems", "Property and maintenance platforms", "Mobile tools for field teams"],
     outcomes: ["Earlier maintenance action", "Better service coordination", "More efficient facility operations"],
     cta: "Discuss a smart facility project",
     href: "/#contact",
-    icon: Building2,
   },
   {
     slug: "retail-intelligence",
@@ -112,14 +117,14 @@ export const staticProjects = [
     stage: "Representative engagement",
     filter: "Operations",
     tags: ["Retail", "Forecasting", "Fulfilment"],
-    caseStudyHref: "/projects/retail-intelligence",
+    hasCaseStudy: false,
+    caseStudyHref: null,
     system: "Distribution decision platform",
     capabilities: ["Demand and inventory forecasting", "Order exception orchestration", "Warehouse and field mobile workflows"],
     integrations: ["POS and commerce platforms", "ERP and warehouse systems", "Delivery and customer service tools"],
     outcomes: ["Better replenishment decisions", "Faster order resolution", "Fewer operational surprises"],
     cta: "Discuss a retail project",
     href: "/#contact",
-    icon: Store,
   },
   {
     slug: "ai-saas-platform",
@@ -131,14 +136,61 @@ export const staticProjects = [
     stage: "Representative engagement",
     filter: "Product",
     tags: ["AI product", "Cloud", "SaaS engineering"],
-    caseStudyHref: "/projects/ai-saas-platform",
+    hasCaseStudy: false,
+    caseStudyHref: null,
     system: "AI-native cloud product",
     capabilities: ["AI product discovery and prototyping", "Secure web and API engineering", "Evaluation, analytics, and observability"],
     integrations: ["Model and retrieval platforms", "Identity, billing, and CRM systems", "Cloud infrastructure and delivery tooling"],
     outcomes: ["Faster product learning", "A credible production foundation", "Clearer roadmap decisions"],
     cta: "Discuss a SaaS product",
     href: "/#contact",
-    icon: Rocket,
+  },
+  {
+    slug: "luxury-car-sales-experience",
+    number: "06",
+    category: "Automotive & UI/UX",
+    title: "Black Badge Luxury Car Sales Experience",
+    headline: "Reimagining the Digital Car Showroom",
+    summary: "Luxury automotive buyers expect more than a standard product catalogue. The goal was to create a web experience that communicates performance, exclusivity, and craftsmanship from the first interaction while still making vehicle discovery, configuration, and customer enquiries simple and intuitive.",
+    stage: "UI/UX · Motion Direction",
+    filter: "Product",
+    tags: ["Automotive", "Web Design", "UI/UX", "Luxury"],
+    hasCaseStudy: true,
+    caseStudyHref: "/projects/luxury-car-sales-experience",
+    system: "Luxury Vehicle Experience System",
+    capabilities: ["UI & UX Design Strategy", "Responsive Web Design", "Lead Generation UX"],
+    integrations: ["Vehicle Inventory / CMS", "Dealer CRM", "Contact & Enquiry Forms"],
+    outcomes: ["Premium digital brand presence", "More engaging vehicle discovery", "Clear Model Navigation"],
+    cta: "Create Your Digital Showroom",
+    href: "/contact?project=automotive-web-experience",
+    opportunityTitle: "Reimagining the Digital Car Showroom",
+    opportunityCopy: "Luxury automotive buyers expect more than a standard product catalogue. The goal was to create a web experience that communicates performance, exclusivity, and craftsmanship from the first interaction while still making vehicle discovery, configuration, and customer enquiries simple and intuitive.\n\nThe design uses high-impact vehicle photography, generous whitespace, dark editorial panels, subtle typography, and motion-led transitions to create a premium showroom experience across desktop and responsive screens.",
+    conceptStatus: "UI/UX · Motion Direction",
+    workflow: [
+      { number: "01", title: "Discover Models", copy: "Browse available vehicles and collections through an immersive model-first interface." },
+      { number: "02", title: "Explore Vehicle", copy: "View key specifications, design details, performance highlights, and media." },
+      { number: "03", title: "Configure Your Car", copy: "Personalize colours, trims, wheels, interior options, and selected packages." },
+      { number: "04", title: "Request Enquiry", copy: "Connect product interest directly with a sales or dealership enquiry." },
+      { number: "05", title: "Dealer Follow-Up", copy: "Route qualified customer enquiries to the relevant sales team for follow-up." },
+    ],
+    systemDirectionTitle: "Designed Like a Digital Showroom",
+    systemDirectionCopy: "The visual system balances minimal luxury with interactive storytelling. Large-format vehicle imagery remains the focal point while restrained typography, monochrome surfaces, motion transitions, and structured calls to action guide users through the experience without overwhelming the product.\n\nThe interface was designed around reusable automotive components, allowing the same system to support multiple models, vehicle categories, campaigns, specifications, and dealership actions.",
+    systemConsole: {
+      status: "DIGITAL SHOWROOM / ONLINE",
+      title: "Luxury Vehicle Experience System",
+      bullets: [
+        "Interactive vehicle discovery",
+        "Motion-driven model presentations",
+        "Vehicle specification modules",
+        "Model and category filtering",
+        "Custom configuration journey",
+        "Dealer enquiry integration",
+        "Responsive showroom experience",
+        "Conversion-focused CTA system",
+      ],
+      action: "Explore the Experience",
+    },
+    buildVersionTitle: "Build Your Automotive Sales Experience",
   },
 ];
 
@@ -148,30 +200,59 @@ const iconMap: Record<string, any> = {
   "smart-facility-hub": Building2,
   "retail-intelligence": Store,
   "ai-saas-platform": Rocket,
+  "luxury-car-sales-experience": Car,
+  "black-badge-luxury-car-sales": Car,
 };
 
-export async function getProjects(): Promise<Project[]> {
+export function getProjectIcon(slug?: string) {
+  if (!slug) return HelpCircle;
+  const normalized = slug.toLowerCase().trim();
+  return iconMap[normalized] || iconMap[slug] || HelpCircle;
+}
+
+export async function getProjects(includeHidden: boolean = false): Promise<Project[]> {
   try {
     const data = await supabaseSelect<any>("projects", { order: "number.asc" });
-    if (!data || data.length === 0) return staticProjects;
-    return data.map((proj: any) => ({
-      ...proj,
-      tags: proj.tags || [],
-      capabilities: proj.capabilities || [],
-      integrations: proj.integrations || [],
-      caseStudyHref: proj.case_study_href ?? proj.caseStudyHref ?? `/projects/${proj.slug}`,
-      opportunityTitle: proj.opportunity_title,
-      opportunityCopy: proj.opportunity_copy,
-      conceptStatus: proj.concept_status,
-      workflow: proj.workflow,
-      systemDirectionTitle: proj.system_direction_title,
-      systemDirectionCopy: proj.system_direction_copy,
-      systemConsole: proj.system_console,
-      buildVersionTitle: proj.build_version_title,
-      icon: iconMap[proj.slug] || HelpCircle
-    }));
+    if (!data || data.length === 0) {
+      return includeHidden ? (staticProjects as Project[]) : (staticProjects as any[]).filter((p) => p.published !== false && p.is_published !== false) as Project[];
+    }
+    
+    const dbProjects = data.map((proj: any) => {
+      const staticMatch = staticProjects.find((sp) => sp.slug.toLowerCase().trim() === proj.slug?.toLowerCase().trim());
+      const hasCS = proj.has_case_study ?? proj.hasCaseStudy ?? staticMatch?.hasCaseStudy ?? (proj.case_study_href !== null && proj.case_study_href !== "" && proj.caseStudyHref !== null && proj.caseStudyHref !== "");
+      const csHref = hasCS ? (proj.case_study_href ?? proj.caseStudyHref ?? staticMatch?.caseStudyHref ?? `/projects/${proj.slug}`) : null;
+      const isPub = proj.published ?? proj.is_published ?? true;
+      
+      const { icon: _icon, ...restProj } = proj;
+      return {
+        ...staticMatch,
+        ...restProj,
+        published: isPub,
+        is_published: isPub,
+        tags: proj.tags || staticMatch?.tags || [],
+        capabilities: proj.capabilities || staticMatch?.capabilities || [],
+        integrations: proj.integrations || staticMatch?.integrations || [],
+        outcomes: proj.outcomes || staticMatch?.outcomes || [],
+        hasCaseStudy: hasCS,
+        caseStudyHref: csHref,
+        opportunityTitle: proj.opportunity_title || proj.opportunityTitle || staticMatch?.opportunityTitle,
+        opportunityCopy: proj.opportunity_copy || proj.opportunityCopy || staticMatch?.opportunityCopy,
+        conceptStatus: proj.concept_status || proj.conceptStatus || staticMatch?.conceptStatus,
+        workflow: proj.workflow || staticMatch?.workflow,
+        systemDirectionTitle: proj.system_direction_title || proj.systemDirectionTitle || staticMatch?.systemDirectionTitle,
+        systemDirectionCopy: proj.system_direction_copy || proj.systemDirectionCopy || staticMatch?.systemDirectionCopy,
+        systemConsole: proj.system_console || proj.systemConsole || staticMatch?.systemConsole,
+        buildVersionTitle: proj.build_version_title || proj.buildVersionTitle || staticMatch?.buildVersionTitle,
+      };
+    });
+
+    if (includeHidden) return dbProjects;
+    return dbProjects.filter((p: any) => p.published !== false && p.is_published !== false);
   } catch (err: any) {
     console.error("Error fetching projects:", err?.message);
-    return staticProjects;
+    return includeHidden ? (staticProjects as Project[]) : (staticProjects as any[]).filter((p) => p.published !== false && p.is_published !== false) as Project[];
   }
 }
+
+
+

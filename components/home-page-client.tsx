@@ -6,9 +6,12 @@ import Image from "next/image";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
-import { staticProjects, getProjects, Project } from "@/lib/projects";
-import { services as staticServices, getServices, Service } from "@/lib/services";
+import { staticProjects, getProjects, getProjectIcon, Project } from "@/lib/projects";
+import { services as staticServices, getServices, getServiceIcon, Service } from "@/lib/services";
+
 import { supabaseBrowserClient } from "@/lib/supabase-client";
+
+
 
 const partnerLogos = [
   { name: "Partner 1", src: "/partners/partner-1.png" },
@@ -306,7 +309,7 @@ export function HomePageClient() {
             </div>
             <div className="service-list">
               {services.map((service) => {
-                const Icon = service.icon;
+                const Icon = getServiceIcon(service.slug);
                 return (
                   <a href={`/services/${service.slug}`} key={service.number} className="service-row reveal" aria-label={`Explore ${service.title}`}>
                     <div className="service-number">{service.number}</div>
@@ -376,13 +379,18 @@ export function HomePageClient() {
               {[0, 1].map((copyIndex) => (
                 <div className="home-project-set" aria-hidden={copyIndex === 1} key={copyIndex}>
                   {liveProjects.map((project) => {
-                    const Icon = project.icon;
+                    const Icon = getProjectIcon(project.slug);
+                    const isCaseStudyAvailable = project.hasCaseStudy === true && Boolean(project.caseStudyHref && project.caseStudyHref !== "/#contact" && project.caseStudyHref !== "/contact");
+                    const targetHref = isCaseStudyAvailable ? project.caseStudyHref! : "/#contact";
+                    const actionText = isCaseStudyAvailable ? "View case study" : (project.cta || "Discuss a similar project");
+
                     return (
                       <a
                         className="home-project-card"
-                        href={project.caseStudyHref ?? "/#contact"}
+                        href={targetHref}
                         key={`${copyIndex}-${project.slug}`}
                         tabIndex={copyIndex === 1 ? -1 : undefined}
+                        aria-label={`View project: ${project.title}`}
                       >
                         <div className="home-project-thumbnail">
                           {project.media_url ? (
@@ -412,7 +420,10 @@ export function HomePageClient() {
                         <div className="home-project-card-copy">
                           <p>{project.category}</p>
                           <h3>{project.title}</h3>
-                          <div><span>{project.caseStudyHref ? "View case study" : "View project direction"}</span><ArrowUpRight /></div>
+                          <div>
+                            <span>{actionText}</span>
+                            <ArrowUpRight />
+                          </div>
                         </div>
                       </a>
                     );

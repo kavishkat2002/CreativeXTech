@@ -82,19 +82,35 @@ const iconMap: Record<string, any> = {
   "startups-saas-products": Rocket,
 };
 
+export function getSolutionIcon(slug?: string) {
+  if (!slug) return HelpCircle;
+  const normalized = slug.toLowerCase().trim();
+  return iconMap[normalized] || iconMap[slug] || HelpCircle;
+}
+
 export async function getSolutions(): Promise<Solution[]> {
   try {
     const data = await supabaseSelect<any>("solutions", { order: "number.asc" });
-    if (!data || data.length === 0) return staticSolutions; // Fallback to static if empty DB
-    return data.map((sol: any) => ({
-      ...sol,
-      capabilities: sol.capabilities || [],
-      outcomes: sol.outcomes || [],
-      icon: iconMap[sol.slug] || HelpCircle
-    }));
+    if (!data || data.length === 0) {
+      return staticSolutions.map((sol) => {
+        const { icon: _icon, ...rest } = sol;
+        return rest as Solution;
+      });
+    }
+    return data.map((sol: any) => {
+      const { icon: _icon, ...rest } = sol;
+      return {
+        ...rest,
+        capabilities: sol.capabilities || [],
+        outcomes: sol.outcomes || [],
+      };
+    });
   } catch (err: any) {
     console.error("Error fetching solutions:", err?.message);
-    return staticSolutions;
+    return staticSolutions.map((sol) => {
+      const { icon: _icon, ...rest } = sol;
+      return rest as Solution;
+    });
   }
 }
 
@@ -103,13 +119,14 @@ export async function getSolution(slug: string): Promise<Solution | undefined> {
     const data = await supabaseSelect<any>("solutions", { slug: `eq.${slug}` });
     if (!data || data.length === 0) return undefined;
     const solData = data[0];
+    const { icon: _icon, ...rest } = solData;
     return {
-      ...solData,
+      ...rest,
       capabilities: solData.capabilities || [],
       outcomes: solData.outcomes || [],
-      icon: iconMap[solData.slug] || HelpCircle
     };
   } catch (err: any) {
     return undefined;
   }
 }
+

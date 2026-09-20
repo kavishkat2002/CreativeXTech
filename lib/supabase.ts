@@ -14,22 +14,29 @@ let _SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 let _envFetched = false;
 
 async function resolveEnv(): Promise<{ url: string; key: string }> {
+  _SUPABASE_URL = _SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  _SUPABASE_ANON_KEY = _SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+
   if ((_SUPABASE_URL && _SUPABASE_ANON_KEY) || _envFetched) {
     return { url: _SUPABASE_URL, key: _SUPABASE_ANON_KEY };
   }
-  try {
-    const res = await fetch("/_env/supabase", { cache: "no-store" });
-    if (res.ok) {
-      const json = await res.json() as { url: string; key: string };
-      if (json.url && json.key) {
-        _SUPABASE_URL = json.url;
-        _SUPABASE_ANON_KEY = json.key;
-        _envFetched = true;
+
+  if (typeof window !== "undefined") {
+    try {
+      const res = await fetch("/_env/supabase", { cache: "no-store" });
+      if (res.ok) {
+        const json = await res.json() as { url: string; key: string };
+        if (json.url && json.key) {
+          _SUPABASE_URL = json.url;
+          _SUPABASE_ANON_KEY = json.key;
+          _envFetched = true;
+        }
       }
+    } catch {
+      // ignore
     }
-  } catch {
-    // ignore — will return empty strings and caller handles it
   }
+
   return { url: _SUPABASE_URL, key: _SUPABASE_ANON_KEY };
 }
 

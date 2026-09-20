@@ -3,7 +3,8 @@ import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { getSolutions } from "@/lib/solutions";
+import { getSolutions, getSolutionIcon } from "@/lib/solutions";
+
 
 const baseUrl = "https://creativexlab.online";
 
@@ -80,7 +81,7 @@ export default async function SolutionsPage() {
 
         <section className="solution-detail-list" aria-label="Solution details">
           {solutions.map((solution) => {
-            const Icon = solution.icon;
+            const Icon = getSolutionIcon(solution.slug);
             return (
               <article className="solution-page-detail" id={solution.slug} key={solution.slug}>
                 <div className="site-width solution-page-detail-grid">

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { ProjectDetailClient } from "@/components/project-detail-client";
 import { staticProjects, getProjects } from "@/lib/projects";
 
 const baseUrl = "https://creativexlab.online";
+
+export const dynamicParams = true;
+export const revalidate = 0;
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -16,16 +18,14 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const normalized = decodeURIComponent(slug).toLowerCase().trim();
   const projects = await getProjects();
-  const project = projects.find((p) => p.slug === slug) || staticProjects.find((p) => p.slug === slug);
+  const project = projects.find((p) => p.slug?.toLowerCase().trim() === normalized) || staticProjects.find((p) => p.slug?.toLowerCase().trim() === normalized);
 
   if (!project) {
     return {
-      title: "Project Not Found | CreativeX Technology AI",
-      robots: {
-        index: false,
-        follow: false,
-      },
+      title: "Project Case Study | CreativeX Technology AI",
+      description: "Explore operational AI agents, smart facility platforms, and software engineering case studies by CreativeX.",
     };
   }
 
@@ -84,11 +84,12 @@ export default async function ProjectDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const normalized = decodeURIComponent(slug).toLowerCase().trim();
   const projects = await getProjects();
-  const project = projects.find((p) => p.slug === slug) || staticProjects.find((p) => p.slug === slug) || null;
+  const project = projects.find((p) => p.slug?.toLowerCase().trim() === normalized) || staticProjects.find((p) => p.slug?.toLowerCase().trim() === normalized) || null;
 
   if (!project) {
-    notFound();
+    return <ProjectDetailClient initialProject={null} />;
   }
 
   const projectBreadcrumbJsonLd = {

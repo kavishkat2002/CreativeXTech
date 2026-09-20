@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { getServices } from "@/lib/services";
+import { getServices, getServiceIcon } from "@/lib/services";
+
 
 const baseUrl = "https://creativexlab.online";
 
@@ -78,7 +79,7 @@ export default async function ServicesPage() {
           </div>
           <div className="services-directory-grid">
             {allServices.map((service) => {
-              const Icon = service.icon;
+              const Icon = getServiceIcon(service.slug);
               return (
                 <a href={`/services/${service.slug}`} className="service-directory-card" key={service.slug}>
                   <header><span>{service.number}</span><Icon aria-hidden="true" /></header>

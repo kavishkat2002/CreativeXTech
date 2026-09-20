@@ -44,6 +44,7 @@ export default function ProjectEditorPage() {
     systemConsole: { status: "", title: "", bullets: [] as string[], action: "" },
     buildVersionTitle: "",
     media_url: "",
+    published: true,
   });
 
   useEffect(() => {
@@ -86,6 +87,7 @@ export default function ProjectEditorPage() {
             systemConsole: data.system_console || { status: "", title: "", bullets: [], action: "" },
             buildVersionTitle: data.build_version_title || "",
             media_url: data.media_url || "",
+            published: data.published ?? data.is_published ?? true,
           });
         }
       } catch (err: any) {
@@ -151,6 +153,8 @@ export default function ProjectEditorPage() {
         system_console: formData.systemConsole,
         build_version_title: formData.buildVersionTitle,
         media_url: formData.media_url || null,
+        published: formData.published,
+        is_published: formData.published,
       };
 
       const client = await getSupabaseClient();
@@ -253,6 +257,34 @@ export default function ProjectEditorPage() {
       {/* GENERAL INFO */}
       <div style={{ background: "#fff", border: "1px solid #eaeaea", borderRadius: "12px", padding: "32px", marginBottom: "32px" }}>
         <h2 style={{ margin: "0 0 24px", fontSize: "18px", fontWeight: "600", borderBottom: "1px solid #eaeaea", paddingBottom: "12px" }}>General Information</h2>
+        
+        <div style={{ marginBottom: "20px", background: "#fafafa", padding: "16px", borderRadius: "8px", border: "1px solid #f0f0f0" }}>
+          <label style={{ display: "block", fontSize: "14px", fontWeight: "600", marginBottom: "10px" }}>Website Visibility Status</label>
+          <div style={{ display: "flex", gap: "24px" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "500" }}>
+              <input
+                type="radio"
+                name="published"
+                checked={formData.published === true}
+                onChange={() => setFormData({ ...formData, published: true })}
+              />
+              <span style={{ padding: "4px 10px", borderRadius: "999px", background: "#e6f4ea", color: "#137333", fontSize: "12px", fontWeight: "600" }}>
+                Public (Visible on website)
+              </span>
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "500" }}>
+              <input
+                type="radio"
+                name="published"
+                checked={formData.published === false}
+                onChange={() => setFormData({ ...formData, published: false })}
+              />
+              <span style={{ padding: "4px 10px", borderRadius: "999px", background: "#f1f3f4", color: "#5f6368", fontSize: "12px", fontWeight: "600" }}>
+                Hidden (Draft / Hidden from website)
+              </span>
+            </label>
+          </div>
+        </div>
         
         <div style={{ display: "grid", gridTemplateColumns: "1fr 3fr", gap: "16px", marginBottom: "20px" }}>
           <div>

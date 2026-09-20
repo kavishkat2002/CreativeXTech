@@ -1,8 +1,10 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowDown, ArrowUp, Plus, Settings } from "lucide-react";
+import { ArrowDown, ArrowUp, Plus, Settings, Eye, EyeOff } from "lucide-react";
 import { supabaseBrowserClient } from "@/lib/supabase-client";
 import type { Project } from "@/lib/projects";
 
@@ -31,6 +33,26 @@ export default function ProjectsAdminPage() {
 
     fetchProjects();
   }, []);
+
+  const handleTogglePublish = async (proj: Project) => {
+    const currentStatus = proj.published ?? proj.is_published ?? true;
+    const nextStatus = !currentStatus;
+
+    setProjects((prev) =>
+      prev.map((p) => (p.slug === proj.slug ? { ...p, published: nextStatus, is_published: nextStatus } : p))
+    );
+
+    try {
+      const { error } = await supabaseBrowserClient
+        .from("projects")
+        .update({ published: nextStatus, is_published: nextStatus })
+        .eq("slug", proj.slug);
+
+      if (error) throw error;
+    } catch (err: any) {
+      setError("Failed to update visibility: " + err.message);
+    }
+  };
 
   const handleMove = async (index: number, direction: "up" | "down") => {
     if (direction === "up" && index === 0) return;
@@ -108,58 +130,87 @@ export default function ProjectsAdminPage() {
                 <th style={{ padding: "16px", textAlign: "left", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600", width: "80px" }}>No.</th>
                 <th style={{ padding: "16px", textAlign: "left", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Title</th>
                 <th style={{ padding: "16px", textAlign: "left", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Category</th>
+                <th style={{ padding: "16px", textAlign: "left", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Status</th>
                 <th style={{ padding: "16px", textAlign: "right", fontSize: "12px", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Actions</th>
               </tr>
             </thead>
             <tbody style={{ opacity: isMoving ? 0.6 : 1, transition: "opacity 0.2s" }}>
-              {projects.map((proj, index) => (
-                <tr key={proj.id || proj.slug} style={{ borderBottom: "1px solid #eaeaea" }}>
-                  <td style={{ padding: "16px", color: "#666", fontSize: "14px" }}>{proj.number}</td>
-                  <td style={{ padding: "16px", fontWeight: "500" }}>{proj.title}</td>
-                  <td style={{ padding: "16px", color: "#666", fontSize: "14px" }}>
-                    <span style={{ background: "#f0f0f0", padding: "4px 8px", borderRadius: "4px", fontSize: "12px" }}>
-                      {proj.category}
-                    </span>
-                  </td>
-                  <td style={{ padding: "16px", textAlign: "right", display: "flex", justifyContent: "flex-end", gap: "8px" }}>
-                    <div style={{ display: "flex", gap: "4px", marginRight: "8px" }}>
-                      <button 
-                        onClick={() => handleMove(index, "up")}
-                        disabled={index === 0 || isMoving}
-                        style={{ padding: "6px", background: "transparent", border: "1px solid #ddd", borderRadius: "4px", cursor: index === 0 || isMoving ? "not-allowed" : "pointer", opacity: index === 0 ? 0.3 : 1 }}
-                        title="Move Up"
+              {projects.map((proj, index) => {
+                const isPublic = proj.published ?? proj.is_published ?? true;
+                return (
+                  <tr key={proj.id || proj.slug} style={{ borderBottom: "1px solid #eaeaea" }}>
+                    <td style={{ padding: "16px", color: "#666", fontSize: "14px" }}>{proj.number}</td>
+                    <td style={{ padding: "16px", fontWeight: "500" }}>{proj.title}</td>
+                    <td style={{ padding: "16px", color: "#666", fontSize: "14px" }}>
+                      <span style={{ background: "#f0f0f0", padding: "4px 8px", borderRadius: "4px", fontSize: "12px" }}>
+                        {proj.category}
+                      </span>
+                    </td>
+                    <td style={{ padding: "16px" }}>
+                      <button
+                        type="button"
+                        onClick={() => handleTogglePublish(proj)}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          padding: "6px 12px",
+                          borderRadius: "999px",
+                          fontSize: "12px",
+                          fontWeight: "600",
+                          cursor: "pointer",
+                          border: "1px solid",
+                          borderColor: isPublic ? "#b7e1cd" : "#dadce0",
+                          background: isPublic ? "#e6f4ea" : "#f1f3f4",
+                          color: isPublic ? "#137333" : "#5f6368",
+                          transition: "all 0.2s ease"
+                        }}
+                        title={isPublic ? "Click to Hide project from website" : "Click to Publish project on website"}
                       >
-                        <ArrowUp size={14} />
+                        {isPublic ? <Eye size={14} /> : <EyeOff size={14} />}
+                        {isPublic ? "Public" : "Hidden"}
                       </button>
-                      <button 
-                        onClick={() => handleMove(index, "down")}
-                        disabled={index === projects.length - 1 || isMoving}
-                        style={{ padding: "6px", background: "transparent", border: "1px solid #ddd", borderRadius: "4px", cursor: index === projects.length - 1 || isMoving ? "not-allowed" : "pointer", opacity: index === projects.length - 1 ? 0.3 : 1 }}
-                        title="Move Down"
+                    </td>
+                    <td style={{ padding: "16px", textAlign: "right", display: "flex", justifyContent: "flex-end", gap: "8px" }}>
+                      <div style={{ display: "flex", gap: "4px", marginRight: "8px" }}>
+                        <button 
+                          onClick={() => handleMove(index, "up")}
+                          disabled={index === 0 || isMoving}
+                          style={{ padding: "6px", background: "transparent", border: "1px solid #ddd", borderRadius: "4px", cursor: index === 0 || isMoving ? "not-allowed" : "pointer", opacity: index === 0 ? 0.3 : 1 }}
+                          title="Move Up"
+                        >
+                          <ArrowUp size={14} />
+                        </button>
+                        <button 
+                          onClick={() => handleMove(index, "down")}
+                          disabled={index === projects.length - 1 || isMoving}
+                          style={{ padding: "6px", background: "transparent", border: "1px solid #ddd", borderRadius: "4px", cursor: index === projects.length - 1 || isMoving ? "not-allowed" : "pointer", opacity: index === projects.length - 1 ? 0.3 : 1 }}
+                          title="Move Down"
+                        >
+                          <ArrowDown size={14} />
+                        </button>
+                      </div>
+                      <Link 
+                        href={`/admin/projects/${proj.slug}`}
+                        style={{ 
+                          display: "inline-flex", 
+                          alignItems: "center", 
+                          gap: "6px", 
+                          padding: "6px 12px", 
+                          background: "#f4f4f5", 
+                          color: "#18181b", 
+                          borderRadius: "6px",
+                          fontSize: "13px",
+                          fontWeight: "500",
+                          textDecoration: "none"
+                        }}
                       >
-                        <ArrowDown size={14} />
-                      </button>
-                    </div>
-                    <Link 
-                      href={`/admin/projects/${proj.slug}`}
-                      style={{ 
-                        display: "inline-flex", 
-                        alignItems: "center", 
-                        gap: "6px", 
-                        padding: "6px 12px", 
-                        background: "#f4f4f5", 
-                        color: "#18181b", 
-                        borderRadius: "6px",
-                        fontSize: "13px",
-                        fontWeight: "500",
-                        textDecoration: "none"
-                      }}
-                    >
-                      <Settings size={14} /> Edit
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+                        <Settings size={14} /> Edit
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

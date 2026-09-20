@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowUpRight, LockKeyhole } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
-import { staticProjects, getProjects, Project } from "@/lib/projects";
+import { staticProjects, getProjects, getProjectIcon, Project } from "@/lib/projects";
 
 const filters = ["All", "AI agents", "Operations", "IoT", "Product"] as const;
 
@@ -33,42 +33,60 @@ export function ProjectGallery() {
 
         <div className="project-card-grid" aria-live="polite">
           {visibleProjects.map((project, index) => {
-            const Icon = project.icon;
-            const cardContent = <>
-              <div className="project-card-visual" aria-hidden="true">
-                {project.media_url ? (
-                  /\.(mp4|webm)/i.test(project.media_url) ? (
-                    <video
-                      src={project.media_url}
-                      autoPlay muted loop playsInline
-                      className="project-card-cover-video"
-                    />
-                  ) : (
-                    <img
-                      src={project.media_url}
-                      alt=""
-                      className="project-card-cover-img"
-                    />
-                  )
-                ) : (
-                  <>
-                    <span className="project-card-number">{project.number}</span>
-                    <Icon />
-                    <span className="project-card-orbit" />
-                    <span className="project-card-signal">CX / SYSTEM</span>
-                  </>
-                )}
-              </div>
-              <div className="project-card-body">
-                <div className="project-card-status"><span>{project.category}</span>{project.caseStudyHref ? <strong><i /> Case study available</strong> : <strong className="pending"><LockKeyhole /> Concept overview</strong>}</div>
-                <h3>{project.title}</h3><p>{project.summary}</p>
-                <div className="project-card-tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-                <div className="project-card-action"><span>{project.caseStudyHref ? "View case study" : "Discuss a similar project"}</span><ArrowUpRight /></div>
-              </div>
-            </>;
+            const Icon = getProjectIcon(project.slug);
+            const isCaseStudyAvailable = project.hasCaseStudy === true && Boolean(project.caseStudyHref && project.caseStudyHref !== "/contact" && project.caseStudyHref !== "/#contact");
+            const targetHref = isCaseStudyAvailable ? project.caseStudyHref! : "/contact";
+            const actionText = isCaseStudyAvailable ? "View case study" : (project.cta || "Discuss a similar project");
 
-            const targetHref = project.caseStudyHref || `/projects/${project.slug}`;
-            return <a className={`project-card ${index === 0 && activeFilter === "All" ? "project-card-featured" : ""}`} href={targetHref} key={project.slug} aria-label={`View project case study: ${project.title}`}>{cardContent}</a>;
+            return (
+              <a
+                className={`project-card ${index === 0 && activeFilter === "All" ? "project-card-featured" : ""}`}
+                href={targetHref}
+                key={project.slug}
+                aria-label={`View project: ${project.title}`}
+              >
+                <div className="project-card-visual" aria-hidden="true">
+                  {project.media_url ? (
+                    /\.(mp4|webm)/i.test(project.media_url) ? (
+                      <video
+                        src={project.media_url}
+                        autoPlay muted loop playsInline
+                        className="project-card-cover-video"
+                      />
+                    ) : (
+                      <img
+                        src={project.media_url}
+                        alt=""
+                        className="project-card-cover-img"
+                      />
+                    )
+                  ) : (
+                    <>
+                      <span className="project-card-number">{project.number}</span>
+                      <Icon />
+                      <span className="project-card-orbit" />
+                      <span className="project-card-signal">CX / SYSTEM</span>
+                    </>
+                  )}
+                </div>
+                <div className="project-card-body">
+                  <div className="project-card-status">
+                    <span>{project.category}</span>
+                  </div>
+                  <h3>{project.title}</h3>
+                  <p>{project.summary}</p>
+                  <div className="project-card-tags">
+                    {(project.tags || []).map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                  <div className="project-card-action">
+                    <span>{actionText}</span>
+                    <ArrowUpRight />
+                  </div>
+                </div>
+              </a>
+            );
           })}
         </div>
       </div>

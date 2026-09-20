@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { getService, getServices } from "@/lib/services";
+import { getService, getServices, getServiceIcon } from "@/lib/services";
+
 
 const baseUrl = "https://creativexlab.online";
 
@@ -45,7 +46,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   // Fetch all services dynamically for "Next service" link instead of using static array
   const allServices = await getServices();
   
-  const ServiceIcon = service.icon;
+  const ServiceIcon = getServiceIcon(service.slug);
   const serviceIndex = allServices.findIndex((item) => item.slug === service.slug);
   const nextService = allServices[(serviceIndex + 1) % allServices.length];
   
