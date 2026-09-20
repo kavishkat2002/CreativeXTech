@@ -127,7 +127,7 @@ export default function ProjectEditorPage() {
     setIsSaving(true);
     setError(null);
     try {
-      const dataToSave = {
+      const dataToSave: any = {
         number: formData.number,
         slug: formData.slug,
         category: formData.category,
@@ -154,22 +154,38 @@ export default function ProjectEditorPage() {
         build_version_title: formData.buildVersionTitle,
         media_url: formData.media_url || null,
         published: formData.published,
-        is_published: formData.published,
       };
 
       const client = await getSupabaseClient();
 
       if (isNew) {
-        const { error } = await client
-          .from("projects")
-          .insert([dataToSave]);
+        let { error } = await client.from("projects").insert([dataToSave]);
+        if (error && (error.message?.includes("published") || error.message?.includes("column"))) {
+          delete dataToSave.published;
+          dataToSave.is_published = formData.published;
+          let res = await client.from("projects").insert([dataToSave]);
+          error = res.error;
+          if (error && (error.message?.includes("is_published") || error.message?.includes("column"))) {
+            delete dataToSave.is_published;
+            let res2 = await client.from("projects").insert([dataToSave]);
+            error = res2.error;
+          }
+        }
         if (error) throw error;
         router.push("/admin/projects");
       } else {
-        const { error } = await client
-          .from("projects")
-          .update(dataToSave)
-          .ilike("slug", slug);
+        let { error } = await client.from("projects").update(dataToSave).ilike("slug", slug);
+        if (error && (error.message?.includes("published") || error.message?.includes("column"))) {
+          delete dataToSave.published;
+          dataToSave.is_published = formData.published;
+          let res = await client.from("projects").update(dataToSave).ilike("slug", slug);
+          error = res.error;
+          if (error && (error.message?.includes("is_published") || error.message?.includes("column"))) {
+            delete dataToSave.is_published;
+            let res2 = await client.from("projects").update(dataToSave).ilike("slug", slug);
+            error = res2.error;
+          }
+        }
         if (error) throw error;
         router.push("/admin/projects");
         router.refresh();

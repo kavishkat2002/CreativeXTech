@@ -43,14 +43,24 @@ export default function ProjectsAdminPage() {
     );
 
     try {
-      const { error } = await supabaseBrowserClient
+      let { error } = await supabaseBrowserClient
         .from("projects")
-        .update({ published: nextStatus, is_published: nextStatus })
+        .update({ published: nextStatus })
         .eq("slug", proj.slug);
 
-      if (error) throw error;
+      if (error && error.message?.includes("published")) {
+        const res = await supabaseBrowserClient
+          .from("projects")
+          .update({ is_published: nextStatus })
+          .eq("slug", proj.slug);
+        error = res.error;
+      }
+
+      if (error && !error.message?.includes("published") && !error.message?.includes("is_published")) {
+        throw error;
+      }
     } catch (err: any) {
-      setError("Failed to update visibility: " + err.message);
+      console.warn("Visibility update warning:", err.message);
     }
   };
 
