@@ -17,11 +17,7 @@ const siteFallbackDate = new Date("2026-09-12T00:00:00.000Z");
  * 4. Exclude noindex, redirect, draft, and administrative paths.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const articles = await getArticles();
-  const projects = await getProjects();
-  const services = await getServices();
-
-  // 1. High-value core canonical routes
+  // Core canonical routes
   const corePaths = [
     "",
     "/services",
@@ -37,40 +33,46 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: siteFallbackDate,
   }));
 
-  // 2. Service detail canonical routes
-  const serviceEntries: MetadataRoute.Sitemap = services
-    .filter((service) => service && service.slug)
-    .map((service) => ({
-      url: `${baseUrl}/services/${service.slug}`,
-      lastModified: siteFallbackDate,
-    }));
+  try {
+    const articles = await getArticles();
+    const projects = await getProjects();
+    const services = await getServices();
 
-  // 3. Project case study canonical routes
-  const projectEntries: MetadataRoute.Sitemap = projects
-    .filter((project) => project && project.slug)
-    .map((project) => ({
-      url: `${baseUrl}/projects/${project.slug}`,
-      lastModified: siteFallbackDate,
-    }));
+    const serviceEntries: MetadataRoute.Sitemap = (services || [])
+      .filter((service) => service && service.slug)
+      .map((service) => ({
+        url: `${baseUrl}/services/${service.slug}`,
+        lastModified: siteFallbackDate,
+      }));
 
-  // 4. Published article canonical routes with precise dynamic lastModified dates
-  const articleEntries: MetadataRoute.Sitemap = articles
-    .filter((article) => article && article.slug)
-    .map((article) => {
-      const dateStr = article.updatedDate || article.publishedDate;
-      const parsedDate = dateStr ? new Date(dateStr) : siteFallbackDate;
-      const validDate = isNaN(parsedDate.getTime()) ? siteFallbackDate : parsedDate;
-      return {
-        url: `${baseUrl}/blog/${article.slug}`,
-        lastModified: validDate,
-      };
-    });
+    const projectEntries: MetadataRoute.Sitemap = (projects || [])
+      .filter((project) => project && project.slug)
+      .map((project) => ({
+        url: `${baseUrl}/projects/${project.slug}`,
+        lastModified: siteFallbackDate,
+      }));
 
-  // Combine VIP invitation list for search engines and GEO bots
-  return [
-    ...coreEntries,
-    ...serviceEntries,
-    ...projectEntries,
-    ...articleEntries,
-  ];
+    const articleEntries: MetadataRoute.Sitemap = (articles || [])
+      .filter((article) => article && article.slug)
+      .map((article) => {
+        const dateStr = article.updatedDate || article.publishedDate;
+        const parsedDate = dateStr ? new Date(dateStr) : siteFallbackDate;
+        const validDate = isNaN(parsedDate.getTime()) ? siteFallbackDate : parsedDate;
+        return {
+          url: `${baseUrl}/blog/${article.slug}`,
+          lastModified: validDate,
+        };
+      });
+
+    return [
+      ...coreEntries,
+      ...serviceEntries,
+      ...projectEntries,
+      ...articleEntries,
+    ];
+  } catch (error) {
+    console.error("Error generating dynamic sitemap entries:", error);
+    return coreEntries;
+  }
 }
+
