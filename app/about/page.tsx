@@ -8,15 +8,42 @@ const baseUrl = "https://creativexlab.online";
 export const metadata: Metadata = {
   title: "About CreativeX Technology AI | Global AI & Software Engineering Consultancy",
   description: "Learn about CreativeX Technology AI—an elite AI and software engineering consultancy building autonomous AI agents, predictive data analytics, smart IoT operations, and cloud platforms for global businesses.",
+  keywords: [
+    "About CreativeX Technology AI",
+    "AI Consultancy Global",
+    "Software Engineering Team",
+    "Autonomous AI Agents Expertise",
+    "Enterprise AI Solutions Company",
+  ],
   alternates: {
     canonical: `${baseUrl}/about`,
     languages: { "en-US": `${baseUrl}/about`, "x-default": `${baseUrl}/about` },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   openGraph: {
     title: "About CreativeX Technology AI",
     description: "Enterprise AI and software engineering grounded in real operations, responsible AI delivery, and measurable business outcomes.",
     url: `${baseUrl}/about`,
     type: "website",
+    siteName: "CreativeX Technology AI",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "About CreativeX" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About CreativeX Technology AI",
+    description: "Enterprise AI and software engineering grounded in real operations, responsible AI delivery, and measurable business outcomes.",
+    images: [`${baseUrl}/og.png`],
   },
 };
 

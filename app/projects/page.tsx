@@ -11,6 +11,14 @@ const baseUrl = "https://creativexlab.online";
 export const metadata: Metadata = {
   title: "AI Agents & Software Engineering Projects | CreativeX Technology AI",
   description: "Discover CreativeX Technology AI projects—from enterprise AI business agents and export logistics control towers to smart facility hubs and AI-native SaaS platforms.",
+  keywords: [
+    "AI Case Studies",
+    "Autonomous AI Agent Portfolio",
+    "Logistics Control Tower",
+    "Smart Facility IoT",
+    "AI SaaS Platform",
+    "CreativeX Projects",
+  ],
   alternates: {
     canonical: `${baseUrl}/projects`,
     languages: { "en-US": `${baseUrl}/projects`, "x-default": `${baseUrl}/projects` },

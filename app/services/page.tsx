@@ -10,6 +10,16 @@ const baseUrl = "https://creativexlab.online";
 export const metadata: Metadata = {
   title: "AI & Software Engineering Services | CreativeX Technology AI",
   description: "Explore CreativeX services across AI automation, predictive analytics, IoT, web and mobile product engineering, cloud solutions, and AI business consultation.",
+  keywords: [
+    "AI Engineering Services",
+    "Autonomous AI Agents Development",
+    "Predictive Analytics Solutions",
+    "Smart IoT Asset Management",
+    "Custom Web Product Engineering",
+    "Mobile Software Development",
+    "Cloud Architecture & Serverless",
+    "Enterprise AI Consultation",
+  ],
   alternates: {
     canonical: `${baseUrl}/services`,
     languages: {
@@ -17,11 +27,31 @@ export const metadata: Metadata = {
       "x-default": `${baseUrl}/services`,
     },
   },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     title: "CreativeX AI & Software Engineering Services",
     description: "Strategy, intelligent systems, and production engineering designed around real business operations.",
     url: `${baseUrl}/services`,
     type: "website",
+    siteName: "CreativeX Technology AI",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "CreativeX Services" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CreativeX AI & Software Engineering Services",
+    description: "Strategy, intelligent systems, and production engineering designed around real business operations.",
+    images: [`${baseUrl}/og.png`],
   },
 };
 
