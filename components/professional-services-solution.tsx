@@ -219,14 +219,14 @@ export function ProfessionalServicesSolutionSection({
                   </radialGradient>
                 </defs>
 
-                {/* Base Card Background with Crisp 1px Border */}
-                <rect width="340" height="220" fill="#f8fafc" rx="12" stroke="rgba(11, 12, 11, 0.08)" strokeWidth="1" />
+                {/* Base Card Background Matching Section Background */}
+                <rect width="340" height="220" fill="var(--paper-bright)" rx="12" stroke="rgba(11, 12, 11, 0.12)" strokeWidth="1" />
                 <rect width="340" height="220" fill="url(#servicesCoordGrid)" rx="12" />
 
                 {/* Top Status HUD Header Bar */}
                 <g transform="translate(16, 14)">
                   {/* Left: Governed Access Status */}
-                  <rect x="0" y="0" width="146" height="24" rx="12" fill="#ffffff" stroke="rgba(11, 12, 11, 0.08)" strokeWidth="1" />
+                  <rect x="0" y="0" width="146" height="24" rx="12" fill="var(--paper-bright)" stroke="rgba(11, 12, 11, 0.12)" strokeWidth="1" />
                   <circle cx="12" cy="12" r="3.5" fill="#3b82f6" />
                   <circle cx="12" cy="12" r="6" fill="#3b82f6" fillOpacity="0.25" />
                   <text x="24" y="15" fill="#475569" fontSize="7.5" fontWeight="700" fontFamily="var(--font-sans)" letterSpacing="0.04em">
@@ -237,7 +237,7 @@ export function ProfessionalServicesSolutionSection({
                   </text>
 
                   {/* Right: Synthesis Mode */}
-                  <rect x="206" y="0" width="102" height="24" rx="12" fill="#ffffff" stroke="rgba(11, 12, 11, 0.08)" strokeWidth="1" />
+                  <rect x="206" y="0" width="102" height="24" rx="12" fill="var(--paper-bright)" stroke="rgba(11, 12, 11, 0.12)" strokeWidth="1" />
                   <text x="257" y="15" textAnchor="middle" fill="#ff5a36" fontSize="7.5" fontWeight="750" fontFamily="var(--font-sans)" letterSpacing="0.04em">
                     GOVERNED PIPELINE
                   </text>
@@ -282,7 +282,7 @@ export function ProfessionalServicesSolutionSection({
                 {/* Node 1: Firm Knowledge Vault (Precedents & Documents) - Southwest, x=50 */}
                 <g transform="translate(50, 142)">
                   <circle cx="0" cy="0" r="14" fill="url(#corpusBlueGlow)" />
-                  <circle cx="0" cy="0" r="8" fill="#ffffff" stroke="#3b82f6" strokeWidth="2" />
+                  <circle cx="0" cy="0" r="8" fill="var(--paper-bright)" stroke="#3b82f6" strokeWidth="2" />
                   <circle cx="0" cy="0" r="3.5" fill="#3b82f6" />
 
                   <text x="0" y="24" textAnchor="middle" fill="#0f172a" fontSize="8.5" fontWeight="750" fontFamily="var(--font-sans)">
@@ -319,7 +319,7 @@ export function ProfessionalServicesSolutionSection({
                 {/* Node 3: Client Delivery Workspace - Southeast, x=290 */}
                 <g transform="translate(290, 142)">
                   <circle cx="0" cy="0" r="14" fill="url(#deliveryEmeraldGlow)" />
-                  <circle cx="0" cy="0" r="8" fill="#ffffff" stroke="#10b981" strokeWidth="2" />
+                  <circle cx="0" cy="0" r="8" fill="var(--paper-bright)" stroke="#10b981" strokeWidth="2" />
                   <circle cx="0" cy="0" r="3.5" fill="#10b981" />
 
                   <text x="0" y="24" textAnchor="middle" fill="#0f172a" fontSize="8.5" fontWeight="750" fontFamily="var(--font-sans)">

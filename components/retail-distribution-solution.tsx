@@ -230,8 +230,8 @@ export function RetailDistributionSolutionSection({
                   </radialGradient>
                 </defs>
 
-                {/* Base Card Background with Subtle Border */}
-                <rect width="340" height="220" fill="#11141a" rx="12" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="1" />
+                {/* Base Card Background Matching Section Background */}
+                <rect width="340" height="220" fill="#0b0d11" rx="12" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="1" />
                 <rect width="340" height="220" fill="url(#retailCoordGrid)" rx="12" />
 
                 {/* Top Status HUD Header Bar */}

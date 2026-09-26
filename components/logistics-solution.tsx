@@ -210,7 +210,7 @@ export function LogisticsSolutionSection({
                 <defs>
                   {/* Ambient coordinate radar grid */}
                   <pattern id="logisticsCoordGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(15, 23, 42, 0.04)" strokeWidth="0.8" />
+                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(11, 12, 11, 0.05)" strokeWidth="0.8" />
                   </pattern>
                   {/* Port beacon radar glow */}
                   <radialGradient id="portBeaconPulse" cx="50%" cy="50%" r="50%">
@@ -226,14 +226,14 @@ export function LogisticsSolutionSection({
                   </radialGradient>
                 </defs>
 
-                {/* Base Card Background with Subtle Border */}
-                <rect width="340" height="220" fill="#f8fafc" rx="12" stroke="rgba(15, 23, 42, 0.08)" strokeWidth="1" />
+                {/* Base Card Background Matching Section Background */}
+                <rect width="340" height="220" fill="var(--paper-bright)" rx="12" stroke="rgba(11, 12, 11, 0.12)" strokeWidth="1" />
                 <rect width="340" height="220" fill="url(#logisticsCoordGrid)" rx="12" />
 
                 {/* Top Status HUD Header Bar */}
                 <g transform="translate(16, 14)">
                   {/* Left: Container Feed Badge */}
-                  <rect x="0" y="0" width="138" height="24" rx="12" fill="#ffffff" stroke="rgba(15, 23, 42, 0.08)" strokeWidth="1" />
+                  <rect x="0" y="0" width="138" height="24" rx="12" fill="var(--paper-bright)" stroke="rgba(11, 12, 11, 0.12)" strokeWidth="1" />
                   <circle cx="12" cy="12" r="3.5" fill="#10b981" />
                   <circle cx="12" cy="12" r="6" fill="#10b981" fillOpacity="0.25" />
                   <text x="24" y="15" fill="#475569" fontSize="7.5" fontWeight="700" fontFamily="var(--font-sans)" letterSpacing="0.04em">
@@ -244,7 +244,7 @@ export function LogisticsSolutionSection({
                   </text>
 
                   {/* Right: Route Telemetry Pill */}
-                  <rect x="208" y="0" width="100" height="24" rx="12" fill="#ffffff" stroke="rgba(15, 23, 42, 0.08)" strokeWidth="1" />
+                  <rect x="208" y="0" width="100" height="24" rx="12" fill="var(--paper-bright)" stroke="rgba(11, 12, 11, 0.12)" strokeWidth="1" />
                   <text x="258" y="15" textAnchor="middle" fill="#0f172a" fontSize="7.5" fontWeight="750" fontFamily="var(--font-sans)" letterSpacing="0.04em">
                     ROUTE: CMB → RTM
                   </text>
@@ -289,7 +289,7 @@ export function LogisticsSolutionSection({
                 {/* Node 1: Origin Terminal (Southwest, centered at x=50) */}
                 <g transform="translate(50, 142)">
                   <circle cx="0" cy="0" r="14" fill="rgba(15, 23, 42, 0.06)" />
-                  <circle cx="0" cy="0" r="8" fill="#ffffff" stroke="#0f172a" strokeWidth="2" />
+                  <circle cx="0" cy="0" r="8" fill="var(--paper-bright)" stroke="#0f172a" strokeWidth="2" />
                   <circle cx="0" cy="0" r="3.5" fill="#0f172a" />
 
                   <text x="0" y="24" textAnchor="middle" fill="#0f172a" fontSize="8.5" fontWeight="750" fontFamily="var(--font-sans)">
@@ -326,7 +326,7 @@ export function LogisticsSolutionSection({
                 {/* Node 3: Global Destination Terminal (Southeast, centered at x=290) */}
                 <g transform="translate(290, 142)">
                   <circle cx="0" cy="0" r="14" fill="url(#destBeaconPulse)" />
-                  <circle cx="0" cy="0" r="8" fill="#ffffff" stroke="#10b981" strokeWidth="2" />
+                  <circle cx="0" cy="0" r="8" fill="var(--paper-bright)" stroke="#10b981" strokeWidth="2" />
                   <circle cx="0" cy="0" r="3.5" fill="#10b981" />
 
                   <text x="0" y="24" textAnchor="middle" fill="#0f172a" fontSize="8.5" fontWeight="750" fontFamily="var(--font-sans)">

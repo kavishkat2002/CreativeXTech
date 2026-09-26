@@ -1833,7 +1833,7 @@ summary:focus-visible {
 .solution-jump-inner a:hover > span { color: rgba(11,12,11,.52); }
 .solution-detail-list { background: var(--paper-bright); }
 .solution-page-detail { scroll-margin-top: 168px; border-bottom: 1px solid rgba(11,12,11,.24); }
-.solution-page-detail:not(.hospitality-enhanced-solution):not(.retail-enhanced-solution):nth-child(even) { background: var(--paper); }
+.solution-page-detail:not(.hospitality-enhanced-solution):not(.retail-enhanced-solution):not(.logistics-enhanced-solution):not(.services-enhanced-solution):not(.saas-enhanced-solution):nth-child(even) { background: var(--paper); }
 .solution-page-detail-grid { display: grid; min-height: 780px; grid-template-columns: .32fr 1.68fr; gap: 52px; padding-block: 108px; }
 .solution-page-meta { display: flex; flex-direction: column; align-items: flex-start; }
 .solution-page-meta > span { font: 700 9px/1 var(--font-mono); letter-spacing: .11em; color: var(--signal); }
