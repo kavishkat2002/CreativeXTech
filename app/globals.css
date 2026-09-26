@@ -1833,7 +1833,7 @@ summary:focus-visible {
 .solution-jump-inner a:hover > span { color: rgba(11,12,11,.52); }
 .solution-detail-list { background: var(--paper-bright); }
 .solution-page-detail { scroll-margin-top: 168px; border-bottom: 1px solid rgba(11,12,11,.24); }
-.solution-page-detail:nth-child(even) { background: var(--paper); }
+.solution-page-detail:not(.hospitality-enhanced-solution):nth-child(even) { background: var(--paper); }
 .solution-page-detail-grid { display: grid; min-height: 780px; grid-template-columns: .32fr 1.68fr; gap: 52px; padding-block: 108px; }
 .solution-page-meta { display: flex; flex-direction: column; align-items: flex-start; }
 .solution-page-meta > span { font: 700 9px/1 var(--font-mono); letter-spacing: .11em; color: var(--signal); }
@@ -4431,4 +4431,817 @@ body.cx-is-loading { overflow: hidden; }
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   HOSPITALITY & SMART FACILITIES ENHANCED SOLUTION SECTION (Screenshot Match)
+   ========================================================================== */
+
+.solution-page-detail.hospitality-enhanced-solution,
+#hospitality-smart-facilities,
+#hospitality-smart-facilities.hospitality-enhanced-solution,
+article#hospitality-smart-facilities {
+  scroll-margin-top: 140px;
+  padding-block: 108px 124px;
+  background-color: #0e0f13 !important;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 90, 54, 0.1), transparent 70%) !important;
+  background-size: 40px 40px, 40px 40px, 100% 100% !important;
+  color: #ffffff !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  position: relative;
+}
+
+.hospitality-enhanced-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Two-Column Grid */
+.hospitality-top-grid {
+  display: grid;
+  grid-template-columns: 0.98fr 1.25fr;
+  gap: 56px;
+  align-items: center;
+}
+
+/* Left Column: Typography & Action */
+.hospitality-copy-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.hospitality-kicker-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.hospitality-index-badge {
+  font: 800 13px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.hospitality-index-accent {
+  color: var(--signal);
+  border-bottom: 2px solid var(--signal);
+  padding-bottom: 2px;
+}
+
+.hospitality-index-sep,
+.hospitality-index-total {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 750;
+}
+
+.hospitality-kicker-label {
+  margin: 6px 0 0;
+  font: 750 11px/1.2 var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.hospitality-enhanced-solution .hospitality-main-title {
+  margin: 18px 0 0;
+  font-size: clamp(3.2rem, 5vw, 4.8rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.048em;
+  color: #ffffff !important;
+}
+
+.hospitality-enhanced-solution .hospitality-sub-headline {
+  margin: 24px 0 0;
+  font-size: clamp(18px, 1.8vw, 21px);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: #ffffff !important;
+}
+
+.hospitality-enhanced-solution .hospitality-lead-desc {
+  max-width: 500px;
+  margin: 16px 0 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+/* Right Column: Architectural Photography with Floating Glassmorphic HUD Telemetry */
+.hospitality-media-col {
+  width: 100%;
+}
+
+.hospitality-hero-card {
+  position: relative;
+  width: 100%;
+  height: 390px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.14);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hospitality-hero-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 32px 70px -14px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 90, 54, 0.35);
+}
+
+.hospitality-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hospitality-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(14, 15, 19, 0.5) 0%, rgba(14, 15, 19, 0.05) 50%, rgba(14, 15, 19, 0.25) 100%);
+  pointer-events: none;
+}
+
+/* Glassmorphic Telemetry HUD Badges */
+.hospitality-hud-badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(18, 20, 26, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  padding: 12px 18px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+  z-index: 2;
+}
+
+.hospitality-hud-badge:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 90, 54, 0.45);
+}
+
+.badge-occupancy {
+  top: 32px;
+  left: 36px;
+}
+
+.badge-energy {
+  top: 136px;
+  left: 110px;
+}
+
+.badge-maintenance {
+  bottom: 32px;
+  right: 104px;
+}
+
+.hud-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-occupancy {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.icon-energy {
+  background: rgba(16, 185, 129, 0.16);
+  color: #10b981;
+}
+
+.icon-maintenance {
+  background: rgba(255, 90, 54, 0.18);
+  color: var(--signal);
+}
+
+.hud-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hud-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.68);
+  letter-spacing: 0.01em;
+}
+
+.hud-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.hud-val-green {
+  color: #10b981;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.hud-arrow-down {
+  font-weight: 900;
+}
+
+/* Corner Circular Action Button */
+.hospitality-corner-cta {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff5a36 0%, #ff411a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(255, 90, 54, 0.55);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none !important;
+  z-index: 3;
+}
+
+.hospitality-corner-cta:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 28px rgba(255, 90, 54, 0.7);
+}
+
+.corner-arrow-svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.4;
+  transition: transform 0.2s ease;
+}
+
+.hospitality-corner-cta:hover .corner-arrow-svg {
+  transform: translateX(3px);
+}
+
+/* Bottom 3-Column Section with Vertical Divider Lines */
+.hospitality-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.05fr;
+  gap: 48px;
+  margin-top: 80px;
+  padding-top: 52px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.hospitality-bottom-col:not(:last-child) {
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  padding-right: 42px;
+}
+
+.hospitality-col-heading {
+  margin: 0 0 28px;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: #ffffff !important;
+}
+
+.hospitality-feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hospitality-feature-entry {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hospitality-icon-container {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.hospitality-feature-entry:hover .hospitality-icon-container {
+  border-color: var(--signal);
+  color: var(--signal);
+  background: rgba(255, 90, 54, 0.12);
+  transform: scale(1.05);
+}
+
+.hospitality-feature-text {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* Column 3: Typical System Shape & Command Center Telemetry */
+.hospitality-system-subhead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.hospitality-system-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--signal);
+}
+
+.hospitality-system-title {
+  font-size: 15px;
+  font-weight: 650;
+  color: #ffffff !important;
+  letter-spacing: -0.01em;
+}
+
+.hospitality-twin-wrapper {
+  margin-top: 12px;
+}
+
+.hospitality-twin-svg {
+  width: 100%;
+  height: auto;
+  max-width: 320px;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.45));
+}
+
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+  .hospitality-top-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .hospitality-bottom-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .hospitality-bottom-col:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding-right: 0;
+    padding-bottom: 34px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hospitality-hero-card {
+    height: 320px;
+  }
+
+  .badge-occupancy {
+    top: 16px;
+    left: 16px;
+    padding: 8px 12px;
+  }
+
+  .badge-energy {
+    top: 90px;
+    left: 16px;
+    padding: 8px 12px;
+  }
+
+  .badge-maintenance {
+    bottom: 16px;
+    left: 16px;
+    right: auto;
+    padding: 8px 12px;
+  }
+
+  .hospitality-corner-cta {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ==========================================================================
+   EXPORT & LOGISTICS ENHANCED SOLUTION SECTION (User Mockup Match)
+   ========================================================================== */
+
+.logistics-enhanced-solution {
+  scroll-margin-top: 140px;
+  padding-block: 108px 124px;
+  background: var(--paper-bright);
+  color: #0b0c0b;
+  border-bottom: 1px solid rgba(11, 12, 11, 0.22);
+  position: relative;
+}
+
+.logistics-enhanced-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Two-Column Grid */
+.logistics-top-grid {
+  display: grid;
+  grid-template-columns: 0.98fr 1.25fr;
+  gap: 56px;
+  align-items: center;
+}
+
+/* Left Column: Typography & Kicker */
+.logistics-copy-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.logistics-kicker-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.logistics-index-badge {
+  font: 800 13px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.logistics-index-accent {
+  color: var(--signal);
+  border-bottom: 2px solid var(--signal);
+  padding-bottom: 2px;
+}
+
+.logistics-index-sep,
+.logistics-index-total {
+  color: #0b0c0b;
+  font-weight: 750;
+}
+
+.logistics-kicker-label {
+  margin: 6px 0 0;
+  font: 750 11px/1.2 var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(11, 12, 11, 0.52);
+}
+
+.logistics-main-title {
+  margin: 18px 0 0;
+  font-size: clamp(3.2rem, 5vw, 4.8rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.048em;
+  color: #0b0c0b;
+}
+
+.logistics-sub-headline {
+  margin: 24px 0 0;
+  font-size: clamp(18px, 1.8vw, 21px);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: #0b0c0b;
+}
+
+.logistics-lead-desc {
+  max-width: 500px;
+  margin: 16px 0 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: rgba(11, 12, 11, 0.68);
+}
+
+/* Right Column: Hero Image with HUD Badges & Action Trigger */
+.logistics-media-col {
+  width: 100%;
+}
+
+.logistics-hero-card {
+  position: relative;
+  width: 100%;
+  height: 390px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -12px rgba(11, 12, 11, 0.18), 0 0 0 1px rgba(11, 12, 11, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logistics-hero-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 32px 70px -14px rgba(11, 12, 11, 0.25), 0 0 0 1px rgba(255, 90, 54, 0.3);
+}
+
+.logistics-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.logistics-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11, 12, 11, 0.45) 0%, rgba(11, 12, 11, 0.05) 50%, rgba(11, 12, 11, 0.15) 100%);
+  pointer-events: none;
+}
+
+/* Glassmorphic Telemetry HUD Badges */
+.logistics-hud-badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  border-radius: 13px;
+  padding: 10px 16px;
+  box-shadow: 0 14px 30px -4px rgba(15, 23, 42, 0.22), 0 2px 8px -2px rgba(15, 23, 42, 0.08);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  z-index: 2;
+}
+
+.logistics-hud-badge:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 90, 54, 0.45);
+  box-shadow: 0 18px 36px -4px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(255, 90, 54, 0.3);
+}
+
+.logistics-hud-badge .hud-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logistics-hud-badge .hud-label {
+  font-size: 11px !important;
+  font-weight: 650 !important;
+  color: #475569 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  line-height: 1.2 !important;
+}
+
+.logistics-hud-badge .hud-val {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.2 !important;
+}
+
+.logistics-hud-badge .hud-val-green {
+  color: #059669 !important;
+  font-weight: 800 !important;
+}
+
+.badge-fleet {
+  top: 28px;
+  left: 28px;
+}
+
+.badge-eta {
+  top: 108px;
+  left: 60px;
+}
+
+.badge-compliance {
+  bottom: 28px;
+  left: 28px;
+  right: auto;
+}
+
+.hud-icon-wrap.icon-ship {
+  background: rgba(255, 90, 54, 0.12);
+  color: #ea580c;
+}
+
+.hud-icon-wrap.icon-eta {
+  background: rgba(16, 185, 129, 0.14);
+  color: #059669;
+}
+
+.hud-icon-wrap.icon-compliance {
+  background: rgba(59, 130, 246, 0.14);
+  color: #2563eb;
+}
+
+.hud-svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+/* Corner Circular Action Button */
+.logistics-corner-cta {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff5a36 0%, #ff411a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(255, 90, 54, 0.45);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none !important;
+  z-index: 5;
+}
+
+.logistics-corner-cta:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 28px rgba(255, 90, 54, 0.65);
+}
+
+.logistics-corner-cta:hover .corner-arrow-svg {
+  transform: translateX(3px);
+}
+
+/* Bottom 3-Column Section with Vertical Divider Lines */
+.logistics-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.05fr;
+  gap: 48px;
+  margin-top: 80px;
+  padding-top: 52px;
+  border-top: 1px solid rgba(11, 12, 11, 0.14);
+}
+
+.logistics-bottom-col:not(:last-child) {
+  border-right: 1px solid rgba(11, 12, 11, 0.12);
+  padding-right: 42px;
+}
+
+.logistics-col-heading {
+  margin: 0 0 28px;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: #0b0c0b;
+}
+
+.logistics-feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logistics-feature-entry {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logistics-icon-container {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(11, 12, 11, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #0b0c0b;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.logistics-feature-entry:hover .logistics-icon-container {
+  border-color: var(--signal);
+  color: var(--signal);
+  transform: scale(1.05);
+}
+
+.feature-icon-svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.8;
+}
+
+.logistics-feature-text {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #0b0c0b;
+}
+
+/* Column 3: Typical System Shape & Schematic */
+.logistics-system-subhead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.logistics-system-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--signal);
+}
+
+.logistics-system-title {
+  font-size: 15px;
+  font-weight: 650;
+  color: #0b0c0b;
+  letter-spacing: -0.01em;
+}
+
+.logistics-schematic-wrapper {
+  margin-top: 12px;
+}
+
+.logistics-schematic-svg {
+  width: 100%;
+  height: auto;
+  max-width: 320px;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 14px 28px rgba(11, 12, 11, 0.06));
+}
+
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+  .logistics-top-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .logistics-bottom-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .logistics-bottom-col:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid rgba(11, 12, 11, 0.12);
+    padding-right: 0;
+    padding-bottom: 34px;
+  }
+}
+
+@media (max-width: 640px) {
+  .logistics-hero-card {
+    height: 320px;
+  }
+
+  .badge-fleet {
+    top: 16px;
+    left: 16px;
+    padding: 8px 12px;
+  }
+
+  .badge-eta {
+    top: 90px;
+    left: 16px;
+    padding: 8px 12px;
+  }
+
+  .badge-compliance {
+    bottom: 16px;
+    left: 16px;
+    right: auto;
+    padding: 8px 12px;
+  }
+
+  .logistics-corner-cta {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+
+
 
