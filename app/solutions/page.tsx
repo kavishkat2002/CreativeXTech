@@ -7,6 +7,8 @@ import { getSolutions, getSolutionIcon } from "@/lib/solutions";
 import { StartupsSaasSolutionSection } from "@/components/startups-saas-solution";
 import { HospitalitySolutionSection } from "@/components/hospitality-solution";
 import { LogisticsSolutionSection } from "@/components/logistics-solution";
+import { RetailDistributionSolutionSection } from "@/components/retail-distribution-solution";
+import { ProfessionalServicesSolutionSection } from "@/components/professional-services-solution";
 
 
 const baseUrl = "https://creativexlab.online";
@@ -152,6 +154,36 @@ export default async function SolutionsPage() {
             if (isLogistics) {
               return (
                 <LogisticsSolutionSection
+                  key={solution.slug}
+                  solution={solution}
+                />
+              );
+            }
+
+            const isRetail =
+              solution.slug === "retail-distribution" ||
+              solution.slug?.includes("retail") ||
+              solution.label?.toLowerCase().includes("retail") ||
+              solution.headline?.toLowerCase().includes("connect demand, inventory");
+
+            if (isRetail) {
+              return (
+                <RetailDistributionSolutionSection
+                  key={solution.slug}
+                  solution={solution}
+                />
+              );
+            }
+
+            const isServices =
+              solution.slug === "professional-services" ||
+              solution.slug?.includes("services") ||
+              solution.label?.toLowerCase().includes("professional") ||
+              solution.headline?.toLowerCase().includes("make firm knowledge easier");
+
+            if (isServices) {
+              return (
+                <ProfessionalServicesSolutionSection
                   key={solution.slug}
                   solution={solution}
                 />
