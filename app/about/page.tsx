@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowDownRight, ArrowUpRight, Bot, BriefcaseBusiness, ChartNoAxesCombined, CloudCog, Code2, RadioTower } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
+import { GlobalReachSection } from "@/components/global-reach-section";
 
 const baseUrl = "https://creativexlab.online";
 
@@ -106,13 +107,41 @@ export default function AboutPage() {
       </section>
 
       <section id="about-content" className="about-intro">
-        <div className="site-width about-intro-layout">
-          <p className="section-index">Company / 01</p>
-          <div>
-            <h2>Built for the space between an ambitious idea and daily operations.</h2>
-            <div className="about-intro-copy">
-              <p>CreativeX is an AI and software engineering company for organizations that need more than a model demonstration. We help teams identify the right problem, shape the experience, engineer the system, and introduce it responsibly into real work.</p>
-              <p>Our work spans AI agents, predictive analytics, connected operations, cloud platforms, and web and mobile products. Each engagement is grounded in a business outcome, clear human control, production readiness, and measurable delivery.</p>
+        <div className="site-width about-intro-container">
+          <div className="about-intro-top">
+            <div className="about-intro-heading-col">
+              <div className="reach-kicker">
+                <span className="reach-kicker-num">02</span>
+                <span className="reach-kicker-sep">/</span>
+                <span className="reach-kicker-title">OUR STORY</span>
+                <span className="reach-kicker-bar" aria-hidden="true" />
+              </div>
+              <h2>Built for the space between an ambitious idea and daily operations.</h2>
+            </div>
+            <div className="about-intro-copy-col">
+              <p>CreativeX Technology is a Sri Lanka based AI and software engineering company. We help businesses turn complex real-world problems into practical, scalable digital solutions using AI, automation and modern software engineering.</p>
+              <p>Our work spans AI agents, predictive analytics, connected operations, cloud platforms, and web & mobile products. Each engagement is grounded in a business outcome, clear human control, production readiness and measurable delivery.</p>
+            </div>
+          </div>
+
+          <div className="about-intro-divider" aria-hidden="true" />
+
+          <div className="about-intro-stats-grid">
+            <div className="about-intro-stat-col">
+              <span className="about-intro-stat-label">Markets Reached</span>
+              <strong className="about-intro-stat-val">06+</strong>
+            </div>
+            <div className="about-intro-stat-col">
+              <span className="about-intro-stat-label">Projects Delivered</span>
+              <strong className="about-intro-stat-val">20+</strong>
+            </div>
+            <div className="about-intro-stat-col">
+              <span className="about-intro-stat-label">Businesses Supported</span>
+              <strong className="about-intro-stat-val">50+</strong>
+            </div>
+            <div className="about-intro-stat-col">
+              <span className="about-intro-stat-label">AI & Automation Capabilities</span>
+              <strong className="about-intro-stat-val">24/7</strong>
             </div>
           </div>
         </div>
@@ -121,7 +150,12 @@ export default function AboutPage() {
       <section className="about-capabilities">
         <div className="site-width">
           <div className="about-section-head">
-            <p className="section-index">What we build / 02</p>
+            <div className="reach-kicker">
+              <span className="reach-kicker-num">03</span>
+              <span className="reach-kicker-sep">/</span>
+              <span className="reach-kicker-title">WHAT WE BUILD</span>
+              <span className="reach-kicker-bar" aria-hidden="true" />
+            </div>
             <div><h2>One technology partner across the operating stack.</h2><p>Strategy and engineering stay connected, so the product is designed for the business context it must survive.</p></div>
           </div>
           <div className="about-capability-grid">
@@ -133,22 +167,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="about-contexts">
-        <div className="site-width about-contexts-layout">
-          <p className="section-index">Where we focus / 03</p>
-          <div>
-            <h2>Systems shaped by the operating context.</h2>
-            <p>CreativeX works across export and logistics, hospitality and smart facilities, retail and distribution, professional services, and AI-native startup products. The technology changes; the discipline of understanding the work does not.</p>
-            <div className="about-context-list">
-              {["Export & logistics", "Hospitality & smart facilities", "Retail & distribution", "Professional services", "Startups & SaaS products"].map((item, index) => <a href={`/solutions#${["export-logistics", "hospitality-smart-facilities", "retail-distribution", "professional-services", "startups-saas-products"][index]}`} key={item}><span>0{index + 1}</span><strong>{item}</strong><ArrowUpRight /></a>)}
-            </div>
-          </div>
-        </div>
-      </section>
+      <GlobalReachSection />
 
       <section className="about-approach">
         <div className="site-width about-section-head about-section-head-light">
-          <p className="section-index">How we deliver / 04</p>
+          <div className="reach-kicker reach-kicker-light">
+            <span className="reach-kicker-num">05</span>
+            <span className="reach-kicker-sep">/</span>
+            <span className="reach-kicker-title">HOW WE DELIVER</span>
+            <span className="reach-kicker-bar" aria-hidden="true" />
+          </div>
           <div><h2>Senior thinking stays close to the build.</h2><p>Decisions remain visible from the first workflow map through production learning.</p></div>
         </div>
         <div className="site-width about-approach-grid">

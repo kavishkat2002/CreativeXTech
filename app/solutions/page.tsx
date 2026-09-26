@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getSolutions, getSolutionIcon } from "@/lib/solutions";
+import { StartupsSaasSolutionSection } from "@/components/startups-saas-solution";
 
 
 const baseUrl = "https://creativexlab.online";
@@ -110,6 +111,21 @@ export default async function SolutionsPage() {
 
         <section className="solution-detail-list" aria-label="Solution details">
           {solutions.map((solution) => {
+            const isStartups =
+              solution.slug === "startups-saas-products" ||
+              solution.slug?.includes("startups") ||
+              solution.label?.toLowerCase().includes("startups") ||
+              solution.headline?.toLowerCase().includes("build the right product");
+
+            if (isStartups) {
+              return (
+                <StartupsSaasSolutionSection
+                  key={solution.slug}
+                  solution={solution}
+                />
+              );
+            }
+
             const Icon = getSolutionIcon(solution.slug);
             return (
               <article className="solution-page-detail" id={solution.slug} key={solution.slug}>
