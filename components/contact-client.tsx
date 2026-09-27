@@ -75,12 +75,23 @@ export function ContactClient() {
 
       <section id="contact-content" className="contact-page-main">
         <div className="site-width contact-page-layout">
-          <aside className="contact-page-details">
-            <p className="section-index">Direct contact / 01</p>
-            <div><Mail /><span>Email</span><a href="mailto:info@creativexlab.online">info@creativexlab.online</a></div>
-            <div><MapPin /><span>Address</span><p>16/B Perera Mawatha Rajagiriya Sri Lanka</p></div>
-            <div><Phone /><span>Hotline</span><a href="tel:0762345336">076 2345 336</a></div>
-          </aside>
+          <div className="contact-page-sidebar">
+            <aside className="contact-page-details">
+              <p className="section-index">Direct contact / 01</p>
+              <div><Mail /><span>Email</span><a href="mailto:info@creativexlab.online">info@creativexlab.online</a></div>
+              <div><MapPin /><span>Address</span><p>16/B Perera Mawatha Rajagiriya Sri Lanka</p></div>
+              <div><Phone /><span>Hotline</span><a href="tel:0762345336">076 2345 336</a></div>
+            </aside>
+
+            <div className="contact-character-card" aria-hidden="true">
+              <img
+                src="/images/creativex-company-character.png"
+                alt="CreativeX Company Character"
+                className="contact-character-img"
+                loading="eager"
+              />
+            </div>
+          </div>
 
           <div className="contact-brief">
             <p className="section-index">Send a message / 02</p>
