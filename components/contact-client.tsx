@@ -82,15 +82,6 @@ export function ContactClient() {
               <div><MapPin /><span>Address</span><p>16/B Perera Mawatha Rajagiriya Sri Lanka</p></div>
               <div><Phone /><span>Hotline</span><a href="tel:0762345336">076 2345 336</a></div>
             </aside>
-
-            <div className="contact-character-card" aria-hidden="true">
-              <img
-                src="/images/creativex-company-character.png"
-                alt="CreativeX Company Character"
-                className="contact-character-img"
-                loading="eager"
-              />
-            </div>
           </div>
 
           <div className="contact-brief">

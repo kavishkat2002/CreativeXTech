@@ -72,10 +72,12 @@ const clientFeedback = [
   {
     number: "01",
     label: "",
-    quote: "CreativeX didn’t just build what we asked for—they understood what we were trying to achieve as a business. The whole process felt collaborative, clear, and genuinely well thought out.",
-    role: "Deshan Thilakarathna",
-    company: "Founder, Alexxa AI",
-    initials: "DT",
+    quote: "CreativeX Technology (Pvt) Ltd delivered a smooth and practical digital solution for our business. The team understood our requirements, communicated clearly, and handled every detail professionally. The final result has improved our workflow and overall customer experience, and we’re very satisfied with the service and support.",
+    role: "Kavin SK",
+    company: "Entrepreneur",
+    initials: "KS",
+    avatarImage: "/images/kavin-sk.png",
+    avatarType: "photo",
   },
   {
     number: "02",
@@ -84,14 +86,18 @@ const clientFeedback = [
     role: "Graham Ackling",
     company: "General Manager, Fink Restaurant",
     initials: "GA",
+    avatarImage: "/images/graham-ackling.jpg",
+    avatarType: "photo",
   },
   {
     number: "03",
     label: "",
     quote: "CreativeX Technology helped us bring student records, attendance, communication, and day-to-day administration into one more organized system. The platform made routine tasks easier for our staff and gave us a clearer way to manage student information while supporting a smoother experience for both teachers and families.",
     role: "School Administrator",
-    company: "Anthonies School",
+    company: "St. Anthony's Schools",
     initials: "AS",
+    avatarImage: "/images/st-anthonys-school.png",
+    avatarType: "logo",
   },
   {
     number: "04",
@@ -100,6 +106,8 @@ const clientFeedback = [
     role: "Business Development Manager",
     company: "Hatch Consulting",
     initials: "MP",
+    avatarImage: "/images/hatch-logo.svg",
+    avatarType: "logo",
   },
   {
     number: "05",
@@ -108,6 +116,8 @@ const clientFeedback = [
     role: "Tim Lee",
     company: "Founder, TL Packing Global",
     initials: "TL",
+    avatarImage: "/images/tl-packaging.png",
+    avatarType: "logo",
   },
   {
     number: "06",
@@ -116,6 +126,8 @@ const clientFeedback = [
     role: "Operations Manager",
     company: "GAC international",
     initials: "OM",
+    avatarImage: "/images/gac-logo.png",
+    avatarType: "logo",
   },
 ];
 
@@ -478,7 +490,27 @@ export function HomePageClient() {
                   <header><span>{item.number}</span></header>
                   <div className="client-feedback-quote-mark" aria-hidden="true">“</div>
                   <blockquote>{item.quote}</blockquote>
-                  <footer><span className="client-feedback-avatar" aria-hidden="true">{item.initials}</span><div><strong>{item.role}</strong><small>{item.company}{item.label ? ` · ${item.label}` : ''}</small></div></footer>
+                  <footer>
+                    <span className="client-feedback-avatar" aria-hidden="true">
+                      {("avatarImage" in item && item.avatarImage) ? (
+                        <img
+                          src={item.avatarImage as string}
+                          alt={item.company || item.role}
+                          className={`client-feedback-avatar-img ${item.avatarType === "logo" ? "avatar-logo" : "avatar-photo"}`}
+                        />
+                      ) : (
+                        item.initials
+                      )}
+                    </span>
+                    <div>
+                      <strong>{item.role}</strong>
+                      {item.company ? (
+                        <small>{item.company}{item.label ? ` · ${item.label}` : ''}</small>
+                      ) : (
+                        item.label ? <small>{item.label}</small> : null
+                      )}
+                    </div>
+                  </footer>
                 </article>
               ))}
             </div>
