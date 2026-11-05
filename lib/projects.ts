@@ -1,4 +1,4 @@
-import { Bot, Building2, Rocket, Ship, Store, HelpCircle, Car } from "lucide-react";
+import { Bot, Building2, Rocket, Ship, Store, HelpCircle, Car, User } from "lucide-react";
 import { supabaseSelect } from "./supabase";
 
 export interface ProjectWorkflowStep {
@@ -253,6 +253,67 @@ export const staticProjects = [
     },
     buildVersionTitle: "Build Your Mobility & Fleet Platform",
   },
+  {
+    slug: "thimathi-dissanayake-portfolio",
+    number: "08",
+    category: "Web Design / Personal Branding",
+    title: "Thimathi Dissanayake Portfolio",
+    headline: "Software Engineer & Product Designer Portfolio",
+    summary: "A high-impact personal portfolio designed to showcase software engineering, UI/UX product design, academic research, and technical work in one polished digital experience. The website combines a strong personal brand with interactive project storytelling and conversion-focused contact pathways.",
+    stage: "Live Portfolio · Web Design & Product Engineering",
+    filter: "Product",
+    tags: ["Personal Branding", "Web Design", "UI/UX", "Product Design", "Software Engineering"],
+    hasCaseStudy: true,
+    caseStudyHref: "/projects/thimathi-dissanayake-portfolio",
+    system: "Personal Branding & Portfolio System",
+    capabilities: [
+      "Interactive personal branding & portfolio showcase",
+      "Curated services, engineering projects & research repository",
+      "Integrated CV download & direct contact concierge",
+      "Responsive desktop & mobile editorial design",
+    ],
+    integrations: [
+      "ResearchGate & academic publications",
+      "GitHub, LinkedIn, Instagram, and social channels",
+      "Direct booking & enquiry contact system",
+    ],
+    outcomes: [
+      "High-impact digital presence for software engineering and product design",
+      "Clear navigation across Services, Portfolio, About, and Research",
+      "Direct client & collaborator engagement pathways",
+    ],
+    cta: "Explore Thimathi's Portfolio",
+    href: "/contact?project=thimathi-dissanayake-portfolio",
+    media_url: "/images/thimathi-dissanayake-portfolio.jpg",
+    opportunityTitle: "Elevating the Software Engineer & Product Designer Presence",
+    opportunityCopy: "Engineers and product designers often struggle to present their full range of technical depth, product vision, academic research, and client services in a unified digital space.\n\nThimathi Dissanayake's portfolio solves this by creating a balanced, minimalist personal brand identity. It provides clear pathways to explore specialized software engineering services, featured case studies, published research, and direct contact options, establishing credibility and professional authority from the first view.",
+    conceptStatus: "Live Platform · Personal Branding & Web Design",
+    workflow: [
+      { number: "01", title: "Brand Identity & Hero Direction", copy: "Introduce the professional persona with bold typography, custom TD monogram, and an inviting call to action." },
+      { number: "02", title: "Services & Capabilities", copy: "Outline core disciplines spanning software development, product design, and architectural engineering." },
+      { number: "03", title: "Project Case Studies", copy: "Showcase completed client engagements, design prototypes, and engineering solutions with rich media." },
+      { number: "04", title: "Research & Publications", copy: "Connect academic work, research papers, and technical contributions with verified external links." },
+      { number: "05", title: "Direct Contact & Collaboration", copy: "Facilitate direct enquiries, CV downloads, and networking via structured communication channels." },
+    ],
+    systemDirectionTitle: "Minimalist Editorial Design for Digital Creators",
+    systemDirectionCopy: "The visual direction pairs clean typography with subtle arched geometric elements and soft ambient lighting. High-contrast portraiture and restrained layout accents highlight technical expertise without clutter, ensuring smooth navigation across both desktop and mobile devices.",
+    systemConsole: {
+      status: "PORTFOLIO / ONLINE",
+      title: "Thimathi Dissanayake Digital Presence",
+      bullets: [
+        "Custom monogram & personal identity system",
+        "Services directory and offering modules",
+        "Project showcase and case study gallery",
+        "Research papers and technical publications",
+        "Direct CV download and social links",
+        "Dark/light mode support and accessible contrast",
+        "Responsive multi-device layout",
+        "Conversion-focused 'Come on let's talk' CTA",
+      ],
+      action: "View Portfolio Experience",
+    },
+    buildVersionTitle: "Build Your Personal Brand & Portfolio",
+  },
 ];
 
 const iconMap: Record<string, any> = {
@@ -264,6 +325,8 @@ const iconMap: Record<string, any> = {
   "luxury-car-sales-experience": Car,
   "black-badge-luxury-car-sales": Car,
   "swiftdrive-car-rentals": Car,
+  "thimathi-dissanayake-portfolio": User,
+  "ai-engineer-personal-portfolio": User,
 };
 
 const HIDDEN_PROJECTS_KEY = "creativex_hidden_project_slugs";

@@ -52,6 +52,21 @@ function makeMockClient(): SupabaseClient {
       if (stored) {
         let parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && staticList.length > 0) {
+          if (table === "projects") {
+            const thimathiProject = staticProjects.find((p) => p.slug === "thimathi-dissanayake-portfolio");
+            if (thimathiProject) {
+              parsed = parsed.map((item: any) => {
+                if (
+                  item?.slug === "ai-engineer-personal-portfolio" ||
+                  item?.slug === "personal-portfolio" ||
+                  item?.title === "AI Engineer Personal Portfolio"
+                ) {
+                  return { ...thimathiProject, id: item.id || thimathiProject.slug };
+                }
+                return item;
+              });
+            }
+          }
           const existingSlugs = new Set(parsed.map((item: any) => item?.slug || item?.id));
           const missing = staticList.filter((item) => !existingSlugs.has(item.slug || item.id));
           if (missing.length > 0) {
