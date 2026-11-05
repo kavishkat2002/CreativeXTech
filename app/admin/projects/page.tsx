@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowUp, Plus, Settings, Eye, EyeOff } from "lucide-react";
 import { supabaseBrowserClient } from "@/lib/supabase-client";
 import type { Project } from "@/lib/projects";
-import { getHiddenProjectSlugs, setProjectHiddenInStorage, isProjectPublished } from "@/lib/projects";
+import { staticProjects, getHiddenProjectSlugs, setProjectHiddenInStorage, isProjectPublished } from "@/lib/projects";
 
 export default function ProjectsAdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -23,9 +23,13 @@ export default function ProjectsAdminPage() {
           .select("*")
           .order("number", { ascending: true });
 
-        if (error) throw error;
+        const dbList = Array.isArray(data) ? data : [];
+        const dbSlugs = new Set(dbList.map((p: any) => p.slug?.toLowerCase().trim()));
+        const missingStatic = staticProjects.filter((sp) => !dbSlugs.has(sp.slug?.toLowerCase().trim()));
+        const combined = [...dbList, ...missingStatic];
+
         const hiddenSlugs = getHiddenProjectSlugs();
-        const list = (data || []).map((p: any) => {
+        const list = combined.map((p: any) => {
           const isHidden = hiddenSlugs.includes(p.slug?.toLowerCase().trim());
           const isPub = isHidden ? false : (p.published ?? p.is_published ?? true);
           return { ...p, published: isPub, is_published: isPub };

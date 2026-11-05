@@ -5,7 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2, Plus, Trash2, Upload, X, ImageIcon, Video } from "lucide-react";
 import { getSupabaseClient } from "@/lib/supabase-client";
-import { getHiddenProjectSlugs, setProjectHiddenInStorage } from "@/lib/projects";
+import { getHiddenProjectSlugs, setProjectHiddenInStorage, staticProjects } from "@/lib/projects";
 
 export default function ProjectEditorPage() {
   const router = useRouter();
@@ -53,14 +53,26 @@ export default function ProjectEditorPage() {
 
     async function fetchProject() {
       try {
-        const client = await getSupabaseClient();
-        const { data, error } = await client
-          .from("projects")
-          .select("*")
-          .ilike("slug", slug)
-          .single();
+        let data: any = null;
+        try {
+          const client = await getSupabaseClient();
+          const res = await client
+            .from("projects")
+            .select("*")
+            .ilike("slug", slug)
+            .single();
+          if (res.data) data = res.data;
+        } catch {
+          // fall through to static fallback
+        }
 
-        if (error) throw error;
+        if (!data) {
+          const staticMatch = staticProjects.find(
+            (p) => p.slug?.toLowerCase().trim() === slug?.toLowerCase().trim()
+          );
+          if (staticMatch) data = staticMatch;
+        }
+
         if (data) {
           const hiddenSlugs = getHiddenProjectSlugs();
           const isHiddenInStorage = hiddenSlugs.includes(slug.toLowerCase().trim());
@@ -75,7 +87,7 @@ export default function ProjectEditorPage() {
             summary: data.summary || "",
             stage: data.stage || "",
             filter: data.filter || "",
-            caseStudyHref: data.caseStudyHref || "",
+            caseStudyHref: data.caseStudyHref || data.case_study_href || "",
             system: data.system || "",
             cta: data.cta || "",
             href: data.href || "",
@@ -83,14 +95,14 @@ export default function ProjectEditorPage() {
             capabilities: data.capabilities || [],
             integrations: data.integrations || [],
             outcomes: data.outcomes || [],
-            opportunityTitle: data.opportunity_title || "",
-            opportunityCopy: data.opportunity_copy || "",
-            conceptStatus: data.concept_status || "",
+            opportunityTitle: data.opportunity_title || data.opportunityTitle || "",
+            opportunityCopy: data.opportunity_copy || data.opportunityCopy || "",
+            conceptStatus: data.concept_status || data.conceptStatus || "",
             workflow: data.workflow || [],
-            systemDirectionTitle: data.system_direction_title || "",
-            systemDirectionCopy: data.system_direction_copy || "",
-            systemConsole: data.system_console || { status: "", title: "", bullets: [], action: "" },
-            buildVersionTitle: data.build_version_title || "",
+            systemDirectionTitle: data.system_direction_title || data.systemDirectionTitle || "",
+            systemDirectionCopy: data.system_direction_copy || data.systemDirectionCopy || "",
+            systemConsole: data.system_console || data.systemConsole || { status: "", title: "", bullets: [], action: "" },
+            buildVersionTitle: data.build_version_title || data.buildVersionTitle || "",
             media_url: data.media_url || "",
             published: isPub,
           });
@@ -180,17 +192,23 @@ export default function ProjectEditorPage() {
         if (error) throw error;
         router.push("/admin/projects");
       } else {
-        let { error } = await client.from("projects").update(dataToSave).ilike("slug", slug);
+        let updateRes = await client.from("projects").update(dataToSave).ilike("slug", slug).select();
+        let error = updateRes.error;
         if (error && (error.message?.includes("published") || error.message?.includes("column"))) {
           delete dataToSave.published;
           dataToSave.is_published = formData.published;
-          let res = await client.from("projects").update(dataToSave).ilike("slug", slug);
-          error = res.error;
+          updateRes = await client.from("projects").update(dataToSave).ilike("slug", slug).select();
+          error = updateRes.error;
           if (error && (error.message?.includes("is_published") || error.message?.includes("column"))) {
             delete dataToSave.is_published;
-            let res2 = await client.from("projects").update(dataToSave).ilike("slug", slug);
-            error = res2.error;
+            updateRes = await client.from("projects").update(dataToSave).ilike("slug", slug).select();
+            error = updateRes.error;
           }
+        }
+        if (!error && (!updateRes.data || updateRes.data.length === 0)) {
+          // If 0 rows updated, it was not yet in the database - insert it!
+          const insertRes = await client.from("projects").insert([dataToSave]);
+          error = insertRes.error;
         }
         if (error) throw error;
         router.push("/admin/projects");

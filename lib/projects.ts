@@ -424,7 +424,13 @@ export async function getProjects(includeHidden: boolean = false): Promise<Proje
       };
     });
 
-    return filterHidden(dbProjects);
+    const dbSlugs = new Set(data.map((proj: any) => proj.slug?.toLowerCase().trim()));
+    const missingStatic = staticProjects.filter(
+      (sp) => !dbSlugs.has(sp.slug?.toLowerCase().trim())
+    );
+    const allProjects = [...dbProjects, ...missingStatic];
+
+    return filterHidden(allProjects as Project[]);
   } catch (err: any) {
     console.error("Error fetching projects:", err?.message);
     return filterHidden(staticProjects as Project[]);
