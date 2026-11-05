@@ -192,6 +192,67 @@ export const staticProjects = [
     },
     buildVersionTitle: "Build Your Automotive Sales Experience",
   },
+  {
+    slug: "swiftdrive-car-rentals",
+    number: "07",
+    category: "Mobility & Car Rentals",
+    title: "SwiftDrive Self-Drive Car Rentals",
+    headline: "Self-Drive Car Rentals in Negombo, Sri Lanka",
+    summary: "A modern fleet reservation platform for tourist and local vehicle rentals in Sri Lanka—featuring real-time vehicle availability check, curbside airport handover, transparent LKR tariffs, verified deposits, and 24/7 delivery.",
+    stage: "Live Platform · Web & Booking Engine",
+    filter: "Product",
+    tags: ["Car Rental", "Booking System", "Fleet Management", "Sri Lanka", "Negombo"],
+    hasCaseStudy: true,
+    caseStudyHref: "/projects/swiftdrive-car-rentals",
+    system: "Fleet Booking & Curbside Dispatch System",
+    capabilities: [
+      "Real-time fleet availability & rate check",
+      "24/7 Bandaranaike Airport (CMB) curbside handover",
+      "Zero hidden fees with verified deposit calculation",
+      "Mobile-first responsive fleet catalogue",
+    ],
+    integrations: [
+      "Fleet & vehicle inventory database",
+      "Curbside airport handover logistics",
+      "Direct WhatsApp & reservation concierge",
+    ],
+    outcomes: [
+      "100% verified roadworthy fleet assurance",
+      "Transparent LKR tariffs with zero hidden booking fees",
+      "Frictionless airport arrival and return handover",
+    ],
+    cta: "Explore SwiftDrive Platform",
+    href: "/contact?project=swiftdrive-rentals",
+    media_url: "/images/swiftdrive-rentals.jpg",
+    opportunityTitle: "Modernising Car Rental & Airport Handover in Sri Lanka",
+    opportunityCopy: "Travelers visiting Sri Lanka often struggle with opaque car rental pricing, uncertain vehicle condition, and cumbersome airport handovers.\n\nSwiftDrive Rentals addresses this by offering a transparent, digital-first self-drive platform tailored for Sri Lanka. With real-time database availability check for Bandaranaike Airport (CMB) curbside handover, clear LKR tariffs, zero hidden booking fees, and 24/7 delivery, international and local travelers can reserve reliable vehicles with complete confidence.",
+    conceptStatus: "Live Platform · Web & Reservation System",
+    workflow: [
+      { number: "01", title: "Select Location & Dates", copy: "Choose pickup and return dates with convenient handover at Bandaranaike Airport (CMB) curbside or Negombo." },
+      { number: "02", title: "Check Real-Time Availability", copy: "Filter across economy hatchbacks, SUVs, passenger vans, and luxury vehicles with live fleet status." },
+      { number: "03", title: "Transparent Pricing & Terms", copy: "Review upfront LKR tariffs, verified security deposits, and standard rental terms without hidden extras." },
+      { number: "04", title: "Curbside Airport Handover", copy: "Meet the SwiftDrive handover team directly at the terminal with rapid document verification." },
+      { number: "05", title: "Total Freedom on the Road", copy: "Drive across Sri Lanka's coastal highways, cultural triangle, and hill country with 24/7 roadside assistance." },
+    ],
+    systemDirectionTitle: "Engineered for Tourism & Fleet Reliability",
+    systemDirectionCopy: "The user experience centers around transparency and speed. A prominent reservation widget lets visitors instantly check vehicle availability and rates based on their arrival dates and preferred vehicle category.\n\nThe UI combines clear typography, trust signals (100% verified fleet, 24/7 handover, zero hidden fees), and a responsive layout that works flawlessly for travelers on mobile devices planning their journey on the go.",
+    systemConsole: {
+      status: "RESERVATION SYSTEM / ONLINE",
+      title: "SwiftDrive Fleet & Booking Console",
+      bullets: [
+        "Real-time vehicle availability query",
+        "CMB airport curbside handover coordination",
+        "Transparent LKR tariff calculator",
+        "Tiered fleet categories (Economy, SUV, Van, Luxury)",
+        "Mobile-first booking and enquiry journey",
+        "WhatsApp direct concierge integration",
+        "Verified deposit and documentation check",
+        "24/7 roadside assistance coordination",
+      ],
+      action: "Visit SwiftDrive Platform",
+    },
+    buildVersionTitle: "Build Your Mobility & Fleet Platform",
+  },
 ];
 
 const iconMap: Record<string, any> = {
@@ -202,6 +263,7 @@ const iconMap: Record<string, any> = {
   "ai-saas-platform": Rocket,
   "luxury-car-sales-experience": Car,
   "black-badge-luxury-car-sales": Car,
+  "swiftdrive-car-rentals": Car,
 };
 
 const HIDDEN_PROJECTS_KEY = "creativex_hidden_project_slugs";

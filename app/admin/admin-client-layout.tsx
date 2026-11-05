@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { supabaseBrowserClient, getSupabaseClient } from "@/lib/supabase-client";
-import { LayoutDashboard, FileText, Briefcase, Lightbulb, FolderKanban, LogOut, Mail } from "lucide-react";
+import { supabaseBrowserClient, getSupabaseClient, isLocalAdminMode } from "@/lib/supabase-client";
+import { LayoutDashboard, FileText, Briefcase, Lightbulb, FolderKanban, LogOut, Mail, ShieldCheck } from "lucide-react";
 
 export function AdminClientLayout({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<any>(null);
@@ -71,9 +71,16 @@ export function AdminClientLayout({ children }: { children: React.ReactNode }) {
   }
 
   if (!session) {
+    const isLocal = isLocalAdminMode();
     return (
-      <div style={{ maxWidth: "400px", margin: "100px auto", padding: "40px", background: "#fff", color: "#111", border: "1px solid #ddd", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
-        <h1 style={{ fontSize: "24px", marginBottom: "24px", fontWeight: "600", textAlign: "center" }}>Admin Login</h1>
+      <div style={{ maxWidth: "420px", margin: "100px auto", padding: "40px", background: "#fff", color: "#111", border: "1px solid #ddd", borderRadius: "12px", boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
+        <h1 style={{ fontSize: "24px", marginBottom: "8px", fontWeight: "600", textAlign: "center" }}>Admin Login</h1>
+        {isLocal && (
+          <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", color: "#166534", padding: "10px 14px", borderRadius: "8px", fontSize: "13px", marginBottom: "20px", display: "flex", alignItems: "center", gap: "8px", lineHeight: "1.4" }}>
+            <ShieldCheck size={18} style={{ flexShrink: 0 }} />
+            <span><strong>Local Dev Mode:</strong> Enter any email and password to log in to your local admin workspace.</span>
+          </div>
+        )}
         <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div>
             <label style={{ display: "block", marginBottom: "6px", fontSize: "14px", fontWeight: "500" }}>Email</label>
@@ -150,6 +157,11 @@ export function AdminClientLayout({ children }: { children: React.ReactNode }) {
           })}
         </nav>
         <div style={{ padding: "16px", borderTop: "1px solid #eaeaea" }}>
+          {session?.user?.email && (
+            <div style={{ fontSize: "12px", color: "#666", marginBottom: "12px", padding: "0 4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={session.user.email}>
+              Logged in: <strong>{session.user.email}</strong>
+            </div>
+          )}
           <button 
             onClick={handleLogout}
             style={{ display: "flex", alignItems: "center", gap: "10px", width: "100%", padding: "10px 14px", background: "transparent", border: "none", color: "#666", cursor: "pointer", fontWeight: "500", textAlign: "left" }}

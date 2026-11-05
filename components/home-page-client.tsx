@@ -18,6 +18,8 @@ const partnerLogos = [
   { name: "Partner 2", src: "/partners/partner-2.png" },
   { name: "Partner 4", src: "/partners/partner-4.png" },
   { name: "Partner 6", src: "/partners/partner-6.png" },
+  { name: "SwiftDrive Rentals", src: "/partners/swiftdrive.png" },
+  { name: "Thimathi Dissanayake", src: "/partners/thimathi-dissanayake.png" },
   { name: "Partner 9", src: "/partners/partner-9.png" },
   { name: "Partner 8", src: "/partners/partner-8.png" },
 ];
