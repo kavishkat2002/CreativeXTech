@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowUp, Plus, Settings, Eye, EyeOff } from "lucide-react";
 import { supabaseBrowserClient } from "@/lib/supabase-client";
 import type { Project } from "@/lib/projects";
-import { staticProjects, getHiddenProjectSlugs, setProjectHiddenInStorage, isProjectPublished } from "@/lib/projects";
+import { staticProjects, getHiddenProjectSlugs, setProjectHiddenInStorage, isProjectPublished, isExplicitlyHiddenProject } from "@/lib/projects";
 
 export default function ProjectsAdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -30,7 +30,7 @@ export default function ProjectsAdminPage() {
 
         const hiddenSlugs = getHiddenProjectSlugs();
         const list = combined.map((p: any) => {
-          const isHidden = hiddenSlugs.includes(p.slug?.toLowerCase().trim());
+          const isHidden = isExplicitlyHiddenProject(p) || hiddenSlugs.includes(p.slug?.toLowerCase().trim());
           const isPub = isHidden ? false : (p.published ?? p.is_published ?? true);
           return { ...p, published: isPub, is_published: isPub };
         });

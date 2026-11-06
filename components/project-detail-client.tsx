@@ -8,7 +8,7 @@ import Image from "next/image";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getSupabaseClient } from "@/lib/supabase-client";
-import { staticProjects, type Project } from "@/lib/projects";
+import { staticProjects, type Project, isExplicitlyHiddenProject } from "@/lib/projects";
 
 export function ProjectDetailClient({ initialProject }: { initialProject?: Project | null }) {
   const params = useParams();
@@ -35,6 +35,11 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
           .single();
 
         if (!error && data) {
+          if (isExplicitlyHiddenProject(data)) {
+            setNotFoundState(true);
+            setLoading(false);
+            return;
+          }
           setProject({
             ...data,
             tags: data.tags || [],

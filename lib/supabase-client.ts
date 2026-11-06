@@ -4,7 +4,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { staticArticles } from "./articles";
 import { services } from "./services";
 import { staticSolutions } from "./solutions";
-import { staticProjects } from "./projects";
+import { staticProjects, isExplicitlyHiddenProject } from "./projects";
 
 // ─── Configuration check ──────────────────────────────────────────────────────
 
@@ -66,6 +66,12 @@ function makeMockClient(): SupabaseClient {
                 return item;
               });
             }
+            parsed = parsed.map((item: any) => {
+              if (isExplicitlyHiddenProject(item)) {
+                return { ...item, published: false, is_published: false };
+              }
+              return item;
+            });
           }
           const existingSlugs = new Set(parsed.map((item: any) => item?.slug || item?.id));
           const missing = staticList.filter((item) => !existingSlugs.has(item.slug || item.id));

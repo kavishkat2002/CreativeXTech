@@ -331,14 +331,38 @@ const iconMap: Record<string, any> = {
 
 const HIDDEN_PROJECTS_KEY = "creativex_hidden_project_slugs";
 
+export const DEFAULT_EXCLUDED_PROJECT_SLUGS = [
+  "ai-engineer-personal-portfolio",
+  "kavishka-portfolio",
+  "kavishka-thilakarathna",
+  "kavishka-thilakarathna-portfolio",
+  "personal-portfolio",
+  "personal-branding",
+];
+
+export function isExplicitlyHiddenProject(project?: { slug?: string; title?: string; headline?: string } | null): boolean {
+  if (!project) return false;
+  const slugNorm = (project.slug || "").toLowerCase().trim();
+  const titleNorm = (project.title || "").toLowerCase().trim();
+  const headlineNorm = (project.headline || "").toLowerCase().trim();
+
+  if (DEFAULT_EXCLUDED_PROJECT_SLUGS.includes(slugNorm)) return true;
+  if (slugNorm.includes("ai-engineer") || slugNorm.includes("kavishka")) return true;
+  if (titleNorm.includes("ai engineer personal portfolio") || titleNorm.includes("kavishka thilakarathna")) return true;
+  if (headlineNorm.includes("ai engineer personal portfolio")) return true;
+
+  return false;
+}
+
 export function getHiddenProjectSlugs(): string[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = localStorage.getItem(HIDDEN_PROJECTS_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
+  let stored: string[] = [];
+  if (typeof window !== "undefined") {
+    try {
+      const raw = localStorage.getItem(HIDDEN_PROJECTS_KEY);
+      stored = raw ? JSON.parse(raw) : [];
+    } catch {}
   }
+  return Array.from(new Set([...DEFAULT_EXCLUDED_PROJECT_SLUGS, ...stored]));
 }
 
 export function setProjectHiddenInStorage(slug: string, hidden: boolean): string[] {
@@ -361,6 +385,7 @@ export function setProjectHiddenInStorage(slug: string, hidden: boolean): string
 
 export function isProjectPublished(project: Project): boolean {
   if (!project.slug) return true;
+  if (isExplicitlyHiddenProject(project)) return false;
   const normalized = project.slug.toLowerCase().trim();
   const hiddenSlugs = getHiddenProjectSlugs();
   if (hiddenSlugs.includes(normalized)) return false;
@@ -380,6 +405,7 @@ export async function getProjects(includeHidden: boolean = false): Promise<Proje
   const filterHidden = (list: Project[]) => {
     if (includeHidden) return list;
     return list.filter((p) => {
+      if (isExplicitlyHiddenProject(p)) return false;
       const slugNorm = p.slug?.toLowerCase().trim();
       if (slugNorm && hiddenSlugs.includes(slugNorm)) return false;
       return p.published !== false && p.is_published !== false;
@@ -398,7 +424,7 @@ export async function getProjects(includeHidden: boolean = false): Promise<Proje
       const csHref = hasCS ? (proj.case_study_href ?? proj.caseStudyHref ?? staticMatch?.caseStudyHref ?? `/projects/${proj.slug}`) : null;
       
       const slugNorm = proj.slug?.toLowerCase().trim();
-      const isHiddenInStorage = slugNorm ? hiddenSlugs.includes(slugNorm) : false;
+      const isHiddenInStorage = slugNorm ? (hiddenSlugs.includes(slugNorm) || isExplicitlyHiddenProject(proj)) : false;
       const isPub = isHiddenInStorage ? false : (proj.published ?? proj.is_published ?? true);
       
       const { icon: _icon, ...restProj } = proj;

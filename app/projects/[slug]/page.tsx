@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ProjectDetailClient } from "@/components/project-detail-client";
-import { staticProjects, getProjects } from "@/lib/projects";
+import { staticProjects, getProjects, isExplicitlyHiddenProject } from "@/lib/projects";
 
 const baseUrl = "https://creativexlab.online";
 
@@ -22,7 +22,7 @@ export async function generateMetadata({
   const projects = await getProjects();
   const project = projects.find((p) => p.slug?.toLowerCase().trim() === normalized) || staticProjects.find((p) => p.slug?.toLowerCase().trim() === normalized);
 
-  if (!project) {
+  if (!project || isExplicitlyHiddenProject(project)) {
     return {
       title: "Project Case Study | CreativeX Technology AI",
       description: "Explore operational AI agents, smart facility platforms, and software engineering case studies by CreativeX.",
@@ -88,7 +88,7 @@ export default async function ProjectDetailPage({
   const projects = await getProjects();
   const project = projects.find((p) => p.slug?.toLowerCase().trim() === normalized) || staticProjects.find((p) => p.slug?.toLowerCase().trim() === normalized) || null;
 
-  if (!project) {
+  if (!project || isExplicitlyHiddenProject(project)) {
     return <ProjectDetailClient initialProject={null} />;
   }
 
