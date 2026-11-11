@@ -77,6 +77,17 @@ function makeMockClient(): SupabaseClient {
             });
           }
           const existingSlugs = new Set(parsed.map((item: any) => item?.slug || item?.id));
+          if (table === "jobs") {
+            const bdStatic = staticJobs.find((j) => j.slug === "business-development-intern");
+            if (bdStatic) {
+              parsed = parsed.map((item: any) =>
+                item?.slug === "business-development-intern" &&
+                item?.salary_range === "LKR 25,000 – 50,000 + Performance Commission"
+                  ? { ...item, salary_range: bdStatic.salary_range, benefits: bdStatic.benefits }
+                  : item
+              );
+            }
+          }
           const missing = staticList.filter((item) => !existingSlugs.has(item.slug || item.id));
           if (missing.length > 0) {
             parsed = [...parsed, ...missing];

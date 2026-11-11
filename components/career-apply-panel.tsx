@@ -10,7 +10,6 @@ import {
   Check,
   CheckCircle2,
   FileText,
-  Filter,
   Loader2,
   MapPin,
   ShieldCheck,
@@ -23,8 +22,6 @@ import type { ATSResult, JobApplication, JobPost } from "@/lib/careers";
 import { analyzeApplicationATS, extractTextFromResumeFile } from "@/lib/ats";
 import { getSupabaseClient, isLocalAdminMode } from "@/lib/supabase-client";
 
-type JDFilterTab = "all" | "matched" | "gaps";
-
 export function CareerApplyPanel({
   slug,
   initialJob,
@@ -34,7 +31,6 @@ export function CareerApplyPanel({
 }) {
   const [job, setJob] = useState<JobPost | null>(initialJob);
   const [loadingJob, setLoadingJob] = useState<boolean>(!initialJob);
-  const [jdFilter, setJdFilter] = useState<JDFilterTab>("all");
 
   // Application form fields
   const [applicantName, setApplicantName] = useState("");
@@ -256,12 +252,9 @@ export function CareerApplyPanel({
         missingTerms: [] as string[],
       }));
     }
-    const reqs = liveATS.jdRequirementMatches.filter(
+    return liveATS.jdRequirementMatches.filter(
       (item) => item.type === "requirement"
     );
-    if (jdFilter === "matched") return reqs.filter((r) => r.matched);
-    if (jdFilter === "gaps") return reqs.filter((r) => !r.matched);
-    return reqs;
   })();
 
   const filteredResponsibilities = (() => {
@@ -275,12 +268,9 @@ export function CareerApplyPanel({
         missingTerms: [] as string[],
       }));
     }
-    const resps = liveATS.jdRequirementMatches.filter(
+    return liveATS.jdRequirementMatches.filter(
       (item) => item.type === "responsibility"
     );
-    if (jdFilter === "matched") return resps.filter((r) => r.matched);
-    if (jdFilter === "gaps") return resps.filter((r) => !r.matched);
-    return resps;
   })();
 
   return (
@@ -332,54 +322,6 @@ export function CareerApplyPanel({
         <div className="site-width career-detail-layout">
           {/* Left Column: Job Description + ATS-Filtered Breakdown */}
           <div className="career-jd-column">
-            {/* Live ATS JD Filter Bar */}
-            <div className="career-jd-filter-bar">
-              <div className="career-jd-filter-title">
-                <Filter size={15} />
-                <span>
-                  {liveATS
-                    ? `Job Description Filtered by Your Resume (${liveATS.jdMatchPercentage}% JD Coverage)`
-                    : "Job Description & Requirements (Upload CV on the right to auto-filter)"}
-                </span>
-              </div>
-
-              {liveATS && (
-                <div className="career-jd-filter-tabs" role="tablist">
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={jdFilter === "all"}
-                    className={jdFilter === "all" ? "active" : ""}
-                    onClick={() => setJdFilter("all")}
-                  >
-                    All ({liveATS.jdRequirementMatches.length})
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={jdFilter === "matched"}
-                    className={jdFilter === "matched" ? "active" : ""}
-                    onClick={() => setJdFilter("matched")}
-                  >
-                    Matched (
-                    {liveATS.jdRequirementMatches.filter((m) => m.matched).length}
-                    )
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={jdFilter === "gaps"}
-                    className={jdFilter === "gaps" ? "active" : ""}
-                    onClick={() => setJdFilter("gaps")}
-                  >
-                    Gaps (
-                    {liveATS.jdRequirementMatches.filter((m) => !m.matched).length}
-                    )
-                  </button>
-                </div>
-              )}
-            </div>
-
             <div className="career-jd-block">
               <p className="career-jd-eyebrow">01 / Role Overview</p>
               <h2>About the role</h2>

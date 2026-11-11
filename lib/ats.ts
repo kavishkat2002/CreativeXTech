@@ -41,6 +41,19 @@ const SKILL_ALIASES: Record<string, string[]> = {
   "ai product design": ["ai product design", "ai interfaces", "copilot", "conversational ui"],
   "aws": ["aws", "amazon web services", "s3", "lambda", "ec2"],
   "gcp": ["gcp", "google cloud", "cloud run"],
+  "b2b sales": ["b2b sales", "software sales", "solution selling", "enterprise sales", "it sales"],
+  "business development": ["business development", "bizdev", "bd", "new business", "client acquisition"],
+  "lead generation": ["lead generation", "prospecting", "lead outreach", "outbound"],
+  "cold calling": ["cold calling", "cold call", "outbound calls", "telemarketing"],
+  "sales pipeline": ["sales pipeline", "pipeline management", "sales targets", "monthly targets", "deal closing", "closing sales"],
+  "client relationships": ["client relationships", "relationship building", "relationship-building", "account management", "client meetings"],
+  "negotiation": ["negotiation", "negotiations", "deal closing", "follow-ups", "follow ups"],
+  "presentation skills": ["presentation skills", "presentations", "pitching", "demos", "product demo"],
+  "proposal writing": ["proposal writing", "proposals", "rfp", "quotations"],
+  "linkedin outreach": ["linkedin", "linkedin outreach", "networking", "social selling"],
+  "communication": ["communication", "english", "sinhala", "tamil"],
+  "marketing": ["marketing", "digital marketing", "business management", "business administration"],
+  "crm": ["crm", "hubspot", "salesforce", "pipedrive", "zoho"],
 };
 
 const STOP_WORDS = new Set([
@@ -145,6 +158,19 @@ export function extractJobKeywords(job: Partial<JobPost>): string[] {
         "ai product design": "AI Product Design",
         "aws": "AWS",
         "gcp": "GCP",
+        "b2b sales": "B2B Sales",
+        "business development": "Business Development",
+        "lead generation": "Lead Generation",
+        "cold calling": "Cold Calling",
+        "sales pipeline": "Sales Pipeline",
+        "client relationships": "Client Relationships",
+        "negotiation": "Negotiation",
+        "presentation skills": "Presentation Skills",
+        "proposal writing": "Proposal Writing",
+        "linkedin outreach": "LinkedIn Outreach",
+        "communication": "Communication",
+        "marketing": "Marketing",
+        "crm": "CRM",
       };
       found.add(prettyMap[canonical] ?? canonical);
     }
