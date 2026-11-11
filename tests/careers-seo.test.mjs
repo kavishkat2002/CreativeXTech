@@ -53,7 +53,7 @@ test("Careers SEO/AEO/GEO helpers generate Google Jobs JobPosting and FAQPage sc
 
   const hubFaqs = buildCareersHubFaqItems([...staticJobs, futureJob]);
   assert.ok(hubFaqs.length >= 4);
-  assert.match(hubFaqs[0].answer, /AI Platform Architect/);
+  assert.ok(hubFaqs.some((f) => /AI Platform Architect/.test(f.answer)));
 
   const detailFaqs = buildJobDetailFaqItems(futureJob);
   const faqSchema = buildFaqPageJsonLd(

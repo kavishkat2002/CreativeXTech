@@ -113,7 +113,7 @@ const principles = [
 
 export default async function CareersPage() {
   const jobs = await getJobs();
-  const faqItems = buildCareersHubFaqItems(jobs, baseUrl);
+  const faqItems = buildCareersHubFaqItems(jobs);
 
   const careersGraphJsonLd = {
     "@context": "https://schema.org",
@@ -232,12 +232,12 @@ export default async function CareersPage() {
 
       <CareersBoard initialJobs={jobs} />
 
-      {/* AEO & GEO Hiring FAQ Section */}
+      {/* Common FAQ Section */}
       <section className="careers-faq-section" aria-labelledby="careers-faq-title">
         <div className="site-width careers-faq-layout">
           <div>
-            <p className="section-index">Hiring guide / AEO</p>
-            <h2 id="careers-faq-title">Common questions about careers at CreativeX.</h2>
+            <p className="section-index">Common FAQ</p>
+            <h2 id="careers-faq-title">Frequently asked questions.</h2>
           </div>
           <div className="careers-faq-list">
             {faqItems.map((faq, idx) => (

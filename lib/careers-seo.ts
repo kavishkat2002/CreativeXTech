@@ -150,47 +150,51 @@ export interface CareerFaqItem {
   answer: string;
 }
 
-export function buildCareersHubFaqItems(
-  jobs: JobPost[],
-  baseUrl = CAREERS_BASE_URL
-): CareerFaqItem[] {
+export function buildCareersHubFaqItems(jobs: JobPost[]): CareerFaqItem[] {
   const openTitles =
     jobs.length > 0
-      ? jobs
-          .map((j) => `${j.title} (${j.department}, ${j.location})`)
-          .join("; ")
+      ? jobs.map((j) => `${j.title} (${j.location})`).join(", ")
       : "AI engineering, full-stack software development, and product design roles";
 
   const allSkills = Array.from(
     new Set(jobs.flatMap((j) => j.required_skills ?? []))
-  ).slice(0, 14);
+  ).slice(0, 12);
 
   return [
     {
-      question: "What jobs are currently open at CreativeX Technology AI?",
-      answer: `CreativeX Technology AI currently lists ${jobs.length} open position${
+      question: "What does the hiring process look like?",
+      answer:
+        "Our process is straightforward and respectful of your time: an initial application and portfolio review, a 30-minute technical or design conversation with the team, a practical real-world system discussion, and a final chat with leadership—typically completed within 1 to 2 weeks.",
+    },
+    {
+      question: "Are positions remote, hybrid, or based in Colombo?",
+      answer:
+        "We support flexible remote and hybrid work arrangements between our Colombo studio and distributed global collaborators, depending on the role and project delivery needs.",
+    },
+    {
+      question: "What roles and technical skills are you hiring for right now?",
+      answer: `We currently have ${jobs.length} open position${
         jobs.length === 1 ? "" : "s"
-      } on ${baseUrl}/careers: ${openTitles}. Every active role can be explored and applied for directly online.`,
-    },
-    {
-      question:
-        "Does CreativeX Technology AI offer remote or hybrid software and AI engineering roles?",
-      answer:
-        "Yes. Most engineering, AI systems, and product design roles at CreativeX Technology AI support remote or hybrid collaboration between our Colombo studio and distributed global teams.",
-    },
-    {
-      question:
-        "What technical skills and stack does CreativeX Technology hire for?",
-      answer:
+      }: ${openTitles}.${
         allSkills.length > 0
-          ? `Depending on the role, CreativeX hires for ${allSkills.join(
-              ", "
-            )}, alongside strong production engineering and system design fundamentals.`
-          : "CreativeX hires across TypeScript, Next.js, Python, LLM/RAG AI agents, PostgreSQL/Supabase, Cloudflare Workers, and Figma product design.",
+          ? ` Core capabilities we look for include ${allSkills.join(", ")}.`
+          : ""
+      }`,
     },
     {
-      question: "How do I apply for a job at CreativeX Technology AI?",
-      answer: `Visit ${baseUrl}/careers, open the specific role page, upload your CV or resume (PDF, DOCX, or TXT), write a cover letter, and submit your application directly. Our system automatically evaluates job description fit and forwards qualified profiles to the hiring team.`,
+      question: "What do I need to submit when applying?",
+      answer:
+        "Open the role you want to apply for, upload your CV or resume (PDF, DOCX, TXT, or Markdown), include your contact details and optional LinkedIn or GitHub/portfolio links, and write a brief cover letter (minimum 100 characters) explaining your relevant work.",
+    },
+    {
+      question: "How long does it take to hear back after submitting an application?",
+      answer:
+        "Every application is screened automatically against the role requirements and reviewed by our hiring team. Shortlisted candidates usually hear back within 3 to 5 business days.",
+    },
+    {
+      question: "Can I still apply if I don’t see my exact title listed?",
+      answer:
+        "Yes. We regularly meet talented AI engineers, full-stack builders, and systems designers ahead of formal openings—feel free to send us an introduction and portfolio link via our Contact page.",
     },
   ];
 }
