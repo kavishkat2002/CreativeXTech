@@ -50,6 +50,7 @@ CreativeX works globally with organizations in export and logistics, hospitality
 - [Industry solutions](${baseUrl}/solutions): Solutions organized by operating context.
 - [Projects](${baseUrl}/projects): Representative projects and product concepts.
 - [Careers](${baseUrl}/careers): Open AI engineering, software engineering, and product design positions with direct online application.
+- [Talent Pool](${baseUrl}/careers/talent-pool): Priority hiring pipeline for Intern, Associate, and Senior level candidates across AI, engineering, design, and B2B growth.
 - [Technology insights](${baseUrl}/blog): Original articles on AI, SEO, GEO, structured data, performance, and dependable software.
 - [Contact](${baseUrl}/contact): Project enquiry guidance and direct email contact.
 

@@ -5,6 +5,7 @@ import { ArrowDownRight, ArrowUpRight, Cpu, Globe2, ShieldCheck, Sparkles } from
 import { CareersBoard } from "@/components/careers-board";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getJobs } from "@/lib/careers";
+import { TALENT_POOL_TRACKS } from "@/lib/talent-pool";
 import {
   CAREERS_BASE_URL,
   buildCareersHubFaqItems,
@@ -232,6 +233,55 @@ export default async function CareersPage() {
 
       <CareersBoard initialJobs={jobs} />
 
+      {/* CreativeX Talent Pool: Intern, Associate & Senior Tracks */}
+      <section
+        id="talent-pool"
+        className="careers-talent-pool-section"
+        aria-labelledby="careers-talent-pool-title"
+      >
+        <div className="site-width">
+          <div className="careers-talent-pool-head">
+            <div>
+              <p className="section-index">Priority pipeline / 01—03</p>
+              <h2 id="careers-talent-pool-title">
+                Talent Pool for Intern, Associate &amp; Senior roles.
+              </h2>
+            </div>
+            <p>
+              Don&rsquo;t wait for a specific title to open. Submit your profile once to our level-matched Talent Pool and get prioritized before new roles go public.
+            </p>
+          </div>
+
+          <div className="talent-pool-cards">
+            {TALENT_POOL_TRACKS.map((track) => (
+              <Link
+                key={track.id}
+                href={`/careers/talent-pool?level=${track.id}`}
+                className="talent-pool-card"
+              >
+                <div className="talent-pool-card-top">
+                  <span>{track.number} / {track.levelLabel}</span>
+                  <small>{track.experienceHint}</small>
+                </div>
+                <h3>{track.title}</h3>
+                <p>{track.summary}</p>
+                <div className="talent-pool-card-skills">
+                  {track.requiredSkills.slice(0, 4).map((skill) => (
+                    <span key={skill}>{skill}</span>
+                  ))}
+                </div>
+                <div className="talent-pool-card-footer">
+                  <span>{track.commitment}</span>
+                  <strong>
+                    Join {track.levelLabel} Pool <ArrowUpRight size={15} />
+                  </strong>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Common FAQ Section */}
       <section className="careers-faq-section" aria-labelledby="careers-faq-title">
         <div className="site-width careers-faq-layout">
@@ -255,8 +305,8 @@ export default async function CareersPage() {
           <p className="section-index">Don’t see your exact title?</p>
           <div>
             <h2>Tell us what you build best.</h2>
-            <Link href="/contact">
-              Start an introduction <ArrowUpRight />
+            <Link href="/careers/talent-pool">
+              Join the Talent Pool <ArrowUpRight />
             </Link>
           </div>
         </div>

@@ -20,8 +20,14 @@ import {
 import type { JobApplication, JobPost } from "@/lib/careers";
 import { mergeJobsWithStatic } from "@/lib/careers";
 import { getSupabaseClient } from "@/lib/supabase-client";
+import {
+  TALENT_POOL_TRACKS,
+  getTalentPoolLevelFromSlug,
+  isTalentPoolSlug,
+  type TalentPoolLevel,
+} from "@/lib/talent-pool";
 
-type AdminTab = "jobs" | "applications";
+type AdminTab = "jobs" | "applications" | "talent_pool";
 type ATSFilterVerdict = "all" | "shortlisted" | "review" | "filtered_out";
 
 export default function AdminCareersPage() {
@@ -30,8 +36,11 @@ export default function AdminCareersPage() {
   const [applications, setApplications] = useState<JobApplication[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ATS Filter states for applications
+  // ATS Filter states for applications & talent pool
   const [selectedJobSlug, setSelectedJobSlug] = useState<string>("all");
+  const [talentPoolLevelFilter, setTalentPoolLevelFilter] = useState<
+    "all" | TalentPoolLevel
+  >("all");
   const [atsVerdictFilter, setAtsVerdictFilter] =
     useState<ATSFilterVerdict>("all");
   const [minAtsScore, setMinAtsScore] = useState<number>(0);
@@ -153,10 +162,33 @@ export default function AdminCareersPage() {
     }
   };
 
+  const jobApplications = useMemo(
+    () => applications.filter((a) => !isTalentPoolSlug(a.job_slug)),
+    [applications]
+  );
+
+  const talentPoolApplications = useMemo(
+    () => applications.filter((a) => isTalentPoolSlug(a.job_slug)),
+    [applications]
+  );
+
   const filteredApplications = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    return applications.filter((app) => {
-      if (selectedJobSlug !== "all" && app.job_slug !== selectedJobSlug) {
+    const baseList =
+      activeTab === "talent_pool" ? talentPoolApplications : jobApplications;
+
+    return baseList.filter((app) => {
+      if (activeTab === "talent_pool") {
+        if (
+          talentPoolLevelFilter !== "all" &&
+          getTalentPoolLevelFromSlug(app.job_slug) !== talentPoolLevelFilter
+        ) {
+          return false;
+        }
+      } else if (
+        selectedJobSlug !== "all" &&
+        app.job_slug !== selectedJobSlug
+      ) {
         return false;
       }
       if (atsVerdictFilter !== "all" && app.ats_status !== atsVerdictFilter) {
@@ -180,14 +212,27 @@ export default function AdminCareersPage() {
       return true;
     });
   }, [
-    applications,
+    activeTab,
+    jobApplications,
+    talentPoolApplications,
     selectedJobSlug,
+    talentPoolLevelFilter,
     atsVerdictFilter,
     minAtsScore,
     searchQuery,
   ]);
 
-  const shortlistedCount = applications.filter(
+  const activeSelectedApp = useMemo(() => {
+    if (
+      selectedApp &&
+      filteredApplications.some((a) => a.id === selectedApp.id)
+    ) {
+      return selectedApp;
+    }
+    return filteredApplications[0] ?? null;
+  }, [filteredApplications, selectedApp]);
+
+  const shortlistedCount = jobApplications.filter(
     (a) => a.ats_status === "shortlisted"
   ).length;
 
@@ -340,7 +385,7 @@ export default function AdminCareersPage() {
           }}
         >
           <Users size={15} />
-          Applications &amp; ATS Filter ({applications.length})
+          Applications &amp; ATS Filter ({jobApplications.length})
           {shortlistedCount > 0 && (
             <span
               style={{
@@ -354,6 +399,27 @@ export default function AdminCareersPage() {
               {shortlistedCount} Shortlisted
             </span>
           )}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("talent_pool")}
+          style={{
+            padding: "9px 16px",
+            borderRadius: "6px",
+            border: "none",
+            background: activeTab === "talent_pool" ? "#0b0c0b" : "#fff",
+            color: activeTab === "talent_pool" ? "#fff" : "#555",
+            fontWeight: 600,
+            fontSize: "13px",
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          <Sparkles size={15} />
+          Talent Pool ({talentPoolApplications.length})
         </button>
       </div>
 
@@ -623,8 +689,71 @@ export default function AdminCareersPage() {
           </table>
         </div>
       ) : (
-        /* TAB 2: APPLICATIONS & ATS FILTER */
+        /* TAB 2 & 3: APPLICATIONS & TALENT POOL ATS FILTER */
         <div>
+          {activeTab === "talent_pool" && (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                gap: "12px",
+                marginBottom: "16px",
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setTalentPoolLevelFilter("all")}
+                style={{
+                  textAlign: "left",
+                  padding: "14px 16px",
+                  borderRadius: "10px",
+                  border:
+                    talentPoolLevelFilter === "all"
+                      ? "1px solid #0b0c0b"
+                      : "1px solid #eaeaea",
+                  background:
+                    talentPoolLevelFilter === "all" ? "#0b0c0b" : "#fff",
+                  color: talentPoolLevelFilter === "all" ? "#fff" : "#111",
+                  cursor: "pointer",
+                }}
+              >
+                <div style={{ fontSize: "11px", opacity: 0.7 }}>ALL POOLS</div>
+                <strong style={{ fontSize: "20px" }}>
+                  {talentPoolApplications.length}
+                </strong>
+              </button>
+              {TALENT_POOL_TRACKS.map((track) => {
+                const count = talentPoolApplications.filter(
+                  (a) => getTalentPoolLevelFromSlug(a.job_slug) === track.id
+                ).length;
+                const active = talentPoolLevelFilter === track.id;
+                return (
+                  <button
+                    key={track.id}
+                    type="button"
+                    onClick={() => setTalentPoolLevelFilter(track.id)}
+                    style={{
+                      textAlign: "left",
+                      padding: "14px 16px",
+                      borderRadius: "10px",
+                      border: active
+                        ? "1px solid #ff5a36"
+                        : "1px solid #eaeaea",
+                      background: active ? "#141614" : "#fff",
+                      color: active ? "#fff" : "#111",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div style={{ fontSize: "11px", opacity: 0.7 }}>
+                      {track.number} / {track.levelLabel.toUpperCase()} POOL
+                    </div>
+                    <strong style={{ fontSize: "20px" }}>{count}</strong>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
           {/* ATS Filter Toolbar */}
           <div
             style={{
@@ -676,37 +805,73 @@ export default function AdminCareersPage() {
               </div>
             </div>
 
-            <div>
-              <label
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 600,
-                  color: "#666",
-                  textTransform: "uppercase",
-                }}
-              >
-                Job Role
-              </label>
-              <select
-                value={selectedJobSlug}
-                onChange={(e) => setSelectedJobSlug(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "9px 10px",
-                  border: "1px solid #d4d4d8",
-                  borderRadius: "6px",
-                  fontSize: "13px",
-                  marginTop: "4px",
-                }}
-              >
-                <option value="all">All Roles</option>
-                {jobs.map((j) => (
-                  <option key={j.slug} value={j.slug}>
-                    {j.title}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {activeTab === "talent_pool" ? (
+              <div>
+                <label
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    color: "#666",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Pool Level
+                </label>
+                <select
+                  value={talentPoolLevelFilter}
+                  onChange={(e) =>
+                    setTalentPoolLevelFilter(
+                      e.target.value as "all" | TalentPoolLevel
+                    )
+                  }
+                  style={{
+                    width: "100%",
+                    padding: "9px 10px",
+                    border: "1px solid #d4d4d8",
+                    borderRadius: "6px",
+                    fontSize: "13px",
+                    marginTop: "4px",
+                  }}
+                >
+                  <option value="all">All Levels (Intern / Associate / Senior)</option>
+                  <option value="intern">Intern Level</option>
+                  <option value="associate">Associate Level</option>
+                  <option value="senior">Senior Level</option>
+                </select>
+              </div>
+            ) : (
+              <div>
+                <label
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    color: "#666",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Job Role
+                </label>
+                <select
+                  value={selectedJobSlug}
+                  onChange={(e) => setSelectedJobSlug(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "9px 10px",
+                    border: "1px solid #d4d4d8",
+                    borderRadius: "6px",
+                    fontSize: "13px",
+                    marginTop: "4px",
+                  }}
+                >
+                  <option value="all">All Roles</option>
+                  {jobs.map((j) => (
+                    <option key={j.slug} value={j.slug}>
+                      {j.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div>
               <label
@@ -779,10 +944,14 @@ export default function AdminCareersPage() {
             >
               <Sparkles size={28} style={{ margin: "0 auto 12px", opacity: 0.5 }} />
               <div style={{ fontWeight: 600, fontSize: "16px", color: "#111" }}>
-                No matching applications found
+                {activeTab === "talent_pool"
+                  ? "No talent pool candidates yet"
+                  : "No matching applications found"}
               </div>
               <p style={{ margin: "6px 0 0", fontSize: "13px" }}>
-                When candidates apply on `/careers`, the ATS engine automatically scores their CV, filters Job Description criteria, and surfaces them here.
+                {activeTab === "talent_pool"
+                  ? "Candidates who join via /careers/talent-pool (Intern, Associate, or Senior) are automatically ATS-scored and surfaced here."
+                  : "When candidates apply on /careers, the ATS engine automatically scores their CV, filters Job Description criteria, and surfaces them here."}
               </p>
             </div>
           ) : (
@@ -804,7 +973,7 @@ export default function AdminCareersPage() {
                 }}
               >
                 {filteredApplications.map((app) => {
-                  const active = selectedApp?.id === app.id;
+                  const active = activeSelectedApp?.id === app.id;
                   return (
                     <div
                       key={app.id || `${app.applicant_email}-${app.created_at}`}
@@ -861,7 +1030,7 @@ export default function AdminCareersPage() {
               </div>
 
               {/* ATS & Filtered JD Inspector */}
-              {selectedApp && (
+              {activeSelectedApp && (
                 <div
                   style={{
                     background: "#fff",
@@ -883,12 +1052,12 @@ export default function AdminCareersPage() {
                   >
                     <div>
                       <h2 style={{ margin: "0 0 4px", fontSize: "20px" }}>
-                        {selectedApp.applicant_name}
+                        {activeSelectedApp.applicant_name}
                       </h2>
                       <div style={{ fontSize: "13px", color: "#555" }}>
-                        {selectedApp.job_title} ·{" "}
-                        <a href={`mailto:${selectedApp.applicant_email}`}>
-                          {selectedApp.applicant_email}
+                        {activeSelectedApp.job_title} ·{" "}
+                        <a href={`mailto:${activeSelectedApp.applicant_email}`}>
+                          {activeSelectedApp.applicant_email}
                         </a>
                       </div>
                       <div
@@ -899,9 +1068,9 @@ export default function AdminCareersPage() {
                           fontSize: "12px",
                         }}
                       >
-                        {selectedApp.linkedin_url && (
+                        {activeSelectedApp.linkedin_url && (
                           <a
-                            href={selectedApp.linkedin_url}
+                            href={activeSelectedApp.linkedin_url}
                             target="_blank"
                             rel="noreferrer"
                             style={{ color: "#0066cc" }}
@@ -909,9 +1078,9 @@ export default function AdminCareersPage() {
                             LinkedIn ↗
                           </a>
                         )}
-                        {selectedApp.portfolio_url && (
+                        {activeSelectedApp.portfolio_url && (
                           <a
-                            href={selectedApp.portfolio_url}
+                            href={activeSelectedApp.portfolio_url}
                             target="_blank"
                             rel="noreferrer"
                             style={{ color: "#0066cc" }}
@@ -919,9 +1088,9 @@ export default function AdminCareersPage() {
                             Portfolio ↗
                           </a>
                         )}
-                        {selectedApp.resume_filename && (
+                        {activeSelectedApp.resume_filename && (
                           <span style={{ color: "#666" }}>
-                            CV: {selectedApp.resume_filename}
+                            CV: {activeSelectedApp.resume_filename}
                           </span>
                         )}
                       </div>
@@ -929,10 +1098,10 @@ export default function AdminCareersPage() {
 
                     <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                       <select
-                        value={selectedApp.status}
+                        value={activeSelectedApp.status}
                         onChange={(e) =>
                           handleUpdateAppStatus(
-                            selectedApp,
+                            activeSelectedApp,
                             e.target.value as JobApplication["status"]
                           )
                         }
@@ -952,7 +1121,7 @@ export default function AdminCareersPage() {
                       </select>
                       <button
                         type="button"
-                        onClick={() => handleDeleteApp(selectedApp)}
+                        onClick={() => handleDeleteApp(activeSelectedApp)}
                         style={{
                           padding: "7px",
                           background: "#feebeb",
@@ -989,12 +1158,12 @@ export default function AdminCareersPage() {
                       <strong style={{ fontSize: "13px" }}>
                         ATS Automated Assessment
                       </strong>
-                      <span style={verdictBadgeStyle(selectedApp.ats_status)}>
-                        Score: {selectedApp.ats_score}%
+                      <span style={verdictBadgeStyle(activeSelectedApp.ats_status)}>
+                        Score: {activeSelectedApp.ats_score}%
                       </span>
                     </div>
                     <p style={{ margin: 0, fontSize: "13px", color: "#475569" }}>
-                      {selectedApp.ats_summary}
+                      {activeSelectedApp.ats_summary}
                     </p>
                   </div>
 
@@ -1011,7 +1180,7 @@ export default function AdminCareersPage() {
                       ATS Skill Detection
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                      {(selectedApp.ats_matched_skills ?? []).map((skill) => (
+                      {(activeSelectedApp.ats_matched_skills ?? []).map((skill) => (
                         <span
                           key={skill}
                           style={{
@@ -1026,7 +1195,7 @@ export default function AdminCareersPage() {
                           ✓ {skill}
                         </span>
                       ))}
-                      {(selectedApp.ats_missing_skills ?? []).map((skill) => (
+                      {(activeSelectedApp.ats_missing_skills ?? []).map((skill) => (
                         <span
                           key={skill}
                           style={{
@@ -1097,7 +1266,7 @@ export default function AdminCareersPage() {
                         gap: "8px",
                       }}
                     >
-                      {(selectedApp.ats_jd_matches ?? [])
+                      {(activeSelectedApp.ats_jd_matches ?? [])
                         .filter((item) => {
                           if (jdInspectorFilter === "matched") return item.matched;
                           if (jdInspectorFilter === "gaps") return !item.matched;
@@ -1169,7 +1338,7 @@ export default function AdminCareersPage() {
                         fontFamily: "inherit",
                       }}
                     >
-                      {selectedApp.resume_text}
+                      {activeSelectedApp.resume_text}
                     </pre>
                   </div>
                 </div>

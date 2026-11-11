@@ -1,4 +1,5 @@
 import { supabaseSelect } from "./supabase";
+import { getTalentPoolJobPost, isTalentPoolSlug } from "./talent-pool";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -429,7 +430,9 @@ export async function getJob(slug: string): Promise<JobPost | null> {
   } catch (err) {
     console.warn(`[careers] Failed to fetch job ${slug} from Supabase:`, err);
   }
-  return staticMatch;
+  if (staticMatch) return staticMatch;
+  if (isTalentPoolSlug(slugNorm)) return getTalentPoolJobPost(slugNorm);
+  return null;
 }
 
 export async function getJobSlugs(): Promise<string[]> {

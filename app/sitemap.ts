@@ -28,6 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/projects",
     "/blog",
     "/careers",
+    "/careers/talent-pool",
     "/about",
     "/contact",
   ];

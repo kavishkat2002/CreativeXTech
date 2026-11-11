@@ -888,6 +888,8 @@ export function AdminJobEditor({ jobIdOrSlug }: { jobIdOrSlug: string }) {
                     onChange={handleFieldChange}
                     style={inputStyle}
                   >
+                    <option value="Internship">Internship</option>
+                    <option value="Associate">Associate</option>
                     <option value="Junior">Junior</option>
                     <option value="Mid-level">Mid-level</option>
                     <option value="Mid-Senior">Mid-Senior</option>

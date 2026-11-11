@@ -7652,3 +7652,269 @@ article#retail-distribution {
     gap: 28px;
   }
 }
+
+/* ─── CreativeX Talent Pool (Intern / Associate / Senior) ──────────────────── */
+
+.careers-talent-pool-section {
+  padding-block: 88px 96px;
+  border-top: 1px solid rgba(11, 12, 11, 0.16);
+  background: #141614;
+  color: var(--paper-bright);
+}
+
+.careers-talent-pool-head {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: end;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.careers-talent-pool-head .section-index {
+  color: var(--signal-soft);
+}
+
+.careers-talent-pool-head h2 {
+  margin: 16px 0 0;
+  font-size: clamp(2.4rem, 4.2vw, 4.2rem);
+  font-weight: 590;
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+}
+
+.careers-talent-pool-head > p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.talent-pool-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.talent-pool-card {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 3px;
+  background: #1b1e1b;
+  color: var(--paper-bright);
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.75, 0.2, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.talent-pool-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--signal);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35), 6px 6px 0 var(--signal);
+}
+
+.talent-pool-card-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font: 700 10px/1.3 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.talent-pool-card-top span {
+  color: var(--signal-soft);
+}
+
+.talent-pool-card-top small {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+}
+
+.talent-pool-card h3 {
+  margin: 20px 0 12px;
+  font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+  font-weight: 590;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.talent-pool-card > p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.talent-pool-card-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+.talent-pool-card-skills span {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font: 650 10px/1 var(--font-mono);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.talent-pool-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 22px;
+  margin-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 12px;
+}
+
+.talent-pool-card-footer span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.talent-pool-card-footer strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--signal-soft);
+  white-space: nowrap;
+}
+
+/* Talent Pool Detail Page Track Selector */
+.talent-pool-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.talent-pool-track-btn {
+  text-align: left;
+  padding: 18px;
+  border: 1px solid rgba(11, 12, 11, 0.22);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.talent-pool-track-btn:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.talent-pool-track-btn.active {
+  background: #141614;
+  border-color: #141614;
+  color: #fff;
+  box-shadow: 5px 5px 0 var(--signal);
+}
+
+.talent-pool-track-btn-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font: 700 10px/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.talent-pool-track-btn-top span {
+  color: var(--signal);
+}
+
+.talent-pool-track-btn.active .talent-pool-track-btn-top span {
+  color: var(--signal-soft);
+}
+
+.talent-pool-track-btn-top small {
+  opacity: 0.6;
+}
+
+.talent-pool-track-btn strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.talent-pool-track-btn p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.68;
+}
+
+.talent-pool-discipline-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.talent-pool-discipline-chips button {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(11, 12, 11, 0.22);
+  background: #fff;
+  color: var(--ink);
+  font: 650 11px/1 var(--font-mono);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.talent-pool-discipline-chips button:hover {
+  border-color: var(--ink);
+}
+
+.talent-pool-discipline-chips button.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-bright);
+}
+
+.talent-pool-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(11, 12, 11, 0.22);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+  .talent-pool-cards {
+    grid-template-columns: 1fr;
+  }
+  .careers-talent-pool-head {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 720px) {
+  .talent-pool-selector-grid {
+    grid-template-columns: 1fr;
+  }
+}
