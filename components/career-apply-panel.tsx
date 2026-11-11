@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 import type { ATSResult, JobApplication, JobPost } from "@/lib/careers";
+import { mapJobRow, staticJobs } from "@/lib/careers";
 import { analyzeApplicationATS, extractTextFromResumeFile } from "@/lib/ats";
 import { getSupabaseClient, isLocalAdminMode } from "@/lib/supabase-client";
 
@@ -65,7 +66,12 @@ export function CareerApplyPanel({
           .eq("slug", slug)
           .single();
         if (data) {
-          setJob(data as JobPost);
+          const staticMatch =
+            initialJob ??
+            staticJobs.find(
+              (j) => j.slug.toLowerCase().trim() === slug.toLowerCase().trim()
+            );
+          setJob(mapJobRow(data, staticMatch));
         }
       } catch {
         // ignore
@@ -74,7 +80,7 @@ export function CareerApplyPanel({
       }
     }
     hydrateJob();
-  }, [slug]);
+  }, [slug, initialJob]);
 
   const liveATS = useMemo<ATSResult | null>(() => {
     if (!job) return null;

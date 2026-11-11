@@ -64,3 +64,58 @@ test("Careers SEO/AEO/GEO helpers generate Google Jobs JobPosting and FAQPage sc
   assert.equal(faqSchema.mainEntity.length, detailFaqs.length);
 });
 
+test("mergeJobsWithStatic keeps unseeded static jobs visible alongside Supabase rows", async (t) => {
+  const vite = await createServer({
+    appType: "custom",
+    configFile: false,
+    root,
+    resolve: { alias: { "@": root } },
+    server: { middlewareMode: true },
+  });
+
+  t.after(async () => {
+    await vite.close();
+  });
+
+  const { mergeJobsWithStatic, staticJobs } = await vite.ssrLoadModule("/lib/careers.ts");
+
+  // 1. Empty DB rows still return all published static jobs
+  const fromEmpty = mergeJobsWithStatic([], false);
+  assert.equal(fromEmpty.length, staticJobs.length);
+  assert.ok(fromEmpty.some((j) => j.slug === "business-development-intern"));
+
+  // 2. Partial DB rows (e.g. only older job 01) do not hide newer static jobs
+  const partialDbRows = [
+    {
+      id: "db-1",
+      slug: "senior-ai-systems-engineer",
+      number: "01",
+      title: "Principal AI Systems Engineer",
+      published: true,
+    },
+    {
+      id: "db-2",
+      slug: "fullstack-nextjs-edge-engineer",
+      number: "02",
+      title: "Full-Stack Next.js & Edge Engineer",
+      published: false,
+    },
+  ];
+
+  const mergedPublished = mergeJobsWithStatic(partialDbRows, false);
+  assert.equal(
+    mergedPublished.find((j) => j.slug === "senior-ai-systems-engineer")?.title,
+    "Principal AI Systems Engineer"
+  );
+  assert.equal(
+    mergedPublished.some((j) => j.slug === "fullstack-nextjs-edge-engineer"),
+    false
+  );
+  assert.ok(mergedPublished.some((j) => j.slug === "business-development-intern"));
+  assert.equal(mergedPublished.length, staticJobs.length - 1);
+
+  // 3. includeUnpublished = true includes the unpublished DB row too
+  const mergedAll = mergeJobsWithStatic(partialDbRows, true);
+  assert.equal(mergedAll.length, staticJobs.length);
+});
+

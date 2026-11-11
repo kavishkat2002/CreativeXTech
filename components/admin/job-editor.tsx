@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import type { JobPost } from "@/lib/careers";
+import { staticJobs } from "@/lib/careers";
 import { extractJobKeywords } from "@/lib/ats";
 import { getSupabaseClient } from "@/lib/supabase-client";
 
@@ -93,6 +94,16 @@ export function AdminJobEditor({ jobIdOrSlug }: { jobIdOrSlug: string }) {
             column: matchCol,
             value: String(data[matchCol] || jobIdOrSlug),
           });
+        } else {
+          const staticMatch = staticJobs.find(
+            (j) => j.id === jobIdOrSlug || j.slug === jobIdOrSlug
+          );
+          if (staticMatch) {
+            data = staticMatch;
+          }
+        }
+
+        if (data) {
           setFormData({
             id: data.id,
             slug: data.slug || "",
@@ -291,15 +302,15 @@ export function AdminJobEditor({ jobIdOrSlug }: { jobIdOrSlug: string }) {
         updated_at: new Date().toISOString(),
       };
 
-      if (isNew) {
+      if (isNew || !matchedRecordKey) {
         const { error: insertErr } = await client
           .from("jobs")
           .insert([{ ...cleanPayload, created_at: new Date().toISOString() }]);
         if (insertErr) throw insertErr;
         router.push("/admin/careers");
       } else {
-        const keyCol = matchedRecordKey?.column || "slug";
-        const keyVal = matchedRecordKey?.value || formData.slug;
+        const keyCol = matchedRecordKey.column;
+        const keyVal = matchedRecordKey.value;
         const { error: updateErr } = await client
           .from("jobs")
           .update(cleanPayload)

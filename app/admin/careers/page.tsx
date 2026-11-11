@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 import type { JobApplication, JobPost } from "@/lib/careers";
+import { mergeJobsWithStatic } from "@/lib/careers";
 import { getSupabaseClient } from "@/lib/supabase-client";
 
 type AdminTab = "jobs" | "applications";
@@ -52,7 +53,9 @@ export default function AdminCareersPage() {
       ]);
 
       if (Array.isArray(jobsRes.data)) {
-        setJobs(jobsRes.data as JobPost[]);
+        setJobs(mergeJobsWithStatic(jobsRes.data, true));
+      } else {
+        setJobs(mergeJobsWithStatic([], true));
       }
       if (Array.isArray(appsRes.data)) {
         const apps = appsRes.data as JobApplication[];
@@ -81,7 +84,9 @@ export default function AdminCareersPage() {
 
         if (!active) return;
         if (Array.isArray(jobsRes.data)) {
-          setJobs(jobsRes.data as JobPost[]);
+          setJobs(mergeJobsWithStatic(jobsRes.data, true));
+        } else {
+          setJobs(mergeJobsWithStatic([], true));
         }
         if (Array.isArray(appsRes.data)) {
           const apps = appsRes.data as JobApplication[];

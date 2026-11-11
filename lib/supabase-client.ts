@@ -76,21 +76,31 @@ function makeMockClient(): SupabaseClient {
               return item;
             });
           }
-          const existingSlugs = new Set(parsed.map((item: any) => item?.slug || item?.id));
+          const normalizeKey = (item: any) =>
+            String(item?.slug || item?.id || "").toLowerCase().trim();
+          const existingSlugs = new Set(parsed.map(normalizeKey));
+          let updatedStorage = false;
           if (table === "jobs") {
             const bdStatic = staticJobs.find((j) => j.slug === "business-development-intern");
             if (bdStatic) {
-              parsed = parsed.map((item: any) =>
-                item?.slug === "business-development-intern" &&
-                item?.salary_range === "LKR 25,000 – 50,000 + Performance Commission"
-                  ? { ...item, salary_range: bdStatic.salary_range, benefits: bdStatic.benefits }
-                  : item
-              );
+              parsed = parsed.map((item: any) => {
+                if (
+                  item?.slug === "business-development-intern" &&
+                  item?.salary_range === "LKR 25,000 – 50,000 + Performance Commission"
+                ) {
+                  updatedStorage = true;
+                  return { ...item, salary_range: bdStatic.salary_range, benefits: bdStatic.benefits };
+                }
+                return item;
+              });
             }
           }
-          const missing = staticList.filter((item) => !existingSlugs.has(item.slug || item.id));
+          const missing = staticList.filter((item) => !existingSlugs.has(normalizeKey(item)));
           if (missing.length > 0) {
             parsed = [...parsed, ...missing];
+            updatedStorage = true;
+          }
+          if (updatedStorage) {
             localStorage.setItem(getStorageKey(table), JSON.stringify(parsed));
           }
         }

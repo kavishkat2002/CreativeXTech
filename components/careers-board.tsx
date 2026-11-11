@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 import type { JobPost } from "@/lib/careers";
-import { staticJobs } from "@/lib/careers";
+import { mergeJobsWithStatic, staticJobs } from "@/lib/careers";
 import { getSupabaseClient } from "@/lib/supabase-client";
 
 const DEPARTMENT_ICONS: Record<string, typeof Cpu> = {
@@ -24,7 +24,9 @@ const DEPARTMENT_ICONS: Record<string, typeof Cpu> = {
 
 export function CareersBoard({ initialJobs }: { initialJobs: JobPost[] }) {
   const [jobs, setJobs] = useState<JobPost[]>(
-    initialJobs.length > 0 ? initialJobs : staticJobs
+    initialJobs.length > 0
+      ? initialJobs
+      : staticJobs.filter((j) => j.published !== false)
   );
   const [activeDepartment, setActiveDepartment] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -37,10 +39,10 @@ export function CareersBoard({ initialJobs }: { initialJobs: JobPost[] }) {
           .from("jobs")
           .select("*")
           .order("number", { ascending: true });
-        if (!error && Array.isArray(data) && data.length > 0) {
-          const published = data.filter((j: JobPost) => j.published !== false);
-          if (published.length > 0) {
-            setJobs(published);
+        if (!error && Array.isArray(data)) {
+          const merged = mergeJobsWithStatic(data, false);
+          if (merged.length > 0) {
+            setJobs(merged);
           }
         }
       } catch {

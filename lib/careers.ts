@@ -87,30 +87,49 @@ export interface JobApplication {
 
 // ─── Database row mapper ──────────────────────────────────────────────────────
 
+function normalizeStringArray(val: unknown, fallback: string[] = []): string[] {
+  if (Array.isArray(val)) return val.map((v) => String(v));
+  if (typeof val === "string" && val.trim().startsWith("[")) {
+    try {
+      const parsed = JSON.parse(val);
+      if (Array.isArray(parsed)) return parsed.map((v) => String(v));
+    } catch {
+      // ignore invalid JSON
+    }
+  }
+  return fallback;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function mapJobRow(row: any): JobPost {
+export function mapJobRow(row: any, fallback?: JobPost): JobPost {
   return {
-    id: row.id,
-    slug: row.slug,
-    number: row.number || "01",
-    title: row.title,
-    department: row.department || "Engineering",
-    location: row.location || "Remote / Colombo",
-    type: row.type || "Full-time",
-    level: row.level || "Mid-Senior",
-    salary_range: row.salary_range || "",
-    summary: row.summary || "",
-    description: row.description || "",
-    responsibilities: Array.isArray(row.responsibilities) ? row.responsibilities : [],
-    requirements: Array.isArray(row.requirements) ? row.requirements : [],
-    required_skills: Array.isArray(row.required_skills) ? row.required_skills : [],
-    nice_to_have: Array.isArray(row.nice_to_have) ? row.nice_to_have : [],
-    benefits: Array.isArray(row.benefits) ? row.benefits : [],
-    media_url: row.media_url || null,
-    ats_threshold: typeof row.ats_threshold === "number" ? row.ats_threshold : 60,
-    published: row.published ?? true,
-    created_at: row.created_at,
-    updated_at: row.updated_at,
+    id: row.id ?? fallback?.id,
+    slug: String(row.slug ?? fallback?.slug ?? "").trim(),
+    number: row.number || fallback?.number || "01",
+    title: row.title || fallback?.title || "",
+    department: row.department || fallback?.department || "Engineering",
+    location: row.location || fallback?.location || "Remote / Colombo",
+    type: row.type || fallback?.type || "Full-time",
+    level: row.level || fallback?.level || "Mid-Senior",
+    salary_range: row.salary_range ?? fallback?.salary_range ?? "",
+    summary: row.summary || fallback?.summary || "",
+    description: row.description || fallback?.description || "",
+    responsibilities: normalizeStringArray(row.responsibilities, fallback?.responsibilities ?? []),
+    requirements: normalizeStringArray(row.requirements, fallback?.requirements ?? []),
+    required_skills: normalizeStringArray(row.required_skills, fallback?.required_skills ?? []),
+    nice_to_have: normalizeStringArray(row.nice_to_have, fallback?.nice_to_have ?? []),
+    benefits: normalizeStringArray(row.benefits, fallback?.benefits ?? []),
+    media_url: row.media_url !== undefined ? row.media_url : (fallback?.media_url ?? null),
+    ats_threshold:
+      typeof row.ats_threshold === "number"
+        ? row.ats_threshold
+        : (fallback?.ats_threshold ?? 60),
+    published:
+      row.published === false || row.is_published === false
+        ? false
+        : (row.published ?? fallback?.published ?? true),
+    created_at: row.created_at ?? fallback?.created_at,
+    updated_at: row.updated_at ?? fallback?.updated_at,
   };
 }
 
@@ -345,34 +364,72 @@ export const staticJobs: JobPost[] = [
 
 // ─── Fetch Helpers ────────────────────────────────────────────────────────────
 
+/**
+ * Merge live database job rows with `staticJobs` so newly added static roles
+ * still appear even when Supabase only contains earlier rows (or is empty),
+ * while allowing DB rows to override or unpublish matching slugs.
+ */
+export function mergeJobsWithStatic(
+  rows: unknown[] | null | undefined,
+  includeUnpublished = false
+): JobPost[] {
+  const safeRows = Array.isArray(rows) ? rows : [];
+  const staticBySlug = new Map(
+    staticJobs.map((job) => [job.slug.toLowerCase().trim(), job])
+  );
+
+  const dbJobs = safeRows
+    .filter((row): row is Record<string, unknown> => Boolean(row && typeof row === "object" && "slug" in row && row.slug))
+    .map((row) => {
+      const slugNorm = String(row.slug).toLowerCase().trim();
+      return mapJobRow(row, staticBySlug.get(slugNorm));
+    });
+
+  const dbSlugs = new Set(dbJobs.map((j) => j.slug.toLowerCase().trim()));
+  const missingStatic = staticJobs.filter(
+    (j) => !dbSlugs.has(j.slug.toLowerCase().trim())
+  );
+
+  const combined = [...dbJobs, ...missingStatic].sort((a, b) =>
+    String(a.number || "").localeCompare(String(b.number || ""), undefined, {
+      numeric: true,
+    })
+  );
+
+  return includeUnpublished
+    ? combined
+    : combined.filter((j) => j.published !== false);
+}
+
 export async function getJobs(includeUnpublished = false): Promise<JobPost[]> {
   try {
     const rows = await supabaseSelect("jobs", {
       order: "number.asc",
     });
-    if (rows && rows.length > 0) {
-      const mapped = rows.map(mapJobRow);
-      return includeUnpublished ? mapped : mapped.filter((j) => j.published !== false);
-    }
+    return mergeJobsWithStatic(rows, includeUnpublished);
   } catch (err) {
     console.warn("[careers] Failed to fetch jobs from Supabase, using static fallback:", err);
   }
-  return includeUnpublished ? staticJobs : staticJobs.filter((j) => j.published !== false);
+  return mergeJobsWithStatic([], includeUnpublished);
 }
 
 export async function getJob(slug: string): Promise<JobPost | null> {
+  const slugNorm = slug.toLowerCase().trim();
+  const staticMatch =
+    staticJobs.find((j) => j.slug.toLowerCase().trim() === slugNorm) ?? null;
+
   try {
     const rows = await supabaseSelect("jobs", {
       slug: `eq.${slug}`,
       limit: "1",
     });
     if (rows && rows.length > 0) {
-      return mapJobRow(rows[0]);
+      return mapJobRow(rows[0], staticMatch ?? undefined);
     }
   } catch (err) {
     console.warn(`[careers] Failed to fetch job ${slug} from Supabase:`, err);
   }
-  return staticJobs.find((j) => j.slug === slug) ?? null;
+  return staticMatch;
 }
 
 export async function getJobSlugs(): Promise<string[]> {

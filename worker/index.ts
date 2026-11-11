@@ -58,10 +58,21 @@ const worker = {
       );
     }
 
-    // Inject Cloudflare env vars into process.env for Next.js API routes
-    globalThis.process = (globalThis.process || { env: {} as any }) as any;
-    if (!globalThis.process.env) globalThis.process.env = {} as any;
-    globalThis.process.env.RESEND_API_KEY = (env as any).RESEND_API_KEY;
+    // Inject Cloudflare env vars into process.env for Next.js SSR & API routes
+    const workerEnv = env as Env & { RESEND_API_KEY?: string };
+    globalThis.process = (globalThis.process || { env: {} }) as NodeJS.Process;
+    if (!globalThis.process.env) {
+      globalThis.process.env = {} as NodeJS.ProcessEnv;
+    }
+    if (workerEnv.RESEND_API_KEY) {
+      globalThis.process.env.RESEND_API_KEY = workerEnv.RESEND_API_KEY;
+    }
+    if (workerEnv.NEXT_PUBLIC_SUPABASE_URL) {
+      globalThis.process.env.NEXT_PUBLIC_SUPABASE_URL = workerEnv.NEXT_PUBLIC_SUPABASE_URL;
+    }
+    if (workerEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      globalThis.process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = workerEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    }
 
     return handler.fetch(request, env, ctx);
   },
