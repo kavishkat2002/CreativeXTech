@@ -5,6 +5,7 @@ import { staticArticles } from "./articles";
 import { services } from "./services";
 import { staticSolutions } from "./solutions";
 import { staticProjects, isExplicitlyHiddenProject } from "./projects";
+import { staticJobs } from "./careers";
 
 // ─── Configuration check ──────────────────────────────────────────────────────
 
@@ -38,6 +39,7 @@ function makeMockClient(): SupabaseClient {
       if (table === "services") return services;
       if (table === "solutions") return staticSolutions;
       if (table === "projects") return staticProjects;
+      if (table === "jobs") return staticJobs;
       return [];
     }
 
@@ -46,6 +48,7 @@ function makeMockClient(): SupabaseClient {
     else if (table === "services") staticList = services;
     else if (table === "solutions") staticList = staticSolutions;
     else if (table === "projects") staticList = staticProjects;
+    else if (table === "jobs") staticList = staticJobs;
 
     try {
       const stored = localStorage.getItem(getStorageKey(table));
@@ -286,8 +289,22 @@ function makeMockClient(): SupabaseClient {
             let publicUrl = "";
             if (typeof window !== "undefined" && file) {
               try {
-                publicUrl = URL.createObjectURL(file);
-                sessionStorage.setItem(`file_${bucket}_${filePath}`, publicUrl);
+                if (file.type?.startsWith("image/") && file.size <= 2 * 1024 * 1024) {
+                  publicUrl = await new Promise<string>((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(typeof reader.result === "string" ? reader.result : "");
+                    reader.onerror = () => resolve("");
+                    reader.readAsDataURL(file);
+                  });
+                }
+                if (!publicUrl) {
+                  publicUrl = URL.createObjectURL(file);
+                }
+                try {
+                  localStorage.setItem(`creativex_file_${bucket}_${filePath}`, publicUrl);
+                } catch {
+                  sessionStorage.setItem(`file_${bucket}_${filePath}`, publicUrl);
+                }
               } catch {}
             }
             return { data: { path: filePath, publicUrl }, error: null };
@@ -295,7 +312,10 @@ function makeMockClient(): SupabaseClient {
           getPublicUrl(filePath: string) {
             let publicUrl = "";
             if (typeof window !== "undefined") {
-              publicUrl = sessionStorage.getItem(`file_${bucket}_${filePath}`) || "";
+              publicUrl =
+                localStorage.getItem(`creativex_file_${bucket}_${filePath}`) ||
+                sessionStorage.getItem(`file_${bucket}_${filePath}`) ||
+                "";
             }
             if (!publicUrl) {
               publicUrl = "/brand/character-render.png";

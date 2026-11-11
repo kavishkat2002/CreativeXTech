@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { getArticles } from "@/lib/articles";
+import { getJobs } from "@/lib/careers";
 import { getProjects } from "@/lib/projects";
 import { getServices } from "@/lib/services";
 
@@ -24,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/solutions",
     "/projects",
     "/blog",
+    "/careers",
     "/about",
     "/contact",
   ];
@@ -37,6 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const articles = await getArticles();
     const projects = await getProjects();
     const services = await getServices();
+    const jobs = await getJobs();
 
     const serviceEntries: MetadataRoute.Sitemap = (services || [])
       .filter((service) => service && service.slug)
@@ -64,11 +67,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         };
       });
 
+    const jobEntries: MetadataRoute.Sitemap = (jobs || [])
+      .filter((job) => job && job.slug)
+      .map((job) => ({
+        url: `${baseUrl}/careers/${job.slug}`,
+        lastModified: siteFallbackDate,
+      }));
+
     return [
       ...coreEntries,
       ...serviceEntries,
       ...projectEntries,
       ...articleEntries,
+      ...jobEntries,
     ];
   } catch (error) {
     console.error("Error generating dynamic sitemap entries:", error);
