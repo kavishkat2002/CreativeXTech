@@ -1122,6 +1122,20 @@ export function AdminJobEditor({ jobIdOrSlug }: { jobIdOrSlug: string }) {
               </div>
             </div>
           </div>
+
+          <div style={cardStyle}>
+            <h3 style={{ margin: "0 0 8px", fontSize: "15px", fontWeight: 600 }}>
+              SEO, AEO &amp; GEO Auto-Indexing
+            </h3>
+            <p style={{ margin: "0 0 10px", fontSize: "12px", color: "#555", lineHeight: 1.5 }}>
+              When published, this role is automatically indexed for Google Jobs, ChatGPT, Perplexity, and AI search tools:
+            </p>
+            <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "12px", color: "#333", lineHeight: 1.7 }}>
+              <li>Canonical: <code>/careers/{formData.slug || "role-slug"}</code></li>
+              <li>Schema.org <code>JobPosting</code> + <code>FAQPage</code></li>
+              <li>Live in <code>/sitemap.xml</code>, <code>/llms.txt</code> &amp; <code>/careers/jobs.json</code></li>
+            </ul>
+          </div>
         </div>
       </div>
     </form>

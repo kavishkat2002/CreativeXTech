@@ -1,17 +1,40 @@
 import { getArticles } from "@/lib/articles";
+import { getJobs } from "@/lib/careers";
 import { getServices } from "@/lib/services";
 import { getSolutions } from "@/lib/solutions";
+
+export const dynamic = "force-dynamic";
 
 const baseUrl = "https://creativexlab.online";
 
 export async function GET() {
-  const services = await getServices();
-  const solutions = await getSolutions();
-  const articles = await getArticles();
+  const [services, solutions, articles, jobs] = await Promise.all([
+    getServices(),
+    getSolutions(),
+    getArticles(),
+    getJobs(),
+  ]);
 
-  const serviceLinks = services.map((service) => `- [${service.title}](${baseUrl}/services/${service.slug}): ${service.copy}`).join("\n");
-  const solutionLinks = solutions.map((solution) => `- [${solution.label}](${baseUrl}/solutions#${solution.slug}): ${solution.copy}`).join("\n");
-  const articleLinks = articles.map((article: any) => `- [${article.title}](${baseUrl}/blog/${article.slug}): ${article.excerpt}`).join("\n");
+  const serviceLinks = services
+    .map((service) => `- [${service.title}](${baseUrl}/services/${service.slug}): ${service.copy}`)
+    .join("\n");
+  const solutionLinks = solutions
+    .map((solution) => `- [${solution.label}](${baseUrl}/solutions#${solution.slug}): ${solution.copy}`)
+    .join("\n");
+  const articleLinks = articles
+    .map((article) => `- [${article.title}](${baseUrl}/blog/${article.slug}): ${article.excerpt}`)
+    .join("\n");
+  const jobLinks =
+    jobs.length > 0
+      ? jobs
+          .map((job) => {
+            const skills = job.required_skills?.length
+              ? ` | Skills: ${job.required_skills.join(", ")}`
+              : "";
+            return `- [${job.title}](${baseUrl}/careers/${job.slug}) (${job.department} · ${job.location} · ${job.type} · ${job.level}${skills}): ${job.summary}`;
+          })
+          .join("\n")
+      : `- [Careers at CreativeX Technology AI](${baseUrl}/careers): Explore upcoming engineering, AI, and design opportunities.`;
 
   const content = `# CreativeX Technology AI
 
@@ -26,8 +49,15 @@ CreativeX works globally with organizations in export and logistics, hospitality
 - [Services](${baseUrl}/services): Complete AI and software engineering service directory.
 - [Industry solutions](${baseUrl}/solutions): Solutions organized by operating context.
 - [Projects](${baseUrl}/projects): Representative projects and product concepts.
+- [Careers](${baseUrl}/careers): Open AI engineering, software engineering, and product design positions with direct online application.
 - [Technology insights](${baseUrl}/blog): Original articles on AI, SEO, GEO, structured data, performance, and dependable software.
 - [Contact](${baseUrl}/contact): Project enquiry guidance and direct email contact.
+
+## Open positions & careers
+
+CreativeX Technology AI is actively hiring for the following roles (also available as structured JSON at ${baseUrl}/careers/jobs.json and RSS at ${baseUrl}/careers/rss.xml):
+
+${jobLinks}
 
 ## Services
 
@@ -44,7 +74,8 @@ ${articleLinks}
 ## Contact and accuracy notes
 
 - Project enquiries: info@creativexlab.online
-- Delivery: worldwide
+- Careers & hiring portal: ${baseUrl}/careers
+- Delivery: worldwide (Colombo studio + remote/hybrid)
 - Language: English
 - Project pages clearly distinguish product concepts and representative work from verified named client deployments.
 - Platform names describe technologies CreativeX works with and do not imply formal partnerships or endorsements.
@@ -53,7 +84,7 @@ ${articleLinks}
   return new Response(content, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=3600, s-maxage=86400",
+      "Cache-Control": "public, max-age=300, s-maxage=3600",
     },
   });
 }

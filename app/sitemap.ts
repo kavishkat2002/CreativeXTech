@@ -5,6 +5,8 @@ import { getJobs } from "@/lib/careers";
 import { getProjects } from "@/lib/projects";
 import { getServices } from "@/lib/services";
 
+export const dynamic = "force-dynamic";
+
 const baseUrl = "https://creativexlab.online";
 const siteFallbackDate = new Date("2026-09-12T00:00:00.000Z");
 
@@ -69,10 +71,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const jobEntries: MetadataRoute.Sitemap = (jobs || [])
       .filter((job) => job && job.slug)
-      .map((job) => ({
-        url: `${baseUrl}/careers/${job.slug}`,
-        lastModified: siteFallbackDate,
-      }));
+      .map((job) => {
+        const dateStr = job.updated_at || job.created_at;
+        const parsedDate = dateStr ? new Date(dateStr) : siteFallbackDate;
+        const validDate = isNaN(parsedDate.getTime()) ? siteFallbackDate : parsedDate;
+        return {
+          url: `${baseUrl}/careers/${job.slug}`,
+          lastModified: validDate,
+        };
+      });
 
     return [
       ...coreEntries,

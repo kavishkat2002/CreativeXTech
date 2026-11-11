@@ -37,7 +37,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin", "/admin/", "/api/", "/api/*"],
       },
     ],
-    sitemap: [`${baseUrl}/sitemap.xml`, `${baseUrl}/rss.xml`],
+    sitemap: [`${baseUrl}/sitemap.xml`, `${baseUrl}/rss.xml`, `${baseUrl}/careers/rss.xml`],
     host: baseUrl,
   };
 }

@@ -7596,3 +7596,59 @@ article#retail-distribution {
     gap: 12px;
   }
 }
+
+/* ─── Careers AEO / FAQ Section ───────────────────────────────────────────── */
+
+.careers-faq-section {
+  padding-block: 88px;
+  border-top: 1px solid rgba(11, 12, 11, 0.16);
+  background: #e9ebe7;
+  color: var(--ink);
+}
+
+.careers-faq-layout {
+  display: grid;
+  grid-template-columns: 0.36fr 1.64fr;
+  gap: 52px;
+  align-items: start;
+}
+
+.careers-faq-layout h2 {
+  margin: 16px 0 0;
+  font-size: clamp(2.1rem, 3.6vw, 3.6rem);
+  font-weight: 590;
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.careers-faq-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid rgba(11, 12, 11, 0.24);
+}
+
+.careers-faq-item {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(11, 12, 11, 0.16);
+}
+
+.careers-faq-item h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.careers-faq-item p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(11, 12, 11, 0.68);
+}
+
+@media (max-width: 900px) {
+  .careers-faq-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
