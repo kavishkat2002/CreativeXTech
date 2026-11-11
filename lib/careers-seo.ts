@@ -150,16 +150,7 @@ export interface CareerFaqItem {
   answer: string;
 }
 
-export function buildCareersHubFaqItems(jobs: JobPost[]): CareerFaqItem[] {
-  const openTitles =
-    jobs.length > 0
-      ? jobs.map((j) => `${j.title} (${j.location})`).join(", ")
-      : "AI engineering, full-stack software development, and product design roles";
-
-  const allSkills = Array.from(
-    new Set(jobs.flatMap((j) => j.required_skills ?? []))
-  ).slice(0, 12);
-
+export function buildCareersHubFaqItems(): CareerFaqItem[] {
   return [
     {
       question: "What does the hiring process look like?",
@@ -172,14 +163,9 @@ export function buildCareersHubFaqItems(jobs: JobPost[]): CareerFaqItem[] {
         "We support flexible remote and hybrid work arrangements between our Colombo studio and distributed global collaborators, depending on the role and project delivery needs.",
     },
     {
-      question: "What roles and technical skills are you hiring for right now?",
-      answer: `We currently have ${jobs.length} open position${
-        jobs.length === 1 ? "" : "s"
-      }: ${openTitles}.${
-        allSkills.length > 0
-          ? ` Core capabilities we look for include ${allSkills.join(", ")}.`
-          : ""
-      }`,
+      question: "What common skills and qualities do you look for across roles?",
+      answer:
+        "Across all roles, we value strong problem-solving, systems thinking, clear written and verbal communication, high ownership, adaptability, and attention to detail—paired with practical fluency in modern software engineering, AI tools and workflows, cloud platforms, or user-centered product design.",
     },
     {
       question: "What do I need to submit when applying?",

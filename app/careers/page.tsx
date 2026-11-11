@@ -113,7 +113,7 @@ const principles = [
 
 export default async function CareersPage() {
   const jobs = await getJobs();
-  const faqItems = buildCareersHubFaqItems(jobs);
+  const faqItems = buildCareersHubFaqItems();
 
   const careersGraphJsonLd = {
     "@context": "https://schema.org",
