@@ -446,40 +446,6 @@ export function TalentPoolPanel({
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="career-apply-form">
-                  <div className="career-live-ats-panel">
-                    <div className="career-live-ats-header">
-                      <span>
-                        <Sparkles size={13} /> Live Pool Readiness ({track.levelLabel})
-                      </span>
-                      <strong>{liveATS ? `${liveATS.score}%` : "Upload CV"}</strong>
-                    </div>
-                    <div className="career-ats-meter">
-                      <div
-                        className={`career-ats-meter-fill ${
-                          liveATS?.verdict ?? "review"
-                        }`}
-                        style={{ width: `${liveATS ? liveATS.score : 0}%` }}
-                      />
-                    </div>
-                    {liveATS ? (
-                      <div className="career-live-ats-stats">
-                        <span>
-                          Skills: {liveATS.matchedSkills.length}/
-                          {virtualJob.required_skills.length}
-                        </span>
-                        <span>JD Match: {liveATS.jdMatchPercentage}%</span>
-                        <span>
-                          Format: {liveATS.detectedSignals.atsFormatScore}%
-                        </span>
-                      </div>
-                    ) : (
-                      <p className="career-live-ats-placeholder">
-                        Upload your resume or write your career note to preview your{" "}
-                        {track.levelLabel}-level ATS profile.
-                      </p>
-                    )}
-                  </div>
-
                   <div className="career-form-group">
                     <label>Target Pool Level</label>
                     <select
