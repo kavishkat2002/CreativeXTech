@@ -880,6 +880,7 @@ export function AdminJobEditor({ jobIdOrSlug }: { jobIdOrSlug: string }) {
                   >
                     <option value="Full-time">Full-time</option>
                     <option value="Part-time">Part-time</option>
+                    <option value="Full-time / Part-time">Full-time / Part-time</option>
                     <option value="Contract">Contract</option>
                     <option value="Internship">Internship</option>
                   </select>

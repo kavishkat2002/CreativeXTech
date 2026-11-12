@@ -54,6 +54,12 @@ const SKILL_ALIASES: Record<string, string[]> = {
   "communication": ["communication", "english", "sinhala", "tamil"],
   "marketing": ["marketing", "digital marketing", "business management", "business administration"],
   "crm": ["crm", "hubspot", "salesforce", "pipedrive", "zoho"],
+  "pre-sales": ["pre-sales", "presales", "pre sales", "sales engineering", "solution consulting", "client discovery", "requirement gathering"],
+  "business analysis": ["business analysis", "business analyst", "requirements gathering", "requirement gathering", "business information systems"],
+  "google workspace": ["google workspace", "microsoft office", "google docs", "google slides", "powerpoint", "excel"],
+  "ai & automation": ["n8n", "make", "zapier", "automation", "generative ai", "chatgpt", "gemini", "claude", "ai tools"],
+  "cloud technologies": ["cloud", "cloud technologies", "aws", "gcp", "azure", "digital transformation"],
+  "digital marketing": ["digital marketing", "marketing", "seo", "social media"],
 };
 
 const STOP_WORDS = new Set([

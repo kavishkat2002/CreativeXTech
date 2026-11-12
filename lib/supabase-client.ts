@@ -82,18 +82,35 @@ function makeMockClient(): SupabaseClient {
           let updatedStorage = false;
           if (table === "jobs") {
             const bdStatic = staticJobs.find((j) => j.slug === "business-development-intern");
-            if (bdStatic) {
-              parsed = parsed.map((item: any) => {
-                if (
-                  item?.slug === "business-development-intern" &&
-                  item?.salary_range === "LKR 25,000 – 50,000 + Performance Commission"
-                ) {
-                  updatedStorage = true;
-                  return { ...item, salary_range: bdStatic.salary_range, benefits: bdStatic.benefits };
-                }
-                return item;
-              });
-            }
+            const preSalesStatic = staticJobs.find((j) => j.slug === "pre-sales-intern-it-software");
+            parsed = parsed.map((item: any) => {
+              if (
+                bdStatic &&
+                item?.slug === "business-development-intern" &&
+                item?.salary_range === "LKR 25,000 – 50,000 + Performance Commission"
+              ) {
+                updatedStorage = true;
+                return { ...item, salary_range: bdStatic.salary_range, benefits: bdStatic.benefits };
+              }
+              if (
+                preSalesStatic &&
+                item?.slug === "pre-sales-intern-it-software" &&
+                (item?.salary_range === "LKR 25,000 – 80,000" ||
+                  item?.type === "Internship" ||
+                  item?.title === "Full-Time Pre-Sales Intern (IT & Software)")
+              ) {
+                updatedStorage = true;
+                return {
+                  ...item,
+                  title: preSalesStatic.title,
+                  type: preSalesStatic.type,
+                  salary_range: preSalesStatic.salary_range,
+                  description: preSalesStatic.description,
+                  benefits: preSalesStatic.benefits,
+                };
+              }
+              return item;
+            });
           }
           const missing = staticList.filter((item) => !existingSlugs.has(normalizeKey(item)));
           if (missing.length > 0) {
