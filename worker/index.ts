@@ -7,6 +7,8 @@ interface Env {
   DB: { prepare(s: string): unknown; exec(s: string): unknown };
   NEXT_PUBLIC_SUPABASE_URL?: string;
   NEXT_PUBLIC_SUPABASE_ANON_KEY?: string;
+  SUPABASE_URL?: string;
+  SUPABASE_ANON_KEY?: string;
   IMAGES: {
     input(stream: ReadableStream): {
       transform(options: Record<string, unknown>): {
@@ -43,11 +45,22 @@ const worker = {
     }
 
     // Expose Supabase env vars to the client via a config endpoint
+    const supabaseUrl =
+      env.NEXT_PUBLIC_SUPABASE_URL ||
+      env.SUPABASE_URL ||
+      globalThis.process?.env?.NEXT_PUBLIC_SUPABASE_URL ||
+      "";
+    const supabaseAnonKey =
+      env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+      env.SUPABASE_ANON_KEY ||
+      globalThis.process?.env?.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+      "";
+
     if (url.pathname === "/_env/supabase") {
       return new Response(
         JSON.stringify({
-          url: env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-          key: env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
+          url: supabaseUrl,
+          key: supabaseAnonKey,
         }),
         {
           headers: {
@@ -67,11 +80,11 @@ const worker = {
     if (workerEnv.RESEND_API_KEY) {
       globalThis.process.env.RESEND_API_KEY = workerEnv.RESEND_API_KEY;
     }
-    if (workerEnv.NEXT_PUBLIC_SUPABASE_URL) {
-      globalThis.process.env.NEXT_PUBLIC_SUPABASE_URL = workerEnv.NEXT_PUBLIC_SUPABASE_URL;
+    if (supabaseUrl) {
+      globalThis.process.env.NEXT_PUBLIC_SUPABASE_URL = supabaseUrl;
     }
-    if (workerEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      globalThis.process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = workerEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (supabaseAnonKey) {
+      globalThis.process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = supabaseAnonKey;
     }
 
     return handler.fetch(request, env, ctx);
