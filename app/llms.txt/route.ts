@@ -45,6 +45,7 @@ CreativeX works globally with organizations in export and logistics, hospitality
 ## Primary pages
 
 - [Home](${baseUrl}/): Company overview, capabilities, technologies, projects, delivery method, and contact details.
+- [CreativeOS](${baseUrl}/creativeos): Multi-tasking Work Operating System with workflow automation and predictive analytics, engineered for Sri Lankan Startups, Mid-Range SMEs, and Enterprises.
 - [About](${baseUrl}/about): Company focus, operating principles, capabilities, and industries.
 - [Services](${baseUrl}/services): Complete AI and software engineering service directory.
 - [Industry solutions](${baseUrl}/solutions): Solutions organized by operating context.

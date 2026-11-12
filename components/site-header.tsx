@@ -29,6 +29,7 @@ const navigation = [
 
 const footerNavigation = [
   { label: "Home", section: "home" },
+  { label: "CreativeOS", section: "creativeos" },
   { label: "Services", section: "services" },
   { label: "Solutions", section: "solutions" },
   { label: "Projects", section: "projects" },
@@ -40,6 +41,7 @@ const footerNavigation = [
 
 function sectionHref(section: string, homePage: boolean) {
   if (section === "home") return "/";
+  if (section === "creativeos") return "/creativeos";
   if (section === "solutions") return "/solutions";
   if (section === "projects") return "/projects";
   if (section === "blog") return "/blog";
@@ -134,9 +136,14 @@ export function SiteHeader({
               </Link>
               <div className="nav-pulldown-menu" aria-label="Solution pages">
                 <div className="nav-pulldown-head">
-                  <span>Industry solutions</span>
+                  <span>Operating Systems &amp; Industry Solutions</span>
                   <strong>Choose an operating context</strong>
                 </div>
+                <Link href="/creativeos" className="nav-pulldown-featured">
+                  <span>OS</span>
+                  <strong>CreativeOS — Work Operating System</strong>
+                  <ArrowUpRight />
+                </Link>
                 {liveSolutions.map((solution) => (
                   <Link href={`/solutions#${solution.slug}`} key={solution.slug}>
                     <span>{solution.number}</span>
@@ -218,7 +225,16 @@ export function SiteHeader({
                     </AccordionTrigger>
                     <AccordionContent>
                       <div className="sheet-nav-subbox">
-                        <div className="sheet-nav-subhead">Industries</div>
+                        <div className="sheet-nav-subhead">Platforms &amp; Industries</div>
+                        <SheetClose asChild>
+                          <Link href="/creativeos" className="sheet-nav-sublink font-semibold text-white border-b border-white/10 pb-2.5 mb-1.5">
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-[10px] bg-[#ff5a36]/20 px-1.5 py-0.5 rounded text-[#ff5a36] font-bold">OS</span>
+                              <span>CreativeOS — Work Operating System</span>
+                            </div>
+                            <ArrowUpRight className="w-3.5 h-3.5 text-[#ff5a36]" />
+                          </Link>
+                        </SheetClose>
                         {liveSolutions.map((solution) => (
                           <SheetClose asChild key={solution.slug}>
                             <Link href={`/solutions#${solution.slug}`} className="sheet-nav-sublink">

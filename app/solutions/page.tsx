@@ -104,8 +104,13 @@ export default async function SolutionsPage() {
 
         <nav className="solution-jump-nav" aria-label="Jump to an industry solution">
           <div className="site-width solution-jump-inner">
-            <span>Explore by industry</span>
+            <span>Explore solutions</span>
             <div>
+              <Link href="/creativeos" className="solution-jump-cos">
+                <span className="font-mono text-[10px] text-[#ff5a36] font-bold">OS</span>
+                <strong>CreativeOS Work OS</strong>
+                <ArrowUpRight className="w-3 h-3 text-[#ff5a36] ml-1 inline" />
+              </Link>
               {solutions.map((solution) => (
                 <a href={`#${solution.slug}`} key={solution.slug}><span>{solution.number}</span>{solution.label}</a>
               ))}

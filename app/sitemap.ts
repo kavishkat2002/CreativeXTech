@@ -23,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Core canonical routes
   const corePaths = [
     "",
+    "/creativeos",
     "/services",
     "/solutions",
     "/projects",
