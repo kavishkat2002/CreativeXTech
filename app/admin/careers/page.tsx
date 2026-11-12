@@ -19,7 +19,7 @@ import {
 
 import type { JobApplication, JobPost } from "@/lib/careers";
 import { mergeJobsWithStatic } from "@/lib/careers";
-import { getSupabaseClient } from "@/lib/supabase-client";
+import { getSupabaseClient, isLocalAdminMode } from "@/lib/supabase-client";
 import {
   TALENT_POOL_TRACKS,
   getTalentPoolLevelFromSlug,
@@ -35,6 +35,8 @@ export default function AdminCareersPage() {
   const [jobs, setJobs] = useState<JobPost[]>([]);
   const [applications, setApplications] = useState<JobApplication[]>([]);
   const [loading, setLoading] = useState(true);
+  const [dbError, setDbError] = useState<string>("");
+  const [localMode, setLocalMode] = useState<boolean>(false);
 
   // ATS Filter states for applications & talent pool
   const [selectedJobSlug, setSelectedJobSlug] = useState<string>("all");
@@ -53,6 +55,7 @@ export default function AdminCareersPage() {
   const refreshData = async () => {
     try {
       const client = await getSupabaseClient();
+      setLocalMode(isLocalAdminMode());
       const [jobsRes, appsRes] = await Promise.all([
         client.from("jobs").select("*").order("number", { ascending: true }),
         client
@@ -60,6 +63,12 @@ export default function AdminCareersPage() {
           .select("*")
           .order("ats_score", { ascending: false }),
       ]);
+
+      if (jobsRes.error) {
+        setDbError(jobsRes.error.message || "Failed to load jobs from Supabase.");
+      } else {
+        setDbError("");
+      }
 
       if (Array.isArray(jobsRes.data)) {
         setJobs(mergeJobsWithStatic(jobsRes.data, true));
@@ -83,6 +92,7 @@ export default function AdminCareersPage() {
     async function loadInitial() {
       try {
         const client = await getSupabaseClient();
+        setLocalMode(isLocalAdminMode());
         const [jobsRes, appsRes] = await Promise.all([
           client.from("jobs").select("*").order("number", { ascending: true }),
           client
@@ -92,6 +102,11 @@ export default function AdminCareersPage() {
         ]);
 
         if (!active) return;
+        if (jobsRes.error) {
+          setDbError(jobsRes.error.message || "Failed to load jobs from Supabase.");
+        } else {
+          setDbError("");
+        }
         if (Array.isArray(jobsRes.data)) {
           setJobs(mergeJobsWithStatic(jobsRes.data, true));
         } else {
@@ -335,6 +350,39 @@ export default function AdminCareersPage() {
           </Link>
         </div>
       </div>
+
+      {dbError && (
+        <div
+          style={{
+            background: "#fef2f2",
+            border: "1px solid #fecaca",
+            color: "#991b1b",
+            padding: "12px 16px",
+            borderRadius: "8px",
+            fontSize: "13px",
+            marginBottom: "18px",
+          }}
+        >
+          <strong>Supabase error:</strong> {dbError} — Ensure you ran{" "}
+          <code>scripts/careers-schema.sql</code> in your Supabase SQL Editor and are signed in with a Supabase Admin account.
+        </div>
+      )}
+
+      {!dbError && localMode && (
+        <div
+          style={{
+            background: "#fffbeb",
+            border: "1px solid #fde68a",
+            color: "#92400e",
+            padding: "10px 16px",
+            borderRadius: "8px",
+            fontSize: "13px",
+            marginBottom: "18px",
+          }}
+        >
+          <strong>Local Dev Mode:</strong> Supabase env vars are not configured, so new jobs are saved only to this browser&rsquo;s <code>localStorage</code>.
+        </div>
+      )}
 
       {/* Tabs */}
       <div

@@ -319,7 +319,13 @@ export function AdminJobEditor({ jobIdOrSlug }: { jobIdOrSlug: string }) {
         router.push("/admin/careers");
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to save job post.");
+      const message =
+        err instanceof Error
+          ? err.message
+          : typeof err === "object" && err !== null && "message" in err
+          ? String((err as { message: unknown }).message)
+          : "Failed to save job post.";
+      setError(message);
     } finally {
       setSaving(false);
     }
