@@ -294,7 +294,6 @@ export function CareerApplyPanel({
               <div className="career-detail-badges">
                 <span>{job.number}</span>
                 <span>{job.department}</span>
-                <span>ATS Threshold: {job.ats_threshold}%</span>
               </div>
               <h1>{job.title}</h1>
               <p className="career-detail-summary">{job.summary}</p>
