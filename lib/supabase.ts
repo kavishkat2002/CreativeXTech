@@ -49,13 +49,16 @@ if (!_SUPABASE_URL || !_SUPABASE_ANON_KEY) {
 
 /** Standard headers for all Supabase REST requests. */
 function makeHeaders(key: string, extra?: Record<string, string>): HeadersInit {
-  return {
+  const headers: Record<string, string> = {
     apikey: key,
-    Authorization: `Bearer ${key}`,
     "Content-Type": "application/json",
     Prefer: "return=minimal",
     ...extra,
   };
+  if (key.startsWith("eyJ")) {
+    headers.Authorization = `Bearer ${key}`;
+  }
+  return headers;
 }
 
 /** GET rows from a table with optional PostgREST query params. */
@@ -165,13 +168,17 @@ export async function supabaseUploadMedia(
   const { url: SUPABASE_URL, key: SUPABASE_ANON_KEY } = await resolveEnv();
   const url = `${SUPABASE_URL}/storage/v1/object/${bucket}/${path}`;
 
+  const uploadHeaders: Record<string, string> = {
+    apikey: SUPABASE_ANON_KEY,
+    "Content-Type": file.type || "application/octet-stream",
+  };
+  if (SUPABASE_ANON_KEY.startsWith("eyJ")) {
+    uploadHeaders.Authorization = `Bearer ${SUPABASE_ANON_KEY}`;
+  }
+
   const res = await fetch(url, {
     method: "POST",
-    headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-      "Content-Type": file.type || "application/octet-stream",
-    },
+    headers: uploadHeaders,
     body: file,
   });
 
