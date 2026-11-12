@@ -84,7 +84,25 @@ function makeMockClient(): SupabaseClient {
             const bdStatic = staticJobs.find((j) => j.slug === "business-development-intern");
             const preSalesStatic = staticJobs.find((j) => j.slug === "pre-sales-intern-it-software");
             const pdStatic = staticJobs.find((j) => j.slug === "product-designer-ai-interfaces");
+            const seniorAiStatic = staticJobs.find((j) => j.slug === "senior-ai-systems-engineer");
+            const fullstackStatic = staticJobs.find((j) => j.slug === "fullstack-nextjs-edge-engineer");
             parsed = parsed.map((item: any) => {
+              if (
+                seniorAiStatic &&
+                item?.slug === "senior-ai-systems-engineer" &&
+                item?.location === "Colombo / Remote"
+              ) {
+                updatedStorage = true;
+                return { ...seniorAiStatic, id: item.id || seniorAiStatic.id };
+              }
+              if (
+                fullstackStatic &&
+                item?.slug === "fullstack-nextjs-edge-engineer" &&
+                item?.location === "Remote / Hybrid"
+              ) {
+                updatedStorage = true;
+                return { ...fullstackStatic, id: item.id || fullstackStatic.id };
+              }
               if (
                 bdStatic &&
                 item?.slug === "business-development-intern" &&
