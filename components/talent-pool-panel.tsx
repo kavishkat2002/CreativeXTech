@@ -228,7 +228,10 @@ export function TalentPoolPanel({
                 <span>Intern · Associate · Senior</span>
                 <span>Priority ATS Pipeline</span>
               </div>
-              <h1>Join the CreativeX Talent Pool.</h1>
+              <h1>
+                Join the Creative<span style={{ color: "var(--signal)" }}>x</span>{" "}
+                Talent Pool.
+              </h1>
               <p className="career-detail-summary">
                 Submit your profile once for Intern, Associate, or Senior level roles across AI engineering, full-stack systems, product design, and B2B growth. Our hiring leads review pool candidates before new roles open publicly.
               </p>

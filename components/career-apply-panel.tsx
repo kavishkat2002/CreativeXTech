@@ -473,7 +473,9 @@ export function CareerApplyPanel({
             {(job.benefits ?? []).length > 0 && (
               <div className="career-jd-block">
                 <p className="career-jd-eyebrow">05 / Benefits</p>
-                <h2>Why CreativeX</h2>
+                <h2>
+                  Why Creative<span style={{ color: "var(--signal)" }}>x</span>
+                </h2>
                 <ul className="career-jd-checklist">
                   {job.benefits.map((benefit, idx) => (
                     <li key={idx}>
