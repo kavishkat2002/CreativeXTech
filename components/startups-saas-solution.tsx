@@ -71,7 +71,9 @@ export function StartupsSaasSolutionSection({
               {/* Dark Left Sidebar */}
               <aside className="saas-mockup-sidebar">
                 <div className="saas-mockup-brand">
-                  <span className="saas-brand-text">CreativeX</span>
+                  <span className="saas-brand-text">
+                    Creative<span className="saas-brand-x">x</span>
+                  </span>
                 </div>
 
                 <nav className="saas-mockup-nav">

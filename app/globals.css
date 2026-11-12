@@ -4073,6 +4073,10 @@ body.cx-is-loading { overflow: hidden; }
   letter-spacing: -0.02em;
 }
 
+.saas-brand-x {
+  color: var(--signal);
+}
+
 .saas-mockup-nav {
   display: flex;
   flex-direction: column;
