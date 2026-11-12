@@ -405,8 +405,11 @@ function buildRealClient(url: string, key: string): SupabaseClient {
 
 // ─── Eager build-time init ────────────────────────────────────────────────────
 
-const _buildUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const _buildKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+const DEFAULT_SUPABASE_URL = "https://tkzzonjmpaqymyneufdi.supabase.co";
+const DEFAULT_SUPABASE_KEY = "sb_publishable_bNbYWo1EJFR8pwtjE93Thw_me9M0UAV";
+
+const _buildUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+const _buildKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY;
 
 if (isRealSupabaseConfig(_buildUrl, _buildKey)) {
   _client = buildRealClient(_buildUrl, _buildKey);
@@ -431,6 +434,10 @@ export async function getSupabaseClient(): Promise<SupabaseClient> {
       }
     } catch {
       // ignore
+    }
+    if (isRealSupabaseConfig(DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_KEY)) {
+      _client = buildRealClient(DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_KEY);
+      return _client;
     }
     _client = makeMockClient();
     return _client;

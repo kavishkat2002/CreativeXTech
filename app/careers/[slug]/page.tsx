@@ -37,9 +37,10 @@ export async function generateMetadata({
 
   const skills = [...(job.required_skills ?? []), ...(job.nice_to_have ?? [])];
   const seoTitle = `${job.title} (${job.location}) — Careers | CreativeX Technology AI`;
-  const seoDescription = `${job.summary} Department: ${job.department}. Type: ${job.type}. Skills: ${
+  const salarySnippet = job.salary_range ? ` Compensation: ${job.salary_range}.` : "";
+  const seoDescription = `${job.summary} Department: ${job.department}. Type: ${job.type}.${salarySnippet} Location: ${job.location} (Open to Sri Lankan & remote global talent). Skills: ${
     job.required_skills?.slice(0, 6).join(", ") || job.department
-  }. Apply online at CreativeX Technology AI.`;
+  }. Apply directly online at CreativeX Technology AI.`;
 
   return {
     title: seoTitle,
@@ -48,16 +49,21 @@ export async function generateMetadata({
       job.title,
       `${job.title} ${job.location}`,
       `${job.title} CreativeX`,
+      `${job.title} Sri Lanka`,
+      `${job.title} Remote`,
       job.department,
       job.location,
       job.type,
       "CreativeX Technology AI Careers",
+      "Sri Lanka Tech Jobs",
+      "Remote AI Engineering Vacancies",
       ...skills,
     ],
     alternates: {
       canonical: `${baseUrl}/careers/${job.slug}`,
       languages: {
         "en-US": `${baseUrl}/careers/${job.slug}`,
+        "en-GB": `${baseUrl}/careers/${job.slug}`,
         "x-default": `${baseUrl}/careers/${job.slug}`,
       },
     },

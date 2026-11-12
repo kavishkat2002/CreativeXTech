@@ -508,7 +508,7 @@ export function CareerApplyPanel({
                   </div>
                   <h3>Thank you, {submittedApp.application.applicant_name}.</h3>
                   <p>
-                    Your application has been processed through the CreativeX ATS engine and routed to our engineering hiring team.
+                    Your application has been processed through the Creative<span style={{ color: "var(--signal)" }}>x</span> ATS engine and routed to our engineering hiring team.
                   </p>
 
                   <div className="career-ats-result-box">

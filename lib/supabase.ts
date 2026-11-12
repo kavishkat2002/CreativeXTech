@@ -9,13 +9,16 @@
 // These are inlined at build time by Vite/Next when available.
 // On Cloudflare Workers they may be empty — we fall back to the
 // runtime /_env/supabase endpoint exposed by worker/index.ts.
-let _SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-let _SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+const DEFAULT_SUPABASE_URL = "https://tkzzonjmpaqymyneufdi.supabase.co";
+const DEFAULT_SUPABASE_KEY = "sb_publishable_bNbYWo1EJFR8pwtjE93Thw_me9M0UAV";
+
+let _SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+let _SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY;
 let _envFetched = false;
 
 async function resolveEnv(): Promise<{ url: string; key: string }> {
-  _SUPABASE_URL = _SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-  _SUPABASE_ANON_KEY = _SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+  _SUPABASE_URL = _SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+  _SUPABASE_ANON_KEY = _SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY;
 
   if ((_SUPABASE_URL && _SUPABASE_ANON_KEY) || _envFetched) {
     return { url: _SUPABASE_URL, key: _SUPABASE_ANON_KEY };

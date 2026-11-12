@@ -56,9 +56,19 @@ CreativeX works globally with organizations in export and logistics, hospitality
 
 ## Open positions & careers
 
-CreativeX Technology AI is actively hiring for the following roles (also available as structured JSON at ${baseUrl}/careers/jobs.json and RSS at ${baseUrl}/careers/rss.xml):
+CreativeX Technology (Pvt) Ltd is an AI and software engineering consultancy headquartered in Rajagiriya, Colombo, Sri Lanka, operating global squads for clients in Australia, UAE, Malaysia, Singapore, and the US.
+
+CreativeX actively recruits across two core streams:
+1. **Sri Lankan Talent**: Onsite, hybrid, and remote roles in Colombo/Rajagiriya for undergraduates, fresh graduates, interns, and experienced engineers from leading institutions (University of Moratuwa, SLIIT, IIT, University of Colombo, etc.).
+2. **Worldwide / International Talent**: Remote contracts for global AI systems engineers, Next.js edge specialists, and enterprise designers working asynchronously with overlap in South Asian / Gulf / APAC timezones.
+
+All roles feature transparent compensation (LKR for local talent, USD/competitive global market rates for international specialists), direct online application, and automated ATS matching.
+
+Active open roles (also available as structured JSON at ${baseUrl}/careers/jobs.json and RSS at ${baseUrl}/careers/rss.xml):
 
 ${jobLinks}
+
+- [Priority Talent Pool](${baseUrl}/careers/talent-pool): Open for Intern, Associate, and Senior tracks. Candidates can submit their credentials directly to be routed to squad leads.
 
 ## Services
 

@@ -26,8 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const description =
     jobTitles.length > 0
-      ? `Explore ${jobs.length} open position${jobs.length === 1 ? "" : "s"} at CreativeX Technology AI (${jobTitles.join(", ")}). Remote & Colombo AI engineering, full-stack, and product design careers.`
-      : "Join CreativeX Technology AI. Explore open roles in AI agents, full-stack Next.js engineering, and enterprise product design.";
+      ? `Explore ${jobs.length} open position${jobs.length === 1 ? "" : "s"} at CreativeX Technology AI (${jobTitles.join(", ")}). Hiring top Sri Lankan talent in Colombo & worldwide remote AI engineers, full-stack builders, and product designers.`
+      : "Join CreativeX Technology AI. Explore open roles in AI agents, full-stack Next.js engineering, and enterprise product design across Colombo studio and remote global squads.";
 
   return {
     title: "Careers & Open AI Engineering Jobs | CreativeX Technology AI",
@@ -36,14 +36,24 @@ export async function generateMetadata(): Promise<Metadata> {
       "CreativeX Careers",
       "CreativeX Technology AI Jobs",
       "AI Engineer Jobs Sri Lanka",
+      "Software Engineer Vacancies Sri Lanka",
+      "Tech Internships Colombo",
+      "IT Undergrad Internship Sri Lanka",
       "Remote AI Engineering Careers",
       "Next.js Software Engineer Jobs",
+      "Remote AI Systems Engineer",
+      "Full-Stack Next.js Developer Remote",
+      "AI Agents Engineer Remote",
+      "Product Designer AI Remote",
+      "Colombo AI Startup Careers",
+      "IT Jobs Rajagiriya",
+      "Worldwide Remote Engineering Squad",
       ...jobTitles,
       ...dynamicSkills,
     ],
     alternates: {
       canonical: `${baseUrl}/careers`,
-      languages: { "en-US": `${baseUrl}/careers`, "x-default": `${baseUrl}/careers` },
+      languages: { "en-US": `${baseUrl}/careers`, "en-GB": `${baseUrl}/careers`, "x-default": `${baseUrl}/careers` },
       types: {
         "application/rss+xml": `${baseUrl}/careers/rss.xml`,
       },
@@ -179,7 +189,9 @@ export default async function CareersPage() {
       <section className="careers-hero">
         <div className="careers-hero-grid" aria-hidden="true" />
         <div className="site-width careers-hero-inner">
-          <p className="section-index">CreativeX careers / 2026</p>
+          <p className="section-index">
+            Creative<span style={{ color: "var(--signal)" }}>x</span> careers / 2026
+          </p>
           <div>
             <p className="careers-kicker">
               AI engineering · Edge platforms · Systems design

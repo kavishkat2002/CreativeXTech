@@ -416,7 +416,7 @@ export function TalentPoolPanel({
                     <strong>
                       {track.title} ({selectedDiscipline})
                     </strong>{" "}
-                    and ready for CreativeX squad leads when matching{" "}
+                    and ready for Creative<span style={{ color: "var(--signal)" }}>x</span> squad leads when matching{" "}
                     {track.levelLabel}-level opportunities open.
                   </p>
 

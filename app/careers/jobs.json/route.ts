@@ -10,9 +10,15 @@ export async function GET() {
 
   return NextResponse.json(
     {
-      organization: "CreativeX Technology PVT LTD",
+      organization: "CreativeX Technology (Pvt) Ltd",
       brand: "CreativeX Technology AI",
+      headquarters: "Rajagiriya, Colombo, Western Province, Sri Lanka",
       careersUrl: `${CAREERS_BASE_URL}/careers`,
+      talentPoolUrl: `${CAREERS_BASE_URL}/careers/talent-pool`,
+      eligibleRegions: [
+        "Sri Lanka (Colombo / Rajagiriya Studio & Local Remote)",
+        "Worldwide (Remote Global Squads: Australia, UAE, Malaysia, Singapore, UK, USA)",
+      ],
       totalOpenPositions: jobs.length,
       updatedAt: new Date().toISOString(),
       positions: jobs.map((job) => ({
@@ -24,6 +30,8 @@ export async function GET() {
         level: job.level,
         salary_range: job.salary_range || null,
         summary: job.summary,
+        eligible_applicants: "Open to Sri Lankan candidates & remote global specialists",
+        applicant_location_requirements: ["LK", "Worldwide"],
         required_skills: job.required_skills,
         nice_to_have: job.nice_to_have,
         applyUrl: `${CAREERS_BASE_URL}/careers/${job.slug}`,

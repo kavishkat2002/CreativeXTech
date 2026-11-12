@@ -27,6 +27,7 @@ test("Careers SEO/AEO/GEO helpers generate Google Jobs JobPosting and FAQPage sc
     buildFaqPageJsonLd,
     mapEmploymentType,
     isRemoteLocation,
+    parseSalaryRange,
   } = await vite.ssrLoadModule("/lib/careers-seo.ts");
 
   const futureJob = {
@@ -35,12 +36,18 @@ test("Careers SEO/AEO/GEO helpers generate Google Jobs JobPosting and FAQPage sc
     title: "AI Platform Architect",
     location: "Remote (Global)",
     type: "Contract",
+    salary_range: "LKR 280,000 – 450,000 / month",
     required_skills: ["TypeScript", "LLM", "Kubernetes"],
   };
 
   assert.equal(mapEmploymentType("Full-time"), "FULL_TIME");
   assert.equal(mapEmploymentType("Contract"), "CONTRACTOR");
   assert.equal(isRemoteLocation(futureJob.location), true);
+
+  const parsedSalary = parseSalaryRange(futureJob.salary_range);
+  assert.equal(parsedSalary?.currency, "LKR");
+  assert.equal(parsedSalary?.minValue, 280000);
+  assert.equal(parsedSalary?.maxValue, 450000);
 
   const schema = buildJobPostingJsonLd(futureJob);
   assert.equal(schema["@type"], "JobPosting");
@@ -50,9 +57,17 @@ test("Careers SEO/AEO/GEO helpers generate Google Jobs JobPosting and FAQPage sc
   assert.ok(schema.validThrough);
   assert.match(schema.skills, /TypeScript/);
   assert.match(schema.description, /<h3>Requirements<\/h3>/);
+  assert.equal(schema.baseSalary?.currency, "LKR");
+  assert.equal(schema.baseSalary?.value?.minValue, 280000);
+  assert.equal(schema.baseSalary?.value?.maxValue, 450000);
+  assert.ok(Array.isArray(schema.applicantLocationRequirements));
+  assert.ok(schema.applicantLocationRequirements.some((r) => r.name === "LK"));
+  assert.ok(schema.applicantLocationRequirements.some((r) => r.name === "Worldwide"));
 
   const hubFaqs = buildCareersHubFaqItems();
-  assert.ok(hubFaqs.length >= 4);
+  assert.ok(hubFaqs.length >= 6);
+  assert.ok(hubFaqs.some((f) => /Sri Lankan/i.test(f.question)));
+  assert.ok(hubFaqs.some((f) => /international|foreign/i.test(f.question)));
   assert.ok(hubFaqs.some((f) => /problem-solving/i.test(f.answer)));
 
   const detailFaqs = buildJobDetailFaqItems(futureJob);
