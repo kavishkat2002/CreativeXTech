@@ -60,6 +60,8 @@ const SKILL_ALIASES: Record<string, string[]> = {
   "ai & automation": ["n8n", "make", "zapier", "automation", "generative ai", "chatgpt", "gemini", "claude", "ai tools"],
   "cloud technologies": ["cloud", "cloud technologies", "aws", "gcp", "azure", "digital transformation"],
   "digital marketing": ["digital marketing", "marketing", "seo", "social media"],
+  "data visualization": ["data visualization", "charts", "recharts", "dashboards", "telemetry", "analytics ui"],
+  "wcag accessibility": ["wcag", "accessibility", "a11y", "aria", "inclusive design"],
 };
 
 const STOP_WORDS = new Set([

@@ -83,6 +83,7 @@ function makeMockClient(): SupabaseClient {
           if (table === "jobs") {
             const bdStatic = staticJobs.find((j) => j.slug === "business-development-intern");
             const preSalesStatic = staticJobs.find((j) => j.slug === "pre-sales-intern-it-software");
+            const pdStatic = staticJobs.find((j) => j.slug === "product-designer-ai-interfaces");
             parsed = parsed.map((item: any) => {
               if (
                 bdStatic &&
@@ -91,6 +92,14 @@ function makeMockClient(): SupabaseClient {
               ) {
                 updatedStorage = true;
                 return { ...item, salary_range: bdStatic.salary_range, benefits: bdStatic.benefits };
+              }
+              if (
+                pdStatic &&
+                item?.slug === "product-designer-ai-interfaces" &&
+                item?.location === "Colombo / Remote"
+              ) {
+                updatedStorage = true;
+                return { ...pdStatic, id: item.id || pdStatic.id };
               }
               if (
                 preSalesStatic &&
