@@ -21,7 +21,6 @@ import {
   Building2,
   Users,
   Send,
-  Sparkles,
   ToggleLeft,
   ToggleRight,
   Activity,
@@ -607,7 +606,6 @@ export function CreativeOSShowcase() {
         <div className="cos-site-width">
           <div className="cos-hero-header">
             <div className="cos-eyebrow-badge">
-              <Sparkles size={14} className="cos-badge-icon" />
               <span>CreativeOS by CreativeX Technology · Enterprise Edition</span>
             </div>
             <h1 className="cos-hero-headline">
@@ -713,7 +711,7 @@ export function CreativeOSShowcase() {
                   {/* Interactive Agent Copilot Command Bar */}
                   <div className="cos-agent-copilot-row">
                     <span className="cos-copilot-label">
-                      <Sparkles size={13} className="text-signal" /> Quick Agent Actions:
+                      Quick Agent Actions:
                     </span>
                     <div className="cos-copilot-actions">
                       <button
@@ -797,10 +795,6 @@ export function CreativeOSShowcase() {
                         <CheckCheck size={12} /> Invoiced / Cleared (
                         {tasks.filter((t) => t.stage === "Final Invoiced").length})
                       </button>
-                    </div>
-                    <div className="cos-board-live-pill">
-                      <span className="cos-sync-dot" />
-                      <span>PostgreSQL Change-Data-Capture (CDC) Live</span>
                     </div>
                   </div>
 
