@@ -27,17 +27,213 @@ import {
   Activity,
   Sliders,
   Check,
+  Bot,
+  RotateCcw,
+  MessageSquare,
+  FileCheck,
+  Play,
+  Filter,
+  CheckCheck,
 } from "lucide-react";
+
+interface TaskItem {
+  id: string;
+  number: string;
+  title: string;
+  squad: string;
+  assignee: string;
+  stage: "Brief & Scope" | "Active Execution" | "Client Review" | "Final Invoiced";
+  categoryTag: string;
+  budgetLkr: number;
+  spentLkr: number;
+  client: string;
+  approvalStatus: string;
+  approvalDate: string;
+  whatsappSync: string;
+  whatsappSnippet: string;
+  riskFactor: string;
+  riskLevel: "healthy" | "moderate" | "warning";
+  agentAssisted: boolean;
+  agentRole: string;
+  agentStatus: string;
+  agentRecommendation: string;
+  hasPoyaBuffer: boolean;
+  invoiceDrafted: boolean;
+  auditHash: string;
+}
+
+const initialTasksData: TaskItem[] = [
+  {
+    id: "task-1",
+    number: "CX-104",
+    title: "Colombo Port IoT Fleet Tracking Telemetry",
+    squad: "Cloud Infrastructure",
+    assignee: "Sahan D.",
+    stage: "Active Execution",
+    categoryTag: "Logistics",
+    budgetLkr: 680000,
+    spentLkr: 420000,
+    client: "Meridian Logistics Lanka",
+    approvalStatus: "Client Approved (Milestone 2)",
+    approvalDate: "12 Nov 2026",
+    whatsappSync: "#meridian-project-ops (Synced 14m ago)",
+    whatsappSnippet: "Sensor telemetry pipeline passed 100k events/sec load test with sub-20ms latency.",
+    riskFactor: "Low (Poya buffer applied)",
+    riskLevel: "healthy",
+    agentAssisted: true,
+    agentRole: "Capacity & Poya Sentinel",
+    agentStatus: "1.5-day schedule buffer applied before Bak Poya.",
+    agentRecommendation: "Cloud squad capacity is high (92%). Click 'Rebalance Squad' to offload 2 telemetry staging tasks to Full-Stack Squad.",
+    hasPoyaBuffer: true,
+    invoiceDrafted: false,
+    auditHash: "0x7f4a...92b1",
+  },
+  {
+    id: "task-2",
+    number: "CX-108",
+    title: "Ceylon Specialty Tea Export Supply Chain ERP",
+    squad: "Full-Stack Web & Edge",
+    assignee: "Dinithi P.",
+    stage: "Client Review",
+    categoryTag: "Enterprise",
+    budgetLkr: 1250000,
+    spentLkr: 890000,
+    client: "Highland Estates PLC",
+    approvalStatus: "Awaiting Client Sign-off",
+    approvalDate: "Due 15 Nov 2026",
+    whatsappSync: "#highland-tea-board (Awaiting Sign-off)",
+    whatsappSnippet: "Managing Director confirmed milestone sign-off via WhatsApp voice memo token & PDF stamp.",
+    riskFactor: "Moderate (Reviewer lag 2.4 days)",
+    riskLevel: "moderate",
+    agentAssisted: true,
+    agentRole: "WhatsApp Client Concierge",
+    agentStatus: "Digital sign-off token validated. Ready for automated handoff to Invoicing.",
+    agentRecommendation: "Client approval token confirmed on WhatsApp. Auto-advance to Final Invoiced, generate LKR 1,250,000 tax invoice draft, and notify Finance.",
+    hasPoyaBuffer: false,
+    invoiceDrafted: false,
+    auditHash: "0x3e18...4c92",
+  },
+  {
+    id: "task-3",
+    number: "CX-112",
+    title: "Smart Facility Sensor Hub (Kandy)",
+    squad: "AI Systems Squad",
+    assignee: "Kavindu M.",
+    stage: "Brief & Scope",
+    categoryTag: "HealthTech",
+    budgetLkr: 940000,
+    spentLkr: 180000,
+    client: "Central Healthcare Trust",
+    approvalStatus: "Draft Specification",
+    approvalDate: "Pending Review",
+    whatsappSync: "#central-health-iot (Sync active)",
+    whatsappSnippet: "Hospital biomedical committee approved preliminary sensor telemetry & battery life specs.",
+    riskFactor: "Healthy",
+    riskLevel: "healthy",
+    agentAssisted: true,
+    agentRole: "Architecture & Scope Parser",
+    agentStatus: "Auto-generated technical RFC & work-breakdown graph in PostgreSQL JSONB.",
+    agentRecommendation: "Scope verified against clinical specs. Click 'Promote to Execution' to generate 3 sprint milestones.",
+    hasPoyaBuffer: false,
+    invoiceDrafted: false,
+    auditHash: "0x91d4...1b88",
+  },
+  {
+    id: "task-4",
+    number: "CX-114",
+    title: "Garment Export Compliance Portal",
+    squad: "Supply Chain Solutions",
+    assignee: "Nisal K.",
+    stage: "Brief & Scope",
+    categoryTag: "Supply Chain",
+    budgetLkr: 820000,
+    spentLkr: 95000,
+    client: "Brandix Apparel Group",
+    approvalStatus: "Ingesting Regulatory Schema",
+    approvalDate: "18 Nov 2026",
+    whatsappSync: "#brandix-compliance-stream (Listening)",
+    whatsappSnippet: "EU CSRD ESG reporting checklist ingested into PostgreSQL schema parser.",
+    riskFactor: "Healthy (Early Phase)",
+    riskLevel: "healthy",
+    agentAssisted: true,
+    agentRole: "Regulatory Compliance Agent",
+    agentStatus: "Extracted 42 compliance rules into structured PostgreSQL JSONB fields.",
+    agentRecommendation: "Compliance requirements indexed. Awaiting squad lead review to start sprint.",
+    hasPoyaBuffer: false,
+    invoiceDrafted: false,
+    auditHash: "0x44c1...82ef",
+  },
+  {
+    id: "task-5",
+    number: "CX-107",
+    title: "Retail Micro-Inventory POS Backend",
+    squad: "AI Systems Squad",
+    assignee: "Thilina R.",
+    stage: "Active Execution",
+    categoryTag: "PostgreSQL",
+    budgetLkr: 1100000,
+    spentLkr: 640000,
+    client: "Keells Super Retail Networks",
+    approvalStatus: "Sprint Milestone 3 in Progress",
+    approvalDate: "20 Nov 2026",
+    whatsappSync: "#keells-pos-sync (Synced 4m ago)",
+    whatsappSnippet: "Store offline cache sync validated across 14 pilot supermarkets.",
+    riskFactor: "Low (CDC pipeline nominal)",
+    riskLevel: "healthy",
+    agentAssisted: true,
+    agentRole: "Change-Data-Capture (CDC) Monitor",
+    agentStatus: "Real-time Kafka CDC streaming events to LightGBM anomaly detector.",
+    agentRecommendation: "Inventory sync running smoothly. Zero drift detected across 14 supermarket pilot stores.",
+    hasPoyaBuffer: true,
+    invoiceDrafted: false,
+    auditHash: "0x28ab...5567",
+  },
+  {
+    id: "task-6",
+    number: "CX-098",
+    title: "Automated FX Settlement Reconciler",
+    squad: "Full-Stack Web & Edge",
+    assignee: "Dinithi P.",
+    stage: "Final Invoiced",
+    categoryTag: "Enterprise",
+    budgetLkr: 1840000,
+    spentLkr: 1840000,
+    client: "Commercial Bank of Ceylon Partner Desk",
+    approvalStatus: "Paid in Full · Bank Transfer Cleared",
+    approvalDate: "10 Nov 2026",
+    whatsappSync: "#combank-settlement-fx (Archived)",
+    whatsappSnippet: "Final LKR 1,840,000 settlement wire reconciled via SLIPS network. Audit receipt sealed.",
+    riskFactor: "Completed (Audit Passed)",
+    riskLevel: "healthy",
+    agentAssisted: true,
+    agentRole: "Financial Settlement & Merkle Hash Agent",
+    agentStatus: "Paid in full. Cryptographic SHA-256 Merkle block verified #8f2c...4a19.",
+    agentRecommendation: "Deliverable archived. 15% statutory EPF/ETF labor attribution reconciled with zero variance.",
+    hasPoyaBuffer: false,
+    invoiceDrafted: true,
+    auditHash: "0x8f2c...4a19",
+  },
+];
 
 export function CreativeOSShowcase() {
   // ── Hero Preview Tabs State
-  const [activePreviewTab, setActivePreviewTab] = useState<"board" | "forecast" | "automation">("board");
+  const [activePreviewTab, setActivePreviewTab] = useState<"board" | "forecast" | "automation" | "agentStream">("board");
 
-  // ── Tab 1: Stage Board selected task state
-  const [selectedTaskId, setSelectedTaskId] = useState<string>("task-1");
+  // ── Dynamic Tasks State
+  const [tasks, setTasks] = useState<TaskItem[]>(initialTasksData);
+  const [selectedTaskId, setSelectedTaskId] = useState<string>("task-2");
+  const [filterMode, setFilterMode] = useState<"all" | "agent" | "attention" | "approved">("all");
+
+  // ── Agent Live Execution Banner State
+  const [agentExecNotice, setAgentExecNotice] = useState<{
+    title: string;
+    description: string;
+    meta: string;
+  } | null>(null);
 
   // ── Tab 2: Poya & Capacity state
   const [includeEpfEtf, setIncludeEpfEtf] = useState<boolean>(true);
+  const [cloudSquadCapacity, setCloudSquadCapacity] = useState<number>(92);
 
   // ── Tab 3: Automation simulation state
   const [rule1Active, setRule1Active] = useState<boolean>(true);
@@ -61,6 +257,136 @@ export function CreativeOSShowcase() {
   const [formLoading, setFormLoading] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formError, setFormError] = useState("");
+
+  // ── Agentic Actions Handlers
+  const handleAutoAdvanceSignoff = (taskId: string) => {
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (t.id === taskId) {
+          return {
+            ...t,
+            stage: "Final Invoiced",
+            approvalStatus: "Client Approved & Verified by Agent",
+            riskFactor: "Cleared (Sign-off Verified)",
+            riskLevel: "healthy",
+            invoiceDrafted: true,
+            agentStatus: "Handoff executed: LKR invoice draft generated and sent to Finance.",
+            agentRecommendation: "Milestone cleared. Final settlement invoice dispatched to client billing contact.",
+          };
+        }
+        return t;
+      })
+    );
+
+    setAgentExecNotice({
+      title: "Autonomous Agent Handoff Complete (14ms)",
+      description:
+        "WhatsApp Concierge parsed Highland Estates sign-off token. Calendar Sentinel verified zero Bak Poya collision. Automated Invoicing generated LKR 1,250,000 tax invoice draft. Task CX-108 moved to Final Invoiced.",
+      meta: "Merkle Block #9b1e...3d22 · Verified",
+    });
+
+    setTimeout(() => {
+      setAgentExecNotice(null);
+    }, 7000);
+  };
+
+  const handleRebalanceCloudSquad = () => {
+    setCloudSquadCapacity(76);
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (t.id === "task-1") {
+          return {
+            ...t,
+            riskFactor: "Optimal (Squad Load Rebalanced to 76%)",
+            agentStatus: "Backlog telemetry load rebalanced across 5 engineers.",
+            agentRecommendation: "Squad load normalized. Next Bak Poya buffer of 1.5 days active.",
+          };
+        }
+        return t;
+      })
+    );
+
+    setAgentExecNotice({
+      title: "Autonomous Squad Load Rebalanced (9ms)",
+      description:
+        "Meta Prophet & LightGBM detected 92% Cloud Squad overload. Agent shifted 2 telemetry staging modules to Full-Stack Squad. Cloud squad capacity reduced from 92% to 76%.",
+      meta: "Rule #02 Executed · Buffer Active",
+    });
+
+    setTimeout(() => {
+      setAgentExecNotice(null);
+    }, 7000);
+  };
+
+  const handleApplyPoyaBuffer = (taskId: string) => {
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (t.id === taskId) {
+          return {
+            ...t,
+            hasPoyaBuffer: true,
+            riskFactor: "Low (2.0-day Bak Poya buffer applied)",
+            agentStatus: "Holiday buffer inserted into delivery schedule.",
+          };
+        }
+        return t;
+      })
+    );
+
+    setAgentExecNotice({
+      title: "Calendar Sentinel Buffer Inserted (11ms)",
+      description:
+        "Bak Full Moon Poya (April 2, 2026) holiday detected within milestone horizon. Agent automatically inserted a 2.0-day buffer into the work graph to protect SLA.",
+      meta: "Calendar Engine v2026.4",
+    });
+
+    setTimeout(() => {
+      setAgentExecNotice(null);
+    }, 7000);
+  };
+
+  const handlePromoteScope = (taskId: string) => {
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (t.id === taskId) {
+          return {
+            ...t,
+            stage: "Active Execution",
+            approvalStatus: "Scope Approved by Biomedical Committee",
+            riskFactor: "Nominal (3 Milestones Generated)",
+            agentStatus: "Promoted to execution with automated sprint breakdown.",
+            agentRecommendation: "Sprint sprint-1 initialized. Lead engineer assigned to hardware sensor validation.",
+          };
+        }
+        return t;
+      })
+    );
+
+    setAgentExecNotice({
+      title: "Agent Auto-Triage & Promotion (18ms)",
+      description:
+        "CX-112 Kandy Hospital Sensor Hub scope validated against clinical specifications. Agent promoted task to Active Execution and created 3 sprint milestone sub-graphs.",
+      meta: "Work Graph v3 · JSONB Indexed",
+    });
+
+    setTimeout(() => {
+      setAgentExecNotice(null);
+    }, 7000);
+  };
+
+  const handleResetState = () => {
+    setTasks(initialTasksData);
+    setCloudSquadCapacity(92);
+    setSelectedTaskId("task-2");
+    setAgentExecNotice({
+      title: "Workspace State Reset to Live Defaults",
+      description: "All deliverables, squad load meters, and agent recommendation states have been reloaded.",
+      meta: "Reset Complete",
+    });
+    setTimeout(() => {
+      setAgentExecNotice(null);
+    }, 4000);
+  };
 
   const handleSimulateRule = () => {
     setSimulationLog("Evaluating rules...");
@@ -92,67 +418,31 @@ export function CreativeOSShowcase() {
       });
 
       if (!res.ok) {
-        // Fallback gracefully so the user never sees a hard block
         console.warn("API route returned non-200, recording submission locally");
       }
       setFormSubmitted(true);
     } catch (err) {
-      // Graceful success state for high conversion
       setFormSubmitted(true);
     } finally {
       setFormLoading(false);
     }
   };
 
-  const tasksData = [
-    {
-      id: "task-1",
-      number: "CX-104",
-      title: "Colombo Port IoT Fleet Tracking Telemetry",
-      squad: "Cloud Infrastructure",
-      assignee: "Sahan D.",
-      stage: "Active Execution",
-      budgetLkr: 680000,
-      spentLkr: 420000,
-      client: "Meridian Logistics Lanka",
-      approvalStatus: "Client Approved (Milestone 2)",
-      approvalDate: "12 Nov 2026",
-      whatsappSync: "#meridian-project-ops (Synced 14m ago)",
-      riskFactor: "Low (Poya buffer applied)",
-    },
-    {
-      id: "task-2",
-      number: "CX-108",
-      title: "Ceylon Specialty Tea Export Supply Chain ERP",
-      squad: "Full-Stack Web & Edge",
-      assignee: "Dinithi P.",
-      stage: "Client Review",
-      budgetLkr: 1250000,
-      spentLkr: 890000,
-      client: "Highland Estates PLC",
-      approvalStatus: "Awaiting Client Sign-off",
-      approvalDate: "Due 15 Nov 2026",
-      whatsappSync: "#highland-tea-board (Awaiting Sign-off)",
-      riskFactor: "Moderate (Reviewer lag 2.4 days)",
-    },
-    {
-      id: "task-3",
-      number: "CX-112",
-      title: "Smart Facility Sensor Hub (Kandy Hospital)",
-      squad: "AI Systems Squad",
-      assignee: "Kavindu M.",
-      stage: "Brief & Scope",
-      budgetLkr: 940000,
-      spentLkr: 180000,
-      client: "Central Healthcare Trust",
-      approvalStatus: "Draft Specification",
-      approvalDate: "Pending Review",
-      whatsappSync: "#central-health-iot (Sync active)",
-      riskFactor: "Healthy",
-    },
-  ];
+  // ── Filtered Tasks Logic
+  const filteredTasks = tasks.filter((t) => {
+    if (filterMode === "agent") return t.agentAssisted;
+    if (filterMode === "attention") return t.riskLevel === "moderate" || t.riskLevel === "warning";
+    if (filterMode === "approved") return t.stage === "Final Invoiced" || t.approvalStatus.includes("Approved");
+    return true;
+  });
 
-  const selectedTask = tasksData.find((t) => t.id === selectedTaskId) || tasksData[0];
+  const selectedTask = tasks.find((t) => t.id === selectedTaskId) || tasks[0];
+
+  // Dynamic counts for columns
+  const countScope = tasks.filter((t) => t.stage === "Brief & Scope").length;
+  const countActive = tasks.filter((t) => t.stage === "Active Execution").length;
+  const countReview = tasks.filter((t) => t.stage === "Client Review").length;
+  const countInvoiced = tasks.filter((t) => t.stage === "Final Invoiced").length;
 
   return (
     <div className="creativeos-container">
@@ -201,6 +491,32 @@ export function CreativeOSShowcase() {
               <div className="cos-window-meta">v3.4.2 · Production</div>
             </div>
 
+            {/* ── Agent Mesh HUD Bar ── */}
+            <div className="cos-agent-hud">
+              <div className="cos-agent-hud-left">
+                <span className="cos-agent-hud-title">
+                  <Bot size={13} /> Autonomous Agent Mesh
+                </span>
+                <div className="cos-agent-hud-agents">
+                  <span className="cos-agent-hud-item">
+                    <strong>Poya Sentinel</strong>: Sri Lanka 2026 Calendar
+                  </span>
+                  <span className="cos-agent-hud-item">
+                    <strong>WhatsApp Concierge</strong>: Client Sign-Offs
+                  </span>
+                  <span className="cos-agent-hud-item">
+                    <strong>15% EPF/ETF Guard</strong>: Labor Costing
+                  </span>
+                  <span className="cos-agent-hud-item">
+                    <strong>Work Graph Dispatcher</strong>: Squad Orchestration
+                  </span>
+                </div>
+              </div>
+              <div className="cos-agent-hud-meta">
+                <span>Latency: 11ms · Deterministic CDC</span>
+              </div>
+            </div>
+
             <div className="cos-preview-nav">
               <button
                 type="button"
@@ -208,7 +524,7 @@ export function CreativeOSShowcase() {
                 onClick={() => setActivePreviewTab("board")}
               >
                 <Layers size={15} />
-                <span>Tab 1: Multi-Tasking Stage Board</span>
+                <span>Tab 1: Multi-Tasking Stage Board &amp; Co-Pilot</span>
               </button>
               <button
                 type="button"
@@ -216,7 +532,7 @@ export function CreativeOSShowcase() {
                 onClick={() => setActivePreviewTab("forecast")}
               >
                 <Calendar size={15} />
-                <span>Tab 2: Poya &amp; Capacity Forecast</span>
+                <span>Tab 2: Poya &amp; Capacity Forecast Engine</span>
               </button>
               <button
                 type="button"
@@ -226,99 +542,255 @@ export function CreativeOSShowcase() {
                 <Zap size={15} />
                 <span>Tab 3: Automated Handoff Rules</span>
               </button>
+              <button
+                type="button"
+                className={`cos-nav-tab ${activePreviewTab === "agentStream" ? "active" : ""}`}
+                onClick={() => setActivePreviewTab("agentStream")}
+              >
+                <Activity size={15} />
+                <span>Tab 4: Agent Activity &amp; Audit Ledger</span>
+              </button>
             </div>
 
             <div className="cos-preview-body">
               {/* TAB 1: STAGE BOARD */}
               {activePreviewTab === "board" && (
                 <div className="cos-tab-content">
+                  {/* Interactive Agent Copilot Command Bar */}
+                  <div className="cos-agent-copilot-row">
+                    <span className="cos-copilot-label">
+                      <Sparkles size={13} className="text-signal" /> Quick Agent Actions:
+                    </span>
+                    <div className="cos-copilot-actions">
+                      <button
+                        type="button"
+                        className="cos-copilot-btn"
+                        onClick={() => handleAutoAdvanceSignoff("task-2")}
+                        title="Simulate WhatsApp client sign-off parsing and automated handoff to invoicing"
+                      >
+                        <Zap size={12} className="text-signal" />
+                        <span>Auto-Advance CX-108 (WhatsApp Sign-off)</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="cos-copilot-btn"
+                        onClick={() => handleApplyPoyaBuffer("task-1")}
+                        title="Insert statutory Bak Poya buffer for Task CX-104"
+                      >
+                        <Calendar size={12} />
+                        <span>Insert Bak Poya Buffer</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="cos-copilot-btn"
+                        onClick={handleRebalanceCloudSquad}
+                        title="Rebalance Cloud Infrastructure Squad capacity from 92% to 76%"
+                      >
+                        <Sliders size={12} />
+                        <span>Rebalance Cloud Squad (92% &rarr; 76%)</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="cos-copilot-btn"
+                        onClick={() => handlePromoteScope("task-3")}
+                        title="Auto-generate sprint milestones and promote CX-112 to Active Execution"
+                      >
+                        <Play size={12} />
+                        <span>Auto-Scope CX-112 Hub</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="cos-copilot-btn reset-btn"
+                        onClick={handleResetState}
+                        title="Reset workspace simulation to default state"
+                      >
+                        <RotateCcw size={12} />
+                        <span>Reset Simulation</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Filter & Live Status Bar */}
+                  <div className="cos-board-filter-bar">
+                    <div className="cos-filter-group">
+                      <button
+                        type="button"
+                        className={`cos-filter-chip ${filterMode === "all" ? "active" : ""}`}
+                        onClick={() => setFilterMode("all")}
+                      >
+                        All Deliverables ({tasks.length})
+                      </button>
+                      <button
+                        type="button"
+                        className={`cos-filter-chip ${filterMode === "agent" ? "active" : ""}`}
+                        onClick={() => setFilterMode("agent")}
+                      >
+                        <Bot size={12} /> Agent-Assisted ({tasks.filter((t) => t.agentAssisted).length})
+                      </button>
+                      <button
+                        type="button"
+                        className={`cos-filter-chip ${filterMode === "attention" ? "active" : ""}`}
+                        onClick={() => setFilterMode("attention")}
+                      >
+                        <AlertTriangle size={12} /> Needs Attention (
+                        {tasks.filter((t) => t.riskLevel === "moderate" || t.riskLevel === "warning").length})
+                      </button>
+                      <button
+                        type="button"
+                        className={`cos-filter-chip ${filterMode === "approved" ? "active" : ""}`}
+                        onClick={() => setFilterMode("approved")}
+                      >
+                        <CheckCheck size={12} /> Invoiced / Cleared (
+                        {tasks.filter((t) => t.stage === "Final Invoiced").length})
+                      </button>
+                    </div>
+                    <div className="cos-board-live-pill">
+                      <span className="cos-sync-dot" />
+                      <span>PostgreSQL Change-Data-Capture (CDC) Live</span>
+                    </div>
+                  </div>
+
+                  {/* Animated Agent Execution Notice Banner */}
+                  {agentExecNotice && (
+                    <div className="cos-agent-exec-banner" role="status">
+                      <CheckCircle2 size={18} className="cos-agent-exec-icon" />
+                      <div className="cos-agent-exec-content">
+                        <div className="cos-agent-exec-title">
+                          <strong>{agentExecNotice.title}</strong>
+                          <span className="cos-agent-exec-meta">{agentExecNotice.meta}</span>
+                        </div>
+                        <p className="cos-agent-exec-desc">{agentExecNotice.description}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 4-Stage Kanban Board */}
                   <div className="cos-stage-columns">
+                    {/* Stage 1: Brief & Scope */}
                     <div className="cos-stage-col">
                       <div className="cos-col-header">
                         <span>Brief &amp; Scope</span>
-                        <strong className="cos-num">02</strong>
+                        <strong className="cos-num">0{countScope}</strong>
                       </div>
-                      <div className="cos-task-card">
-                        <small className="cos-task-num">CX-112</small>
-                        <p className="cos-task-title">Smart Facility Sensor Hub (Kandy)</p>
-                        <div className="cos-task-tags">
-                          <span className="cos-tag">HealthTech</span>
-                          <span className="cos-tag-person">Kavindu M.</span>
-                        </div>
-                      </div>
-                      <div className="cos-task-card">
-                        <small className="cos-task-num">CX-114</small>
-                        <p className="cos-task-title">Garment Export Compliance Portal</p>
-                        <div className="cos-task-tags">
-                          <span className="cos-tag">Supply Chain</span>
-                          <span className="cos-tag-person">Nisal K.</span>
-                        </div>
-                      </div>
+                      {filteredTasks
+                        .filter((t) => t.stage === "Brief & Scope")
+                        .map((task) => (
+                          <div
+                            key={task.id}
+                            className={`cos-task-card clickable ${selectedTaskId === task.id ? "selected" : ""}`}
+                            onClick={() => setSelectedTaskId(task.id)}
+                          >
+                            <div className="cos-card-top">
+                              <small className="cos-task-num">{task.number}</small>
+                              <span className="cos-tag">{task.categoryTag}</span>
+                            </div>
+                            <p className="cos-task-title">{task.title}</p>
+                            <div className="cos-task-tags">
+                              <span className="cos-tag-person">{task.assignee}</span>
+                              <span className="cos-agent-card-badge">
+                                <Bot size={10} /> {task.agentRole.split(" ")[0]}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
                     </div>
 
+                    {/* Stage 2: Active Execution */}
                     <div className="cos-stage-col active-column">
                       <div className="cos-col-header">
                         <span>Active Execution</span>
-                        <strong className="cos-num">03</strong>
+                        <strong className="cos-num">0{countActive}</strong>
                       </div>
-                      <div
-                        className={`cos-task-card clickable ${selectedTaskId === "task-1" ? "selected" : ""}`}
-                        onClick={() => setSelectedTaskId("task-1")}
-                      >
-                        <div className="cos-card-top">
-                          <small className="cos-task-num">CX-104</small>
-                          <span className="cos-live-pill">In Progress</span>
-                        </div>
-                        <p className="cos-task-title">Colombo Port IoT Fleet Tracking Telemetry</p>
-                        <div className="cos-task-tags">
-                          <span className="cos-tag">Logistics</span>
-                          <span className="cos-tag-person">Sahan D.</span>
-                        </div>
-                      </div>
-                      <div className="cos-task-card">
-                        <small className="cos-task-num">CX-107</small>
-                        <p className="cos-task-title">Retail Micro-Inventory POS Backend</p>
-                        <div className="cos-task-tags">
-                          <span className="cos-tag">PostgreSQL</span>
-                          <span className="cos-tag-person">Thilina R.</span>
-                        </div>
-                      </div>
+                      {filteredTasks
+                        .filter((t) => t.stage === "Active Execution")
+                        .map((task) => (
+                          <div
+                            key={task.id}
+                            className={`cos-task-card clickable ${selectedTaskId === task.id ? "selected" : ""}`}
+                            onClick={() => setSelectedTaskId(task.id)}
+                          >
+                            <div className="cos-card-top">
+                              <small className="cos-task-num">{task.number}</small>
+                              <span className="cos-live-pill">In Progress</span>
+                            </div>
+                            <p className="cos-task-title">{task.title}</p>
+                            <div className="cos-task-tags">
+                              <span className="cos-tag">{task.categoryTag}</span>
+                              <span className="cos-tag-person">{task.assignee}</span>
+                            </div>
+                            <span className="cos-agent-card-badge">
+                              <Bot size={10} /> {task.agentStatus.slice(0, 32)}...
+                            </span>
+                          </div>
+                        ))}
                     </div>
 
+                    {/* Stage 3: Client Review */}
                     <div className="cos-stage-col">
                       <div className="cos-col-header">
                         <span>Client Review</span>
-                        <strong className="cos-num">02</strong>
+                        <strong className="cos-num">0{countReview}</strong>
                       </div>
-                      <div
-                        className={`cos-task-card clickable ${selectedTaskId === "task-2" ? "selected" : ""}`}
-                        onClick={() => setSelectedTaskId("task-2")}
-                      >
-                        <div className="cos-card-top">
-                          <small className="cos-task-num">CX-108</small>
-                          <span className="cos-review-pill">Sign-off Due</span>
+                      {filteredTasks
+                        .filter((t) => t.stage === "Client Review")
+                        .map((task) => (
+                          <div
+                            key={task.id}
+                            className={`cos-task-card clickable ${selectedTaskId === task.id ? "selected" : ""}`}
+                            onClick={() => setSelectedTaskId(task.id)}
+                          >
+                            <div className="cos-card-top">
+                              <small className="cos-task-num">{task.number}</small>
+                              <span className="cos-review-pill">Sign-off Due</span>
+                            </div>
+                            <p className="cos-task-title">{task.title}</p>
+                            <div className="cos-task-tags">
+                              <span className="cos-tag">{task.categoryTag}</span>
+                              <span className="cos-tag-person">{task.assignee}</span>
+                            </div>
+                            <span className="cos-agent-card-badge">
+                              <Bot size={10} /> WhatsApp Token Ready
+                            </span>
+                          </div>
+                        ))}
+                      {filteredTasks.filter((t) => t.stage === "Client Review").length === 0 && (
+                        <div className="text-center py-6 text-xs text-muted font-mono">
+                          All client reviews cleared by Agent Concierge.
                         </div>
-                        <p className="cos-task-title">Ceylon Specialty Tea Export Supply Chain ERP</p>
-                        <div className="cos-task-tags">
-                          <span className="cos-tag">Enterprise</span>
-                          <span className="cos-tag-person">Dinithi P.</span>
-                        </div>
-                      </div>
+                      )}
                     </div>
 
+                    {/* Stage 4: Final Invoiced */}
                     <div className="cos-stage-col">
                       <div className="cos-col-header">
                         <span>Final Invoiced</span>
-                        <strong className="cos-num">06</strong>
+                        <strong className="cos-num">0{countInvoiced}</strong>
                       </div>
-                      <div className="cos-task-card completed">
-                        <small className="cos-task-num">CX-098</small>
-                        <p className="cos-task-title">Automated FX Settlement Reconciler</p>
-                        <div className="cos-task-tags">
-                          <span className="cos-tag-green">Paid in Full</span>
-                          <span className="cos-num">LKR 1,840,000</span>
-                        </div>
-                      </div>
+                      {filteredTasks
+                        .filter((t) => t.stage === "Final Invoiced")
+                        .map((task) => (
+                          <div
+                            key={task.id}
+                            className={`cos-task-card completed clickable ${selectedTaskId === task.id ? "selected" : ""
+                              }`}
+                            onClick={() => setSelectedTaskId(task.id)}
+                          >
+                            <div className="cos-card-top">
+                              <small className="cos-task-num">{task.number}</small>
+                              <span className="cos-tag-green">Invoiced</span>
+                            </div>
+                            <p className="cos-task-title">{task.title}</p>
+                            <div className="cos-task-tags">
+                              <span className="cos-tag-person">{task.client.split(" ")[0]}</span>
+                              <span className="cos-tabular-num font-bold text-xs">
+                                LKR {(task.budgetLkr / 1000).toLocaleString()}k
+                              </span>
+                            </div>
+                            <span className="cos-agent-card-badge">
+                              <FileCheck size={10} /> Merkle Hash {task.auditHash}
+                            </span>
+                          </div>
+                        ))}
                     </div>
                   </div>
 
@@ -339,7 +811,9 @@ export function CreativeOSShowcase() {
                       </div>
                       <div className="cos-inspector-field">
                         <label>Owner &amp; Squad</label>
-                        <strong>{selectedTask.assignee} ({selectedTask.squad})</strong>
+                        <strong>
+                          {selectedTask.assignee} ({selectedTask.squad})
+                        </strong>
                       </div>
                       <div className="cos-inspector-field">
                         <label>Client Approval Gate</label>
@@ -354,16 +828,111 @@ export function CreativeOSShowcase() {
                           <span className="cos-sync-dot" />
                           <span>{selectedTask.whatsappSync}</span>
                         </div>
+                        <small className="text-[11px] text-muted font-sans mt-0.5">
+                          "{selectedTask.whatsappSnippet}"
+                        </small>
                       </div>
                       <div className="cos-inspector-field">
                         <label>Budget Allocation (LKR)</label>
                         <strong className="cos-tabular-num">
                           LKR {selectedTask.spentLkr.toLocaleString()} / LKR {selectedTask.budgetLkr.toLocaleString()}
                         </strong>
+                        <small className="text-[10px] text-muted font-mono">
+                          Includes 15% statutory employer EPF/ETF loading
+                        </small>
                       </div>
                       <div className="cos-inspector-field">
                         <label>Predictive Risk Factor</label>
                         <strong className="cos-risk-text">{selectedTask.riskFactor}</strong>
+                        <small className="text-[10px] text-muted font-mono">
+                          Meta Prophet seasonal + LightGBM drift score
+                        </small>
+                      </div>
+                    </div>
+
+                    {/* Autonomous Work Agent Co-Pilot Box in Inspector */}
+                    <div className="cos-agent-recommendation-box">
+                      <div className="cos-agent-rec-head">
+                        <span className="cos-agent-rec-title">
+                          <Bot size={14} /> Autonomous Agent Co-Pilot · {selectedTask.agentRole}
+                        </span>
+                        <span className="text-[11px] font-mono text-muted">
+                          Chained Merkle Hash: {selectedTask.auditHash}
+                        </span>
+                      </div>
+                      <p className="cos-agent-rec-text">{selectedTask.agentRecommendation}</p>
+
+                      <div className="cos-agent-rec-actions">
+                        {selectedTask.id === "task-2" && selectedTask.stage === "Client Review" && (
+                          <button
+                            type="button"
+                            className="cos-btn-agent-primary"
+                            onClick={() => handleAutoAdvanceSignoff("task-2")}
+                          >
+                            <Zap size={13} />
+                            <span>Execute Agent Sign-Off &amp; Auto-Invoice (LKR 1,250,000)</span>
+                          </button>
+                        )}
+                        {selectedTask.id === "task-1" && (
+                          <>
+                            <button
+                              type="button"
+                              className="cos-btn-agent-primary"
+                              onClick={handleRebalanceCloudSquad}
+                            >
+                              <Sliders size={13} />
+                              <span>Agent Auto-Rebalance Squad ({cloudSquadCapacity}% &rarr; 76%)</span>
+                            </button>
+                            <button
+                              type="button"
+                              className="cos-btn-agent-secondary"
+                              onClick={() => handleApplyPoyaBuffer("task-1")}
+                            >
+                              <Calendar size={13} />
+                              <span>Add Bak Poya Buffer</span>
+                            </button>
+                          </>
+                        )}
+                        {selectedTask.id === "task-3" && selectedTask.stage === "Brief & Scope" && (
+                          <button
+                            type="button"
+                            className="cos-btn-agent-primary"
+                            onClick={() => handlePromoteScope("task-3")}
+                          >
+                            <Play size={13} />
+                            <span>Promote Scope to Active Execution</span>
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="cos-btn-agent-secondary"
+                          onClick={() => {
+                            setAgentExecNotice({
+                              title: `WhatsApp Ping Dispatched to ${selectedTask.client}`,
+                              description: `Automated status digest delivered to ${selectedTask.whatsappSync}. Client read receipt confirmed.`,
+                              meta: "WhatsApp Gateway API",
+                            });
+                            setTimeout(() => setAgentExecNotice(null), 5000);
+                          }}
+                        >
+                          <MessageSquare size={13} />
+                          <span>Dispatch WhatsApp Ping</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="cos-btn-agent-secondary"
+                          onClick={() => {
+                            setAgentExecNotice({
+                              title: `Immutable Audit Ledger Verified for ${selectedTask.number}`,
+                              description: `Record signed with SHA-256 Merkle hash ${selectedTask.auditHash}. Timestamped to PostgreSQL ActivityEvents append-only table.`,
+                              meta: "SOC 2 Type II Verified",
+                            });
+                            setTimeout(() => setAgentExecNotice(null), 5000);
+                          }}
+                        >
+                          <ShieldCheck size={13} />
+                          <span>Verify Audit Proof</span>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -428,20 +997,42 @@ export function CreativeOSShowcase() {
 
                   {/* Squad Capacity Meters */}
                   <div className="cos-squad-capacity-block">
-                    <h4>Squad Capacity &amp; Overload Detection (April 2026 Cycle)</h4>
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="m-0">Squad Capacity &amp; Overload Detection (April 2026 Cycle)</h4>
+                      <button
+                        type="button"
+                        className="cos-btn-secondary btn-sm"
+                        onClick={handleRebalanceCloudSquad}
+                      >
+                        <Sliders size={13} />
+                        <span>Run Agent Load Balancing</span>
+                      </button>
+                    </div>
+
                     <div className="cos-capacity-list">
                       <div className="cos-capacity-row">
                         <div className="cos-cap-meta">
                           <strong>Cloud Infrastructure Squad (5 Engineers)</strong>
-                          <span className="cos-cap-pct warning">92% Capacity (Overloaded &gt;85%)</span>
+                          <span className={`cos-cap-pct ${cloudSquadCapacity > 85 ? "warning" : "healthy"}`}>
+                            {cloudSquadCapacity}% Capacity {cloudSquadCapacity > 85 ? "(Overloaded >85%)" : "(Optimized & Balanced)"}
+                          </span>
                         </div>
                         <div className="cos-progress-bar">
-                          <div className="cos-progress-fill warning" style={{ width: "92%" }} />
+                          <div
+                            className={`cos-progress-fill ${cloudSquadCapacity > 85 ? "warning" : "healthy"}`}
+                            style={{ width: `${cloudSquadCapacity}%` }}
+                          />
                         </div>
-                        <p className="cos-cap-hint">
-                          <AlertTriangle size={14} /> AI Recommendation: Automatically insert 3.5-day schedule buffer
-                          around Avurudu holiday to prevent milestone slippage.
-                        </p>
+                        {cloudSquadCapacity > 85 ? (
+                          <p className="cos-cap-hint">
+                            <AlertTriangle size={14} /> AI Recommendation: Automatically insert 3.5-day schedule buffer
+                            around Avurudu holiday or click 'Run Agent Load Balancing' to shift telemetry staging.
+                          </p>
+                        ) : (
+                          <p className="text-[12px] text-emerald flex items-center gap-1 mt-1 font-medium">
+                            <CheckCircle2 size={13} /> Workload balanced: 2 telemetry sub-tasks shifted to Full-Stack Squad. Risk cleared.
+                          </p>
+                        )}
                       </div>
 
                       <div className="cos-capacity-row">
@@ -527,7 +1118,7 @@ export function CreativeOSShowcase() {
                       <div className="cos-rule-flow">
                         <div className="cos-flow-step">
                           <small>TRIGGER</small>
-                          <p>Client signs off Milestone in Client Portal</p>
+                          <p>Client signs off Milestone in Client Portal or WhatsApp</p>
                         </div>
                         <div className="cos-flow-arrow">&rarr;</div>
                         <div className="cos-flow-step">
@@ -600,6 +1191,82 @@ export function CreativeOSShowcase() {
                           <p>Flag variance alert with historical margin comparison</p>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 4: AGENT ACTIVITY & AUDIT STREAM */}
+              {activePreviewTab === "agentStream" && (
+                <div className="cos-tab-content cos-agent-stream-wrap">
+                  <div className="cos-agent-stream-head">
+                    <div>
+                      <h3>Real-Time Autonomous Agent Event Ledger</h3>
+                      <p>
+                        Immutable append-only ActivityEvents log chained with SHA-256 Merkle hashes. Every autonomous
+                        decision, approval verification, and calendar buffer is mathematically auditable.
+                      </p>
+                    </div>
+                    <button type="button" className="cos-btn-secondary btn-sm" onClick={handleResetState}>
+                      <RotateCcw size={13} />
+                      <span>Refresh Ledger Stream</span>
+                    </button>
+                  </div>
+
+                  <div className="cos-agent-stream-list">
+                    <div className="cos-agent-stream-item">
+                      <span className="cos-stream-time">12:44:18 PM</span>
+                      <span className="cos-stream-agent">
+                        <Bot size={13} /> WhatsApp Concierge
+                      </span>
+                      <span className="cos-stream-desc">
+                        Validated digital sign-off token from Highland Estates PLC (#highland-tea-board). Dispatched invoice handoff trigger.
+                      </span>
+                      <span className="cos-stream-hash">hash: 0x3e18...4c92</span>
+                    </div>
+
+                    <div className="cos-agent-stream-item">
+                      <span className="cos-stream-time">12:41:04 PM</span>
+                      <span className="cos-stream-agent">
+                        <Bot size={13} /> Calendar Sentinel
+                      </span>
+                      <span className="cos-stream-desc">
+                        Detected Bak Full Moon Poya (April 2, 2026). Applied 1.5-day schedule buffer to Task CX-104.
+                      </span>
+                      <span className="cos-stream-hash">hash: 0x7f4a...92b1</span>
+                    </div>
+
+                    <div className="cos-agent-stream-item">
+                      <span className="cos-stream-time">12:38:52 PM</span>
+                      <span className="cos-stream-agent">
+                        <Bot size={13} /> 15% EPF/ETF Guard
+                      </span>
+                      <span className="cos-stream-desc">
+                        Reconciled April labor budget. Applied LKR 42,000/mo statutory employer contribution factor per engineer.
+                      </span>
+                      <span className="cos-stream-hash">hash: 0x8f2c...4a19</span>
+                    </div>
+
+                    <div className="cos-agent-stream-item">
+                      <span className="cos-stream-time">12:35:10 PM</span>
+                      <span className="cos-stream-agent">
+                        <Bot size={13} /> Scope Parser
+                      </span>
+                      <span className="cos-stream-desc">
+                        Parsed biomedical specs for Kandy Hospital Sensor Hub (CX-112). Generated 3 sprint milestone work subgraphs.
+                      </span>
+                      <span className="cos-stream-hash">hash: 0x91d4...1b88</span>
+                    </div>
+
+                    <div className="cos-agent-stream-item">
+                      <span className="cos-stream-time">12:30:00 PM</span>
+                      <span className="cos-stream-agent">
+                        <Bot size={13} /> Merkle Hash Auditor
+                      </span>
+                      <span className="cos-stream-desc">
+                        Reconciled Commercial Bank FX Settlement (CX-098). Marked LKR 1,840,000 paid in full. Ledger block sealed.
+                      </span>
+                      <span className="cos-stream-hash">hash: 0x8f2c...4a19</span>
                     </div>
                   </div>
                 </div>
