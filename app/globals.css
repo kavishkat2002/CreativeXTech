@@ -16447,6 +16447,378 @@ article#retail-distribution {
   padding-top: 4px;
 }
 
+/* ── Predictive Forecast Visualization (Past Actuals & Future Forecast) ── */
+.cos-forecast-viz-box {
+  background: #FFFFFF;
+  border: 1px solid #E3E1DC;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cos-forecast-viz-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #E3E1DC;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cos-forecast-viz-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #191918;
+}
+
+.cos-forecast-viz-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cos-forecast-badge {
+  font: 700 10px/1 var(--font-mono, monospace);
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: #F4F2EC;
+  border: 1px solid #E3E1DC;
+  color: #5A5854;
+}
+
+.cos-forecast-badge.highlight {
+  background: #EAEFF5;
+  border-color: #BAC2CC;
+  color: #1E3A5F;
+}
+
+.cos-forecast-badge.confidence {
+  background: #E8F5E9;
+  border-color: #A5D6A7;
+  color: #2E7D32;
+}
+
+.cos-scenario-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FAFAF7;
+  border: 1px solid #E3E1DC;
+  border-radius: 6px;
+  padding: 8px 12px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cos-scenario-label {
+  font: 700 11px/1 var(--font-mono, monospace);
+  color: #7A7873;
+  text-transform: uppercase;
+}
+
+.cos-scenario-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cos-scenario-btn {
+  padding: 5px 11px;
+  border-radius: 4px;
+  border: 1px solid #D6D3CC;
+  background: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5A5854;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cos-scenario-btn:hover {
+  border-color: #1E3A5F;
+  color: #191918;
+}
+
+.cos-scenario-btn.active {
+  background: #1E3A5F;
+  color: #FFFFFF !important;
+  border-color: #1E3A5F;
+}
+
+/* ── Timeline Visualizer ── */
+.cos-timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: #FAFAF7;
+  border: 1px solid #E3E1DC;
+  border-radius: 8px;
+}
+
+.cos-timeline-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  color: #5A5854;
+  flex-wrap: wrap;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #EBE9E3;
+}
+
+.cos-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cos-legend-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.cos-legend-marker.past { background: #2E7D32; }
+.cos-legend-marker.today { background: #FF5A36; }
+.cos-legend-marker.holiday { background: #B45309; }
+.cos-legend-marker.future { background: #1E3A5F; }
+.cos-legend-marker.delayed { background: #D32F2F; }
+
+.cos-timeline-track {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  position: relative;
+  margin-top: 6px;
+}
+
+.cos-timeline-step {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: #FFFFFF;
+  border: 1px solid #E3E1DC;
+  border-radius: 6px;
+  position: relative;
+}
+
+.cos-timeline-step.past {
+  border-top: 3px solid #2E7D32;
+}
+
+.cos-timeline-step.today {
+  border-top: 3px solid #FF5A36;
+  background: #FFFBF9;
+}
+
+.cos-timeline-step.holiday {
+  border-top: 3px solid #B45309;
+  background: #FFFDF7;
+}
+
+.cos-timeline-step.future {
+  border-top: 3px solid #1E3A5F;
+  background: #F4F7FB;
+}
+
+.cos-timeline-step.delayed {
+  border-top: 3px solid #D32F2F;
+  background: #FFF8F8;
+}
+
+.cos-step-date {
+  font: 700 9px/1 var(--font-mono, monospace);
+  color: #7A7873;
+  text-transform: uppercase;
+}
+
+.cos-step-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #191918;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.cos-step-status {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 550;
+}
+
+.cos-step-status.completed { color: #2E7D32; }
+.cos-step-status.active { color: #FF5A36; }
+.cos-step-status.warning { color: #B45309; }
+.cos-step-status.predicted { color: #1E3A5F; }
+.cos-step-status.alert { color: #D32F2F; }
+
+/* ── Past vs Future Metric Comparison Cards ── */
+.cos-forecast-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.cos-comparison-card {
+  background: #FAFAF7;
+  border: 1px solid #E3E1DC;
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cos-comparison-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #E8E6E0;
+}
+
+.cos-comparison-head strong {
+  font-size: 12px;
+  color: #191918;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cos-comparison-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.cos-stat-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cos-stat-cell small {
+  font: 600 10px/1 var(--font-mono, monospace);
+  color: #7A7873;
+}
+
+.cos-stat-cell strong {
+  font-size: 13px;
+  color: #191918;
+}
+
+/* ── Explainable Factors Bar Grid ── */
+.cos-factors-block {
+  background: #FAFAF7;
+  border: 1px solid #E3E1DC;
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.cos-factors-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cos-factors-head strong {
+  font-size: 12px;
+  color: #191918;
+}
+
+.cos-factors-head span {
+  font: 600 10px/1 var(--font-mono, monospace);
+  color: #7A7873;
+}
+
+.cos-factors-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.cos-factor-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #FFFFFF;
+  border: 1px solid #E3E1DC;
+  border-radius: 5px;
+  padding: 8px 10px;
+}
+
+.cos-factor-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4A4946;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cos-factor-impact {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cos-factor-impact.risk { color: #D32F2F; }
+.cos-factor-impact.buffer { color: #2E7D32; }
+.cos-factor-impact.holiday { color: #B45309; }
+.cos-factor-impact.nominal { color: #1E3A5F; }
+
+.cos-factor-bar {
+  width: 100%;
+  height: 4px;
+  background: #E8E6E0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.cos-factor-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.cos-factor-bar-fill.risk { background: #D32F2F; }
+.cos-factor-bar-fill.buffer { background: #2E7D32; }
+.cos-factor-bar-fill.holiday { background: #B45309; }
+.cos-factor-bar-fill.nominal { background: #1E3A5F; }
+
+@media (max-width: 900px) {
+  .cos-timeline-track {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .cos-forecast-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+  .cos-factors-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .cos-factors-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 .cos-btn-agent-primary {
   display: inline-flex;
   align-items: center;

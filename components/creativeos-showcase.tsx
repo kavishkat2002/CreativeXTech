@@ -34,7 +34,26 @@ import {
   Play,
   Filter,
   CheckCheck,
+  TrendingUp,
+  History,
+  Target,
+  LineChart,
+  Compass,
 } from "lucide-react";
+
+interface TaskForecastData {
+  pastVelocity: string;
+  pastMilestones: Array<{ date: string; title: string; status: "completed" | "delayed"; note: string }>;
+  unbufferedDate: string;
+  unbufferedDelayDays: number;
+  bufferedDate: string;
+  overtimeDate: string;
+  bufferedConfidence: number;
+  unbufferedConfidence: number;
+  pastOnTimePct: number;
+  marginSavedLkr: number;
+  factors: Array<{ name: string; impact: string; weight: number; type: "risk" | "buffer" | "holiday" | "nominal" }>;
+}
 
 interface TaskItem {
   id: string;
@@ -60,6 +79,7 @@ interface TaskItem {
   hasPoyaBuffer: boolean;
   invoiceDrafted: boolean;
   auditHash: string;
+  forecastData?: TaskForecastData;
 }
 
 const initialTasksData: TaskItem[] = [
@@ -87,6 +107,28 @@ const initialTasksData: TaskItem[] = [
     hasPoyaBuffer: true,
     invoiceDrafted: false,
     auditHash: "0x7f4a...92b1",
+    forecastData: {
+      pastVelocity: "91.5% on-time velocity across 22 IoT pipeline milestones",
+      pastMilestones: [
+        { date: "Jan 18", title: "Edge Gateway Setup", status: "completed", note: "18d · On-time ✓" },
+        { date: "Feb 22", title: "Kafka CDC Stream", status: "completed", note: "24d · Sub-15ms ✓" },
+        { date: "Mar 20", title: "Port Telemetry v2", status: "completed", note: "26d · On-time ✓" },
+      ],
+      unbufferedDate: "18 April 2026",
+      unbufferedDelayDays: 4.5,
+      bufferedDate: "09 April 2026",
+      overtimeDate: "06 April 2026",
+      bufferedConfidence: 96.0,
+      unbufferedConfidence: 55.4,
+      pastOnTimePct: 91.5,
+      marginSavedLkr: 95000,
+      factors: [
+        { name: "Cloud Squad Overload", impact: "92% capacity load", weight: 42, type: "risk" },
+        { name: "Bak Poya Schedule Buffer", impact: "+1.5d buffer applied", weight: 28, type: "buffer" },
+        { name: "Port SLA Latency Margin", impact: "Nominal (sub-20ms)", weight: 18, type: "nominal" },
+        { name: "Hardware Benchmarks", impact: "100k events/sec cleared", weight: 12, type: "buffer" },
+      ],
+    },
   },
   {
     id: "task-2",
@@ -112,6 +154,28 @@ const initialTasksData: TaskItem[] = [
     hasPoyaBuffer: false,
     invoiceDrafted: false,
     auditHash: "0x3e18...4c92",
+    forecastData: {
+      pastVelocity: "94.2% on-time velocity across 18 ERP sprints",
+      pastMilestones: [
+        { date: "Feb 10", title: "Scope & PostgreSQL Schema", status: "completed", note: "14d · On-time ✓" },
+        { date: "Mar 02", title: "Logistics Export APIs", status: "completed", note: "20d · On-time ✓" },
+        { date: "Mar 28", title: "Multi-Currency Ledger", status: "completed", note: "26d · +1.8d review lag ⚠️" },
+      ],
+      unbufferedDate: "21 April 2026",
+      unbufferedDelayDays: 6.5,
+      bufferedDate: "11 April 2026",
+      overtimeDate: "08 April 2026",
+      bufferedConfidence: 94.2,
+      unbufferedConfidence: 41.8,
+      pastOnTimePct: 94.2,
+      marginSavedLkr: 140000,
+      factors: [
+        { name: "Client Reviewer Latency", impact: "+2.4d reviewer lag", weight: 38, type: "risk" },
+        { name: "Bak Poya / Avurudu Holiday Drain", impact: "-3.0 working days", weight: 32, type: "holiday" },
+        { name: "Full-Stack Squad Velocity Momentum", impact: "+1.5d buffer applied", weight: 18, type: "buffer" },
+        { name: "LKR Budget Allocation Burn", impact: "71.2% burn (nominal)", weight: 12, type: "nominal" },
+      ],
+    },
   },
   {
     id: "task-3",
@@ -137,6 +201,27 @@ const initialTasksData: TaskItem[] = [
     hasPoyaBuffer: false,
     invoiceDrafted: false,
     auditHash: "0x91d4...1b88",
+    forecastData: {
+      pastVelocity: "88.0% historical baseline across 14 hospital IoT deployments",
+      pastMilestones: [
+        { date: "Mar 10", title: "Clinical Needs Assessment", status: "completed", note: "10d · On-time ✓" },
+        { date: "Mar 25", title: "Battery Telemetry RFC", status: "completed", note: "15d · Spec verified ✓" },
+      ],
+      unbufferedDate: "28 May 2026",
+      unbufferedDelayDays: 7.0,
+      bufferedDate: "15 May 2026",
+      overtimeDate: "10 May 2026",
+      bufferedConfidence: 89.6,
+      unbufferedConfidence: 51.2,
+      pastOnTimePct: 88.0,
+      marginSavedLkr: 110000,
+      factors: [
+        { name: "Biomedical Committee Approvals", impact: "+3.0d lag", weight: 35, type: "risk" },
+        { name: "Vesak Sacred Poya Cluster", impact: "-2.0 working days", weight: 30, type: "holiday" },
+        { name: "AI Squad Capacity Health", impact: "68% healthy buffer", weight: 20, type: "buffer" },
+        { name: "Sensor Hardware Procurement", impact: "Standard lead time", weight: 15, type: "nominal" },
+      ],
+    },
   },
   {
     id: "task-4",
@@ -162,6 +247,26 @@ const initialTasksData: TaskItem[] = [
     hasPoyaBuffer: false,
     invoiceDrafted: false,
     auditHash: "0x44c1...82ef",
+    forecastData: {
+      pastVelocity: "93.0% on-time velocity across 12 supply chain portals",
+      pastMilestones: [
+        { date: "Mar 15", title: "CSRD Rule Ingestion", status: "completed", note: "12d · Schema ready ✓" },
+      ],
+      unbufferedDate: "05 June 2026",
+      unbufferedDelayDays: 5.0,
+      bufferedDate: "22 May 2026",
+      overtimeDate: "18 May 2026",
+      bufferedConfidence: 91.0,
+      unbufferedConfidence: 58.0,
+      pastOnTimePct: 93.0,
+      marginSavedLkr: 85000,
+      factors: [
+        { name: "Regulatory Schema Parsing", impact: "42 rules indexed", weight: 36, type: "buffer" },
+        { name: "Poson Mercantile Holiday", impact: "-1.5 working days", weight: 30, type: "holiday" },
+        { name: "Apparel Board Feedback", impact: "+2.0d lag", weight: 22, type: "risk" },
+        { name: "Early Stage Labor Loading", impact: "11.6% consumed", weight: 12, type: "nominal" },
+      ],
+    },
   },
   {
     id: "task-5",
@@ -187,6 +292,28 @@ const initialTasksData: TaskItem[] = [
     hasPoyaBuffer: true,
     invoiceDrafted: false,
     auditHash: "0x28ab...5567",
+    forecastData: {
+      pastVelocity: "95.5% on-time velocity across 30 retail POS backends",
+      pastMilestones: [
+        { date: "Feb 01", title: "Micro-Inventory DB Engine", status: "completed", note: "16d · On-time ✓" },
+        { date: "Feb 28", title: "Offline Cache Sync Protocol", status: "completed", note: "22d · On-time ✓" },
+        { date: "Mar 24", title: "14 Supermarket Pilot Deploy", status: "completed", note: "20d · Zero drift ✓" },
+      ],
+      unbufferedDate: "15 April 2026",
+      unbufferedDelayDays: 3.0,
+      bufferedDate: "08 April 2026",
+      overtimeDate: "05 April 2026",
+      bufferedConfidence: 97.4,
+      unbufferedConfidence: 62.0,
+      pastOnTimePct: 95.5,
+      marginSavedLkr: 120000,
+      factors: [
+        { name: "Kafka CDC Stream Health", impact: "Zero drift verified", weight: 40, type: "buffer" },
+        { name: "Bak Poya Supermarket Rush", impact: "+1.5d buffer applied", weight: 30, type: "holiday" },
+        { name: "AI Squad Lead Allocation", impact: "Nominal load", weight: 18, type: "buffer" },
+        { name: "POS Client Hardware Sync", impact: "Validated", weight: 12, type: "nominal" },
+      ],
+    },
   },
   {
     id: "task-6",
@@ -212,6 +339,29 @@ const initialTasksData: TaskItem[] = [
     hasPoyaBuffer: false,
     invoiceDrafted: true,
     auditHash: "0x8f2c...4a19",
+    forecastData: {
+      pastVelocity: "98.2% on-time velocity across enterprise banking settlements",
+      pastMilestones: [
+        { date: "Jan 10", title: "SWIFT/SLIPS Wire Engine", status: "completed", note: "15d · On-time ✓" },
+        { date: "Feb 12", title: "Audit Trail Merkle Chaining", status: "completed", note: "22d · Tamper-proof ✓" },
+        { date: "Mar 10", title: "Central Bank (CBSL) TRM Audit", status: "completed", note: "18d · 100% Pass ✓" },
+        { date: "Apr 02", title: "Final Settlement & Receipt", status: "completed", note: "Paid in full ✓" },
+      ],
+      unbufferedDate: "02 April 2026",
+      unbufferedDelayDays: 0,
+      bufferedDate: "02 April 2026",
+      overtimeDate: "02 April 2026",
+      bufferedConfidence: 100.0,
+      unbufferedConfidence: 100.0,
+      pastOnTimePct: 98.2,
+      marginSavedLkr: 220000,
+      factors: [
+        { name: "CBSL Compliance Clearance", impact: "100% Passed", weight: 45, type: "buffer" },
+        { name: "Bank Transfer Wire Latency", impact: "Cleared same-day", weight: 30, type: "buffer" },
+        { name: "Cryptographic Merkle Block", impact: "Verified #8f2c", weight: 15, type: "nominal" },
+        { name: "Statutory 15% EPF/ETF", impact: "Reconciled", weight: 10, type: "buffer" },
+      ],
+    },
   },
 ];
 
@@ -223,6 +373,10 @@ export function CreativeOSShowcase() {
   const [tasks, setTasks] = useState<TaskItem[]>(initialTasksData);
   const [selectedTaskId, setSelectedTaskId] = useState<string>("task-2");
   const [filterMode, setFilterMode] = useState<"all" | "agent" | "attention" | "approved">("all");
+
+  // ── Past & Future Predictive Forecast State
+  const [showForecastVisualizer, setShowForecastVisualizer] = useState<boolean>(true);
+  const [forecastScenario, setForecastScenario] = useState<"buffered" | "unbuffered" | "overtime">("buffered");
 
   // ── Agent Live Execution Banner State
   const [agentExecNotice, setAgentExecNotice] = useState<{
@@ -848,6 +1002,276 @@ export function CreativeOSShowcase() {
                           Meta Prophet seasonal + LightGBM drift score
                         </small>
                       </div>
+                    </div>
+
+                    {/* ── Past & Future Predictive Intelligence Visualizer ── */}
+                    <div className="cos-forecast-viz-box">
+                      <div className="cos-forecast-viz-head">
+                        <div className="cos-forecast-viz-title">
+                          <TrendingUp size={16} className="text-signal" />
+                          <span>Predictive Horizon: Past Actuals vs Future AI Trajectory</span>
+                        </div>
+                        <div className="cos-forecast-viz-badges">
+                          <span className="cos-forecast-badge highlight">Meta Prophet Seasonal</span>
+                          <span className="cos-forecast-badge">LightGBM Ensemble</span>
+                          <span className="cos-forecast-badge confidence">
+                            {forecastScenario === "buffered"
+                              ? `${selectedTask.forecastData?.bufferedConfidence ?? 94.2}% Confidence`
+                              : forecastScenario === "unbuffered"
+                              ? `${selectedTask.forecastData?.unbufferedConfidence ?? 41.8}% High Risk`
+                              : "98.5% Express Mode"}
+                          </span>
+                          <button
+                            type="button"
+                            className="cos-btn-secondary btn-sm"
+                            onClick={() => setShowForecastVisualizer(!showForecastVisualizer)}
+                          >
+                            {showForecastVisualizer ? "Collapse Forecast" : "Expand Forecast"}
+                          </button>
+                        </div>
+                      </div>
+
+                      {showForecastVisualizer && (
+                        <>
+                          {/* Scenario Bar */}
+                          <div className="cos-scenario-bar">
+                            <span className="cos-scenario-label">
+                              <Target size={13} className="inline mr-1" /> Delivery Scenario Simulation:
+                            </span>
+                            <div className="cos-scenario-buttons">
+                              <button
+                                type="button"
+                                className={`cos-scenario-btn ${forecastScenario === "unbuffered" ? "active" : ""}`}
+                                onClick={() => setForecastScenario("unbuffered")}
+                              >
+                                Status Quo (Unbuffered Forecast)
+                              </button>
+                              <button
+                                type="button"
+                                className={`cos-scenario-btn ${forecastScenario === "buffered" ? "active" : ""}`}
+                                onClick={() => setForecastScenario("buffered")}
+                              >
+                                CreativeOS AI-Buffered (Recommended)
+                              </button>
+                              <button
+                                type="button"
+                                className={`cos-scenario-btn ${forecastScenario === "overtime" ? "active" : ""}`}
+                                onClick={() => setForecastScenario("overtime")}
+                              >
+                                Express Overtime (+15% EPF/ETF)
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Visual Timeline Track */}
+                          <div className="cos-timeline-container">
+                            <div className="cos-timeline-legend">
+                              <span className="cos-legend-item">
+                                <span className="cos-legend-marker past" /> Past Milestone Actuals
+                              </span>
+                              <span className="cos-legend-item">
+                                <span className="cos-legend-marker today" /> Today (Active Gate)
+                              </span>
+                              <span className="cos-legend-item">
+                                <span className="cos-legend-marker holiday" /> 2026 Poya &amp; Holiday Horizon
+                              </span>
+                              <span className="cos-legend-item">
+                                <span
+                                  className={`cos-legend-marker ${
+                                    forecastScenario === "unbuffered" ? "delayed" : "future"
+                                  }`}
+                                />
+                                {forecastScenario === "unbuffered"
+                                  ? "Projected Delay Slipped Target"
+                                  : "Predicted On-Time Target"}
+                              </span>
+                            </div>
+
+                            <div className="cos-timeline-track">
+                              {/* Past Milestones */}
+                              {selectedTask.forecastData?.pastMilestones.slice(0, 2).map((m, idx) => (
+                                <div key={idx} className="cos-timeline-step past">
+                                  <span className="cos-step-date">{m.date} · Past Actual</span>
+                                  <strong className="cos-step-title">{m.title}</strong>
+                                  <span className="cos-step-status completed">
+                                    <CheckCircle2 size={11} /> {m.note}
+                                  </span>
+                                </div>
+                              ))}
+
+                              {/* Today / Present Gate */}
+                              <div className="cos-timeline-step today">
+                                <span className="cos-step-date">Today · April 2026</span>
+                                <strong className="cos-step-title">{selectedTask.stage}</strong>
+                                <span className="cos-step-status active">
+                                  <Compass size={11} /> 71.2% LKR Budget Logged
+                                </span>
+                              </div>
+
+                              {/* Sri Lankan Holiday Checkpoint */}
+                              <div className="cos-timeline-step holiday">
+                                <span className="cos-step-date">02 Apr 2026 · Mercantile</span>
+                                <strong className="cos-step-title">Bak Full Moon Poya</strong>
+                                <span className="cos-step-status warning">
+                                  <Calendar size={11} />
+                                  {forecastScenario === "buffered" ? "2.0d Buffer Active" : "No Buffer Applied"}
+                                </span>
+                              </div>
+
+                              {/* Predicted Future Milestone */}
+                              <div
+                                className={`cos-timeline-step ${
+                                  forecastScenario === "unbuffered" ? "delayed" : "future"
+                                }`}
+                              >
+                                <span className="cos-step-date">
+                                  {forecastScenario === "buffered"
+                                    ? `${selectedTask.forecastData?.bufferedDate ?? "11 April 2026"} · AI Forecast`
+                                    : forecastScenario === "unbuffered"
+                                    ? `${selectedTask.forecastData?.unbufferedDate ?? "21 April 2026"} · Delay Risk`
+                                    : `${selectedTask.forecastData?.overtimeDate ?? "08 April 2026"} · Express`}
+                                </span>
+                                <strong className="cos-step-title">
+                                  {forecastScenario === "buffered"
+                                    ? "Final Sign-off & Invoiced"
+                                    : forecastScenario === "unbuffered"
+                                    ? "Delayed Beyond Avurudu"
+                                    : "Fast-Track Settlement"}
+                                </strong>
+                                <span
+                                  className={`cos-step-status ${
+                                    forecastScenario === "unbuffered" ? "alert" : "predicted"
+                                  }`}
+                                >
+                                  {forecastScenario === "buffered" ? (
+                                    <>
+                                      <CheckCircle2 size={11} /> 94.2% On-Time Confidence
+                                    </>
+                                  ) : forecastScenario === "unbuffered" ? (
+                                    <>
+                                      <AlertTriangle size={11} /> +6.5d Delay (78% Holiday Collision)
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Zap size={11} /> 3d Early (+LKR 63k Loaded)
+                                    </>
+                                  )}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Past vs Future Metric Comparison Cards */}
+                          <div className="cos-forecast-comparison-grid">
+                            <div className="cos-comparison-card">
+                              <div className="cos-comparison-head">
+                                <strong>
+                                  <History size={14} className="text-navy" /> Past Historical Performance Baseline
+                                </strong>
+                                <span className="font-mono text-[10px] text-muted">84 Sri Lankan Projects</span>
+                              </div>
+                              <div className="cos-comparison-stats">
+                                <div className="cos-stat-cell">
+                                  <small>Historical On-Time Rate</small>
+                                  <strong className="cos-tabular-num text-emerald">
+                                    {selectedTask.forecastData?.pastOnTimePct ?? 94.2}%
+                                  </strong>
+                                </div>
+                                <div className="cos-stat-cell">
+                                  <small>Mean Client Sign-Off Lag</small>
+                                  <strong className="cos-tabular-num">2.4 Days (WhatsApp Verified)</strong>
+                                </div>
+                                <div className="cos-stat-cell">
+                                  <small>Team Historical Velocity</small>
+                                  <strong className="cos-tabular-num text-xs">
+                                    {selectedTask.forecastData?.pastVelocity ?? "18 Sprints Logged"}
+                                  </strong>
+                                </div>
+                                <div className="cos-stat-cell">
+                                  <small>15% EPF/ETF Cost Drift</small>
+                                  <strong className="cos-tabular-num text-emerald">0.0% (Exact Statutory)</strong>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="cos-comparison-card">
+                              <div className="cos-comparison-head">
+                                <strong>
+                                  <Target size={14} className="text-signal" /> Future Predictive Forecast Analysis
+                                </strong>
+                                <span className="font-mono text-[10px] text-navy font-bold">R² = 0.941 Fit</span>
+                              </div>
+                              <div className="cos-comparison-stats">
+                                <div className="cos-stat-cell">
+                                  <small>Target Completion Date</small>
+                                  <strong className="cos-tabular-num">
+                                    {forecastScenario === "buffered"
+                                      ? selectedTask.forecastData?.bufferedDate ?? "11 April 2026"
+                                      : forecastScenario === "unbuffered"
+                                      ? selectedTask.forecastData?.unbufferedDate ?? "21 April 2026"
+                                      : selectedTask.forecastData?.overtimeDate ?? "08 April 2026"}
+                                  </strong>
+                                </div>
+                                <div className="cos-stat-cell">
+                                  <small>Delay Risk Probability</small>
+                                  <strong
+                                    className={`cos-tabular-num ${
+                                      forecastScenario === "unbuffered" ? "text-signal font-bold" : "text-emerald"
+                                    }`}
+                                  >
+                                    {forecastScenario === "buffered"
+                                      ? "5.8% (Negligible)"
+                                      : forecastScenario === "unbuffered"
+                                      ? "78.2% (High Slippage)"
+                                      : "1.5% (Minimal)"}
+                                  </strong>
+                                </div>
+                                <div className="cos-stat-cell">
+                                  <small>Margin Protected by Buffer</small>
+                                  <strong className="cos-tabular-num text-emerald">
+                                    LKR {(selectedTask.forecastData?.marginSavedLkr ?? 140000).toLocaleString()} Saved
+                                  </strong>
+                                </div>
+                                <div className="cos-stat-cell">
+                                  <small>Holiday Collision Assessment</small>
+                                  <strong className="cos-tabular-num text-xs">
+                                    {forecastScenario === "buffered"
+                                      ? "Zero Collision with Avurudu"
+                                      : forecastScenario === "unbuffered"
+                                      ? "Collides with Sinhala & Tamil NY"
+                                      : "Delivered Pre-Bak Poya"}
+                                  </strong>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Explainable Factor Attribution Bars */}
+                          <div className="cos-factors-block">
+                            <div className="cos-factors-head">
+                              <strong>Explainable AI Attribution (LightGBM Feature Weights)</strong>
+                              <span>Normalized Contribution to Predictive Horizon</span>
+                            </div>
+                            <div className="cos-factors-list">
+                              {selectedTask.forecastData?.factors.map((f, idx) => (
+                                <div key={idx} className="cos-factor-item">
+                                  <div className="flex items-center justify-between">
+                                    <span className="cos-factor-name">{f.name}</span>
+                                    <span className="font-mono text-[10px] text-muted">{f.weight}%</span>
+                                  </div>
+                                  <strong className={`cos-factor-impact ${f.type}`}>{f.impact}</strong>
+                                  <div className="cos-factor-bar">
+                                    <div
+                                      className={`cos-factor-bar-fill ${f.type}`}
+                                      style={{ width: `${f.weight * 2}%` }}
+                                    />
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     {/* Autonomous Work Agent Co-Pilot Box in Inspector */}
