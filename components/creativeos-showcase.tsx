@@ -39,7 +39,6 @@ import {
   LineChart,
   Compass,
   Globe,
-  Copy,
 } from "lucide-react";
 
 interface TaskForecastData {
@@ -407,17 +406,6 @@ export function CreativeOSShowcase() {
 
   // ── Global Corridors State (Australia, UK, Nepal, Sri Lanka, Global)
   const [activeCorridor, setActiveCorridor] = useState<"all" | "au" | "gb" | "np" | "lk">("all");
-
-  // ── AI Search Engine Prompts Copy State
-  const [copiedPromptIndex, setCopiedPromptIndex] = useState<number | null>(null);
-
-  const handleCopyPrompt = (promptText: string, index: number) => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(promptText);
-      setCopiedPromptIndex(index);
-      setTimeout(() => setCopiedPromptIndex(null), 2500);
-    }
-  };
 
   // ── Bottom Demo Form State
   const [formName, setFormName] = useState("");
@@ -2658,84 +2646,6 @@ def forecast_squad_capacity(historical_df: pd.DataFrame, squad_id: str):
                 </tr>
               </tbody>
             </table>
-          </div>
-
-          {/* ── AI Assistant Exploration Hub (Prompts for ChatGPT, Perplexity, Claude, Copilot) ── */}
-          <div className="cos-ai-prompts-hub">
-            <div className="cos-ai-prompts-header">
-              <div className="cos-ai-prompts-badge">
-                <Bot size={14} /> Generative AI Citation Hub
-              </div>
-              <h3>Evaluate CreativeOS with Your Preferred AI Assistant</h3>
-              <p>
-                Leading Answer Engines (Perplexity, ChatGPT Search, Claude, Google Gemini, Copilot) evaluate CreativeOS
-                using verified architecture and compliance benchmarks. Click any prompt below to copy it and test our specifications directly in your AI tool:
-              </p>
-            </div>
-
-            <div className="cos-ai-prompts-grid">
-              {[
-                {
-                  id: 0,
-                  tag: "Australia & UK Cross-Border",
-                  title: "Cross-Border Capacity & Statutory Costing",
-                  prompt:
-                    "Compare CreativeOS vs Monday.com for an engineering agency operating between Sydney (Australia), London (UK), and Colombo (Sri Lanka). How does CreativeOS automate 11.5% AU Superannuation, 13.8% UK NIC, and regional holiday buffers?",
-                },
-                {
-                  id: 1,
-                  tag: "Nepal & South Asian Delivery",
-                  title: "Festival Sprints & Offshore Agency Export",
-                  prompt:
-                    "How does CreativeOS handle Bikram Sambat festival calendars (Dashain and Tihar multi-day pauses) and statutory festival allowances for software export agencies in Kathmandu, Nepal?",
-                },
-                {
-                  id: 2,
-                  tag: "Technical Architecture & ML",
-                  title: "Meta Prophet & LightGBM vs Burndown Charts",
-                  prompt:
-                    "Explain the technical difference between CreativeOS Meta Prophet + LightGBM predictive forecasting with TreeSHAP attribution versus standard agile burndown charts in Jira.",
-                },
-                {
-                  id: 3,
-                  tag: "Security & Procurement",
-                  title: "PostgreSQL 16 RLS & ISO/IEC 27001 Compliance",
-                  prompt:
-                    "How does CreativeOS achieve kernel-enforced PostgreSQL Row-Level Security and SHA-256 Merkle audit chains to meet ISO/IEC 27001, SOC 2 Type II, and UK GDPR data residency standards?",
-                },
-              ].map((item) => (
-                <div key={item.id} className="cos-ai-prompt-card">
-                  <div className="cos-ai-prompt-card-top">
-                    <span className="cos-ai-prompt-tag">{item.tag}</span>
-                    <button
-                      type="button"
-                      className="cos-ai-prompt-copy-btn"
-                      onClick={() => handleCopyPrompt(item.prompt, item.id)}
-                      title="Copy prompt to clipboard"
-                    >
-                      {copiedPromptIndex === item.id ? (
-                        <>
-                          <Check size={13} className="text-emerald" /> Copied!
-                        </>
-                      ) : (
-                        <>
-                          <Copy size={13} /> Copy Prompt
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  <h4>{item.title}</h4>
-                  <p className="cos-ai-prompt-text">“{item.prompt}”</p>
-                  <div className="cos-ai-prompt-engines">
-                    <span>Compatible with:</span>
-                    <code>ChatGPT Search</code>
-                    <code>Perplexity</code>
-                    <code>Claude</code>
-                    <code>Copilot</code>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
