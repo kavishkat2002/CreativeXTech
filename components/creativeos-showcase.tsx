@@ -1716,7 +1716,7 @@ export function CreativeOSShowcase() {
           <div className="cos-aeo-summary-wrap">
             <div className="cos-aeo-summary-card">
               <div className="cos-aeo-badge">
-                <span className="cos-aeo-dot" /> Verified Knowledge Entity · Answer Engine &amp; AI Citation Ready
+                Verified Knowledge Entity · Answer Engine &amp; AI Citation Ready
               </div>
               <div className="cos-aeo-body">
                 <div className="cos-aeo-main">
