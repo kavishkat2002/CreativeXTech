@@ -18533,3 +18533,2724 @@ article#retail-distribution {
     grid-template-columns: 1fr;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CREATIVEEX EMPLOYEE MANAGEMENT SYSTEM (EMS) & PORTAL STYLES
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Header Navigation Divider & Employee Tab ── */
+.nav-employee-divider-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 4px;
+}
+
+.nav-vertical-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.22);
+  display: inline-block;
+}
+
+.nav-employee-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(246, 243, 235, 0.78);
+  padding: 4px 11px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 180ms ease;
+  text-decoration: none;
+}
+
+.nav-employee-link:hover,
+.nav-employee-link.active {
+  color: #FFFFFF;
+  background: rgba(255, 90, 54, 0.14);
+  border-color: rgba(255, 90, 54, 0.45);
+}
+
+.nav-employee-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 1.5px 5.5px;
+  border-radius: 3px;
+  background: #ff5a36;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+/* ── EMS Root Container ── */
+.ems-root-wrapper {
+  background: #080908;
+  color: #E2E8F0;
+  min-height: calc(100vh - 80px);
+  padding-bottom: 80px;
+}
+
+.ems-app-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.ems-loading-screen {
+  padding: 120px 20px;
+  text-align: center;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  background: #080908;
+  min-height: 80vh;
+}
+
+/* ── Toast Notification Banner ── */
+.ems-toast-banner {
+  position: fixed;
+  top: 88px;
+  right: 24px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #111411;
+  border: 1px solid #10B981;
+  color: #FFFFFF;
+  padding: 12px 18px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  font-size: 13.5px;
+  animation: slideInToast 0.25s ease-out;
+}
+
+@keyframes slideInToast {
+  from {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ── Top Bar ── */
+.ems-top-bar {
+  background: #0D0E0D;
+  border-bottom: 1px solid #1F221F;
+  padding: 14px 0;
+}
+
+.ems-top-bar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.ems-top-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ems-brand-link {
+  text-decoration: none;
+}
+
+.ems-brand-tag {
+  background: #ff5a36;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.ems-bar-divider {
+  width: 1px;
+  height: 16px;
+  background: #2D312D;
+}
+
+.ems-system-title {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+}
+
+.ems-top-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ems-hq-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.6);
+  background: #141614;
+  border: 1px solid #232723;
+  padding: 5px 12px;
+  border-radius: 9999px;
+}
+
+.ems-status-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+}
+
+.ems-session-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #151715;
+  border: 1px solid #262926;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+
+.ems-role-tag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.ems-role-tag.role-admin {
+  background: rgba(255, 90, 54, 0.18);
+  color: #ff5a36;
+  border: 1px solid rgba(255, 90, 54, 0.35);
+}
+
+.ems-role-tag.role-supervisor {
+  background: rgba(59, 130, 246, 0.18);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.ems-role-tag.role-employee {
+  background: rgba(16, 185, 129, 0.18);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.ems-user-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.ems-btn-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: color 150ms ease;
+}
+
+.ems-btn-logout:hover {
+  color: #ff5a36;
+}
+
+.ems-login-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  background: #141614;
+  border: 1px solid #232723;
+  padding: 5px 12px;
+  border-radius: 9999px;
+}
+
+/* ── Main Layout ── */
+.ems-main-content {
+  padding-top: 36px;
+}
+
+/* ── Login Screen ── */
+.ems-login-wrapper {
+  max-width: 520px;
+  margin: 40px auto 60px;
+}
+
+.ems-login-card {
+  background: #101210;
+  border: 1px solid #242824;
+  border-radius: 12px;
+  padding: 36px 32px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+.ems-login-head {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.ems-badge-icon {
+  display: inline-flex;
+  padding: 12px;
+  background: rgba(255, 90, 54, 0.1);
+  border: 1px solid rgba(255, 90, 54, 0.25);
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+
+.ems-login-head h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.ems-login-head p {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+.ems-auth-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #F87171;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.ems-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ems-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ems-form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.02em;
+}
+
+.ems-form-group input,
+.ems-form-group textarea,
+.ems-select-styled {
+  background: #080908;
+  border: 1px solid #262A26;
+  color: #FFFFFF;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  transition: all 180ms ease;
+  outline: none;
+}
+
+.ems-form-group input:focus,
+.ems-form-group textarea:focus,
+.ems-select-styled:focus {
+  border-color: #ff5a36;
+  background: #0E100E;
+}
+
+.ems-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ff5a36;
+  color: #FFFFFF;
+  border: none;
+  padding: 11px 20px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.ems-btn-primary:hover {
+  background: #ff7354;
+  box-shadow: 0 4px 14px rgba(255, 90, 54, 0.35);
+}
+
+.ems-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #191C19;
+  color: #FFFFFF;
+  border: 1px solid #2B302B;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.ems-btn-secondary:hover {
+  background: #232823;
+  border-color: #3B423B;
+}
+
+/* ── Demo Accounts Helper ── */
+.ems-demo-logins-box {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #222622;
+}
+
+.ems-demo-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 12px;
+}
+
+.ems-demo-buttons-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ems-demo-account-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: #141714;
+  border: 1px solid #242924;
+  padding: 10px 14px;
+  border-radius: 6px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.ems-demo-account-btn:hover {
+  background: #1A1E1A;
+  border-color: #ff5a36;
+}
+
+.ems-demo-account-btn.highlight-admin {
+  border-color: rgba(255, 90, 54, 0.35);
+  background: rgba(255, 90, 54, 0.04);
+}
+
+.ems-acc-role {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-admin {
+  font-size: 9.5px;
+  font-weight: 700;
+  background: #ff5a36;
+  color: #FFFFFF;
+  padding: 1.5px 6px;
+  border-radius: 3px;
+}
+
+.badge-emp {
+  font-size: 9.5px;
+  font-weight: 700;
+  background: #10B981;
+  color: #FFFFFF;
+  padding: 1.5px 6px;
+  border-radius: 3px;
+}
+
+.badge-sup {
+  font-size: 9.5px;
+  font-weight: 700;
+  background: #3B82F6;
+  color: #FFFFFF;
+  padding: 1.5px 6px;
+  border-radius: 3px;
+}
+
+.ems-demo-account-btn small {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── Dashboard Views ── */
+.ems-portal-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ems-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #1F221F;
+}
+
+.ems-header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ems-header-title-row h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.ems-tag-live {
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.ems-tag-supabase {
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.32);
+  padding: 3px 9px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.ems-tag-supabase:hover {
+  background: rgba(59, 130, 246, 0.22);
+  border-color: #60a5fa;
+  color: #FFFFFF;
+}
+
+.ems-supabase-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3b82f6;
+  box-shadow: 0 0 8px #3b82f6;
+}
+
+.ems-supabase-dot.dot-pulsing {
+  animation: pulse-emerald 1s infinite;
+  background: #ff5a36;
+  box-shadow: 0 0 8px #ff5a36;
+}
+
+.ems-header-left p {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 6px 0 0;
+}
+
+.ems-employee-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ems-employee-picker label {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Nav Tabs Bar ── */
+.ems-nav-tabs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: #111311;
+  border: 1px solid #202420;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.ems-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.ems-tab-btn:hover {
+  color: #FFFFFF;
+  background: #1A1D1A;
+}
+
+.ems-tab-btn.active {
+  background: #ff5a36;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.ems-tab-pill {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  padding: 2px 6px;
+  border-radius: 9999px;
+}
+
+.ems-tab-pill.pill-orange {
+  background: #ff5a36;
+}
+
+/* ── EMS Card Base ── */
+.ems-card {
+  background: #101210;
+  border: 1px solid #222622;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Profile Hero Dossier ── */
+.ems-profile-hero {
+  margin-bottom: 24px;
+}
+
+.ems-profile-hero-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #1E221E;
+}
+
+.ems-avatar-box {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ems-avatar-initials {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  background: #ff5a36;
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(255, 90, 54, 0.35);
+}
+
+.ems-status-indicator {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #101210;
+}
+
+.ems-status-indicator.status-active {
+  background: #10B981;
+}
+
+.ems-profile-hero-meta {
+  flex: 1;
+}
+
+.ems-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.ems-title-row h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.ems-badge-emp-id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  background: #181B18;
+  border: 1px solid #2E332E;
+  color: #CBD5E1;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.ems-status-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.ems-status-tag.tag-active {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.ems-designation-line {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 12px;
+}
+
+.ems-dot-sep {
+  margin: 0 8px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.ems-profile-bio {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.ems-profile-kpi-summary {
+  flex-shrink: 0;
+}
+
+.ems-kpi-score-gauge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #151815;
+  border: 1px solid #272C27;
+  padding: 12px 18px;
+  border-radius: 8px;
+}
+
+.ems-gauge-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ems-score-val {
+  font-size: 26px;
+  font-weight: 800;
+  color: #10B981;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ems-score-lbl {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2px;
+}
+
+.ems-gauge-grade {
+  display: flex;
+  flex-direction: column;
+}
+
+.ems-gauge-grade strong {
+  font-size: 15px;
+  color: #FFFFFF;
+}
+
+.ems-gauge-grade small {
+  font-size: 11px;
+  color: #10B981;
+}
+
+.ems-profile-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding-top: 20px;
+}
+
+.ems-detail-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ems-detail-col .ems-lbl {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ems-detail-col strong {
+  font-size: 13.5px;
+  color: #FFFFFF;
+}
+
+.ems-detail-col small {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ── Role Spotlight (Business Development Intern) ── */
+.ems-role-spotlight-card {
+  background: #111411;
+  border: 1px solid rgba(255, 90, 54, 0.3);
+  border-radius: 10px;
+  padding: 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.ems-spotlight-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #232723;
+  padding-bottom: 16px;
+}
+
+.ems-spotlight-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ems-spotlight-title h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.ems-spotlight-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255, 90, 54, 0.15);
+  color: #ff5a36;
+  border: 1px solid rgba(255, 90, 54, 0.35);
+  padding: 3px 10px;
+  border-radius: 9999px;
+}
+
+.ems-spotlight-columns {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 32px;
+}
+
+.ems-spotlight-col h4 {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0 0 14px;
+}
+
+.ems-spotlight-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ems-spotlight-col li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.ems-spotlight-col li strong {
+  color: #FFFFFF;
+}
+
+.ems-comp-box {
+  background: #161916;
+  border: 1px solid #2A2F2A;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.ems-comp-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ems-comp-row span {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ems-comp-row strong {
+  font-size: 14px;
+}
+
+/* ── KPI View & Scoreboard ── */
+.ems-kpi-header-card {
+  margin-bottom: 24px;
+}
+
+.ems-kpi-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.ems-section-kicker {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #ff5a36;
+  margin-bottom: 6px;
+}
+
+.ems-kpi-header-content h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 8px;
+}
+
+.ems-kpi-header-content p {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  max-width: 640px;
+}
+
+.ems-kpi-header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.ems-kpi-metric-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  padding-top: 20px;
+  border-top: 1px solid #1F231F;
+}
+
+.ems-kpi-pill-metric {
+  background: #141614;
+  border: 1px solid #232723;
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ems-kpi-pill-metric .lbl {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ems-kpi-pill-metric .val {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.ems-kpi-pill-metric small {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ems-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.ems-kpi-item-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.ems-kpi-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ems-kpi-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ems-kpi-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.ems-kpi-badge.status-exceeding {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.ems-kpi-badge.status-on_track {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.ems-kpi-badge.status-needs_attention {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.ems-kpi-weight {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ems-kpi-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  background: #171A17;
+  border: 1px solid #2B302B;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.ems-kpi-edit-btn:hover {
+  color: #FFFFFF;
+  border-color: #ff5a36;
+}
+
+.ems-kpi-item-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0 0 16px;
+  line-height: 1.4;
+}
+
+.ems-kpi-progress-wrap {
+  margin-bottom: 12px;
+}
+
+.ems-kpi-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: #1B1E1B;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.ems-kpi-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.ems-kpi-bar-fill.bar-emerald {
+  background: #10B981;
+}
+
+.ems-kpi-bar-fill.bar-orange {
+  background: #ff5a36;
+}
+
+.ems-kpi-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.ems-kpi-target-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.5);
+  border-top: 1px solid #1C201C;
+  padding-top: 10px;
+  margin-top: auto;
+}
+
+.ems-kpi-notes {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 8px 0 0;
+  font-style: italic;
+}
+
+/* ── 1-on-1 Reviews History ── */
+.ems-reviews-card {
+  padding: 28px;
+}
+
+.ems-reviews-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #1F231F;
+  padding-bottom: 14px;
+}
+
+.ems-head-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ems-head-title h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.ems-review-count {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.ems-reviews-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ems-review-entry {
+  background: #141714;
+  border: 1px solid #242924;
+  border-radius: 8px;
+  padding: 18px 20px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+}
+
+.ems-review-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-right: 1px solid #232723;
+  padding-right: 18px;
+}
+
+.ems-review-date {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: #CBD5E1;
+}
+
+.ems-stars-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ems-rating-num {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #FBBF24;
+  margin-left: 4px;
+}
+
+.ems-reviewer-name {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.ems-review-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ems-rev-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ems-rev-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ems-rev-section p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* ── Admin View ── */
+.ems-admin-header-card {
+  margin-bottom: 24px;
+}
+
+.ems-admin-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.ems-admin-header-row h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 6px;
+}
+
+.ems-admin-header-row p {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  max-width: 640px;
+}
+
+.ems-admin-filters {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  border-top: 1px solid #1F231F;
+  padding-top: 18px;
+}
+
+.ems-search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #090A09;
+  border: 1px solid #232723;
+  padding: 8px 14px;
+  border-radius: 6px;
+  flex: 1;
+  min-width: 260px;
+}
+
+.ems-search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #FFFFFF;
+  font-size: 13px;
+  width: 100%;
+}
+
+.ems-filter-role {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── EMS Tables ── */
+.ems-table-container {
+  overflow-x: auto;
+  background: #101210;
+  border: 1px solid #222622;
+  border-radius: 10px;
+}
+
+.ems-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.ems-table th {
+  background: #141714;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  padding: 12px 18px;
+  border-bottom: 1px solid #222622;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.ems-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #1C201C;
+  color: rgba(255, 255, 255, 0.85);
+  vertical-align: middle;
+}
+
+.ems-table tr.selected-row td {
+  background: rgba(255, 90, 54, 0.05);
+}
+
+.ems-user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ems-cell-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #252A25;
+  color: #ff5a36;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ems-cell-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ems-cell-info strong {
+  font-size: 13.5px;
+  color: #FFFFFF;
+}
+
+.ems-cell-email {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.ems-cell-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  color: #ff5a36;
+}
+
+.ems-role-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ems-cell-desig {
+  font-size: 12.5px;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.ems-supervisor-cell {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ems-score-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ems-status-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2.5px 7px;
+  border-radius: 4px;
+}
+
+.ems-status-pill.status-active {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.ems-status-pill.status-suspended {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.ems-actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.ems-action-btn {
+  background: #181B18;
+  border: 1px solid #2B302B;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.ems-action-btn:hover {
+  background: #222722;
+  color: #FFFFFF;
+}
+
+.ems-action-btn.btn-warn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.ems-action-btn.btn-reactivate:hover {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* ── Attendance View ── */
+.ems-attendance-header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ems-attendance-header-card h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 6px;
+}
+
+.ems-attendance-header-card p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+.ems-attendance-stat-row {
+  display: flex;
+  gap: 12px;
+}
+
+.ems-stat-chip {
+  background: #141714;
+  border: 1px solid #242924;
+  padding: 8px 14px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+}
+
+.ems-stat-chip span {
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.ems-stat-chip strong {
+  font-size: 13px;
+}
+
+.ems-workmode-tag {
+  font-size: 11.5px;
+  background: #191D19;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #252A25;
+}
+
+/* ── Modals ── */
+.ems-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.ems-modal-card {
+  background: #111411;
+  border: 1px solid #282D28;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+}
+
+.ems-modal-card.modal-sm {
+  max-width: 440px;
+}
+
+.ems-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #222622;
+}
+
+.ems-modal-header h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.ems-modal-close {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.ems-modal-close:hover {
+  color: #ff5a36;
+}
+
+.ems-modal-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ems-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ems-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #202420;
+}
+
+/* Rating selector */
+.ems-rating-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ems-star-btn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  line-height: 1;
+  transition: color 100ms ease;
+}
+
+.ems-star-btn.active {
+  color: #FBBF24;
+}
+
+.ems-star-label {
+  font-size: 13px;
+  color: #FBBF24;
+  font-weight: 700;
+  margin-left: 6px;
+}
+
+/* ── Mobile Responsiveness for EMS ── */
+@media (max-width: 820px) {
+  .ems-spotlight-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .ems-review-entry {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .ems-review-meta {
+    border-right: none;
+    border-bottom: 1px solid #232723;
+    padding-right: 0;
+    padding-bottom: 12px;
+  }
+
+  .ems-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ENHANCED BUSINESS DEVELOPMENT INTERN (BDI) WORKSPACE & CRM OS
+───────────────────────────────────────────────────────────────────────────── */
+.ems-bdi-workspace {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* 1. Quick Stats Strip */
+.ems-bdi-quickstats-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.ems-bdi-stat-card {
+  background: #111411;
+  border: 1px solid #242924;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.ems-stat-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ems-stat-icon-wrap.icon-orange {
+  background: rgba(255, 90, 54, 0.12);
+  color: #ff5a36;
+  border: 1px solid rgba(255, 90, 54, 0.28);
+}
+
+.ems-stat-icon-wrap.icon-purple {
+  background: rgba(168, 85, 247, 0.12);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.28);
+}
+
+.ems-stat-icon-wrap.icon-emerald {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.28);
+}
+
+.ems-stat-icon-wrap.icon-blue {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.28);
+}
+
+.ems-stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ems-stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.52);
+  font-weight: 600;
+}
+
+.ems-stat-val-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.ems-stat-val {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.ems-stat-target {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ems-stat-pct {
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-left: auto;
+}
+
+.ems-stat-sub {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ems-stat-progressbar {
+  height: 4px;
+  background: #1e231e;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.ems-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff5a36, #10B981);
+  border-radius: 2px;
+}
+
+/* 2. Action Bar */
+.ems-bdi-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #101310;
+  border: 1px solid #232823;
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.ems-action-bar-left,
+.ems-action-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-btn-glow {
+  box-shadow: 0 0 16px rgba(255, 90, 54, 0.28);
+}
+
+.ems-btn-subtle {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #262c26;
+  color: rgba(255, 255, 255, 0.82);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.ems-btn-subtle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #384238;
+  color: #FFFFFF;
+}
+
+/* 3. Sub-Nav */
+.ems-bdi-subnav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid #222722;
+  padding-bottom: 8px;
+  overflow-x: auto;
+}
+
+.ems-subnav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 120ms ease;
+  white-space: nowrap;
+}
+
+.ems-subnav-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ems-subnav-btn.active {
+  color: #FFFFFF;
+  background: #181d18;
+  border-color: #2e362e;
+}
+
+.ems-count-pill {
+  background: #222822;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+
+.ems-badge-hot {
+  background: rgba(255, 90, 54, 0.15);
+  color: #ff5a36;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 90, 54, 0.3);
+}
+
+/* 4. Containers */
+.ems-pipeline-container,
+.ems-checklist-container,
+.ems-playbook-container {
+  background: #111411;
+  border: 1px solid #232823;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ems-pipeline-header,
+.ems-checklist-header,
+.ems-playbook-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ems-subview-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 4px 0;
+}
+
+.ems-subview-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  max-width: 680px;
+  line-height: 1.5;
+}
+
+/* 5. Pipeline Grid & Cards */
+.ems-pipeline-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+
+.ems-lead-card {
+  background: #151915;
+  border: 1px solid #262c26;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 120ms ease, border-color 120ms ease;
+}
+
+.ems-lead-card:hover {
+  border-color: #384238;
+}
+
+.ems-lead-card.lead-card-won {
+  border-color: rgba(16, 185, 129, 0.45);
+  background: linear-gradient(180deg, #151915 0%, rgba(16, 185, 129, 0.06) 100%);
+}
+
+.ems-lead-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.ems-lead-client {
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.ems-lead-contact {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ems-stage-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.stage-blue {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.stage-purple {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.stage-orange {
+  background: rgba(255, 90, 54, 0.15);
+  color: #ff5a36;
+  border: 1px solid rgba(255, 90, 54, 0.3);
+}
+
+.stage-amber {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.stage-emerald {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.ems-lead-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ems-lead-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #1b201b;
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid #293129;
+}
+
+.ems-lead-value-badge {
+  margin-left: auto;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.ems-lead-notes {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.45;
+  margin: 0;
+  background: #111411;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #1f251f;
+}
+
+.ems-lead-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #202620;
+  padding-top: 10px;
+  margin-top: auto;
+}
+
+.ems-lead-followup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ems-stage-control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.ems-stage-select-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.ems-stage-dropdown-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ems-stage-dropdown-menu {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 24px 5px 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: all 120ms ease;
+  line-height: 1.2;
+}
+
+.ems-stage-dropdown-menu option {
+  background: #111411;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.ems-stage-dropdown-menu:hover,
+.ems-stage-dropdown-menu:focus {
+  filter: brightness(1.15);
+  box-shadow: 0 0 10px rgba(255, 90, 54, 0.25);
+}
+
+.ems-dropdown-arrow {
+  position: absolute;
+  right: 7px;
+  pointer-events: none;
+  color: currentColor;
+  opacity: 0.75;
+}
+
+.ems-advance-btn {
+  background: rgba(255, 90, 54, 0.12);
+  border: 1px solid rgba(255, 90, 54, 0.3);
+  color: #ff5a36;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 120ms ease;
+}
+
+.ems-advance-btn:hover {
+  background: #ff5a36;
+  color: #FFFFFF;
+}
+
+.ems-won-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #10B981;
+}
+
+/* 6. Enhanced Day-to-Day Workflow & Checklist Hub */
+.ems-shift-pulse-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.ems-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 10px #10B981;
+  animation: pulse-emerald 2s infinite ease-in-out;
+}
+
+@keyframes pulse-emerald {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+.ems-pulse-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #10B981;
+  text-transform: uppercase;
+}
+
+.ems-checklist-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ems-checklist-progress-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #161a16;
+  border: 1px solid #283028;
+  border-radius: 8px;
+  padding: 8px 14px;
+}
+
+.ems-progress-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ems-progress-lbl {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.ems-progress-nums {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.ems-pct-sub {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ems-progress-bar-wrap {
+  width: 90px;
+}
+
+.ems-bar-track {
+  height: 6px;
+  background: #222822;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+/* Shift Filter Pills Bar */
+.ems-workflow-filters-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+  border-top: 1px solid #1c221c;
+  border-bottom: 1px solid #1c221c;
+}
+
+.ems-workflow-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ems-wf-filter-pill {
+  background: #141814;
+  border: 1px solid #262c26;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 100ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ems-wf-filter-pill:hover {
+  background: #1c221c;
+  color: #FFFFFF;
+}
+
+.ems-wf-filter-pill.active {
+  background: #202720;
+  border-color: #384538;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.ems-wf-filter-pill.pill-urgent {
+  color: #ff5a36;
+}
+
+.ems-wf-filter-pill.pill-completed {
+  color: #10B981;
+}
+
+.ems-workflow-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.ems-link-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: color 100ms ease;
+}
+
+.ems-link-btn:hover {
+  color: #ff5a36;
+}
+
+.ems-sep-dot {
+  color: #333d33;
+}
+
+/* Checklist Rows */
+.ems-checklist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ems-checklist-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #141814;
+  border: 1px solid #242a24;
+  border-radius: 8px;
+  padding: 14px 16px;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.ems-checklist-row:hover {
+  background: #181d18;
+  border-color: #353f35;
+}
+
+.ems-checklist-row.task-completed {
+  opacity: 0.62;
+  background: #111411;
+  border-color: #1d231d;
+}
+
+.ems-check-box {
+  margin-top: 1px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ems-check-content {
+  flex: 1;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.ems-task-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ems-task-title {
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.ems-task-notes-text {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.45;
+  margin: 4px 0 0 0;
+}
+
+.ems-check-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.ems-priority-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.priority-urgent {
+  background: rgba(255, 90, 54, 0.15);
+  color: #ff5a36;
+  border: 1px solid rgba(255, 90, 54, 0.35);
+}
+
+.priority-high {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.priority-normal {
+  background: #1b201b;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid #283028;
+}
+
+.ems-task-del-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 100ms ease;
+}
+
+.ems-task-del-btn:hover {
+  color: #ff5a36;
+  background: rgba(255, 90, 54, 0.1);
+}
+
+/* EOD Handover Banner */
+.ems-eod-handover-banner {
+  background: linear-gradient(180deg, #151915 0%, #111411 100%);
+  border: 1px solid #283228;
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.ems-eod-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 260px;
+}
+
+.ems-eod-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(255, 90, 54, 0.12);
+  border: 1px solid rgba(255, 90, 54, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ems-eod-title {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.ems-eod-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.ems-eod-banner-right {
+  display: flex;
+  align-items: center;
+}
+
+/* EOD Modal Summary */
+.ems-eod-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  background: #141814;
+  border: 1px solid #242a24;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.ems-eod-stat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ems-eod-stat-box .lbl {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.ems-eod-stat-box .val {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.ems-eod-stat-box small {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ems-time-badge {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.6);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ems-cat-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: #1f251f;
+  color: #ff5a36;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid #2b332b;
+}
+
+/* 7. Playbook & Scripts */
+.ems-playbook-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  background: #1a1e1a;
+  border: 1px solid #2a312a;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.ems-playbook-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 16px;
+}
+
+.ems-playbook-card {
+  background: #141814;
+  border: 1px solid #262c26;
+  border-radius: 10px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ems-playbook-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ems-script-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.ems-channel-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: #1f251f;
+  color: #10B981;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.ems-corridor-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  background: #191d19;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid #272f27;
+}
+
+.ems-script-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.ems-copy-btn {
+  background: #1f251f;
+  border: 1px solid #303830;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 120ms ease;
+  flex-shrink: 0;
+}
+
+.ems-copy-btn:hover {
+  border-color: #ff5a36;
+  color: #FFFFFF;
+}
+
+.ems-copy-btn.btn-copied {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #10B981;
+  color: #10B981;
+}
+
+.ems-script-body {
+  background: #0c0e0c;
+  border: 1px solid #1c221c;
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.ems-script-pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .ems-bdi-quickstats-strip,
+  .ems-pipeline-grid,
+  .ems-playbook-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SUPERVISOR / ADMIN TASK & LEAD ASSIGNMENT STYLES
+───────────────────────────────────────────────────────────────────────────── */
+.ems-supervisor-assignment-box {
+  background: linear-gradient(135deg, rgba(255, 90, 54, 0.08) 0%, rgba(16, 185, 129, 0.06) 100%);
+  border: 1px solid rgba(255, 90, 54, 0.35);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ems-assignee-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.ems-assignee-select {
+  background: #0d100d;
+  border: 1px solid rgba(255, 90, 54, 0.5);
+  border-radius: 6px;
+  color: #FFFFFF;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 120ms ease;
+}
+
+.ems-assignee-select:focus {
+  border-color: #ff5a36;
+  box-shadow: 0 0 0 3px rgba(255, 90, 54, 0.25);
+}
+
+.ems-field-hint {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
+.ems-assigned-chip {
+  background: rgba(255, 90, 54, 0.12) !important;
+  color: #ff7252 !important;
+  border: 1px solid rgba(255, 90, 54, 0.35) !important;
+  font-weight: 700 !important;
+}
+
+.ems-assigned-task-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(255, 90, 54, 0.14);
+  color: #ff7252;
+  border: 1px solid rgba(255, 90, 54, 0.35);
+  margin-left: 8px;
+  letter-spacing: 0.2px;
+}
+
+.ems-supervisor-quick-assign-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+
+

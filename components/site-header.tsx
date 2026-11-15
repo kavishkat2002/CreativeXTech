@@ -25,6 +25,7 @@ const navigation = [
   { label: "Blog", section: "blog" },
   { label: "About", section: "about" },
   { label: "Contact", section: "contact" },
+  { label: "Employee", section: "employee" },
 ];
 
 const footerNavigation = [
@@ -37,6 +38,7 @@ const footerNavigation = [
   { label: "Careers", section: "careers" },
   { label: "About", section: "about" },
   { label: "Contact", section: "contact" },
+  { label: "Employee Portal", section: "employee" },
 ];
 
 function sectionHref(section: string, homePage: boolean) {
@@ -48,6 +50,7 @@ function sectionHref(section: string, homePage: boolean) {
   if (section === "careers") return "/careers";
   if (section === "about") return "/about";
   if (section === "contact") return "/contact";
+  if (section === "employee") return "/employee";
   return `${homePage ? "" : "/"}#${section}`;
 }
 
@@ -153,6 +156,19 @@ export function SiteHeader({
                 ))}
                 <Link className="nav-pulldown-all" href="/solutions">View all solutions <ArrowUpRight /></Link>
               </div>
+            </div>
+          ) : item.section === "employee" ? (
+            <div className="nav-employee-divider-wrap" key="employee-nav-wrap">
+              <span className="nav-vertical-divider" aria-hidden="true" />
+              <Link
+                className={`nav-employee-link ${activeSection === "employee" ? "active" : ""}`}
+                aria-current={activeSection === "employee" ? "location" : undefined}
+                href="/employee"
+                title="Employee Management System & Staff Portal"
+              >
+                <span className="nav-employee-badge">EMS</span>
+                <span>Employee</span>
+              </Link>
             </div>
           ) : (
             <Link

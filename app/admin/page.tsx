@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText, Briefcase, Lightbulb, FolderKanban, UserCheck } from "lucide-react";
+import { FileText, Briefcase, Lightbulb, FolderKanban, UserCheck, Users } from "lucide-react";
 
 export default function AdminDashboardPage() {
   const sections = [
@@ -8,6 +8,7 @@ export default function AdminDashboardPage() {
     { title: "Solutions", desc: "Manage industry solutions and capabilities.", href: "/admin/solutions", icon: Lightbulb },
     { title: "Projects", desc: "Update case studies and project portfolio.", href: "/admin/projects", icon: FolderKanban },
     { title: "Careers & ATS", desc: "Post open roles with images and review ATS-filtered applicants.", href: "/admin/careers", icon: UserCheck },
+    { title: "Employee Management & EMS", desc: "Access the unified staff portal, manage intern profiles, supervisors, and live KPIs.", href: "/employee", icon: Users },
   ];
 
   return (

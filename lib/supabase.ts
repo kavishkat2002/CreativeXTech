@@ -116,6 +116,34 @@ export async function supabaseInsert(
   return null;
 }
 
+/** UPSERT a row or rows into a table (insert or update on conflict). */
+export async function supabaseUpsert(
+  table: string,
+  row: Record<string, unknown> | Array<Record<string, unknown>>,
+  onConflict?: string
+): Promise<string | null> {
+  const { url: SUPABASE_URL, key: SUPABASE_ANON_KEY } = await resolveEnv();
+  let url = `${SUPABASE_URL}/rest/v1/${table}`;
+  if (onConflict) {
+    url += `?on_conflict=${encodeURIComponent(onConflict)}`;
+  }
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: makeHeaders(SUPABASE_ANON_KEY, {
+      Prefer: "resolution=merge-duplicates,return=minimal",
+    }),
+    body: JSON.stringify(row),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    return `Supabase upsert failed (${res.status}): ${text}`;
+  }
+
+  return null;
+}
+
 /** UPDATE a single row in a table by column matching. Returns error message or null. */
 export async function supabaseUpdate(
   table: string,

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { supabaseBrowserClient, getSupabaseClient, isLocalAdminMode } from "@/lib/supabase-client";
-import { LayoutDashboard, FileText, Briefcase, Lightbulb, FolderKanban, LogOut, Mail, ShieldCheck, UserCheck } from "lucide-react";
+import { LayoutDashboard, FileText, Briefcase, Lightbulb, FolderKanban, LogOut, Mail, ShieldCheck, UserCheck, Users } from "lucide-react";
 
 export function AdminClientLayout({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<any>(null);
@@ -122,6 +122,7 @@ export function AdminClientLayout({ children }: { children: React.ReactNode }) {
     { href: "/admin/projects", label: "Projects", icon: FolderKanban },
     { href: "/admin/careers", label: "Careers & ATS", icon: UserCheck },
     { href: "/admin/subscribers", label: "Subscribers", icon: Mail },
+    { href: "/employee", label: "Employee & EMS Portal", icon: Users },
   ];
 
   return (
