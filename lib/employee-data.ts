@@ -531,7 +531,13 @@ export function getStoredEmployees(): Employee[] {
     }
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed) && parsed.length > 0) {
-      // Ensure admin and initial intern are always present
+      // Ensure admin and initial intern are always present and valid
+      parsed.forEach((p) => {
+        if (!p.kpis || p.kpis.length === 0) {
+          const seed = INITIAL_EMPLOYEES.find((m) => m.id === p.id);
+          if (seed?.kpis) p.kpis = seed.kpis;
+        }
+      });
       const hasAdmin = parsed.some((e) => e.email === "tkavishka101@gmail.com");
       const hasIntern = parsed.some((e) => e.id === "emp-bdi-001");
       if (!hasAdmin || !hasIntern) {
@@ -556,6 +562,7 @@ export function saveStoredEmployees(employees: Employee[]): void {
   if (typeof window === "undefined") return;
   try {
     localStorage.setItem(STORAGE_KEY_EMPLOYEES, JSON.stringify(employees));
+    window.dispatchEvent(new CustomEvent("ems_local_sync", { detail: employees }));
   } catch (err) {
     console.error("Failed to persist employees to storage", err);
   }
@@ -685,5 +692,70 @@ export function calculateOverallKPIScore(kpis: EmployeeKPI[]): number {
 
   if (totalWeight === 0) return 0;
   return Math.round((totalWeightedScore / totalWeight) * 10) / 10;
+}
+
+// ── Deal Value Parsing & Currency Helpers ──
+export function parseDealValueToLKR(valStr: string | undefined): number {
+  if (!valStr) return 0;
+  const str = valStr.trim();
+
+  // Check for ~LKR X.XM or LKR X.XM
+  const lkrMMatch = str.match(/~?\s*LKR\s*([\d.]+)\s*M/i);
+  if (lkrMMatch) {
+    const num = parseFloat(lkrMMatch[1]);
+    if (!isNaN(num)) return Math.round(num * 1_000_000);
+  }
+
+  // Check for ~LKR X.XK or LKR X.XK
+  const lkrKMatch = str.match(/~?\s*LKR\s*([\d.]+)\s*K/i);
+  if (lkrKMatch) {
+    const num = parseFloat(lkrKMatch[1]);
+    if (!isNaN(num)) return Math.round(num * 1_000);
+  }
+
+  // Check for direct LKR amount: "LKR 1,250,000"
+  const lkrDirectMatch = str.match(/LKR\s*([\d,]+)/i);
+  if (lkrDirectMatch) {
+    const num = parseInt(lkrDirectMatch[1].replace(/,/g, ""), 10);
+    if (!isNaN(num)) return num;
+  }
+
+  // Check for AUD (approx. 200 LKR per 1 AUD)
+  const audMatch = str.match(/AUD\s*([\d,]+)/i);
+  if (audMatch) {
+    const aud = parseInt(audMatch[1].replace(/,/g, ""), 10);
+    if (!isNaN(aud)) return Math.round(aud * 200);
+  }
+
+  // Check for GBP (approx. 395 LKR per 1 GBP)
+  const gbpMatch = str.match(/GBP\s*([\d,]+)/i);
+  if (gbpMatch) {
+    const gbp = parseInt(gbpMatch[1].replace(/,/g, ""), 10);
+    if (!isNaN(gbp)) return Math.round(gbp * 395);
+  }
+
+  // Check for USD (approx. 305 LKR per 1 USD)
+  const usdMatch = str.match(/USD\s*([\d,]+)/i);
+  if (usdMatch) {
+    const usd = parseInt(usdMatch[1].replace(/,/g, ""), 10);
+    if (!isNaN(usd)) return Math.round(usd * 305);
+  }
+
+  // Fallback: extract any digits
+  const anyDigits = str.replace(/[^\d]/g, "");
+  if (anyDigits) {
+    const parsed = parseInt(anyDigits, 10);
+    if (!isNaN(parsed) && parsed > 0) return parsed;
+  }
+
+  return 0;
+}
+
+export function formatLKR(amount: number): string {
+  if (amount >= 1_000_000) {
+    const inMillions = amount / 1_000_000;
+    return `LKR ${inMillions.toFixed(2).replace(/\.00$/, "")}M`;
+  }
+  return `LKR ${amount.toLocaleString("en-US")}`;
 }
 

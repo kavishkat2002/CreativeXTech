@@ -42,6 +42,8 @@ create table if not exists public.ems_leads (
   stage text not null default 'New Lead',
   next_follow_up text,
   notes text,
+  assigned_by text,
+  assigned_to text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -58,6 +60,8 @@ create table if not exists public.ems_workflow_tasks (
   shift_block text default 'morning',
   notes text,
   completed_at text,
+  assigned_by text,
+  assigned_to text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -121,4 +125,11 @@ insert into public.ems_employees (
   ''
 )
 on conflict (id) do nothing;
+
+-- 6. Enable Supabase Realtime CDC for instant bidirectional synchronization
+alter publication supabase_realtime add table public.ems_employees;
+alter publication supabase_realtime add table public.ems_leads;
+alter publication supabase_realtime add table public.ems_workflow_tasks;
+alter publication supabase_realtime add table public.ems_eod_reports;
+
 

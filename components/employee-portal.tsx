@@ -64,6 +64,8 @@ import {
   calculateOverallKPIScore,
   fetchEmployeesFromSupabase,
   INITIAL_EMPLOYEES,
+  parseDealValueToLKR,
+  formatLKR,
 } from "@/lib/employee-data";
 
 export function EmployeePortal() {
@@ -143,6 +145,18 @@ export function EmployeePortal() {
   const [newLeadValue, setNewLeadValue] = useState("LKR 850,000");
   const [newLeadNotes, setNewLeadNotes] = useState("");
   const [assigneeEmpId, setAssigneeEmpId] = useState<string>("emp-bdi-001");
+
+  // ── Edit Lead Modal State
+  const [showEditLeadModal, setShowEditLeadModal] = useState(false);
+  const [editingLeadId, setEditingLeadId] = useState<string | null>(null);
+  const [editLeadClient, setEditLeadClient] = useState("");
+  const [editLeadContact, setEditLeadContact] = useState("");
+  const [editLeadChannel, setEditLeadChannel] = useState<LeadPipelineItem["channel"]>("WhatsApp");
+  const [editLeadCorridor, setEditLeadCorridor] = useState<LeadPipelineItem["corridor"]>("Sri Lanka SME");
+  const [editLeadValue, setEditLeadValue] = useState("LKR 850,000");
+  const [editLeadStage, setEditLeadStage] = useState<LeadPipelineItem["stage"]>("New Lead");
+  const [editLeadFollowUp, setEditLeadFollowUp] = useState("");
+  const [editLeadNotes, setEditLeadNotes] = useState("");
 
   // ── Daily Workflow State & EOD Report
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
@@ -418,6 +432,95 @@ export function EmployeePortal() {
         ? `Lead "${newLead.clientName}" assigned to ${targetEmp.name}! Dispatched to their pipeline.`
         : `Added "${newLead.clientName}" to pipeline! +1 Lead logged to KPI.`
     );
+  };
+
+  const handleOpenEditLead = (lead: LeadPipelineItem) => {
+    setEditingLeadId(lead.id);
+    setEditLeadClient(lead.clientName);
+    setEditLeadContact(lead.contactPerson || "");
+    setEditLeadChannel(lead.channel || "WhatsApp");
+    setEditLeadCorridor(lead.corridor || "Sri Lanka SME");
+    setEditLeadValue(lead.dealValue || "LKR 850,000");
+    setEditLeadStage(lead.stage || "New Lead");
+    setEditLeadFollowUp(lead.nextFollowUp || "Today · Pending Outreach");
+    setEditLeadNotes(lead.notes || "");
+    setShowEditLeadModal(true);
+  };
+
+  const handleSaveEditLead = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingLeadId || !editLeadClient.trim()) return;
+
+    const updatedClientName = editLeadClient.trim();
+    let oldStage: LeadPipelineItem["stage"] | undefined;
+
+    const updated: Employee[] = employees.map((emp) => {
+      if (emp.id === currentViewEmp.id && emp.leads) {
+        const nextLeads = emp.leads.map((l) => {
+          if (l.id === editingLeadId) {
+            oldStage = l.stage;
+            return {
+              ...l,
+              clientName: editLeadClient.trim(),
+              contactPerson: editLeadContact.trim() || "Decision Maker",
+              channel: editLeadChannel,
+              corridor: editLeadCorridor,
+              dealValue: editLeadValue.trim() || l.dealValue,
+              stage: editLeadStage,
+              nextFollowUp: editLeadFollowUp.trim() || l.nextFollowUp,
+              notes: editLeadNotes.trim() || "Outbound prospect identified.",
+            };
+          }
+          return l;
+        });
+
+        let nextKpis = emp.kpis;
+        if (oldStage !== "Closed Won" && editLeadStage === "Closed Won") {
+          nextKpis = emp.kpis.map((k) =>
+            k.id === "kpi-bdi-1" ? { ...k, current: k.current + 1 } : k
+          );
+        } else if (oldStage !== "Demo Booked" && editLeadStage === "Demo Booked") {
+          nextKpis = emp.kpis.map((k) =>
+            k.id === "kpi-bdi-2" ? { ...k, current: k.current + 1 } : k
+          );
+        }
+
+        return { ...emp, leads: nextLeads, kpis: nextKpis };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    setShowEditLeadModal(false);
+    setEditingLeadId(null);
+
+    if (editLeadStage === "Closed Won" && oldStage !== "Closed Won") {
+      const wonVal = parseDealValueToLKR(editLeadValue);
+      const commission = Math.round(wonVal * 0.10);
+      showToast(`Lead "${updatedClientName}" saved as CLOSED WON! 🎉 +10% (${formatLKR(commission)}) added to Estimated Incentive.`);
+    } else {
+      showToast(`Lead "${updatedClientName}" updated successfully.`);
+    }
+  };
+
+  const handleDeleteLead = (leadId: string) => {
+    const leadToDelete = currentViewEmp.leads?.find((l) => l.id === leadId);
+    const clientName = leadToDelete?.clientName || "Lead";
+
+    const updated: Employee[] = employees.map((emp) => {
+      if (emp.id === currentViewEmp.id && emp.leads) {
+        return {
+          ...emp,
+          leads: emp.leads.filter((l) => l.id !== leadId),
+        };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Lead "${clientName}" deleted from sales pipeline.`);
   };
 
   const handleAddNewTask = (e: React.FormEvent) => {
@@ -1401,9 +1504,31 @@ export function EmployeePortal() {
                                     <h4 className="ems-lead-client">{lead.clientName}</h4>
                                     <span className="ems-lead-contact">{lead.contactPerson}</span>
                                   </div>
-                                  <span className={`ems-stage-badge ${stageColors[lead.stage] || "stage-blue"}`}>
-                                    {lead.stage}
-                                  </span>
+                                  <div className="ems-lead-top-actions-wrapper">
+                                    <span className={`ems-stage-badge ${stageColors[lead.stage] || "stage-blue"}`}>
+                                      {lead.stage}
+                                    </span>
+                                    <div className="ems-lead-card-actions">
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEditLead(lead)}
+                                        className="ems-lead-btn-action"
+                                        title="Edit Lead Opportunity"
+                                        aria-label="Edit Lead"
+                                      >
+                                        <Edit size={12} />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleDeleteLead(lead.id)}
+                                        className="ems-lead-btn-action btn-danger"
+                                        title="Delete Lead Opportunity"
+                                        aria-label="Delete Lead"
+                                      >
+                                        <Trash2 size={12} />
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
 
                                 <div className="ems-lead-meta-row">
@@ -2716,6 +2841,139 @@ export function EmployeePortal() {
                 </button>
                 <button type="submit" className="ems-btn-primary">
                   Log Lead &amp; Increment KPI
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          MODAL: EDIT B2B LEAD (BDI PIPELINE)
+      ───────────────────────────────────────────────────────────── */}
+      {showEditLeadModal && (
+        <div className="ems-modal-backdrop" onClick={() => setShowEditLeadModal(false)}>
+          <div className="ems-modal-card modal-md" onClick={(e) => e.stopPropagation()}>
+            <div className="ems-modal-header">
+              <div className="ems-modal-title-with-icon">
+                <Edit size={18} className="text-[#ff5a36]" />
+                <h3>Edit B2B Sales Opportunity</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEditLeadModal(false)}
+                className="ems-modal-close"
+              >
+                &times;
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEditLead} className="ems-modal-form">
+              <div className="ems-form-grid-2">
+                <div className="ems-form-group">
+                  <label>Client / Company Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Apex HealthTech Solutions"
+                    value={editLeadClient}
+                    onChange={(e) => setEditLeadClient(e.target.value)}
+                  />
+                </div>
+                <div className="ems-form-group">
+                  <label>Contact Person &amp; Role</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Dr. Rohan Jayasuriya (CTO)"
+                    value={editLeadContact}
+                    onChange={(e) => setEditLeadContact(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="ems-form-grid-2">
+                <div className="ems-form-group">
+                  <label>Acquisition Channel</label>
+                  <select
+                    value={editLeadChannel}
+                    onChange={(e) => setEditLeadChannel(e.target.value as LeadPipelineItem["channel"])}
+                  >
+                    <option value="LinkedIn">LinkedIn Outbound</option>
+                    <option value="WhatsApp">WhatsApp Direct</option>
+                    <option value="Email">Cold Email Campaign</option>
+                    <option value="Referral">Inbound Referral</option>
+                    <option value="Phone">Executive Phone Call</option>
+                  </select>
+                </div>
+                <div className="ems-form-group">
+                  <label>Target Corridor</label>
+                  <select
+                    value={editLeadCorridor}
+                    onChange={(e) => setEditLeadCorridor(e.target.value as LeadPipelineItem["corridor"])}
+                  >
+                    <option value="Sri Lanka SME">Sri Lanka Enterprise &amp; SME</option>
+                    <option value="Australia">Australia Nearshore (Sydney / Melbourne)</option>
+                    <option value="United Kingdom">United Kingdom (London / FinTech)</option>
+                    <option value="Global">Global / US Corridor</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="ems-form-grid-2">
+                <div className="ems-form-group">
+                  <label>Estimated Sprint Deal Value</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. LKR 850,000 or AUD 4,200"
+                    value={editLeadValue}
+                    onChange={(e) => setEditLeadValue(e.target.value)}
+                  />
+                </div>
+                <div className="ems-form-group">
+                  <label>Pipeline Stage</label>
+                  <select
+                    value={editLeadStage}
+                    onChange={(e) => setEditLeadStage(e.target.value as LeadPipelineItem["stage"])}
+                  >
+                    <option value="New Lead">New Lead</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Demo Booked">Demo Booked</option>
+                    <option value="Proposal Sent">Proposal Sent</option>
+                    <option value="Closed Won">Closed Won (10% Incentive)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="ems-form-group">
+                <label>Next Follow-Up / Schedule</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Tomorrow · Follow-up Call or Today · Pending Outreach"
+                  value={editLeadFollowUp}
+                  onChange={(e) => setEditLeadFollowUp(e.target.value)}
+                />
+              </div>
+
+              <div className="ems-form-group">
+                <label>Lead Notes &amp; Pain Points</label>
+                <textarea
+                  rows={2}
+                  placeholder="Brief client context, tech stack requirements, or scheduled talk track..."
+                  value={editLeadNotes}
+                  onChange={(e) => setEditLeadNotes(e.target.value)}
+                />
+              </div>
+
+              <div className="ems-modal-actions">
+                <button
+                  type="button"
+                  onClick={() => setShowEditLeadModal(false)}
+                  className="ems-btn-secondary"
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="ems-btn-primary">
+                  Save Changes
                 </button>
               </div>
             </form>

@@ -7,31 +7,34 @@ export async function GET() {
     const rows = await supabaseSelect<any>("ems_employees", { order: "created_at.asc" });
     if (rows && rows.length > 0) {
       // Map database row snake_case back to Employee object format
-      const employees: Employee[] = rows.map((r) => ({
-        id: r.id,
-        employeeId: r.employee_id || r.id,
-        name: r.name,
-        email: r.email,
-        password: r.password,
-        role: r.role || "employee",
-        designation: r.designation,
-        department: r.department,
-        supervisorId: r.supervisor_id || "",
-        supervisorName: r.supervisor_name || "",
-        joiningDate: r.joining_date || "",
-        contractType: r.contract_type || "",
-        workLocation: r.work_location || "",
-        phone: r.phone || "",
-        allocatedTerritory: r.allocated_territory || "",
-        status: r.status || "active",
-        avatar: r.avatar,
-        bio: r.bio || "",
-        kpis: Array.isArray(r.kpis) ? r.kpis : [],
-        weeklyReviews: Array.isArray(r.weekly_reviews) ? r.weekly_reviews : [],
-        attendance: Array.isArray(r.attendance) ? r.attendance : [],
-        leads: Array.isArray(r.leads) ? r.leads : [],
-        checklist: Array.isArray(r.checklist) ? r.checklist : [],
-      }));
+      const employees: Employee[] = rows.map((r) => {
+        const seedEmp = INITIAL_EMPLOYEES.find((e) => e.id === r.id);
+        return {
+          id: r.id,
+          employeeId: r.employee_id || r.id,
+          name: r.name,
+          email: r.email,
+          password: r.password,
+          role: r.role || "employee",
+          designation: r.designation,
+          department: r.department,
+          supervisorId: r.supervisor_id || "",
+          supervisorName: r.supervisor_name || "",
+          joiningDate: r.joining_date || "",
+          contractType: r.contract_type || "",
+          workLocation: r.work_location || "",
+          phone: r.phone || "",
+          allocatedTerritory: r.allocated_territory || "",
+          status: r.status || "active",
+          avatar: r.avatar,
+          bio: r.bio || "",
+          kpis: Array.isArray(r.kpis) && r.kpis.length > 0 ? r.kpis : seedEmp?.kpis || [],
+          weeklyReviews: Array.isArray(r.weekly_reviews) && r.weekly_reviews.length > 0 ? r.weekly_reviews : seedEmp?.weeklyReviews || [],
+          attendance: Array.isArray(r.attendance) && r.attendance.length > 0 ? r.attendance : seedEmp?.attendance || [],
+          leads: Array.isArray(r.leads) && r.leads.length > 0 ? r.leads : seedEmp?.leads || [],
+          checklist: Array.isArray(r.checklist) && r.checklist.length > 0 ? r.checklist : seedEmp?.checklist || [],
+        };
+      });
 
       return NextResponse.json({
         success: true,
@@ -112,6 +115,8 @@ export async function POST(req: NextRequest) {
           stage: l.stage,
           next_follow_up: l.nextFollowUp,
           notes: l.notes,
+          assigned_by: l.assignedBy || null,
+          assigned_to: l.assignedTo || emp.id,
           updated_at: new Date().toISOString(),
         }));
         await supabaseUpsert("ems_leads", leadRows, "id").catch(() => null);
@@ -130,6 +135,8 @@ export async function POST(req: NextRequest) {
           shift_block: t.shiftBlock || "morning",
           notes: t.notes || null,
           completed_at: t.completedAt || null,
+          assigned_by: t.assignedBy || null,
+          assigned_to: t.assignedTo || emp.id,
           updated_at: new Date().toISOString(),
         }));
         await supabaseUpsert("ems_workflow_tasks", taskRows, "id").catch(() => null);
