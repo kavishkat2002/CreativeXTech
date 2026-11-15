@@ -40,7 +40,6 @@ import {
   Check,
   CheckSquare,
   Square,
-  BookOpen,
   DollarSign,
   MessageSquare,
   Send,
@@ -57,8 +56,6 @@ import {
   EMSUserSession,
   LeadPipelineItem,
   DailyChecklistItem,
-  SalesScriptItem,
-  DEFAULT_SALES_SCRIPTS,
   getStoredEmployees,
   saveStoredEmployees,
   getStoredEMSSession,
@@ -148,8 +145,7 @@ export function EmployeePortal() {
   };
 
   // ── BD Intern Workspace Sub-Navigation State
-  const [bdiSubTab, setBdiSubTab] = useState<"overview" | "pipeline" | "checklist" | "playbook">("overview");
-  const [copiedScriptId, setCopiedScriptId] = useState<string | null>(null);
+  const [bdiSubTab, setBdiSubTab] = useState<"overview" | "pipeline" | "checklist">("overview");
 
   // ── Quick Add Lead Modal State
   const [showAddLeadModal, setShowAddLeadModal] = useState(false);
@@ -204,14 +200,6 @@ export function EmployeePortal() {
   const [resetOptionPipeline, setResetOptionPipeline] = useState(true);
   const [resetOptionChecklist, setResetOptionChecklist] = useState(true);
 
-  const handleCopyScript = (id: string, text: string) => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-      setCopiedScriptId(id);
-      setTimeout(() => setCopiedScriptId(null), 2500);
-      showToast("Sales pitch script copied to clipboard!");
-    }
-  };
 
   const handleToggleChecklist = (taskId: string) => {
     lastLocalActionRef.current = Date.now();
@@ -2525,15 +2513,6 @@ export function EmployeePortal() {
                         </span>
                       </button>
 
-                      <button
-                        type="button"
-                        onClick={() => setBdiSubTab("playbook")}
-                        className={`ems-subnav-btn ${bdiSubTab === "playbook" ? "active" : ""}`}
-                      >
-                        <BookOpen size={15} />
-                        <span>Sales Playbook &amp; Pitch Scripts</span>
-                        <span className="ems-count-pill">{DEFAULT_SALES_SCRIPTS.length}</span>
-                      </button>
                     </div>
 
                     {/* ─────────────────────────────────────────────────────────────
@@ -3150,78 +3129,6 @@ export function EmployeePortal() {
                               <Send size={14} /> Submit Today&apos;s Report
                             </button>
                           </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* ─────────────────────────────────────────────────────────────
-                       SUB-TAB 4: SALES PLAYBOOK & 1-CLICK PITCH SCRIPTS
-                    ───────────────────────────────────────────────────────────── */}
-                    {bdiSubTab === "playbook" && (
-                      <div className="ems-playbook-container">
-                        <div className="ems-playbook-header">
-                          <div>
-                            <h3 className="ems-subview-title">CreativeX Sales Playbook &amp; Objection Scripts</h3>
-                            <p className="ems-subview-desc">
-                              Pre-tested B2B outreach scripts designed for high response rates across LinkedIn, cold email, and WhatsApp.
-                              Click &quot;Copy Script&quot; to grab the template directly into your clipboard.
-                            </p>
-                          </div>
-                          <span className="ems-playbook-badge">
-                            <Sparkles size={14} className="text-[#ff5a36]" /> High-Conversion Templates
-                          </span>
-                        </div>
-
-                        <div className="ems-playbook-grid">
-                          {DEFAULT_SALES_SCRIPTS.map((script) => {
-                            const isCopied = copiedScriptId === script.id;
-                            const fullPitchToCopy = `${script.pitchBody}\n\n[Objection Handling Guide]:\n${script.objectionHandling}`;
-
-                            return (
-                              <div key={script.id} className="ems-playbook-card">
-                                <div className="ems-playbook-card-top">
-                                  <div>
-                                    <div className="ems-script-tags">
-                                      <span className="ems-channel-tag">{script.targetAudience}</span>
-                                    </div>
-                                    <h4 className="ems-script-title">{script.title}</h4>
-                                    <small className="text-[#a0a5a0] text-xs mt-1 block">
-                                      <strong className="text-[#ff5a36]">Key Hook:</strong> {script.keyHook}
-                                    </small>
-                                  </div>
-
-                                  <button
-                                    type="button"
-                                    onClick={() => handleCopyScript(script.id, fullPitchToCopy)}
-                                    className={`ems-copy-btn ${isCopied ? "btn-copied" : ""}`}
-                                    title="Copy script to clipboard"
-                                  >
-                                    {isCopied ? (
-                                      <>
-                                        <Check size={14} /> Copied!
-                                      </>
-                                    ) : (
-                                      <>
-                                        <Copy size={14} /> Copy Script
-                                      </>
-                                    )}
-                                  </button>
-                                </div>
-
-                                <div className="ems-script-body">
-                                  <pre className="ems-script-pre">{script.pitchBody}</pre>
-                                  <div className="ems-objection-box mt-3 pt-3 border-t border-[#1e241e]">
-                                    <span className="text-[11px] font-bold text-[#ff5a36] uppercase tracking-wider block mb-1">
-                                      Objection Handling:
-                                    </span>
-                                    <p className="text-xs text-[#a5aaa5] leading-relaxed m-0">
-                                      {script.objectionHandling}
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
                         </div>
                       </div>
                     )}
