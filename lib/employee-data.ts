@@ -44,6 +44,15 @@ export interface LeadPipelineItem {
   notes: string;
   assignedBy?: string;
   assignedTo?: string;
+  approvalStatus?: "none" | "pending" | "approved" | "rejected";
+  approvalRequestedAt?: string;
+  approvalRequestedBy?: string;
+  approvedBy?: string;
+  approvedAt?: string;
+  commissionLKR?: number;
+  pendingRequestType?: "none" | "won" | "edit" | "delete";
+  pendingEditData?: Partial<LeadPipelineItem>;
+  pendingReason?: string;
 }
 
 export interface DailyChecklistItem {
@@ -106,8 +115,8 @@ export interface EMSUserSession {
 export const INITIAL_EMPLOYEES: Employee[] = [
   // 1. Super Admin Account
   {
-    id: "emp-adm-001",
-    employeeId: "CX-ADM-001",
+    id: "emp-admin-001",
+    employeeId: "CX-EMP-001",
     name: "Kavishka Thilakarathna",
     email: "tkavishka101@gmail.com",
     password: "@Kavishka2002",
@@ -175,7 +184,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
     role: "supervisor",
     designation: "Lead Business Development & Strategic Sales Manager",
     department: "Business Development & Sales",
-    supervisorId: "emp-adm-001",
+    supervisorId: "emp-admin-001",
     supervisorName: "Kavishka Thilakarathna",
     joiningDate: "2025-06-01",
     contractType: "Permanent",
@@ -329,63 +338,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
       { date: "2026-11-11", checkIn: "08:59 AM", checkOut: "06:05 PM", status: "present", workMode: "Remote" },
       { date: "2026-11-10", checkIn: "09:00 AM", checkOut: "06:00 PM", status: "present", workMode: "Remote" },
     ],
-    leads: [
-      {
-        id: "lead-1",
-        clientName: "Meridian Logistics Lanka",
-        contactPerson: "Dharshana Wickramasinghe (COO)",
-        channel: "WhatsApp",
-        corridor: "Sri Lanka SME",
-        dealValue: "LKR 1,250,000",
-        stage: "Proposal Sent",
-        nextFollowUp: "Today · 2:30 PM",
-        notes: "Interested in CreativeOS fleet telemetry board and Poya buffer engine for port drivers.",
-      },
-      {
-        id: "lead-2",
-        clientName: "Highland Specialty Teas PLC",
-        contactPerson: "Priyantha Jayasundara (MD)",
-        channel: "Email",
-        corridor: "Sri Lanka SME",
-        dealValue: "LKR 890,000",
-        stage: "Demo Booked",
-        nextFollowUp: "Tomorrow · 10:00 AM",
-        notes: "Demo scheduled with Kavishka T. to showcase ERP inventory module & export compliance.",
-      },
-      {
-        id: "lead-3",
-        clientName: "Sydney Edge Media (AU)",
-        contactPerson: "Liam Campbell (Managing Partner)",
-        channel: "LinkedIn",
-        corridor: "Australia",
-        dealValue: "AUD 8,500 (~LKR 1.7M)",
-        stage: "Contacted",
-        nextFollowUp: "17 Nov · 11:30 AM AEST",
-        notes: "Offshore full-stack squad proposal pitched. Positive response on AEST timezone sync.",
-      },
-      {
-        id: "lead-4",
-        clientName: "London Scaleup AI Labs (UK)",
-        contactPerson: "Oliver Hughes (Founder)",
-        channel: "Email",
-        corridor: "United Kingdom",
-        dealValue: "GBP 4,500 (~LKR 1.8M)",
-        stage: "New Lead",
-        nextFollowUp: "18 Nov · 3:00 PM GMT",
-        notes: "Reached out regarding custom Next.js 15 & FastAPI edge backend architecture.",
-      },
-      {
-        id: "lead-5",
-        clientName: "Central Health Informatics Kandy",
-        contactPerson: "Dr. Ruwan Pathirana",
-        channel: "Phone",
-        corridor: "Sri Lanka SME",
-        dealValue: "LKR 650,000",
-        stage: "Closed Won",
-        nextFollowUp: "Completed ✓",
-        notes: "Contract signed for hospital sensor telemetry. Commission registered.",
-      },
-    ],
+    leads: [],
     checklist: [
       {
         id: "chk-1",

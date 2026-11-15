@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import {
   Users,
   ShieldCheck,
+  ShieldAlert,
   Target,
   Award,
   Calendar,
@@ -21,6 +22,7 @@ import {
   Edit,
   Trash2,
   Lock,
+  LogIn,
   LogOut,
   UserCheck,
   Star,
@@ -43,6 +45,7 @@ import {
   MessageSquare,
   Send,
   Zap,
+  RotateCcw,
 } from "lucide-react";
 import {
   Employee,
@@ -67,11 +70,23 @@ import {
   parseDealValueToLKR,
   formatLKR,
 } from "@/lib/employee-data";
+import { getSupabaseClient } from "@/lib/supabase-client";
 
 export function EmployeePortal() {
   const [employees, setEmployees] = useState<Employee[]>(INITIAL_EMPLOYEES);
   const [session, setSession] = useState<EMSUserSession | null>(null);
   const [mounted, setMounted] = useState(false);
+  const lastLocalActionRef = React.useRef<number>(0);
+
+  // ── 24-Hour Real-Time Clock State
+  const [currentClock, setCurrentClock] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentClock(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   // ── Login Form State
   const [emailInput, setEmailInput] = useState("");
@@ -158,6 +173,19 @@ export function EmployeePortal() {
   const [editLeadFollowUp, setEditLeadFollowUp] = useState("");
   const [editLeadNotes, setEditLeadNotes] = useState("");
 
+  // ── Edit Employee Profile Modal State
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [editProfileEmpId, setEditProfileEmpId] = useState<string | null>(null);
+  const [editProfileName, setEditProfileName] = useState("");
+  const [editProfileDesignation, setEditProfileDesignation] = useState("");
+  const [editProfileDepartment, setEditProfileDepartment] = useState("");
+  const [editProfileSupervisor, setEditProfileSupervisor] = useState("");
+  const [editProfileWorkLocation, setEditProfileWorkLocation] = useState("");
+  const [editProfilePhone, setEditProfilePhone] = useState("");
+  const [editProfileContract, setEditProfileContract] = useState("");
+  const [editProfileTerritory, setEditProfileTerritory] = useState("");
+  const [editProfileBio, setEditProfileBio] = useState("");
+
   // ── Daily Workflow State & EOD Report
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -170,6 +198,12 @@ export function EmployeePortal() {
   const [showEodModal, setShowEodModal] = useState(false);
   const [eodSummaryNotes, setEodSummaryNotes] = useState("");
 
+  // ── Supervisor Reset Intern Data State
+  const [showResetInternModal, setShowResetInternModal] = useState(false);
+  const [resetOptionKpis, setResetOptionKpis] = useState(true);
+  const [resetOptionPipeline, setResetOptionPipeline] = useState(true);
+  const [resetOptionChecklist, setResetOptionChecklist] = useState(true);
+
   const handleCopyScript = (id: string, text: string) => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       navigator.clipboard.writeText(text);
@@ -180,6 +214,7 @@ export function EmployeePortal() {
   };
 
   const handleToggleChecklist = (taskId: string) => {
+    lastLocalActionRef.current = Date.now();
     let taskTitle = "";
     let willBeCompleted = false;
 
@@ -214,6 +249,7 @@ export function EmployeePortal() {
   };
 
   const handleMarkAllTasks = (completed: boolean) => {
+    lastLocalActionRef.current = Date.now();
     const updated: Employee[] = employees.map((emp) => {
       if (emp.id === currentViewEmp.id && emp.checklist) {
         return {
@@ -239,6 +275,7 @@ export function EmployeePortal() {
   };
 
   const handleDeleteTask = (taskId: string) => {
+    lastLocalActionRef.current = Date.now();
     const updated: Employee[] = employees.map((emp) => {
       if (emp.id === currentViewEmp.id && emp.checklist) {
         return {
@@ -251,30 +288,6 @@ export function EmployeePortal() {
     setEmployees(updated);
     saveStoredEmployees(updated);
     showToast("Task removed from daily schedule.");
-  };
-
-  const [supabaseSyncStatus, setSupabaseSyncStatus] = useState<"synced" | "syncing" | "idle">("synced");
-
-  const handleManualSupabaseSync = async () => {
-    setSupabaseSyncStatus("syncing");
-    showToast("Synchronizing all employee & workflow records with Supabase database...");
-    try {
-      const res = await fetch("/api/employee/sync", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ employees }),
-      });
-      const data = await res.json();
-      setSupabaseSyncStatus("synced");
-      showToast(
-        data.persistedToSupabase
-          ? "All records successfully stored in Supabase database!"
-          : "Saved locally. Supabase tables will receive records upon SQL schema initialization."
-      );
-    } catch {
-      setSupabaseSyncStatus("synced");
-      showToast("Sync finished. Records cached locally.");
-    }
   };
 
   const handleSubmitEodReport = (e: React.FormEvent) => {
@@ -305,6 +318,7 @@ export function EmployeePortal() {
   };
 
   const handleAdvanceLeadStage = (leadId: string) => {
+    lastLocalActionRef.current = Date.now();
     const stageFlow: Array<LeadPipelineItem["stage"]> = [
       "New Lead",
       "Contacted",
@@ -315,6 +329,9 @@ export function EmployeePortal() {
 
     let advancedLeadName = "";
     let nextStageName: LeadPipelineItem["stage"] = "Contacted";
+    let isPendingApproval = false;
+    let isApprovedWon = false;
+    let commissionLKR = 0;
 
     const updated: Employee[] = employees.map((emp) => {
       if (emp.id === currentViewEmp.id && emp.leads) {
@@ -324,7 +341,33 @@ export function EmployeePortal() {
             const currentIdx = stageFlow.indexOf(lead.stage);
             const nextIdx = Math.min(stageFlow.length - 1, currentIdx + 1);
             nextStageName = stageFlow[nextIdx];
-            return { ...lead, stage: nextStageName };
+            const dealVal = parseDealValueToLKR(lead.dealValue);
+            commissionLKR = Math.round(dealVal * 0.10);
+
+            if (nextStageName === "Closed Won") {
+              if (!isSupervisor) {
+                isPendingApproval = true;
+                return {
+                  ...lead,
+                  stage: "Closed Won",
+                  approvalStatus: "pending",
+                  approvalRequestedBy: session?.employee.name || emp.name,
+                  approvalRequestedAt: new Date().toISOString(),
+                  commissionLKR,
+                };
+              } else {
+                isApprovedWon = true;
+                return {
+                  ...lead,
+                  stage: "Closed Won",
+                  approvalStatus: "approved",
+                  approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+                  approvedAt: new Date().toISOString(),
+                  commissionLKR,
+                };
+              }
+            }
+            return { ...lead, stage: nextStageName, approvalStatus: undefined };
           }
           return lead;
         });
@@ -334,7 +377,7 @@ export function EmployeePortal() {
           nextKpis = emp.kpis.map((k) =>
             k.id === "kpi-bdi-2" ? { ...k, current: k.current + 1 } : k
           );
-        } else if (nextStageName === "Closed Won") {
+        } else if (isApprovedWon) {
           nextKpis = emp.kpis.map((k) =>
             k.id === "kpi-bdi-1" ? { ...k, current: k.current + 1 } : k
           );
@@ -347,18 +390,60 @@ export function EmployeePortal() {
 
     setEmployees(updated);
     saveStoredEmployees(updated);
-    showToast(`Lead "${advancedLeadName}" advanced to ${nextStageName.toUpperCase()}! KPI updated.`);
+
+    if (isPendingApproval) {
+      showToast(
+        `Lead "${advancedLeadName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Dinithi Perera"}) for Closed Won sign-off! 10% commission (${formatLKR(commissionLKR)}) will be assigned upon approval.`
+      );
+    } else if (isApprovedWon) {
+      showToast(
+        `Lead "${advancedLeadName}" marked as Complete Won! 10% commission (+${formatLKR(commissionLKR)}) officially assigned.`
+      );
+    } else {
+      showToast(`Lead "${advancedLeadName}" advanced to ${nextStageName.toUpperCase()}! KPI updated.`);
+    }
   };
 
   const handleSetLeadStage = (leadId: string, targetStage: LeadPipelineItem["stage"]) => {
+    lastLocalActionRef.current = Date.now();
     let clientName = "";
+    let isPendingApproval = false;
+    let isApprovedWon = false;
+    let commissionLKR = 0;
 
     const updated: Employee[] = employees.map((emp) => {
       if (emp.id === currentViewEmp.id && emp.leads) {
         const nextLeads: LeadPipelineItem[] = emp.leads.map((lead) => {
           if (lead.id === leadId) {
             clientName = lead.clientName;
-            return { ...lead, stage: targetStage };
+            const dealVal = parseDealValueToLKR(lead.dealValue);
+            commissionLKR = Math.round(dealVal * 0.10);
+
+            if (targetStage === "Closed Won") {
+              if (!isSupervisor) {
+                isPendingApproval = true;
+                return {
+                  ...lead,
+                  stage: "Closed Won",
+                  approvalStatus: "pending",
+                  approvalRequestedBy: session?.employee.name || emp.name,
+                  approvalRequestedAt: new Date().toISOString(),
+                  commissionLKR,
+                };
+              } else {
+                isApprovedWon = true;
+                return {
+                  ...lead,
+                  stage: "Closed Won",
+                  approvalStatus: "approved",
+                  approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+                  approvedAt: new Date().toISOString(),
+                  commissionLKR,
+                };
+              }
+            } else {
+              return { ...lead, stage: targetStage, approvalStatus: undefined };
+            }
           }
           return lead;
         });
@@ -368,7 +453,7 @@ export function EmployeePortal() {
           nextKpis = emp.kpis.map((k) =>
             k.id === "kpi-bdi-2" ? { ...k, current: k.current + 1 } : k
           );
-        } else if (targetStage === "Closed Won") {
+        } else if (isApprovedWon) {
           nextKpis = emp.kpis.map((k) =>
             k.id === "kpi-bdi-1" ? { ...k, current: k.current + 1 } : k
           );
@@ -381,13 +466,210 @@ export function EmployeePortal() {
 
     setEmployees(updated);
     saveStoredEmployees(updated);
-    showToast(`Lead "${clientName}" moved to ${targetStage.toUpperCase()}!`);
+
+    if (isPendingApproval) {
+      showToast(
+        `Lead "${clientName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Dinithi Perera"}) for sign-off! 10% commission (${formatLKR(commissionLKR)}) will be assigned once approved.`
+      );
+    } else if (isApprovedWon) {
+      showToast(
+        `Lead "${clientName}" officially APPROVED as COMPLETE WON! 10% commission (+${formatLKR(commissionLKR)}) assigned to ${currentViewEmp.name}.`
+      );
+    } else {
+      showToast(`Lead "${clientName}" moved to ${targetStage.toUpperCase()}!`);
+    }
+  };
+
+  const handleSupervisorApproveLead = (leadId: string, empId?: string) => {
+    lastLocalActionRef.current = Date.now();
+    let approvedClient = "";
+    let commissionAmt = 0;
+    let internName = "";
+
+    const updated: Employee[] = employees.map((emp) => {
+      const isTarget = empId ? emp.id === empId : (emp.leads && emp.leads.some((l) => l.id === leadId));
+      if (isTarget && emp.leads) {
+        internName = emp.name;
+        const nextLeads: LeadPipelineItem[] = emp.leads.map((lead) => {
+          if (lead.id === leadId) {
+            approvedClient = lead.clientName;
+            const val = parseDealValueToLKR(lead.dealValue);
+            commissionAmt = Math.round(val * 0.10);
+            return {
+              ...lead,
+              stage: "Closed Won",
+              approvalStatus: "approved",
+              approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+              approvedAt: new Date().toISOString(),
+              commissionLKR: commissionAmt,
+              pendingRequestType: undefined,
+            };
+          }
+          return lead;
+        });
+
+        const nextKpis = emp.kpis.map((k) =>
+          k.id === "kpi-bdi-1" ? { ...k, current: (k.current ?? 0) + 1 } : k
+        );
+
+        return { ...emp, leads: nextLeads, kpis: nextKpis };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(
+      `Deal for "${approvedClient}" APPROVED! Marked Complete Won and 10% commission (+${formatLKR(commissionAmt)}) officially assigned to ${internName}. 🎉`
+    );
+  };
+
+  const handleSupervisorRejectLead = (leadId: string, empId?: string) => {
+    lastLocalActionRef.current = Date.now();
+    let rejectedClient = "";
+    const updated: Employee[] = employees.map((emp) => {
+      const isTarget = empId ? emp.id === empId : (emp.leads && emp.leads.some((l) => l.id === leadId));
+      if (isTarget && emp.leads) {
+        const nextLeads: LeadPipelineItem[] = emp.leads.map((lead) => {
+          if (lead.id === leadId) {
+            rejectedClient = lead.clientName;
+            return {
+              ...lead,
+              stage: "Proposal Sent",
+              approvalStatus: "rejected",
+              pendingRequestType: undefined,
+              notes: `${lead.notes} [Supervisor requested revision before Closed Won sign-off]`,
+            };
+          }
+          return lead;
+        });
+        return { ...emp, leads: nextLeads };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Deal for "${rejectedClient}" returned to Proposal Sent for revision.`);
+  };
+
+  const handleSupervisorApproveEdit = (leadId: string, empId?: string) => {
+    lastLocalActionRef.current = Date.now();
+    let client = "";
+    const updated: Employee[] = employees.map((emp) => {
+      const isTarget = empId ? emp.id === empId : (emp.leads && emp.leads.some((l) => l.id === leadId));
+      if (isTarget && emp.leads) {
+        const nextLeads: LeadPipelineItem[] = emp.leads.map((lead) => {
+          if (lead.id === leadId && lead.pendingEditData) {
+            client = lead.pendingEditData.clientName || lead.clientName;
+            const edits = lead.pendingEditData;
+            const dealVal = parseDealValueToLKR(edits.dealValue || lead.dealValue);
+            const commissionLKR = Math.round(dealVal * 0.10);
+            return {
+              ...lead,
+              ...edits,
+              approvalStatus: edits.stage === "Closed Won" ? ("approved" as const) : undefined,
+              approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+              approvedAt: new Date().toISOString(),
+              commissionLKR: edits.stage === "Closed Won" ? commissionLKR : lead.commissionLKR,
+              pendingRequestType: undefined,
+              pendingEditData: undefined,
+            };
+          }
+          return lead;
+        });
+        return { ...emp, leads: nextLeads };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Proposed edits for "${client}" APPROVED and applied successfully. ✔`);
+  };
+
+  const handleSupervisorRejectEdit = (leadId: string, empId?: string) => {
+    lastLocalActionRef.current = Date.now();
+    let client = "";
+    const updated: Employee[] = employees.map((emp) => {
+      const isTarget = empId ? emp.id === empId : (emp.leads && emp.leads.some((l) => l.id === leadId));
+      if (isTarget && emp.leads) {
+        const nextLeads: LeadPipelineItem[] = emp.leads.map((lead) => {
+          if (lead.id === leadId) {
+            client = lead.clientName;
+            return {
+              ...lead,
+              pendingRequestType: undefined,
+              pendingEditData: undefined,
+              approvalStatus: undefined,
+            };
+          }
+          return lead;
+        });
+        return { ...emp, leads: nextLeads };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Edit request for "${client}" was rejected. Original lead retained.`);
+  };
+
+  const handleSupervisorApproveDelete = (leadId: string, empId?: string) => {
+    lastLocalActionRef.current = Date.now();
+    let clientName = "Lead";
+
+    const updated: Employee[] = employees.map((emp) => {
+      const isTarget = empId ? emp.id === empId : (emp.leads && emp.leads.some((l) => l.id === leadId));
+      if (isTarget && emp.leads) {
+        const targetLead = emp.leads.find((l) => l.id === leadId);
+        if (targetLead) clientName = targetLead.clientName;
+        return {
+          ...emp,
+          leads: emp.leads.filter((l) => l.id !== leadId),
+        };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Deletion for "${clientName}" APPROVED. Lead removed from pipeline.`);
+  };
+
+  const handleSupervisorRejectDelete = (leadId: string, empId?: string) => {
+    lastLocalActionRef.current = Date.now();
+    let client = "";
+    const updated: Employee[] = employees.map((emp) => {
+      const isTarget = empId ? emp.id === empId : (emp.leads && emp.leads.some((l) => l.id === leadId));
+      if (isTarget && emp.leads) {
+        const nextLeads: LeadPipelineItem[] = emp.leads.map((lead) => {
+          if (lead.id === leadId) {
+            client = lead.clientName;
+            return {
+              ...lead,
+              pendingRequestType: undefined,
+              approvalStatus: undefined,
+            };
+          }
+          return lead;
+        });
+        return { ...emp, leads: nextLeads };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Deletion request for "${client}" rejected. Lead remains active in pipeline.`);
   };
 
   const handleAddNewLead = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newLeadClient.trim()) return;
 
+    lastLocalActionRef.current = Date.now();
     const targetEmpId = isSupervisor && assigneeEmpId ? assigneeEmpId : currentViewEmp.id;
     const targetEmp = employees.find((emp) => emp.id === targetEmpId) || currentViewEmp;
 
@@ -451,31 +733,67 @@ export function EmployeePortal() {
     e.preventDefault();
     if (!editingLeadId || !editLeadClient.trim()) return;
 
+    lastLocalActionRef.current = Date.now();
     const updatedClientName = editLeadClient.trim();
     let oldStage: LeadPipelineItem["stage"] | undefined;
+
+    let isEditRequested = false;
+    let isApprovedWon = false;
+    let commissionLKR = 0;
+
+    const proposedEditData: Partial<LeadPipelineItem> = {
+      clientName: editLeadClient.trim(),
+      contactPerson: editLeadContact.trim() || "Decision Maker",
+      channel: editLeadChannel,
+      corridor: editLeadCorridor,
+      dealValue: editLeadValue.trim() || "LKR 850,000",
+      stage: editLeadStage,
+      nextFollowUp: editLeadFollowUp.trim() || "Today · Pending Outreach",
+      notes: editLeadNotes.trim() || "Outbound prospect identified.",
+    };
 
     const updated: Employee[] = employees.map((emp) => {
       if (emp.id === currentViewEmp.id && emp.leads) {
         const nextLeads = emp.leads.map((l) => {
           if (l.id === editingLeadId) {
             oldStage = l.stage;
+            const dealVal = parseDealValueToLKR(editLeadValue);
+            commissionLKR = Math.round(dealVal * 0.10);
+
+            if (!isSupervisor) {
+              // Intern requested edit: dispatches to supervisor for approval
+              isEditRequested = true;
+              return {
+                ...l,
+                pendingRequestType: "edit" as const,
+                pendingEditData: proposedEditData,
+                approvalStatus: "pending" as const,
+                approvalRequestedBy: session?.employee.name || emp.name,
+                approvalRequestedAt: new Date().toISOString(),
+              };
+            }
+
+            // Supervisor editing directly:
+            if (editLeadStage === "Closed Won") {
+              isApprovedWon = true;
+            }
+
             return {
               ...l,
-              clientName: editLeadClient.trim(),
-              contactPerson: editLeadContact.trim() || "Decision Maker",
-              channel: editLeadChannel,
-              corridor: editLeadCorridor,
-              dealValue: editLeadValue.trim() || l.dealValue,
-              stage: editLeadStage,
-              nextFollowUp: editLeadFollowUp.trim() || l.nextFollowUp,
-              notes: editLeadNotes.trim() || "Outbound prospect identified.",
+              ...proposedEditData,
+              approvalStatus: editLeadStage === "Closed Won" ? ("approved" as const) : undefined,
+              approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+              approvedAt: new Date().toISOString(),
+              commissionLKR: editLeadStage === "Closed Won" ? commissionLKR : l.commissionLKR,
+              pendingRequestType: undefined,
+              pendingEditData: undefined,
             };
           }
           return l;
         });
 
         let nextKpis = emp.kpis;
-        if (oldStage !== "Closed Won" && editLeadStage === "Closed Won") {
+        if (oldStage !== "Closed Won" && isApprovedWon) {
           nextKpis = emp.kpis.map((k) =>
             k.id === "kpi-bdi-1" ? { ...k, current: k.current + 1 } : k
           );
@@ -495,19 +813,54 @@ export function EmployeePortal() {
     setShowEditLeadModal(false);
     setEditingLeadId(null);
 
-    if (editLeadStage === "Closed Won" && oldStage !== "Closed Won") {
-      const wonVal = parseDealValueToLKR(editLeadValue);
-      const commission = Math.round(wonVal * 0.10);
-      showToast(`Lead "${updatedClientName}" saved as CLOSED WON! 🎉 +10% (${formatLKR(commission)}) added to Estimated Incentive.`);
+    if (isEditRequested) {
+      showToast(
+        `Proposed edits for "${updatedClientName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Dinithi Perera"}) for approval!`
+      );
+    } else if (isApprovedWon) {
+      showToast(
+        `Lead "${updatedClientName}" saved as COMPLETE WON! 🎉 +10% (${formatLKR(commissionLKR)}) added to Estimated Incentive.`
+      );
     } else {
       showToast(`Lead "${updatedClientName}" updated successfully.`);
     }
   };
 
   const handleDeleteLead = (leadId: string) => {
+    lastLocalActionRef.current = Date.now();
     const leadToDelete = currentViewEmp.leads?.find((l) => l.id === leadId);
     const clientName = leadToDelete?.clientName || "Lead";
 
+    if (!isSupervisor) {
+      // Intern requested deletion: dispatches to supervisor for approval
+      const updated: Employee[] = employees.map((emp) => {
+        if (emp.id === currentViewEmp.id && emp.leads) {
+          const nextLeads = emp.leads.map((l) => {
+            if (l.id === leadId) {
+              return {
+                ...l,
+                pendingRequestType: "delete" as const,
+                approvalStatus: "pending" as const,
+                approvalRequestedBy: session?.employee.name || emp.name,
+                approvalRequestedAt: new Date().toISOString(),
+              };
+            }
+            return l;
+          });
+          return { ...emp, leads: nextLeads };
+        }
+        return emp;
+      });
+
+      setEmployees(updated);
+      saveStoredEmployees(updated);
+      showToast(
+        `Deletion request for "${clientName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Dinithi Perera"}) for approval.`
+      );
+      return;
+    }
+
+    // Supervisor or Admin: Delete immediately
     const updated: Employee[] = employees.map((emp) => {
       if (emp.id === currentViewEmp.id && emp.leads) {
         return {
@@ -521,6 +874,60 @@ export function EmployeePortal() {
     setEmployees(updated);
     saveStoredEmployees(updated);
     showToast(`Lead "${clientName}" deleted from sales pipeline.`);
+  };
+
+  const handleOpenEditProfile = (emp: Employee) => {
+    setEditProfileEmpId(emp.id);
+    setEditProfileName(emp.name);
+    setEditProfileDesignation(emp.designation);
+    setEditProfileDepartment(emp.department);
+    setEditProfileSupervisor(emp.supervisorName);
+    setEditProfileWorkLocation(emp.workLocation);
+    setEditProfilePhone(emp.phone);
+    setEditProfileContract(emp.contractType);
+    setEditProfileTerritory(emp.allocatedTerritory || "");
+    setEditProfileBio(emp.bio || "");
+    setShowEditProfileModal(true);
+  };
+
+  const handleSaveEditProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editProfileEmpId || !editProfileName.trim()) return;
+
+    const updated: Employee[] = employees.map((emp) => {
+      if (emp.id === editProfileEmpId) {
+        return {
+          ...emp,
+          name: editProfileName.trim(),
+          designation: editProfileDesignation.trim() || emp.designation,
+          department: editProfileDepartment.trim() || emp.department,
+          supervisorName: editProfileSupervisor.trim() || emp.supervisorName,
+          workLocation: editProfileWorkLocation.trim() || emp.workLocation,
+          phone: editProfilePhone.trim() || emp.phone,
+          contractType: editProfileContract.trim() || emp.contractType,
+          allocatedTerritory: editProfileTerritory.trim() || emp.allocatedTerritory,
+          bio: editProfileBio.trim(),
+        };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+
+    // Refresh active session if the user updated their own profile
+    if (session && session.employee.id === editProfileEmpId) {
+      const updatedSelf = updated.find((e) => e.id === editProfileEmpId);
+      if (updatedSelf) {
+        const nextSession = { ...session, employee: updatedSelf };
+        setSession(nextSession);
+        saveStoredEMSSession(nextSession);
+      }
+    }
+
+    setShowEditProfileModal(false);
+    setEditProfileEmpId(null);
+    showToast(`Profile for ${editProfileName.trim()} updated and synced to Supabase database.`);
   };
 
   const handleAddNewTask = (e: React.FormEvent) => {
@@ -566,19 +973,35 @@ export function EmployeePortal() {
     );
   };
 
-  const handleQuickAttendanceCheckIn = (mode: "Remote" | "Office (Rajagiriya)") => {
+  // ── Remote Attendance Clock IN
+  const handleRemoteClockIn = () => {
+    lastLocalActionRef.current = Date.now();
     const now = new Date();
-    const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const hours24 = String(now.getHours()).padStart(2, "0");
+    const mins = String(now.getMinutes()).padStart(2, "0");
+    const timeStr = `${hours24}:${mins}`;
     const dateStr = now.toISOString().split("T")[0];
+
+    const isLate = now.getHours() > 9 || (now.getHours() === 9 && now.getMinutes() > 15);
+    const punctualityStatus: AttendanceRecord["status"] = isLate ? "late" : "present";
 
     const updated = employees.map((emp) => {
       if (emp.id === currentViewEmp.id) {
-        const hasToday = emp.attendance.some((a) => a.date === dateStr);
+        const existing = emp.attendance || [];
+        const hasToday = existing.some((a) => a.date === dateStr);
         if (hasToday) {
           return {
             ...emp,
-            attendance: emp.attendance.map((a) =>
-              a.date === dateStr ? { ...a, checkOut: timeStr } : a
+            attendance: existing.map((a) =>
+              a.date === dateStr
+                ? {
+                    ...a,
+                    checkIn: a.checkIn || timeStr,
+                    checkOut: "Active",
+                    workMode: "Remote" as const,
+                    status: punctualityStatus,
+                  }
+                : a
             ),
           };
         }
@@ -586,12 +1009,12 @@ export function EmployeePortal() {
           date: dateStr,
           checkIn: timeStr,
           checkOut: "Active",
-          status: "present",
-          workMode: mode,
+          status: punctualityStatus,
+          workMode: "Remote",
         };
         return {
           ...emp,
-          attendance: [newRecord, ...emp.attendance],
+          attendance: [newRecord, ...existing],
         };
       }
       return emp;
@@ -599,7 +1022,88 @@ export function EmployeePortal() {
 
     setEmployees(updated);
     saveStoredEmployees(updated);
-    showToast(`Recorded attendance for today (${mode}) at ${timeStr}.`);
+    showToast(`Remote Clock-IN verified at ${timeStr} for ${currentViewEmp.name}.`);
+  };
+
+  // ── Remote Attendance Clock OUT
+  const handleRemoteClockOut = () => {
+    lastLocalActionRef.current = Date.now();
+    const now = new Date();
+    const hours24 = String(now.getHours()).padStart(2, "0");
+    const mins = String(now.getMinutes()).padStart(2, "0");
+    const timeStr = `${hours24}:${mins}`;
+    const dateStr = now.toISOString().split("T")[0];
+
+    const updated = employees.map((emp) => {
+      if (emp.id === currentViewEmp.id) {
+        const existing = emp.attendance || [];
+        const hasToday = existing.some((a) => a.date === dateStr);
+        if (hasToday) {
+          return {
+            ...emp,
+            attendance: existing.map((a) =>
+              a.date === dateStr
+                ? { ...a, checkOut: timeStr, workMode: "Remote" as const }
+                : a
+            ),
+          };
+        }
+        const newRecord: AttendanceRecord = {
+          date: dateStr,
+          checkIn: "09:00",
+          checkOut: timeStr,
+          status: "present",
+          workMode: "Remote",
+        };
+        return {
+          ...emp,
+          attendance: [newRecord, ...existing],
+        };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Remote Clock-OUT logged at ${timeStr}. Shift completed.`);
+  };
+
+  const handleQuickAttendanceCheckIn = (mode: "Remote" | "Office (Rajagiriya)") => {
+    if (mode === "Remote") {
+      handleRemoteClockIn();
+    } else {
+      lastLocalActionRef.current = Date.now();
+      const now = new Date();
+      const hours24 = String(now.getHours()).padStart(2, "0");
+      const mins = String(now.getMinutes()).padStart(2, "0");
+      const timeStr = `${hours24}:${mins}`;
+      const dateStr = now.toISOString().split("T")[0];
+      const updated = employees.map((emp) => {
+        if (emp.id === currentViewEmp.id) {
+          const existing = emp.attendance || [];
+          const hasToday = existing.some((a) => a.date === dateStr);
+          if (hasToday) {
+            return {
+              ...emp,
+              attendance: existing.map((a) =>
+                a.date === dateStr ? { ...a, checkOut: timeStr, workMode: mode } : a
+              ),
+            };
+          }
+          return {
+            ...emp,
+            attendance: [
+              { date: dateStr, checkIn: timeStr, checkOut: "Active", status: "present" as const, workMode: mode },
+              ...existing,
+            ],
+          };
+        }
+        return emp;
+      });
+      setEmployees(updated);
+      saveStoredEmployees(updated);
+      showToast(`Recorded attendance (${mode}) at ${timeStr}.`);
+    }
   };
 
   useEffect(() => {
@@ -611,13 +1115,115 @@ export function EmployeePortal() {
       setSession(existingSession);
     }
 
-    // Two-way sync: Pull fresh employee records from Supabase database
-    fetchEmployeesFromSupabase().then((remoteEmployees) => {
-      if (remoteEmployees && remoteEmployees.length > 0) {
-        setEmployees(remoteEmployees);
-        setSupabaseSyncStatus("synced");
+    let isMounted = true;
+    const syncFromRemote = async () => {
+      // Pause remote overwrite if a local edit/delete/add occurred within 3.5 seconds
+      if (Date.now() - lastLocalActionRef.current < 3500) {
+        return;
       }
-    });
+      try {
+        const remoteEmployees = await fetchEmployeesFromSupabase();
+        if (Date.now() - lastLocalActionRef.current < 3500) {
+          return;
+        }
+        if (isMounted && remoteEmployees && remoteEmployees.length > 0) {
+          setEmployees(remoteEmployees);
+          try {
+            localStorage.setItem("creativex_ems_employees_v4", JSON.stringify(remoteEmployees));
+          } catch {}
+
+          // Refresh session employee if profile data was updated in Supabase
+          setSession((prev) => {
+            if (!prev) return null;
+            const updatedSelf = remoteEmployees.find((e) => e.id === prev.employee.id);
+            return updatedSelf ? { ...prev, employee: updatedSelf } : prev;
+          });
+        }
+      } catch (err) {
+        console.warn("[ems] Realtime sync error:", err);
+      }
+    };
+
+    // 1. Initial sync from Supabase
+    syncFromRemote();
+
+    // 2. Realtime WebSocket subscription to Supabase postgres_changes
+    let realtimeChannel: any = null;
+    getSupabaseClient()
+      .then((client) => {
+        if (!isMounted) return;
+        if (client && typeof client.channel === "function") {
+          realtimeChannel = client
+            .channel("ems-realtime-sync")
+            .on(
+              "postgres_changes",
+              { event: "*", schema: "public", table: "ems_employees" },
+              () => {
+                syncFromRemote();
+              }
+            )
+            .on(
+              "postgres_changes",
+              { event: "*", schema: "public", table: "ems_leads" },
+              () => {
+                syncFromRemote();
+              }
+            )
+            .on(
+              "postgres_changes",
+              { event: "*", schema: "public", table: "ems_workflow_tasks" },
+              () => {
+                syncFromRemote();
+              }
+            )
+            .on(
+              "postgres_changes",
+              { event: "*", schema: "public", table: "ems_eod_reports" },
+              () => {
+                syncFromRemote();
+              }
+            )
+            .subscribe();
+        }
+      })
+      .catch(() => {});
+
+    // 3. Proactive heartbeat polling (every 4 seconds) for continuous real-time sync across devices
+    const pollInterval = setInterval(() => {
+      syncFromRemote();
+    }, 4000);
+
+    // 4. Cross-tab instant storage sync
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "creativex_ems_employees_v4" && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setEmployees(parsed);
+          }
+        } catch {}
+      }
+    };
+
+    const handleCustomLocalSync = (e: Event) => {
+      const customEvent = e as CustomEvent<Employee[]>;
+      if (Array.isArray(customEvent.detail)) {
+        setEmployees(customEvent.detail);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("ems_local_sync", handleCustomLocalSync);
+
+    return () => {
+      isMounted = false;
+      clearInterval(pollInterval);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("ems_local_sync", handleCustomLocalSync);
+      if (realtimeChannel && typeof realtimeChannel.unsubscribe === "function") {
+        realtimeChannel.unsubscribe();
+      }
+    };
   }, []);
 
   const handleLoginSubmit = (e: React.FormEvent) => {
@@ -630,8 +1236,8 @@ export function EmployeePortal() {
       if (res.success && res.session) {
         setSession(res.session);
         showToast(`Welcome back, ${res.session.employee.name}!`);
-        // If employee, select their own profile
-        if (res.session.role === "employee") {
+        // If employee or supervisor, select their own profile
+        if (res.session.role === "employee" || res.session.role === "supervisor") {
           setSelectedEmpId(res.session.employee.id);
           setActiveTab("profile");
         } else if (res.session.role === "admin") {
@@ -666,7 +1272,7 @@ export function EmployeePortal() {
     if (res.success && res.session) {
       setSession(res.session);
       showToast(`Logged in as ${res.session.employee.name} (${res.session.role.toUpperCase()})`);
-      if (res.session.role === "employee") {
+      if (res.session.role === "employee" || res.session.role === "supervisor") {
         setSelectedEmpId(res.session.employee.id);
         setActiveTab("profile");
       } else if (res.session.role === "admin") {
@@ -694,7 +1300,7 @@ export function EmployeePortal() {
       role: newEmpRole,
       designation: newEmpDesignation.trim() || "Associate Specialist",
       department: newEmpDepartment,
-      supervisorId: "emp-adm-001",
+      supervisorId: "emp-admin-001",
       supervisorName: newEmpSupervisor.trim() || "Kavishka Thilakarathna",
       joiningDate: new Date().toISOString().split("T")[0],
       contractType: newEmpContract,
@@ -872,8 +1478,185 @@ export function EmployeePortal() {
   const currentViewEmp = employees.find((e) => e.id === selectedEmpId) || employees[2] || employees[0];
   const overallKpiScore = calculateOverallKPIScore(currentViewEmp?.kpis || []);
 
+  // Realtime B2B Pipeline & Incentive Calculations
+  const empLeads = currentViewEmp?.leads || [];
+  const wonLeads = empLeads.filter(
+    (l) => l.stage === "Closed Won" && l.approvalStatus !== "pending"
+  );
+  const pendingApprovalLeads = empLeads.filter(
+    (l) => l.approvalStatus === "pending"
+  );
+  const pendingWonLeads = empLeads.filter(
+    (l) => l.approvalStatus === "pending" && (l.pendingRequestType === "won" || l.stage === "Closed Won")
+  );
+  const pendingEditLeads = empLeads.filter(
+    (l) => l.approvalStatus === "pending" && l.pendingRequestType === "edit"
+  );
+  const pendingDeleteLeads = empLeads.filter(
+    (l) => l.approvalStatus === "pending" && l.pendingRequestType === "delete"
+  );
+  const activeLeads = empLeads.filter(
+    (l) => l.stage !== "Closed Won" || l.approvalStatus === "pending"
+  );
+
+  const activePipelineValue = activeLeads.reduce(
+    (sum, lead) => sum + parseDealValueToLKR(lead.dealValue),
+    0
+  );
+  const wonPipelineValue = wonLeads.reduce(
+    (sum, lead) => sum + parseDealValueToLKR(lead.dealValue),
+    0
+  );
+  // Estimated incentive: 10% commission on approved closed won project/deal value
+  const estimatedIncentive = Math.round(wonPipelineValue * 0.10);
+  const pendingCommission = pendingWonLeads.reduce(
+    (sum, lead) => sum + Math.round(parseDealValueToLKR(lead.dealValue) * 0.10),
+    0
+  );
+
   const isAdmin = session?.role === "admin";
   const isSupervisor = session?.role === "supervisor" || session?.role === "admin";
+
+  // ── All Pending Intern Approvals across supervised employees
+  const allSupervisedPendingApprovals = useMemo(() => {
+    const list: {
+      lead: LeadPipelineItem;
+      employee: Employee;
+    }[] = [];
+    employees.forEach((emp) => {
+      (emp.leads || []).forEach((lead) => {
+        if (lead.approvalStatus === "pending") {
+          list.push({ lead, employee: emp });
+        }
+      });
+    });
+    return list;
+  }, [employees]);
+
+  // B2B Intern KPI Progress Values (Dynamic with fallback)
+  const kpiLeads = currentViewEmp?.kpis?.find((k) => k.id === "kpi-bdi-1") || currentViewEmp?.kpis?.[0];
+  const kpiDemos = currentViewEmp?.kpis?.find((k) => k.id === "kpi-bdi-2") || currentViewEmp?.kpis?.[1];
+
+  const leadsCurrent = kpiLeads ? (kpiLeads.current ?? 0) : 0;
+  const leadsTarget = kpiLeads ? (kpiLeads.target ?? 45) : 45;
+  const leadsPct = leadsTarget > 0 ? Math.min(100, Math.round((leadsCurrent / leadsTarget) * 100)) : 0;
+
+  const demosCurrent = kpiDemos ? (kpiDemos.current ?? 0) : 0;
+  const demosTarget = kpiDemos ? (kpiDemos.target ?? 16) : 16;
+  const demosPct = demosTarget > 0 ? Math.min(100, Math.round((demosCurrent / demosTarget) * 100)) : 0;
+
+  // 24-Hour System Clock Calculation
+  const clockHours = String(currentClock.getHours()).padStart(2, "0");
+  const clockMinutes = String(currentClock.getMinutes()).padStart(2, "0");
+  const clockSeconds = String(currentClock.getSeconds()).padStart(2, "0");
+  const liveClock24 = `${clockHours}:${clockMinutes}:${clockSeconds}`;
+  const liveDateFormatted = currentClock.toLocaleDateString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
+  const todayIsoDate = currentClock.toISOString().split("T")[0];
+  const todayAttendance = currentViewEmp?.attendance?.find((a) => a.date === todayIsoDate);
+  const isCurrentlyClockedIn = Boolean(
+    todayAttendance && (todayAttendance.checkOut === "Active" || !todayAttendance.checkOut || todayAttendance.checkOut === "")
+  );
+  const isShiftCompletedToday = Boolean(
+    todayAttendance && todayAttendance.checkOut && todayAttendance.checkOut !== "Active"
+  );
+
+  // Supervisor Quick Reset for single KPI to 0
+  const handleResetKpiToZero = (kpiId: string, kpiName: string) => {
+    if (!confirm(`Supervisor Confirmation: Reset "${kpiName}" count to 0 for ${currentViewEmp.name}?`)) {
+      return;
+    }
+    lastLocalActionRef.current = Date.now();
+    const updated = employees.map((emp) => {
+      if (emp.id === currentViewEmp.id) {
+        const nextKpis = emp.kpis.map((k) => {
+          if (k.id === kpiId) {
+            return {
+              ...k,
+              current: 0,
+              status: "needs_attention" as const,
+              notes: `Reset to 0 by supervisor ${session?.employee?.name || "Supervisor"} on ${new Date().toLocaleDateString()}.`,
+            };
+          }
+          return k;
+        });
+        return { ...emp, kpis: nextKpis };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Supervisor reset "${kpiName}" to 0 for ${currentViewEmp.name}.`);
+  };
+
+  // Supervisor Quick Reset for all pipeline deals to 0
+  const handleResetPipelineDeals = () => {
+    if (!confirm(`Supervisor Confirmation: Clear all pipeline deals for ${currentViewEmp.name} and reset pipeline value to LKR 0?`)) {
+      return;
+    }
+    lastLocalActionRef.current = Date.now();
+    const updated = employees.map((emp) => {
+      if (emp.id === currentViewEmp.id) {
+        return { ...emp, leads: [] };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Supervisor cleared all pipeline deals for ${currentViewEmp.name}.`);
+  };
+
+  // Supervisor Comprehensive Reset Modal Action
+  const handleSupervisorResetSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    lastLocalActionRef.current = Date.now();
+
+    const updated = employees.map((emp) => {
+      if (emp.id === currentViewEmp.id) {
+        let nextEmp = { ...emp };
+
+        if (resetOptionKpis) {
+          nextEmp.kpis = emp.kpis.map((k) => {
+            if (k.id === "kpi-bdi-1" || k.id === "kpi-bdi-2") {
+              return {
+                ...k,
+                current: 0,
+                status: "needs_attention" as const,
+                notes: `Sprint metrics reset to 0 by supervisor ${session?.employee?.name || "Supervisor"} on ${new Date().toLocaleDateString()}.`,
+              };
+            }
+            return k;
+          });
+        }
+
+        if (resetOptionPipeline) {
+          nextEmp.leads = [];
+        }
+
+        if (resetOptionChecklist) {
+          nextEmp.checklist = (emp.checklist || []).map((c) => ({
+            ...c,
+            completed: false,
+          }));
+        }
+
+        return nextEmp;
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    setShowResetInternModal(false);
+    showToast(`Supervisor successfully reset sprint data for ${currentViewEmp.name}.`);
+  };
 
   // Filtered employees in Admin table
   const filteredEmployees = employees.filter((emp) => {
@@ -914,7 +1697,6 @@ export function EmployeePortal() {
 
           <div className="ems-top-controls">
             <div className="ems-hq-clock">
-              <span className="ems-status-live-dot" />
               <span>Colombo HQ · IST 09:00–18:00</span>
             </div>
 
@@ -1048,49 +1830,48 @@ export function EmployeePortal() {
              2. LOGGED-IN EMS PORTAL & DASHBOARD
           ───────────────────────────────────────────────────────────── */
           <div className="ems-portal-dashboard">
-            {/* Top Navigation & Profile Switcher Bar */}
-            <div className="ems-dashboard-header">
-              <div className="ems-header-left">
-                <div className="ems-header-title-row">
-                  <h1>Staff Performance &amp; Operations Graph</h1>
-                  <span className="ems-tag-live">Active EMS Session</span>
+            {/* Top Employee Profile Selector (for Supervisors & Admin) */}
+            {isSupervisor && (
+              <div className="ems-dashboard-header ems-dashboard-header-compact">
+                <div className="flex items-center gap-3 flex-wrap">
                   <button
                     type="button"
-                    onClick={handleManualSupabaseSync}
-                    className="ems-tag-supabase"
-                    title="Click to sync all details directly with Supabase database"
+                    onClick={() => {
+                      setSelectedEmpId("emp-sup-001");
+                      setActiveTab("profile");
+                    }}
+                    className={`ems-subnav-btn ${selectedEmpId === "emp-sup-001" && activeTab === "profile" ? "active" : ""}`}
+                    title="Open Supervisor Profile & Intern Approvals Center"
                   >
-                    <span className={`ems-supabase-dot ${supabaseSyncStatus === "syncing" ? "dot-pulsing" : ""}`} />
-                    <span>
-                      {supabaseSyncStatus === "syncing" ? "Syncing to Supabase..." : "Supabase Cloud DB Live"}
-                    </span>
+                    <ShieldCheck size={14} className={allSupervisedPendingApprovals.length > 0 ? "text-amber-400" : "text-emerald"} />
+                    <span>Supervisor Approvals</span>
+                    {allSupervisedPendingApprovals.length > 0 ? (
+                      <span className="ems-count-pill border-amber-500/40 text-amber-300 bg-amber-500/10">
+                        {allSupervisedPendingApprovals.length} Pending
+                      </span>
+                    ) : (
+                      <span className="ems-count-pill text-emerald border-emerald-500/30">0</span>
+                    )}
                   </button>
-                </div>
-                <p>
-                  Authenticated as <strong>{session.employee.name}</strong> · Role:{" "}
-                  <strong className="text-[#ff5a36]">{session.role.toUpperCase()}</strong> ({session.employee.department})
-                </p>
-              </div>
 
-              {/* View Employee Dropdown Selector (for Supervisors & Admin) */}
-              {isSupervisor && (
-                <div className="ems-employee-picker">
-                  <label htmlFor="emp-select">Viewing Employee Profile:</label>
-                  <select
-                    id="emp-select"
-                    value={selectedEmpId}
-                    onChange={(e) => setSelectedEmpId(e.target.value)}
-                    className="ems-select-styled"
-                  >
-                    {employees.map((emp) => (
-                      <option key={emp.id} value={emp.id}>
-                        {emp.employeeId} — {emp.name} ({emp.designation})
-                      </option>
-                    ))}
-                  </select>
+                  <div className="ems-employee-picker">
+                    <label htmlFor="emp-select">Viewing Profile:</label>
+                    <select
+                      id="emp-select"
+                      value={selectedEmpId}
+                      onChange={(e) => setSelectedEmpId(e.target.value)}
+                      className="ems-select-styled"
+                    >
+                      {employees.map((emp) => (
+                        <option key={emp.id} value={emp.id}>
+                          {emp.employeeId} — {emp.name} ({emp.designation})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Navigation Tabs */}
             <div className="ems-nav-tabs-bar" role="tablist">
@@ -1148,6 +1929,50 @@ export function EmployeePortal() {
             ───────────────────────────────────────────────────────────── */}
             {activeTab === "profile" && (
               <div className="ems-profile-view">
+                {/* ── 24-Hour Live System Clock & Remote Attendance Punch ── */}
+                <div className="ems-clock24-strip">
+                  <div className="ems-clock24-left">
+                    <Clock size={16} className="text-[#a1a1aa]" />
+                    <div className="ems-clock24-display">
+                      <span className="ems-clock24-time tabular-nums">{liveClock24}</span>
+                      <span className="ems-clock24-zone">UTC+05:30 · Colombo</span>
+                    </div>
+                    <div className="ems-clock24-sep" />
+                    <div className="ems-clock24-date">
+                      <span>{liveDateFormatted}</span>
+                    </div>
+                  </div>
+
+                  <div className="ems-clock24-right">
+                    {!isCurrentlyClockedIn ? (
+                      <button
+                        type="button"
+                        onClick={handleRemoteClockIn}
+                        className="ems-remote-punch-btn clock-in"
+                        title="Mark remote attendance: Clock IN"
+                      >
+                        <LogIn size={13} />
+                        <span>Remote Clock IN</span>
+                      </button>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <span className="ems-shift-badge-active">
+                          <span>Remote Active ({todayAttendance?.checkIn})</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={handleRemoteClockOut}
+                          className="ems-remote-punch-btn clock-out"
+                          title="Mark remote attendance: Clock OUT"
+                        >
+                          <LogOut size={13} />
+                          <span>Remote Clock OUT</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 {/* Hero Profile Dossier Card */}
                 <div className="ems-card ems-profile-hero">
                   <div className="ems-profile-hero-top">
@@ -1158,7 +1983,6 @@ export function EmployeePortal() {
                           .map((n) => n[0])
                           .join("")}
                       </div>
-                      <span className={`ems-status-indicator status-${currentViewEmp.status}`} />
                     </div>
 
                     <div className="ems-profile-hero-meta">
@@ -1168,6 +1992,16 @@ export function EmployeePortal() {
                         <span className={`ems-status-tag tag-${currentViewEmp.status}`}>
                           {currentViewEmp.status === "active" ? "ACTIVE · HIGH VELOCITY" : currentViewEmp.status.toUpperCase()}
                         </span>
+                        {(isAdmin || isSupervisor || session?.employee.id === currentViewEmp.id) && (
+                          <button
+                            type="button"
+                            onClick={() => handleOpenEditProfile(currentViewEmp)}
+                            className="ems-profile-edit-trigger"
+                            title="Edit Employee Profile Details"
+                          >
+                            <Edit size={12} /> Edit Profile
+                          </button>
+                        )}
                       </div>
                       <div className="ems-designation-line">
                         <span className="ems-designation-text">{currentViewEmp.designation}</span>
@@ -1215,9 +2049,314 @@ export function EmployeePortal() {
                 </div>
 
                 {/* ─────────────────────────────────────────────────────────────
+                   SUPERVISOR MANAGEMENT WORKSPACE & INTERN APPROVAL CENTER
+                ───────────────────────────────────────────────────────────── */}
+                {currentViewEmp.role === "supervisor" && (
+                  <div className="ems-supervisor-workspace">
+                    {/* 1. Quick Stats Strip */}
+                    <div className="ems-bdi-quickstats-strip">
+                      <div className="ems-bdi-stat-card">
+                        <div className="ems-stat-icon-wrap icon-orange">
+                          <TrendingUp size={18} />
+                        </div>
+                        <div className="ems-stat-info">
+                          <span className="ems-stat-label">Supervised Team Pipeline</span>
+                          <div className="ems-stat-val-row">
+                            <strong className="ems-stat-val tabular-nums">LKR 16.2M</strong>
+                            <span className="ems-stat-target">/ 15M Target</span>
+                            <span className="ems-stat-pct text-emerald">108%</span>
+                          </div>
+                          <div className="ems-stat-progressbar">
+                            <div className="ems-bar-fill" style={{ width: "100%" }} />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="ems-bdi-stat-card">
+                        <div className="ems-stat-icon-wrap icon-purple">
+                          <Users size={18} />
+                        </div>
+                        <div className="ems-stat-info">
+                          <span className="ems-stat-label">Supervised Direct Reports</span>
+                          <div className="ems-stat-val-row">
+                            <strong className="ems-stat-val tabular-nums">1 Active Intern</strong>
+                            <span className="ems-stat-target">B2B Sales</span>
+                          </div>
+                          <span className="text-[11px] text-[#71717a] mt-1 block">Kavindu Senanayake (CX-EMP-041)</span>
+                        </div>
+                      </div>
+
+                      <div className="ems-bdi-stat-card">
+                        <div className="ems-stat-icon-wrap icon-blue">
+                          <ShieldAlert size={18} />
+                        </div>
+                        <div className="ems-stat-info">
+                          <div className="ems-card-header-row">
+                            <span className="ems-stat-label">Intern Sign-Offs Pending</span>
+                            {allSupervisedPendingApprovals.length > 0 && (
+                              <span className="ems-badge-pending-count">
+                                {allSupervisedPendingApprovals.length} Action{allSupervisedPendingApprovals.length === 1 ? "" : "s"}
+                              </span>
+                            )}
+                          </div>
+                          <div className="ems-stat-val-row">
+                            <strong className={`ems-stat-val tabular-nums ${allSupervisedPendingApprovals.length > 0 ? "text-amber-400" : "text-emerald"}`}>
+                              {allSupervisedPendingApprovals.length}
+                            </strong>
+                            <span className="ems-stat-target">
+                              {allSupervisedPendingApprovals.length === 0 ? "All requests cleared" : "Requires Authorization"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="ems-bdi-stat-card">
+                        <div className="ems-stat-icon-wrap icon-emerald">
+                          <Award size={18} />
+                        </div>
+                        <div className="ems-stat-info">
+                          <span className="ems-stat-label">Pitch Closing Benchmark</span>
+                          <div className="ems-stat-val-row">
+                            <strong className="ems-stat-val tabular-nums">28.5%</strong>
+                            <span className="ems-stat-target">/ 25% Target</span>
+                            <span className="ems-stat-pct text-emerald">+3.5%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 2. Intern Sign-Off & Approvals Command Center */}
+                    <div className="ems-supervisor-approvals-section">
+                      <div className="ems-pipeline-header">
+                        <div className="ems-pipeline-header-info">
+                          <div className="flex items-center gap-2">
+                            <h3 className="ems-subview-title">Intern Sign-Off &amp; Approvals Command Center</h3>
+                            <span className={`ems-count-pill ${allSupervisedPendingApprovals.length > 0 ? "border-amber-500/40 text-amber-300 bg-amber-500/10" : "border-emerald-500/40 text-emerald-300 bg-emerald-500/10"}`}>
+                              {allSupervisedPendingApprovals.length} Pending
+                            </span>
+                          </div>
+                          <p className="ems-subview-desc">
+                            Review and authorize Closed Won deals, proposed edits, and deletion requests submitted by supervised Business Development Interns.
+                          </p>
+                        </div>
+                        <div className="ems-pipeline-header-actions">
+                          <button
+                            type="button"
+                            onClick={() => setShowResetInternModal(true)}
+                            className="ems-btn-secondary"
+                            title="Supervisor controls to reset sprint targets, leads or metrics"
+                          >
+                            <RotateCcw size={13} /> Reset Intern Sprint
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedEmpId("emp-bdi-001");
+                              setActiveTab("profile");
+                            }}
+                            className="ems-btn-primary"
+                          >
+                            <Users size={14} /> View Intern Profile
+                          </button>
+                        </div>
+                      </div>
+
+                      {allSupervisedPendingApprovals.length === 0 ? (
+                        <div className="ems-approvals-empty-card">
+                          <CheckCircle2 size={36} className="text-emerald" />
+                          <h4 className="text-white text-sm font-semibold mt-3 mb-1">All Intern Requests Cleared</h4>
+                          <p className="text-xs text-[#a0a5a0] max-w-md text-center m-0">
+                            There are no pending Closed Won deals, proposed edits, or deletion requests awaiting supervisor authorization. Any new intern submissions will appear here for review.
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="ems-supervisor-approvals-grid">
+                          {allSupervisedPendingApprovals.map(({ lead, employee }) => {
+                            const isWon = lead.pendingRequestType === "won" || lead.stage === "Closed Won";
+                            const isEdit = lead.pendingRequestType === "edit";
+                            const isDelete = lead.pendingRequestType === "delete";
+                            const dealLKR = parseDealValueToLKR(lead.dealValue);
+                            const commission = Math.round(dealLKR * 0.10);
+
+                            return (
+                              <div key={lead.id} className="ems-supervisor-approval-card">
+                                <div className="ems-approval-card-top">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="ems-sub-emp-chip">
+                                      <Users size={12} className="text-[#a1a1aa]" />
+                                      <strong>{employee.name}</strong> ({employee.employeeId})
+                                    </span>
+                                    <span className={`ems-stage-badge ${isDelete ? "stage-danger" : isEdit ? "stage-purple" : "stage-pending"}`}>
+                                      {isDelete ? "Deletion Sign-Off" : isEdit ? "Proposed Edit Review" : "Closed Won Authorization"}
+                                    </span>
+                                  </div>
+                                  <div className="ems-lead-value-badge tabular-nums">
+                                    {lead.dealValue}
+                                  </div>
+                                </div>
+
+                                <div className="ems-approval-card-details">
+                                  <div className="ems-approval-detail-row">
+                                    <strong className="text-white text-sm">{lead.clientName}</strong>
+                                    <span className="text-xs text-[#a1a1aa]">{lead.contactPerson} · {lead.corridor} · {lead.channel}</span>
+                                  </div>
+
+                                  {isWon && (
+                                    <div className="ems-approval-incentive-box">
+                                      <div className="flex items-center justify-between">
+                                        <span className="text-xs text-zinc-300">10% Intern Incentive Commission:</span>
+                                        <strong className="text-emerald font-mono text-sm">+{formatLKR(commission)}</strong>
+                                      </div>
+                                      <small className="text-[11px] text-zinc-400 block mt-0.5">
+                                        Will be officially credited to {employee.name}&rsquo;s sprint bonus upon authorization.
+                                      </small>
+                                    </div>
+                                  )}
+
+                                  {isEdit && lead.pendingEditData && (
+                                    <div className="ems-pending-edit-diff mt-2">
+                                      <div className="text-[11.5px] text-zinc-300">
+                                        <strong>Proposed Changes:</strong> Client: &ldquo;{lead.pendingEditData.clientName}&rdquo; · Value: <span className="text-emerald font-semibold">{lead.pendingEditData.dealValue}</span> · Region: {lead.pendingEditData.corridor} · Stage: {lead.pendingEditData.stage}
+                                      </div>
+                                      {lead.pendingEditData.notes && (
+                                        <div className="text-[11px] text-zinc-400 italic mt-1">&ldquo;{lead.pendingEditData.notes}&rdquo;</div>
+                                      )}
+                                    </div>
+                                  )}
+
+                                  {lead.notes && (
+                                    <p className="ems-lead-notes mt-2 text-xs text-zinc-400 italic bg-black/20 p-2 rounded">
+                                      &ldquo;{lead.notes}&rdquo;
+                                    </p>
+                                  )}
+                                </div>
+
+                                {/* Supervisor Authorization Action Buttons */}
+                                <div className="ems-approval-action-buttons mt-3 pt-3 border-t border-zinc-800">
+                                  {isWon && (
+                                    <>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSupervisorApproveLead(lead.id, employee.id)}
+                                        className="ems-btn-approve-deal flex-1"
+                                      >
+                                        <CheckCircle2 size={13} />
+                                        <span>Approve &amp; Assign Commission</span>
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSupervisorRejectLead(lead.id, employee.id)}
+                                        className="ems-btn-reject-deal"
+                                      >
+                                        <RotateCcw size={13} />
+                                        <span>Return to Proposal</span>
+                                      </button>
+                                    </>
+                                  )}
+
+                                  {isEdit && (
+                                    <>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSupervisorApproveEdit(lead.id, employee.id)}
+                                        className="ems-btn-approve-deal flex-1"
+                                      >
+                                        <CheckCircle2 size={13} />
+                                        <span>Approve &amp; Apply Edits</span>
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSupervisorRejectEdit(lead.id, employee.id)}
+                                        className="ems-btn-reject-deal"
+                                      >
+                                        <RotateCcw size={13} />
+                                        <span>Reject Edits</span>
+                                      </button>
+                                    </>
+                                  )}
+
+                                  {isDelete && (
+                                    <>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSupervisorApproveDelete(lead.id, employee.id)}
+                                        className="ems-btn-danger-approve flex-1"
+                                      >
+                                        <Trash2 size={13} />
+                                        <span>Approve &amp; Delete Lead</span>
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSupervisorRejectDelete(lead.id, employee.id)}
+                                        className="ems-btn-reject-deal"
+                                      >
+                                        <RotateCcw size={13} />
+                                        <span>Reject / Keep Lead</span>
+                                      </button>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 3. Supervised Team & Interns Quick Management Card */}
+                    <div className="ems-supervised-team-card mt-6">
+                      <div className="ems-pipeline-header">
+                        <div className="ems-pipeline-header-info">
+                          <h3 className="ems-subview-title">Supervised Direct Reports</h3>
+                          <p className="ems-subview-desc">
+                            Supervised Business Development Interns and sprint productivity overview.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="ems-intern-card-summary">
+                        <div className="flex items-center justify-between flex-wrap gap-3">
+                          <div className="flex items-center gap-3">
+                            <div className="ems-avatar-box" style={{ width: 40, height: 40, minWidth: 40 }}>
+                              <div className="ems-avatar-initials text-xs">KS</div>
+                            </div>
+                            <div>
+                              <h4 className="text-white text-sm font-semibold m-0">Kavindu Senanayake</h4>
+                              <p className="text-xs text-[#a1a1aa] m-0">
+                                CX-EMP-041 · Business Development Intern (IT &amp; Software Products)
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedEmpId("emp-bdi-001");
+                                setActiveTab("profile");
+                                setBdiSubTab("pipeline");
+                              }}
+                              className="ems-btn-secondary"
+                            >
+                              <Briefcase size={13} /> Inspect Pipeline
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setShowResetInternModal(true)}
+                              className="ems-btn-secondary"
+                            >
+                              <RotateCcw size={13} /> Reset Sprint Data
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ─────────────────────────────────────────────────────────────
                    ENHANCED BDI WORKSPACE & OS EXPERIENCE (B2B Intern)
                 ───────────────────────────────────────────────────────────── */}
-                {(currentViewEmp.id === "emp-bdi-001" || currentViewEmp.department.includes("Business Development")) && (
+                {currentViewEmp.role !== "supervisor" && (currentViewEmp.id === "emp-bdi-001" || currentViewEmp.department.includes("Business Development")) && (
                   <div className="ems-bdi-workspace">
                     {/* 1. Quick Stats Strip */}
                     <div className="ems-bdi-quickstats-strip">
@@ -1226,16 +2365,26 @@ export function EmployeePortal() {
                           <Users size={18} />
                         </div>
                         <div className="ems-stat-info">
-                          <span className="ems-stat-label">Monthly Leads Logged</span>
+                          <div className="ems-card-header-row">
+                            <span className="ems-stat-label">Monthly Leads Logged</span>
+                            {isSupervisor && (
+                              <button
+                                type="button"
+                                onClick={() => handleResetKpiToZero(kpiLeads?.id || "kpi-bdi-1", "Monthly Leads Logged")}
+                                className="ems-card-reset-btn"
+                                title="Supervisor: Reset count to 0"
+                              >
+                                <RotateCcw size={10} /> Reset
+                              </button>
+                            )}
+                          </div>
                           <div className="ems-stat-val-row">
-                            <strong className="ems-stat-val tabular-nums">
-                              {currentViewEmp.kpis.find((k) => k.id === "kpi-bdi-1")?.current || 42}
-                            </strong>
-                            <span className="ems-stat-target">/ 45 Target</span>
-                            <span className="ems-stat-pct text-emerald">93%</span>
+                            <strong className="ems-stat-val tabular-nums">{leadsCurrent}</strong>
+                            <span className="ems-stat-target">/ {leadsTarget} Target</span>
+                            <span className="ems-stat-pct text-emerald">{leadsPct}%</span>
                           </div>
                           <div className="ems-stat-progressbar">
-                            <div className="ems-bar-fill" style={{ width: "93%" }} />
+                            <div className="ems-bar-fill" style={{ width: `${leadsPct}%` }} />
                           </div>
                         </div>
                       </div>
@@ -1245,16 +2394,26 @@ export function EmployeePortal() {
                           <Calendar size={18} />
                         </div>
                         <div className="ems-stat-info">
-                          <span className="ems-stat-label">Discovery Demos Scheduled</span>
+                          <div className="ems-card-header-row">
+                            <span className="ems-stat-label">Discovery Demos Scheduled</span>
+                            {isSupervisor && (
+                              <button
+                                type="button"
+                                onClick={() => handleResetKpiToZero(kpiDemos?.id || "kpi-bdi-2", "Discovery Demos Scheduled")}
+                                className="ems-card-reset-btn"
+                                title="Supervisor: Reset count to 0"
+                              >
+                                <RotateCcw size={10} /> Reset
+                              </button>
+                            )}
+                          </div>
                           <div className="ems-stat-val-row">
-                            <strong className="ems-stat-val tabular-nums">
-                              {currentViewEmp.kpis.find((k) => k.id === "kpi-bdi-2")?.current || 15}
-                            </strong>
-                            <span className="ems-stat-target">/ 16 Target</span>
-                            <span className="ems-stat-pct text-emerald">94%</span>
+                            <strong className="ems-stat-val tabular-nums">{demosCurrent}</strong>
+                            <span className="ems-stat-target">/ {demosTarget} Target</span>
+                            <span className="ems-stat-pct text-emerald">{demosPct}%</span>
                           </div>
                           <div className="ems-stat-progressbar">
-                            <div className="ems-bar-fill" style={{ width: "94%" }} />
+                            <div className="ems-bar-fill" style={{ width: `${demosPct}%` }} />
                           </div>
                         </div>
                       </div>
@@ -1264,12 +2423,32 @@ export function EmployeePortal() {
                           <DollarSign size={18} />
                         </div>
                         <div className="ems-stat-info">
-                          <span className="ems-stat-label">Active Pipeline Value</span>
-                          <div className="ems-stat-val-row">
-                            <strong className="ems-stat-val tabular-nums">LKR 5.39M</strong>
-                            <span className="ems-stat-sub">5 Qualified Deals</span>
+                          <div className="ems-card-header-row">
+                            <span className="ems-stat-label">Active Pipeline Value</span>
+                            {isSupervisor && activePipelineValue > 0 && (
+                              <button
+                                type="button"
+                                onClick={handleResetPipelineDeals}
+                                className="ems-card-reset-btn"
+                                title="Supervisor: Reset active pipeline to LKR 0"
+                              >
+                                <RotateCcw size={10} /> Reset
+                              </button>
+                            )}
                           </div>
-                          <small className="text-[#a0a5a0] text-xs">Australia · UK · Sri Lanka</small>
+                          <div className="ems-stat-val-row">
+                            <strong className="ems-stat-val tabular-nums">
+                              {activePipelineValue > 0 ? formatLKR(activePipelineValue) : "LKR 0"}
+                            </strong>
+                            <span className="ems-stat-sub">
+                              {activeLeads.length} {activeLeads.length === 1 ? "Active Deal" : "Active Deals"}
+                            </span>
+                          </div>
+                          <small className="text-[#a0a5a0] text-xs">
+                            {activeLeads.length > 0
+                              ? Array.from(new Set(activeLeads.map((l) => l.corridor || "Sri Lanka SME"))).join(" · ")
+                              : "No active pipeline deals"}
+                          </small>
                         </div>
                       </div>
 
@@ -1278,55 +2457,41 @@ export function EmployeePortal() {
                           <Award size={18} />
                         </div>
                         <div className="ems-stat-info">
-                          <span className="ems-stat-label">Estimated Incentive</span>
-                          <div className="ems-stat-val-row">
-                            <strong className="ems-stat-val text-emerald tabular-nums">+LKR 63,500</strong>
+                          <div className="ems-card-header-row">
+                            <span className="ems-stat-label">Estimated Incentive</span>
+                            {isSupervisor && estimatedIncentive > 0 && (
+                              <button
+                                type="button"
+                                onClick={handleResetPipelineDeals}
+                                className="ems-card-reset-btn"
+                                title="Supervisor: Reset won deals"
+                              >
+                                <RotateCcw size={10} /> Reset
+                              </button>
+                            )}
                           </div>
-                          <small className="text-[#a0a5a0] text-xs">Tier 1 Sprint Bonus</small>
+                          <div className="ems-stat-val-row">
+                            <strong className="ems-stat-val text-emerald tabular-nums">
+                              {estimatedIncentive > 0 ? `+${formatLKR(estimatedIncentive)}` : "LKR 0"}
+                            </strong>
+                            {pendingCommission > 0 && (
+                              <span className="text-[11px] text-amber-400 font-mono ml-2">
+                                (+{formatLKR(pendingCommission)} pending sign-off)
+                              </span>
+                            )}
+                          </div>
+                          <small className="text-[#a0a5a0] text-xs">
+                            {wonLeads.length > 0
+                              ? `10% Commission Assigned (${wonLeads.length} Approved Won ${wonLeads.length === 1 ? "Deal" : "Deals"})`
+                              : pendingCommission > 0
+                              ? `10% Commission Awaiting Supervisor Sign-Off`
+                              : "10% Commission on Won Deals"}
+                          </small>
                         </div>
                       </div>
                     </div>
 
-                    {/* 2. Interactive Action Bar */}
-                    <div className="ems-bdi-action-bar">
-                      <div className="ems-action-bar-left">
-                        <button
-                          type="button"
-                          onClick={() => setShowAddLeadModal(true)}
-                          className="ems-btn-primary action-btn-glow"
-                        >
-                          <Plus size={15} /> Log New Lead
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setShowAddTaskModal(true)}
-                          className="ems-btn-secondary"
-                        >
-                          <CheckSquare size={15} /> Add Outreach Task
-                        </button>
-                      </div>
-
-                      <div className="ems-action-bar-right">
-                        <button
-                          type="button"
-                          onClick={() => handleQuickAttendanceCheckIn("Office (Rajagiriya)")}
-                          className="ems-btn-subtle"
-                          title="Record today's attendance at Rajagiriya HQ"
-                        >
-                          <Building size={14} className="text-[#ff5a36]" /> Clock-In (Colombo HQ)
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleQuickAttendanceCheckIn("Remote")}
-                          className="ems-btn-subtle"
-                          title="Record remote attendance"
-                        >
-                          <MapPin size={14} className="text-emerald" /> Remote Clock-In
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* 3. Sub-Tab Navigator */}
+                    {/* 2. Sub-Tab Navigator */}
                     <div className="ems-bdi-subnav">
                       <button
                         type="button"
@@ -1344,7 +2509,7 @@ export function EmployeePortal() {
                       >
                         <Target size={15} />
                         <span>Live Deal Pipeline</span>
-                        <span className="ems-count-pill">{currentViewEmp.leads?.length || 5}</span>
+                        <span className="ems-count-pill">{currentViewEmp.leads?.length ?? 0}</span>
                       </button>
 
                       <button
@@ -1356,7 +2521,7 @@ export function EmployeePortal() {
                         <span>Daily Outreach Checklist</span>
                         <span className="ems-count-pill">
                           {(currentViewEmp.checklist || []).filter((c) => c.completed).length}/
-                          {currentViewEmp.checklist?.length || 9}
+                          {(currentViewEmp.checklist || []).length}
                         </span>
                       </button>
 
@@ -1367,7 +2532,7 @@ export function EmployeePortal() {
                       >
                         <BookOpen size={15} />
                         <span>Sales Playbook &amp; Pitch Scripts</span>
-                        <span className="ems-badge-hot">1-Click Copy</span>
+                        <span className="ems-count-pill">{DEFAULT_SALES_SCRIPTS.length}</span>
                       </button>
                     </div>
 
@@ -1470,21 +2635,57 @@ export function EmployeePortal() {
                     {bdiSubTab === "pipeline" && (
                       <div className="ems-pipeline-container">
                         <div className="ems-pipeline-header">
-                          <div>
+                          <div className="ems-pipeline-header-info">
                             <h3 className="ems-subview-title">Active B2B Sales Pipeline</h3>
                             <p className="ems-subview-desc">
                               Track enterprise and SME software prospects across Sri Lanka, Australia, and the UK.
                               Advancing a deal automatically increments your live Supervisor KPI targets!
                             </p>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => setShowAddLeadModal(true)}
-                            className="ems-btn-primary"
-                          >
-                            <Plus size={14} /> Add Opportunity
-                          </button>
+                          <div className="ems-pipeline-header-actions">
+                            {isSupervisor && (
+                              <button
+                                type="button"
+                                onClick={() => setShowResetInternModal(true)}
+                                className="ems-btn-secondary"
+                                title="Supervisor controls to reset sprint targets, leads or metrics"
+                              >
+                                <RotateCcw size={13} /> Reset Intern Data
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => setShowAddLeadModal(true)}
+                              className="ems-btn-primary"
+                            >
+                              <Plus size={14} /> Log New Lead
+                            </button>
+                          </div>
                         </div>
+
+                        {/* Subtle Notice for Supervisor Viewing Intern Profile */}
+                        {isSupervisor && pendingApprovalLeads.length > 0 && (
+                          <div className="ems-approval-callout-banner" style={{ background: "rgba(245, 158, 11, 0.05)", borderColor: "rgba(245, 158, 11, 0.2)" }}>
+                            <div className="flex items-center justify-between gap-3 flex-wrap">
+                              <div className="flex items-center gap-2">
+                                <Clock size={15} className="text-amber-400" />
+                                <span className="text-xs text-zinc-300">
+                                  <strong>{pendingApprovalLeads.length} pending request{pendingApprovalLeads.length === 1 ? "" : "s"}</strong> from {currentViewEmp.name} awaiting supervisor authorization.
+                                </span>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setSelectedEmpId("emp-sup-001");
+                                  setActiveTab("profile");
+                                }}
+                                className="ems-btn-secondary py-1 px-3 text-xs"
+                              >
+                                Review in Supervisor Approvals &rarr;
+                              </button>
+                            </div>
+                          </div>
+                        )}
 
                         <div className="ems-pipeline-grid">
                           {(currentViewEmp.leads || []).map((lead) => {
@@ -1495,25 +2696,51 @@ export function EmployeePortal() {
                               "Proposal Sent": "stage-amber",
                               "Closed Won": "stage-emerald",
                             };
-                            const isWon = lead.stage === "Closed Won";
+                            const isPending = lead.approvalStatus === "pending";
+                            const isPendingDelete = isPending && lead.pendingRequestType === "delete";
+                            const isPendingEdit = isPending && lead.pendingRequestType === "edit";
+                            const isPendingWon = isPending && (lead.pendingRequestType === "won" || lead.stage === "Closed Won");
+                            const isWonApproved = lead.stage === "Closed Won" && !isPending;
+
+                            let cardClass = "ems-lead-card";
+                            if (isWonApproved) cardClass += " lead-card-won";
+                            if (isPendingWon) cardClass += " lead-card-pending-approval";
+                            if (isPendingEdit) cardClass += " lead-card-pending-edit";
+                            if (isPendingDelete) cardClass += " lead-card-pending-delete";
 
                             return (
-                              <div key={lead.id} className={`ems-lead-card ${isWon ? "lead-card-won" : ""}`}>
+                              <div key={lead.id} className={cardClass}>
                                 <div className="ems-lead-card-top">
                                   <div className="ems-lead-main-info">
                                     <h4 className="ems-lead-client">{lead.clientName}</h4>
                                     <span className="ems-lead-contact">{lead.contactPerson}</span>
                                   </div>
                                   <div className="ems-lead-top-actions-wrapper">
-                                    <span className={`ems-stage-badge ${stageColors[lead.stage] || "stage-blue"}`}>
-                                      {lead.stage}
+                                    <span
+                                      className={`ems-stage-badge ${
+                                        isPendingDelete
+                                          ? "stage-danger"
+                                          : isPendingEdit
+                                          ? "stage-purple"
+                                          : isPendingWon
+                                          ? "stage-pending"
+                                          : stageColors[lead.stage] || "stage-blue"
+                                      }`}
+                                    >
+                                      {isPendingDelete
+                                        ? "Deletion Pending Approval"
+                                        : isPendingEdit
+                                        ? "Edit Pending Approval"
+                                        : isPendingWon
+                                        ? "Awaiting Won Approval"
+                                        : lead.stage}
                                     </span>
                                     <div className="ems-lead-card-actions">
                                       <button
                                         type="button"
                                         onClick={() => handleOpenEditLead(lead)}
                                         className="ems-lead-btn-action"
-                                        title="Edit Lead Opportunity"
+                                        title={isSupervisor ? "Edit Lead Opportunity" : "Edit Lead (Requires Supervisor Approval)"}
                                         aria-label="Edit Lead"
                                       >
                                         <Edit size={12} />
@@ -1522,7 +2749,7 @@ export function EmployeePortal() {
                                         type="button"
                                         onClick={() => handleDeleteLead(lead.id)}
                                         className="ems-lead-btn-action btn-danger"
-                                        title="Delete Lead Opportunity"
+                                        title={isSupervisor ? "Delete Lead Opportunity" : "Request Supervisor Approval to Delete"}
                                         aria-label="Delete Lead"
                                       >
                                         <Trash2 size={12} />
@@ -1550,15 +2777,75 @@ export function EmployeePortal() {
 
                                 <p className="ems-lead-notes">{lead.notes}</p>
 
+                                {/* 1. Deletion Approval Notice */}
+                                {isPendingDelete && (
+                                  <div className="ems-intern-waiting-badge text-red-300 border-red-500/25 bg-red-500/10">
+                                    <Clock size={12} className="text-red-400 flex-shrink-0" />
+                                    <span>Deletion requested. Awaiting Supervisor ({currentViewEmp.supervisorName || "Dinithi Perera"}) approval. Lead remains active until authorized.</span>
+                                  </div>
+                                )}
+
+                                {/* 2. Edit Approval Notice */}
+                                {isPendingEdit && (
+                                  <div className="ems-lead-approval-panel panel-edit">
+                                    <div className="ems-approval-panel-header">
+                                      <div className="flex items-center gap-1.5">
+                                        <Clock size={13} className="text-purple-400" />
+                                        <span className="text-xs font-semibold text-white">Proposed Edits Pending Review</span>
+                                      </div>
+                                      <span className="ems-approval-edit-pill">Awaiting Sign-Off</span>
+                                    </div>
+                                    <div className="ems-pending-edit-diff">
+                                      <div className="text-[11.5px] text-zinc-300">
+                                        <strong>Proposed Changes:</strong> Client: &ldquo;{lead.pendingEditData?.clientName}&rdquo; · Value: <span className="text-emerald font-semibold">{lead.pendingEditData?.dealValue}</span> · Region: {lead.pendingEditData?.corridor} · Stage: {lead.pendingEditData?.stage}
+                                      </div>
+                                      {lead.pendingEditData?.notes && (
+                                        <div className="text-[11px] text-zinc-400 italic mt-1">&ldquo;{lead.pendingEditData?.notes}&rdquo;</div>
+                                      )}
+                                    </div>
+                                    <p className="ems-approval-panel-note">
+                                      Submitted to Supervisor ({currentViewEmp.supervisorName || "Dinithi Perera"}). Lead will update automatically once signed off.
+                                    </p>
+                                  </div>
+                                )}
+
+                                {/* 3. Closed Won Approval Notice */}
+                                {isPendingWon && (
+                                  <div className="ems-lead-approval-panel">
+                                    <div className="ems-approval-panel-header">
+                                      <div className="flex items-center gap-1.5">
+                                        <Clock size={13} className="text-amber-400" />
+                                        <span className="text-xs font-semibold text-white">
+                                          Closed Won Sign-Off Pending
+                                        </span>
+                                      </div>
+                                      <span className="ems-approval-commission-pill">
+                                        10% Commission: {formatLKR(parseDealValueToLKR(lead.dealValue) * 0.10)}
+                                      </span>
+                                    </div>
+                                    <p className="ems-approval-panel-note">
+                                      Submitted to Supervisor ({currentViewEmp.supervisorName || "Dinithi Perera"}). 10% commission will be credited upon supervisor approval.
+                                    </p>
+                                  </div>
+                                )}
+
+                                {/* 4. Complete Won Approved Banner */}
+                                {isWonApproved && (
+                                  <div className="ems-lead-verified-banner">
+                                    <CheckCircle2 size={13} className="text-[#34d399] flex-shrink-0" />
+                                    <span>Complete Won · Approved by {lead.approvedBy || "Dinithi Perera"} · 10% Commission Assigned</span>
+                                  </div>
+                                )}
+
                                 <div className="ems-lead-footer">
                                   <div className="ems-lead-followup">
-                                    <Clock size={12} className="text-[#a0a5a0]" />
+                                    <Clock size={12} className="text-[#a1a1aa]" />
                                     <span>{lead.nextFollowUp}</span>
                                   </div>
 
                                   <div className="ems-stage-control-group">
                                     <label htmlFor={`stage-select-${lead.id}`} className="ems-stage-select-label">
-                                      Stage:
+                                      Stage
                                     </label>
                                     <div className="ems-stage-dropdown-box">
                                       <select
@@ -1567,23 +2854,27 @@ export function EmployeePortal() {
                                         onChange={(e) =>
                                           handleSetLeadStage(lead.id, e.target.value as LeadPipelineItem["stage"])
                                         }
-                                        className={`ems-stage-dropdown-menu ${stageColors[lead.stage] || "stage-blue"}`}
+                                        className={`ems-stage-dropdown-menu ${
+                                          isPendingWon
+                                            ? "stage-pending"
+                                            : stageColors[lead.stage] || "stage-blue"
+                                        }`}
                                         title="Choose stage from dropdown menu"
                                       >
                                         <option value="New Lead">New Lead</option>
                                         <option value="Contacted">Contacted</option>
                                         <option value="Demo Booked">Demo Booked</option>
                                         <option value="Proposal Sent">Proposal Sent</option>
-                                        <option value="Closed Won">Closed Won ✓</option>
+                                        <option value="Closed Won">
+                                          {isSupervisor
+                                            ? "Closed Won ✓"
+                                            : isPendingWon
+                                            ? "Awaiting Supervisor Approval ⏳"
+                                            : "Closed Won (Requires Approval)"}
+                                        </option>
                                       </select>
                                       <ChevronDown size={13} className="ems-dropdown-arrow" />
                                     </div>
-
-                                    {isWon && (
-                                      <span className="ems-won-tag">
-                                        <CheckCircle2 size={13} /> Won
-                                      </span>
-                                    )}
                                   </div>
                                 </div>
                               </div>
@@ -1602,7 +2893,6 @@ export function EmployeePortal() {
                         <div className="ems-checklist-header">
                           <div>
                             <div className="ems-shift-pulse-indicator">
-                              <span className="ems-pulse-dot" />
                               <span className="ems-pulse-text">
                                 LIVE DAY-TO-DAY SHIFT · COLOMBO HQ &amp; REMOTE
                               </span>
@@ -2274,6 +3564,15 @@ export function EmployeePortal() {
 
                                 <button
                                   type="button"
+                                  onClick={() => handleOpenEditProfile(emp)}
+                                  className="ems-action-btn"
+                                  title="Edit Employee Details"
+                                >
+                                  <Edit size={12} /> Edit
+                                </button>
+
+                                <button
+                                  type="button"
                                   onClick={() => handleToggleStatus(emp.id, emp.status)}
                                   className={`ems-action-btn ${emp.status === "active" ? "btn-warn" : "btn-reactivate"}`}
                                   title={emp.status === "active" ? "Suspend Account" : "Activate Account"}
@@ -2296,6 +3595,61 @@ export function EmployeePortal() {
             ───────────────────────────────────────────────────────────── */}
             {activeTab === "attendance" && (
               <div className="ems-attendance-view">
+                {/* Remote Attendance Punch Card */}
+                <div className="ems-card ems-remote-attendance-card">
+                  <div className="ems-remote-punch-header">
+                    <div>
+                      <span className="ems-section-kicker">Remote Attendance Method</span>
+                      <h3 className="text-white text-base font-semibold">Remote Shift Check-In &amp; Check-Out</h3>
+                      <p className="text-xs text-[#a0a5a0] mt-1">
+                        Operating Shift: <strong>09:00 – 18:00 (Colombo Time · UTC+05:30)</strong>. Timestamps are verified and saved into Supabase.
+                      </p>
+                    </div>
+                    <div className="ems-remote-time-badge">
+                      <Clock size={16} className="text-[#ff5a36]" />
+                      <span className="font-mono text-lg font-bold text-white tabular-nums">{liveClock24}</span>
+                      <span className="text-xs text-[#71717a]">24H Live</span>
+                    </div>
+                  </div>
+
+                  <div className="ems-remote-punch-body">
+                    <div className="ems-punch-status-block">
+                      <span className="text-xs text-[#71717a] uppercase font-semibold tracking-wider">Today&apos;s Remote Status</span>
+                      <div className="flex items-center gap-2 mt-1">
+                        <strong className="text-sm text-white">
+                          {!todayAttendance
+                            ? "Not Clocked In Today"
+                            : isCurrentlyClockedIn
+                            ? `Remote Shift Active · In at ${todayAttendance.checkIn}`
+                            : `Remote Shift Completed · In: ${todayAttendance.checkIn} — Out: ${todayAttendance.checkOut}`}
+                        </strong>
+                      </div>
+                    </div>
+
+                    <div className="ems-punch-actions-block">
+                      {!isCurrentlyClockedIn ? (
+                        <button
+                          type="button"
+                          onClick={handleRemoteClockIn}
+                          className="ems-btn-primary ems-punch-action-btn"
+                        >
+                          <LogIn size={15} />
+                          <span>Remote Clock IN ({liveClock24.slice(0, 5)})</span>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={handleRemoteClockOut}
+                          className="ems-btn-secondary ems-punch-action-btn border-[#ff5a36]/40 text-[#ff7a5c] hover:bg-[#ff5a36]/10"
+                        >
+                          <LogOut size={15} />
+                          <span>Remote Clock OUT ({liveClock24.slice(0, 5)})</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
                 <div className="ems-card ems-attendance-header-card">
                   <div>
                     <span className="ems-section-kicker">Operating Hours &amp; Schedule</span>
@@ -2857,7 +4211,7 @@ export function EmployeePortal() {
             <div className="ems-modal-header">
               <div className="ems-modal-title-with-icon">
                 <Edit size={18} className="text-[#ff5a36]" />
-                <h3>Edit B2B Sales Opportunity</h3>
+                <h3>{isSupervisor ? "Edit B2B Sales Opportunity" : "Request Edit: Sales Opportunity"}</h3>
               </div>
               <button
                 type="button"
@@ -2869,6 +4223,14 @@ export function EmployeePortal() {
             </div>
 
             <form onSubmit={handleSaveEditLead} className="ems-modal-form">
+              {!isSupervisor && (
+                <div className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 p-2.5 rounded-md flex items-center gap-2 mb-3">
+                  <ShieldAlert size={15} className="text-amber-400 flex-shrink-0" />
+                  <span>
+                    As an intern, your submitted edits will be dispatched to Supervisor ({currentViewEmp.supervisorName || "Dinithi Perera"}) for approval before taking effect.
+                  </span>
+                </div>
+              )}
               <div className="ems-form-grid-2">
                 <div className="ems-form-group">
                   <label>Client / Company Name *</label>
@@ -2939,7 +4301,9 @@ export function EmployeePortal() {
                     <option value="Contacted">Contacted</option>
                     <option value="Demo Booked">Demo Booked</option>
                     <option value="Proposal Sent">Proposal Sent</option>
-                    <option value="Closed Won">Closed Won (10% Incentive)</option>
+                    <option value="Closed Won">
+                      {isSupervisor ? "Closed Won (Approved 10% Incentive)" : "Closed Won (Requests Supervisor Sign-Off)"}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -2973,7 +4337,133 @@ export function EmployeePortal() {
                   Cancel
                 </button>
                 <button type="submit" className="ems-btn-primary">
-                  Save Changes
+                  {isSupervisor ? "Save Changes" : "Submit Edits for Supervisor Approval"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          MODAL: EDIT EMPLOYEE PROFILE (REALTIME SYNC)
+      ───────────────────────────────────────────────────────────── */}
+      {showEditProfileModal && (
+        <div className="ems-modal-backdrop" onClick={() => setShowEditProfileModal(false)}>
+          <div className="ems-modal-card modal-md" onClick={(e) => e.stopPropagation()}>
+            <div className="ems-modal-header">
+              <div className="ems-modal-title-with-icon">
+                <Edit size={18} className="text-[#ff5a36]" />
+                <h3>Edit Employee Profile Details</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEditProfileModal(false)}
+                className="ems-modal-close"
+              >
+                &times;
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEditProfile} className="ems-modal-form">
+              <div className="ems-form-grid-2">
+                <div className="ems-form-group">
+                  <label>Full Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editProfileName}
+                    onChange={(e) => setEditProfileName(e.target.value)}
+                  />
+                </div>
+                <div className="ems-form-group">
+                  <label>Designation / Role Title *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editProfileDesignation}
+                    onChange={(e) => setEditProfileDesignation(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="ems-form-grid-2">
+                <div className="ems-form-group">
+                  <label>Department</label>
+                  <input
+                    type="text"
+                    value={editProfileDepartment}
+                    onChange={(e) => setEditProfileDepartment(e.target.value)}
+                  />
+                </div>
+                <div className="ems-form-group">
+                  <label>Direct Supervisor(s)</label>
+                  <input
+                    type="text"
+                    value={editProfileSupervisor}
+                    onChange={(e) => setEditProfileSupervisor(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="ems-form-grid-2">
+                <div className="ems-form-group">
+                  <label>Work Location &amp; Hours</label>
+                  <input
+                    type="text"
+                    value={editProfileWorkLocation}
+                    onChange={(e) => setEditProfileWorkLocation(e.target.value)}
+                  />
+                </div>
+                <div className="ems-form-group">
+                  <label>Contact Phone</label>
+                  <input
+                    type="text"
+                    value={editProfilePhone}
+                    onChange={(e) => setEditProfilePhone(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="ems-form-grid-2">
+                <div className="ems-form-group">
+                  <label>Contract Agreement</label>
+                  <input
+                    type="text"
+                    value={editProfileContract}
+                    onChange={(e) => setEditProfileContract(e.target.value)}
+                  />
+                </div>
+                <div className="ems-form-group">
+                  <label>Assigned Corridors / Territory</label>
+                  <input
+                    type="text"
+                    value={editProfileTerritory}
+                    onChange={(e) => setEditProfileTerritory(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="ems-form-group">
+                <label>Operational Focus / Bio</label>
+                <textarea
+                  rows={2}
+                  placeholder="Responsibilities, current mission, or key focus areas..."
+                  value={editProfileBio}
+                  onChange={(e) => setEditProfileBio(e.target.value)}
+                />
+              </div>
+
+              <div className="ems-modal-actions">
+                <button
+                  type="button"
+                  onClick={() => setShowEditProfileModal(false)}
+                  className="ems-btn-secondary"
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="ems-btn-primary">
+                  Save &amp; Sync to Database
                 </button>
               </div>
             </form>
@@ -3181,6 +4671,108 @@ export function EmployeePortal() {
                 <button type="submit" className="ems-btn-primary">
                   Sign Off &amp; Submit EOD
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          MODAL: SUPERVISOR RESET INTERN DATA
+      ───────────────────────────────────────────────────────────── */}
+      {showResetInternModal && (
+        <div className="ems-modal-backdrop" onClick={() => setShowResetInternModal(false)}>
+          <div className="ems-modal-card modal-md" onClick={(e) => e.stopPropagation()}>
+            <div className="ems-modal-header">
+              <div className="ems-modal-title-with-icon">
+                <RotateCcw size={18} className="text-[#ff5a36]" />
+                <h3>Supervisor Control: Reset Intern Sprint Data</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowResetInternModal(false)}
+                className="ems-modal-close"
+              >
+                &times;
+              </button>
+            </div>
+
+            <form onSubmit={handleSupervisorResetSubmit} className="ems-modal-form">
+              <p className="text-xs text-[#a0a5a0] mb-3 leading-relaxed">
+                As supervisor, you can reset sprint metrics, sales leads, or daily tasks for{" "}
+                <strong className="text-white">{currentViewEmp.name}</strong> ({currentViewEmp.employeeId}) to prepare for a new month or sprint cycle.
+              </p>
+
+              <div className="ems-form-group">
+                <label className="flex items-center gap-2.5 cursor-pointer text-sm font-medium text-white">
+                  <input
+                    type="checkbox"
+                    checked={resetOptionKpis}
+                    onChange={(e) => setResetOptionKpis(e.target.checked)}
+                    className="rounded border-zinc-700 bg-zinc-900 text-[#ff5a36] focus:ring-0"
+                  />
+                  <span>Reset Monthly KPI Metrics (Leads Logged &amp; Demos Scheduled to 0)</span>
+                </label>
+                <small className="text-[#71717a] text-xs block pl-6">
+                  Sets Monthly Leads Logged to 0 and Discovery Demos Scheduled to 0.
+                </small>
+              </div>
+
+              <div className="ems-form-group">
+                <label className="flex items-center gap-2.5 cursor-pointer text-sm font-medium text-white">
+                  <input
+                    type="checkbox"
+                    checked={resetOptionPipeline}
+                    onChange={(e) => setResetOptionPipeline(e.target.checked)}
+                    className="rounded border-zinc-700 bg-zinc-900 text-[#ff5a36] focus:ring-0"
+                  />
+                  <span>Reset B2B Sales Pipeline (Set Active Pipeline Value &amp; Incentive to LKR 0)</span>
+                </label>
+                <small className="text-[#71717a] text-xs block pl-6">
+                  Clears all current pipeline leads, resetting pipeline value and incentive commissions to 0.
+                </small>
+              </div>
+
+              <div className="ems-form-group">
+                <label className="flex items-center gap-2.5 cursor-pointer text-sm font-medium text-white">
+                  <input
+                    type="checkbox"
+                    checked={resetOptionChecklist}
+                    onChange={(e) => setResetOptionChecklist(e.target.checked)}
+                    className="rounded border-zinc-700 bg-zinc-900 text-[#ff5a36] focus:ring-0"
+                  />
+                  <span>Reset Daily Outreach Tasks Checklist</span>
+                </label>
+                <small className="text-[#71717a] text-xs block pl-6">
+                  Marks all daily tasks as uncompleted for a fresh shift.
+                </small>
+              </div>
+
+              <div className="ems-modal-actions mt-4 flex justify-between items-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setResetOptionKpis(true);
+                    setResetOptionPipeline(true);
+                    setResetOptionChecklist(true);
+                    handleSupervisorResetSubmit({ preventDefault: () => {} } as any);
+                  }}
+                  className="ems-btn-secondary border-red-500/40 text-red-400 hover:bg-red-500/10"
+                >
+                  Full Reset (All to 0)
+                </button>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowResetInternModal(false)}
+                    className="ems-btn-secondary"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className="ems-btn-primary">
+                    Apply Reset
+                  </button>
+                </div>
               </div>
             </form>
           </div>

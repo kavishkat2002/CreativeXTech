@@ -18706,10 +18706,7 @@ article#retail-distribution {
 }
 
 .ems-status-live-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10B981;
+  display: none !important;
 }
 
 .ems-session-pill {
@@ -19027,6 +19024,13 @@ article#retail-distribution {
   border-bottom: 1px solid #1F221F;
 }
 
+.ems-dashboard-header-compact {
+  justify-content: flex-end;
+  padding-bottom: 0;
+  border-bottom: none;
+  margin-bottom: -8px;
+}
+
 .ems-header-title-row {
   display: flex;
   align-items: center;
@@ -19073,17 +19077,11 @@ article#retail-distribution {
 }
 
 .ems-supabase-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #3b82f6;
-  box-shadow: 0 0 8px #3b82f6;
+  display: none !important;
 }
 
 .ems-supabase-dot.dot-pulsing {
-  animation: pulse-emerald 1s infinite;
-  background: #ff5a36;
-  box-shadow: 0 0 8px #ff5a36;
+  display: none !important;
 }
 
 .ems-header-left p {
@@ -19200,17 +19198,11 @@ article#retail-distribution {
 }
 
 .ems-status-indicator {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid #0d100d;
+  display: none !important;
 }
 
 .ems-status-indicator.status-active {
-  background: #10B981;
+  display: none !important;
 }
 
 .ems-profile-hero-meta {
@@ -19259,12 +19251,29 @@ article#retail-distribution {
 }
 
 .ems-status-tag::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #10B981;
+  display: none !important;
+}
+
+.ems-profile-edit-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #181d18;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 120ms ease;
+  margin-left: 6px;
+}
+
+.ems-profile-edit-trigger:hover {
+  background: #232a23;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .ems-designation-line {
@@ -20254,6 +20263,36 @@ article#retail-distribution {
   min-width: 0;
 }
 
+.ems-card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 6px;
+}
+
+.ems-card-reset-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #71717a;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 120ms ease;
+  line-height: 1;
+}
+
+.ems-card-reset-btn:hover {
+  background: rgba(255, 90, 54, 0.12);
+  border-color: rgba(255, 90, 54, 0.35);
+  color: #ff7a5c;
+}
+
 .ems-stat-label {
   font-size: 11px;
   text-transform: uppercase;
@@ -20358,69 +20397,71 @@ article#retail-distribution {
   color: #FFFFFF;
 }
 
-/* 3. Sub-Nav */
+/* 3. Sub-Nav (Clean Executive Matte Tabs with Touch Scroll) */
 .ems-bdi-subnav {
   display: flex;
-  gap: 6px;
-  border-bottom: 1px solid #222722;
-  padding-bottom: 8px;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 10px;
   overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ems-bdi-subnav::-webkit-scrollbar {
+  display: none;
 }
 
 .ems-subnav-btn {
   background: transparent;
   border: 1px solid transparent;
-  color: rgba(255, 255, 255, 0.6);
+  color: #a1a1aa;
   padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 500;
   border-radius: 6px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  transition: all 120ms ease;
+  transition: all 140ms ease;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .ems-subnav-btn:hover {
-  color: #FFFFFF;
+  color: #f4f4f5;
   background: rgba(255, 255, 255, 0.04);
 }
 
 .ems-subnav-btn.active {
-  color: #FFFFFF;
+  color: #ffffff;
   background: #181d18;
-  border-color: #2e362e;
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .ems-count-pill {
-  background: #222822;
-  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.06);
+  color: #d4d4d8;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   padding: 2px 7px;
   border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .ems-badge-hot {
-  background: rgba(255, 90, 54, 0.15);
-  color: #ff5a36;
-  font-size: 10.5px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 90, 54, 0.3);
+  display: none;
 }
 
 /* 4. Containers */
 .ems-pipeline-container,
 .ems-checklist-container,
 .ems-playbook-container {
-  background: #111411;
-  border: 1px solid #232823;
+  background: #101310;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  padding: 24px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -20436,46 +20477,77 @@ article#retail-distribution {
   flex-wrap: wrap;
 }
 
+.ems-pipeline-header-info {
+  flex: 1;
+  min-width: 260px;
+}
+
+.ems-pipeline-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
 .ems-subview-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f4f4f5;
   margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
 }
 
 .ems-subview-desc {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 12.5px;
+  color: #a1a1aa;
   margin: 0;
   max-width: 680px;
   line-height: 1.5;
 }
 
-/* 5. Pipeline Grid & Cards */
+/* 5. Pipeline Grid & Cards (Executive Matte Design) */
 .ems-pipeline-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
   gap: 14px;
 }
 
 .ems-lead-card {
-  background: #151915;
-  border: 1px solid #262c26;
-  border-radius: 10px;
+  background: #141714;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: transform 120ms ease, border-color 120ms ease;
+  transition: border-color 140ms ease, background 140ms ease;
+  box-shadow: none !important;
 }
 
 .ems-lead-card:hover {
-  border-color: #384238;
+  border-color: rgba(255, 255, 255, 0.16);
+  background: #161a16;
 }
 
 .ems-lead-card.lead-card-won {
-  border-color: rgba(16, 185, 129, 0.45);
-  background: linear-gradient(180deg, #151915 0%, rgba(16, 185, 129, 0.06) 100%);
+  border-color: rgba(52, 211, 153, 0.35);
+  background: #121612;
+}
+
+.ems-lead-card.lead-card-pending-approval {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: #151612;
+}
+
+.ems-lead-card.lead-card-pending-edit {
+  border-color: rgba(168, 85, 247, 0.35);
+  background: #151318;
+}
+
+.ems-lead-card.lead-card-pending-delete {
+  border-color: rgba(239, 68, 68, 0.35);
+  background: #171212;
 }
 
 .ems-lead-card-top {
@@ -20485,22 +20557,31 @@ article#retail-distribution {
   gap: 10px;
 }
 
+.ems-lead-main-info {
+  flex: 1;
+  min-width: 0;
+}
+
 .ems-lead-client {
   font-size: 15px;
-  font-weight: 700;
-  color: #FFFFFF;
+  font-weight: 600;
+  color: #f4f4f5;
   margin: 0;
+  letter-spacing: -0.01em;
+  word-break: break-word;
 }
 
 .ems-lead-contact {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.55);
+  color: #a1a1aa;
+  display: block;
+  margin-top: 2px;
 }
 
 .ems-lead-top-actions-wrapper {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
@@ -20511,11 +20592,12 @@ article#retail-distribution {
 }
 
 .ems-lead-btn-action {
-  background: #181d18;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.55);
-  border-radius: 4px;
-  padding: 4px 6px;
+  color: #a1a1aa;
+  border-radius: 5px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -20525,19 +20607,20 @@ article#retail-distribution {
 
 .ems-lead-btn-action:hover {
   color: #ffffff;
-  background: #232a23;
-  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .ems-lead-btn-action.btn-danger:hover {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.35);
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
 }
 
+/* Stage Badges: Matte, Non-Neon Styling */
 .ems-stage-badge {
-  font-size: 10.5px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 600;
   padding: 3px 8px;
   border-radius: 4px;
   text-transform: uppercase;
@@ -20546,39 +20629,223 @@ article#retail-distribution {
 }
 
 .stage-blue {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: rgba(59, 130, 246, 0.1);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.22);
 }
 
 .stage-purple {
-  background: rgba(168, 85, 247, 0.15);
-  color: #c084fc;
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: rgba(168, 85, 247, 0.1);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.22);
 }
 
 .stage-orange {
-  background: rgba(255, 90, 54, 0.15);
-  color: #ff5a36;
-  border: 1px solid rgba(255, 90, 54, 0.3);
+  background: rgba(249, 115, 22, 0.1);
+  color: #fdba74;
+  border: 1px solid rgba(249, 115, 22, 0.22);
 }
 
 .stage-amber {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.1);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.22);
 }
 
 .stage-emerald {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(34, 197, 94, 0.1);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.25);
 }
 
+.stage-pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.stage-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.ems-approval-callout-banner {
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.ems-badge-pending-count {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.15);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.ems-lead-approval-panel {
+  background: #181b18;
+  border: 1px dashed rgba(245, 158, 11, 0.3);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ems-lead-approval-panel.panel-danger {
+  background: #1a1515;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.ems-lead-approval-panel.panel-edit {
+  background: #17151a;
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.ems-approval-danger-pill {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.ems-approval-edit-pill {
+  font-size: 11px;
+  font-weight: 600;
+  color: #d8b4fe;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.ems-btn-danger-approve {
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 120ms ease;
+}
+
+.ems-btn-danger-approve:hover {
+  background: #b91c1c;
+}
+
+.ems-pending-edit-diff {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin: 2px 0;
+}
+
+.ems-approval-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ems-approval-commission-pill {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.ems-approval-panel-note {
+  font-size: 11.5px;
+  color: #a1a1aa;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.ems-approval-action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.ems-btn-approve-deal {
+  background: #22c55e;
+  color: #0b0d0b;
+  font-size: 11.5px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 120ms ease;
+}
+
+.ems-btn-approve-deal:hover {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.ems-btn-reject-deal {
+  background: rgba(255, 255, 255, 0.04);
+  color: #d4d4d8;
+  font-size: 11.5px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 120ms ease;
+}
+
+.ems-btn-reject-deal:hover {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.ems-intern-waiting-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.08);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+/* Metadata Chips & Value */
 .ems-lead-meta-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -20587,41 +20854,56 @@ article#retail-distribution {
   align-items: center;
   gap: 4px;
   font-size: 11.5px;
-  padding: 3px 8px;
+  padding: 3px 7px;
   border-radius: 4px;
-  background: #1b201b;
-  color: rgba(255, 255, 255, 0.75);
-  border: 1px solid #293129;
+  background: #1a1e1a;
+  color: #d4d4d8;
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .ems-lead-value-badge {
   margin-left: auto;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #10B981;
-  background: rgba(16, 185, 129, 0.1);
+  font-size: 12px;
+  font-weight: 600;
+  color: #f4f4f5;
+  background: #1b201b;
   padding: 3px 8px;
   border-radius: 4px;
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: ui-monospace, SFMono-Regular, monospace;
 }
 
 .ems-lead-notes {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.72);
+  color: #d4d4d8;
   line-height: 1.45;
   margin: 0;
   background: #111411;
-  padding: 10px 12px;
+  padding: 9px 11px;
   border-radius: 6px;
-  border: 1px solid #1f251f;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Verified Complete Won Banner */
+.ems-lead-verified-banner {
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  color: #86efac;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* Footer & Controls */
 .ems-lead-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  border-top: 1px solid #202620;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   padding-top: 10px;
   margin-top: auto;
 }
@@ -20631,22 +20913,22 @@ article#retail-distribution {
   align-items: center;
   gap: 6px;
   font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.55);
+  color: #a1a1aa;
 }
 
 .ems-stage-control-group {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   margin-left: auto;
 }
 
 .ems-stage-select-label {
   font-size: 11px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  color: #71717a;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 .ems-stage-dropdown-box {
@@ -20659,65 +20941,100 @@ article#retail-distribution {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  font-size: 11.5px;
-  font-weight: 700;
-  padding: 5px 24px 5px 9px;
-  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 22px 5px 8px;
+  border-radius: 5px;
   cursor: pointer;
   outline: none;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   transition: all 120ms ease;
   line-height: 1.2;
+  box-shadow: none !important;
 }
 
 .ems-stage-dropdown-menu option {
   background: #111411;
-  color: #FFFFFF;
-  font-weight: 600;
+  color: #ffffff;
+  font-weight: 500;
 }
 
 .ems-stage-dropdown-menu:hover,
 .ems-stage-dropdown-menu:focus {
-  filter: brightness(1.15);
-  box-shadow: 0 0 10px rgba(255, 90, 54, 0.25);
+  filter: brightness(1.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: none !important;
 }
 
 .ems-dropdown-arrow {
   position: absolute;
-  right: 7px;
+  right: 6px;
   pointer-events: none;
   color: currentColor;
-  opacity: 0.75;
-}
-
-.ems-advance-btn {
-  background: rgba(255, 90, 54, 0.12);
-  border: 1px solid rgba(255, 90, 54, 0.3);
-  color: #ff5a36;
-  font-size: 11.5px;
-  font-weight: 700;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 120ms ease;
-}
-
-.ems-advance-btn:hover {
-  background: #ff5a36;
-  color: #FFFFFF;
+  opacity: 0.7;
 }
 
 .ems-won-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: #10B981;
+  display: none !important;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 640px) {
+  .ems-pipeline-container {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .ems-pipeline-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .ems-pipeline-header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .ems-pipeline-header-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ems-pipeline-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ems-lead-card {
+    padding: 14px;
+  }
+
+  .ems-lead-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .ems-stage-control-group {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+
+  .ems-stage-dropdown-box {
+    flex: 1;
+    max-width: none;
+  }
+
+  .ems-stage-dropdown-menu {
+    width: 100%;
+  }
+
+  .ems-lead-value-badge {
+    margin-left: 0;
+  }
 }
 
 /* 6. Enhanced Day-to-Day Workflow & Checklist Hub */
@@ -20729,12 +21046,7 @@ article#retail-distribution {
 }
 
 .ems-pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 10px #10B981;
-  animation: pulse-emerald 2s infinite ease-in-out;
+  display: none !important;
 }
 
 @keyframes pulse-emerald {
@@ -21299,6 +21611,374 @@ article#retail-distribution {
   gap: 10px;
   margin-bottom: 10px;
 }
+
+/* ── 24-Hour Live Operational Clock & Attendance Strip ── */
+.ems-clock24-strip {
+  background: #0f120f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.ems-clock24-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ems-clock24-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 90, 54, 0.08);
+  border: 1px solid rgba(255, 90, 54, 0.22);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ff7a5c;
+  text-transform: uppercase;
+}
+
+.ems-clock24-display {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ems-clock24-time {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  line-height: 1;
+}
+
+.ems-clock24-zone {
+  font-size: 11px;
+  font-weight: 600;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ems-clock24-sep {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ems-clock24-date {
+  font-size: 12.5px;
+  color: #a1a1aa;
+}
+
+.ems-clock24-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ems-clock24-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #d4d4d8;
+  padding: 5px 11px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+}
+
+.ems-live-pulse-dot {
+  display: none !important;
+}
+
+.ems-live-pulse-dot.dot-online,
+.ems-live-pulse-dot.dot-idle {
+  display: none !important;
+}
+
+.ems-clock-in-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e4e4e7;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.ems-clock-in-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.ems-clock-in-btn.active {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #10b981;
+}
+
+/* ── Remote Attendance Punch Components ── */
+.ems-remote-punch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 120ms ease;
+  line-height: 1;
+}
+
+.ems-remote-punch-btn.clock-in {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #10b981;
+}
+
+.ems-remote-punch-btn.clock-in:hover {
+  background: rgba(16, 185, 129, 0.22);
+  border-color: rgba(16, 185, 129, 0.6);
+  color: #34d399;
+}
+
+.ems-remote-punch-btn.clock-out {
+  background: rgba(255, 90, 54, 0.12);
+  border: 1px solid rgba(255, 90, 54, 0.35);
+  color: #ff7a5c;
+}
+
+.ems-remote-punch-btn.clock-out:hover {
+  background: rgba(255, 90, 54, 0.22);
+  border-color: rgba(255, 90, 54, 0.6);
+  color: #ff9075;
+}
+
+.ems-remote-punch-btn.reclock {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a1a1aa;
+}
+
+.ems-remote-punch-btn.reclock:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.ems-shift-badge-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 4px 9px;
+  border-radius: 5px;
+}
+
+.ems-shift-badge-completed {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #a1a1aa;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 9px;
+  border-radius: 5px;
+}
+
+.ems-remote-attendance-card {
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  background: #0f120f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.ems-remote-punch-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ems-remote-time-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+.ems-remote-punch-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 16px;
+  flex-wrap: wrap;
+}
+
+.ems-punch-status-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ems-punch-actions-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ems-punch-action-btn {
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+}
+
+/* ── Supervisor Management Workspace & Approvals Center ── */
+.ems-supervisor-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ems-supervisor-approvals-section {
+  background: #111411;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.ems-approvals-empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  margin-top: 14px;
+}
+
+.ems-supervisor-approvals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.ems-supervisor-approval-card {
+  background: #151915;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 140ms ease;
+}
+
+.ems-supervisor-approval-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.ems-approval-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ems-sub-emp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #d4d4d8;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.ems-approval-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ems-approval-detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ems-approval-incentive-box {
+  background: rgba(16, 185, 129, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-top: 4px;
+}
+
+.ems-supervised-team-card {
+  background: #111411;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.ems-intern-card-summary {
+  background: #151915;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-top: 12px;
+}
+
+@media (max-width: 640px) {
+  .ems-supervisor-approvals-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
 
