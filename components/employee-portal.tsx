@@ -1816,7 +1816,7 @@ export function EmployeePortal() {
               <span className="ems-brand-tag">CreativeX EMS</span>
             </Link>
             <span className="ems-bar-divider" />
-            <span className="ems-system-title">Enterprise Employee Management &amp; Supervisor KPI System</span>
+            <span className="ems-system-title">Enterprise Employee Management System</span>
           </div>
 
           <div className="ems-top-controls">
@@ -1852,8 +1852,14 @@ export function EmployeePortal() {
           <div className="ems-login-wrapper">
             <div className="ems-login-card">
               <div className="ems-login-head">
-                <div className="ems-badge-icon">
-                  <ShieldCheck size={28} className="text-[#ff5a36]" />
+                <div className="ems-login-brand">
+                  <img
+                    src="/brand/creativex-logo-light.png"
+                    alt="CreativeX Technology"
+                    width={220}
+                    height={58}
+                    className="ems-login-logo"
+                  />
                 </div>
                 <h2>CreativeX Employee Portal</h2>
                 <p>
@@ -1876,7 +1882,7 @@ export function EmployeePortal() {
                     id="ems-email"
                     type="email"
                     required
-                    placeholder="e.g. tkavishka101@gmail.com or intern.bd@creativexlab.online"
+                    placeholder="e.g. intern.bd@creativexlab.online"
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
                   />
@@ -1907,11 +1913,12 @@ export function EmployeePortal() {
                 </div>
 
                 <div className="ems-demo-buttons-grid">
-                  {/* Master Admin Button */}
+                  {/* Master Admin Button - Click Disabled */}
                   <button
                     type="button"
-                    className="ems-demo-account-btn highlight-admin"
-                    onClick={() => handleQuickLogin("tkavishka101@gmail.com", "@Kavishka2002")}
+                    disabled
+                    aria-disabled="true"
+                    className="ems-demo-account-btn highlight-admin ems-btn-disabled"
                   >
                     <div className="ems-acc-role">
                       <span className="badge-admin">MASTER ADMIN</span>
