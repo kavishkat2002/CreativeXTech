@@ -442,7 +442,7 @@ export default function ProjectEditorPage() {
             <textarea value={formData.opportunityCopy} onChange={e => setFormData({ ...formData, opportunityCopy: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", minHeight: "80px", resize: "vertical" }} />
           </div>
           <div>
-            <label style={{ display: "block", fontSize: "13px", fontWeight: "500", marginBottom: "8px", color: "#666" }}>Concept Status (Optional Side Note)</label>
+            <label style={{ display: "block", fontSize: "13px", fontWeight: "500", marginBottom: "8px", color: "#666" }}>Platform Status (Optional Side Note)</label>
             <textarea value={formData.conceptStatus} onChange={e => setFormData({ ...formData, conceptStatus: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px", minHeight: "60px", resize: "vertical" }} />
           </div>
         </div>

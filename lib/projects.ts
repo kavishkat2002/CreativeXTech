@@ -1,4 +1,4 @@
-import { Bot, Building2, Rocket, Ship, Store, HelpCircle, Car, User } from "lucide-react";
+import { Bot, Building2, Rocket, Ship, Store, HelpCircle, Car, User, Activity } from "lucide-react";
 import { supabaseSelect } from "./supabase";
 
 export interface ProjectWorkflowStep {
@@ -314,10 +314,146 @@ export const staticProjects = [
     },
     buildVersionTitle: "Build Your Personal Brand & Portfolio",
   },
+  {
+    slug: "herbcey-store-whatsapp-assistant",
+    number: "09",
+    category: "AI Automation & E-Commerce",
+    title: "Herbcey — Store WhatsApp Assistant",
+    headline: "Live customer inquiries, orders, and WhatsApp mobile app sync.",
+    summary: "A production-grade conversational commerce engine and WhatsApp store assistant for Herbcey—integrating Meta Cloud API, real-time product consultations, automated order confirmations, and smart WhatsApp coexistence with 5-minute human takeover cooldowns.",
+    stage: "Production System · Live E-Commerce AI",
+    filter: "AI agents",
+    tags: ["WhatsApp AI", "Conversational Commerce", "Meta Cloud API", "Order Automation", "E-Commerce"],
+    hasCaseStudy: true,
+    published: true,
+    is_published: true,
+    caseStudyHref: "/projects/herbcey-store-whatsapp-assistant",
+    system: "Store WhatsApp Assistant & Coexistence Engine",
+    capabilities: [
+      "Meta Cloud API verified webhook integration",
+      "Conversational product catalog consultations",
+      "Automated order confirmation & delivery collection",
+      "WhatsApp coexistence with Echo Active mobile sync",
+      "5-minute human takeover cooldown to prevent bot collision",
+      "Meta Ads Click-to-WhatsApp attribution tracking",
+    ],
+    integrations: [
+      "Meta WhatsApp Cloud API & Webhooks",
+      "WhatsApp Business Mobile App (Echo Coexistence)",
+      "E-Commerce Product Catalog & Inventory",
+      "Meta Ads (Facebook & Instagram Click-to-WhatsApp)",
+      "Order Management & Courier Dispatch System",
+    ],
+    outcomes: [
+      "Sub-second automated response to incoming buyer inquiries",
+      "Zero bot collision via verified mobile phone app sync",
+      "Automated order details capture reducing checkout friction",
+      "Full transparency across inquiries, orders, and ad attribution",
+    ],
+    cta: "Explore Herbcey Assistant",
+    href: "/projects/herbcey-store-whatsapp-assistant",
+    media_url: "/images/herbcey-whatsapp-assistant.png",
+    opportunityTitle: "Scaling Conversational Commerce Without Disconnecting Frontline Staff",
+    opportunityCopy: "Direct-to-consumer herbal and wellness brands receive hundreds of WhatsApp inquiries daily from Click-to-WhatsApp ads, website visitors, and returning buyers. Handling these manually leads to delayed responses, missed orders, and agent burnout.\n\nTraditional bots fail because they hijack the business number, locking out human sales reps from their WhatsApp mobile apps. Herbcey Store WhatsApp Assistant solves this through production-grade WhatsApp Coexistence: an AI assistant that handles catalog inquiries and order confirmations 24/7, while syncing with the store owner's mobile app (Echo Active) and automatically entering a 5-minute cooldown whenever a human replies.",
+    conceptStatus: "Production System · Live Platform",
+    workflow: [
+      { number: "01", title: "Inbound Thread Ingestion", copy: "Capture buyer inquiries from Meta Ads, website QR codes, and direct customer WhatsApp messages via verified Meta Cloud API webhooks." },
+      { number: "02", title: "Product Consultation & SKU Recommendation", copy: "Provide natural language guidance on herbal formulas, ingredients, and usage, suggesting exact products from the live catalog." },
+      { number: "03", title: "Automated Order Confirmation", copy: "Collect customer shipping address, phone number, and preferred payment method, generating a structured order record in the dashboard." },
+      { number: "04", title: "Echo Active Mobile Sync", copy: "Mirror all messages to the store team's WhatsApp mobile app, allowing human staff to inspect threads at any time." },
+      { number: "05", title: "Human Takeover Cooldown", copy: "When human staff reply on their mobile phone, the assistant instantly enters a 5-minute cooldown, ensuring a seamless, respectful handoff." },
+    ],
+    systemDirectionTitle: "Engineered for WhatsApp Coexistence & Commerce Reliability",
+    systemDirectionCopy: "The Herbcey dashboard provides complete operational visibility. Store managers can monitor live customer threads, filter inquiries by category (All, Ordered, Inquiries, Meta Ads), inspect webhook health, and configure coexistence rules without writing code.\n\nThe system runs on a resilient event-driven architecture, validating Meta webhook signatures, maintaining conversational state in PostgreSQL, and orchestrating natural language responses tailored to Sri Lankan and international e-commerce buyer habits.",
+    systemConsole: {
+      status: "STORE DASHBOARD / LIVE COEXISTENCE",
+      title: "Herbcey WhatsApp Commerce Engine",
+      bullets: [
+        "Verified Meta Cloud API Webhook (Sub-second latency)",
+        "Mobile Phone App Sync: Echo Active",
+        "Human Takeover Cooldown: 5 Minutes",
+        "Categorized Inbox: All, Ordered, Inquiries, Meta Ads",
+        "Conversational SKU and catalog discovery",
+        "Automated shipping address parsing and order confirmation",
+        "Meta Ads attribution and Click-to-WhatsApp tracking",
+        "Real-time store dashboard and conversation archive",
+      ],
+      action: "View Live Case Study",
+    },
+    buildVersionTitle: "Deploy Your Store WhatsApp Assistant",
+  },
+  {
+    slug: "meddoc-healthcare",
+    number: "10",
+    category: "Healthcare & Clinical Systems",
+    title: "MedDoc Healthcare — Patient & Clinical Portal",
+    headline: "Early detection, unified clinical services, and intelligent doctor appointment scheduling.",
+    summary: "An integrated healthcare and patient portal providing unified appointment booking across specialties, AI-assisted health triage (MedMind eCare), electronic health passports (MedDoc ePass), eAyurveda, and connected hospital, pharmacy, and diagnostic networks.",
+    stage: "Production Platform · Healthcare Ecosystem",
+    filter: "Product",
+    tags: ["HealthTech", "Patient Portal", "Telemedicine", "Appointment Booking", "Clinical AI"],
+    hasCaseStudy: true,
+    published: true,
+    is_published: true,
+    caseStudyHref: "/projects/meddoc-healthcare",
+    system: "Integrated Patient & Clinical Portal",
+    capabilities: [
+      "Multi-specialty doctor and hospital appointment scheduling",
+      "AI-guided diagnostic and triage assistance (MedMind eCare)",
+      "Digital health passport and identity (MedDoc ePass)",
+      "Holistic eAyurveda and wellness consultations",
+      "Connected eHospital, ePharmacy, and eDiagnostics networks",
+      "Medical images, lab reports, and health timeline tracking",
+    ],
+    integrations: [
+      "Hospital Information Management Systems (HIMS)",
+      "DICOM Medical Imaging & Cloud PACS repositories",
+      "SMS & WhatsApp real-time appointment confirmations",
+      "Electronic Prescription & Pharmacy fulfillment APIs",
+    ],
+    outcomes: [
+      "Instant, verified doctor and clinic appointment confirmations",
+      "Centralized patient health records and diagnostic image access",
+      "Seamless patient navigation between modern medical and Ayurvedic care",
+      "Reduced front-desk hospital congestion through digital self-service",
+    ],
+    cta: "Explore MedDoc Healthcare",
+    href: "/projects/meddoc-healthcare",
+    media_url: "/images/meddoc-healthcare.jpg",
+    opportunityTitle: "Unifying Fragmented Healthcare & Patient Appointment Journeys",
+    opportunityCopy: "Patients navigating outpatient care frequently encounter fragmented booking processes, dispersed physical paper reports, and disconnected specialist silos.\n\nMedDoc Healthcare solves this with a unified digital patient portal. From quick-access multi-specialty appointment scheduling (MedMind eCare, ePass, eAyurveda, eHospital, eHomeCare, ePharmacy, eDiagnostics) to cloud-archived medical imaging and longitudinal health timelines, MedDoc makes early detection and continuous wellness accessible in one intuitive interface.",
+    workflow: [
+      { number: "01", title: "Select Service & Specialty", copy: "Choose from Quick Access modules including MedMind eCare, eAyurveda, eHospital, eDental, and specialist clinics." },
+      { number: "02", title: "Doctor & Hospital Discovery", copy: "Filter verified specialists by doctor name, medical specialization, hospital branch, and real-time slot availability." },
+      { number: "03", title: "Instant Booking & E-Pass", copy: "Secure appointment slots with instant digital confirmation, calendar sync, and QR-enabled MedDoc ePass generation." },
+      { number: "04", title: "Consultation & Clinical Notes", copy: "Attend in-person or telemedicine consultations with complete physician access to past health timelines and reports." },
+      { number: "05", title: "Digital Prescription & Diagnostics", copy: "Receive electronic prescriptions directly routed to partner ePharmacies and lab test bookings via eDiagnostics." },
+    ],
+    systemDirectionTitle: "Engineered for Clinical Precision & Patient Clarity",
+    systemDirectionCopy: "The MedDoc interface emphasizes clarity, speed, and trust. Clean module cards and rapid search inputs allow patients to locate specialists within seconds, while high-availability cloud architecture ensures secure, compliant handling of sensitive electronic health records and diagnostic imaging.",
+    systemConsole: {
+      status: "PATIENT PORTAL / ONLINE",
+      title: "MedDoc Healthcare Operations Console",
+      bullets: [
+        "Multi-specialty appointment scheduling engine",
+        "MedMind eCare diagnostic and triage copilot",
+        "MedDoc ePass digital patient identity and verification",
+        "Integrated eAyurveda, eDental, and eNutritionist tracks",
+        "Cloud-native medical imaging and laboratory report storage",
+        "Real-time SMS and WhatsApp appointment reminders",
+        "Connected eHospital, ePharmacy, and eDiagnostics fulfillment",
+        "Patient health timeline and longitudinal clinical history",
+      ],
+      action: "Explore MedDoc Platform",
+    },
+    buildVersionTitle: "Deploy Your Healthcare Portal",
+  },
 ];
 
 const iconMap: Record<string, any> = {
   "alexa-business-agent": Bot,
+  "herbcey-store-whatsapp-assistant": Bot,
+  "meddoc-healthcare": Activity,
   "export-control-tower": Ship,
   "smart-facility-hub": Building2,
   "retail-intelligence": Store,
@@ -338,18 +474,28 @@ export const DEFAULT_EXCLUDED_PROJECT_SLUGS = [
   "kavishka-thilakarathna-portfolio",
   "personal-portfolio",
   "personal-branding",
+  "meddoc-health-care-platform",
+  "meddoc-health-care",
 ];
 
-export function isExplicitlyHiddenProject(project?: { slug?: string; title?: string; headline?: string } | null): boolean {
+export function isExplicitlyHiddenProject(project?: { slug?: string; title?: string; headline?: string; summary?: string } | null): boolean {
   if (!project) return false;
   const slugNorm = (project.slug || "").toLowerCase().trim();
   const titleNorm = (project.title || "").toLowerCase().trim();
   const headlineNorm = (project.headline || "").toLowerCase().trim();
+  const summaryNorm = (project.summary || "").toLowerCase().trim();
+
+  // Explicitly allow the new MedDoc Healthcare portal project
+  if (slugNorm === "meddoc-healthcare") return false;
 
   if (DEFAULT_EXCLUDED_PROJECT_SLUGS.includes(slugNorm)) return true;
   if (slugNorm.includes("ai-engineer") || slugNorm.includes("kavishka")) return true;
   if (titleNorm.includes("ai engineer personal portfolio") || titleNorm.includes("kavishka thilakarathna")) return true;
   if (headlineNorm.includes("ai engineer personal portfolio")) return true;
+
+  // Filter out the old pilot MedDoc project
+  if (titleNorm === "meddoc - health care platform" || titleNorm === "meddoc - health care") return true;
+  if (summaryNorm.includes("the pilot brings together symptom triage")) return true;
 
   return false;
 }

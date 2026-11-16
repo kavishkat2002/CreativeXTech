@@ -8,7 +8,7 @@ import Image from "next/image";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getSupabaseClient } from "@/lib/supabase-client";
-import { staticProjects, type Project, isExplicitlyHiddenProject } from "@/lib/projects";
+import { staticProjects, type Project, isExplicitlyHiddenProject, getProjectIcon } from "@/lib/projects";
 
 export function ProjectDetailClient({ initialProject }: { initialProject?: Project | null }) {
   const params = useParams();
@@ -112,6 +112,7 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
   const capabilities = project.capabilities || [];
   const outcomes = project.outcomes || [];
   const tags = project.tags || [];
+  const Icon = getProjectIcon(project.slug);
 
   const baseUrl = "https://creativexlab.online";
 
@@ -159,15 +160,7 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
             <Link className="case-study-back" href="/projects"><ArrowLeft /> All projects</Link>
             <div className="case-study-hero-layout">
               <div className="case-study-mark" aria-hidden="true">
-                {project.media_url && /\.(mp4|webm)/i.test(project.media_url) ? (
-                  <video src={project.media_url} autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
-                ) : project.media_url ? (
-                  <div style={{ position: "relative", width: "100%", height: "100%" }}>
-                    <img src={project.media_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
-                  </div>
-                ) : (
-                  <span style={{ fontSize: 32, fontWeight: 700, fontFamily: "var(--font-mono)" }}>{project.number}</span>
-                )}
+                <Icon />
                 <span>{project.number} / CX</span>
               </div>
               <div>
@@ -184,6 +177,36 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
           </div>
         </section>
 
+        {/* MEDIA SHOWCASE */}
+        {project.media_url && (
+          <section style={{ padding: "48px 0", background: "#0c0f0c", borderTop: "1px solid #1a1f1a", borderBottom: "1px solid #1a1f1a" }}>
+            <div className="site-width">
+              <div style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #242b24", background: "#111411", boxShadow: "0 20px 40px rgba(0,0,0,0.6)" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: "#151915", borderBottom: "1px solid #242b24" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5a36" }} />
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#eab308" }} />
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#22c55e" }} />
+                    <span style={{ fontSize: 12, color: "#a1a1aa", fontFamily: "var(--font-mono)", marginLeft: 8 }}>
+                      {project.title} — System Environment
+                    </span>
+                  </div>
+                  <span style={{ fontSize: 11, color: "#71717a", fontFamily: "var(--font-mono)" }}>
+                    Verified Production Environment
+                  </span>
+                </div>
+                <div style={{ position: "relative", width: "100%", maxHeight: 640, background: "#0d100d", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  {/\.(mp4|webm)/i.test(project.media_url) ? (
+                    <video src={project.media_url} autoPlay muted loop playsInline style={{ width: "100%", maxHeight: 640, objectFit: "contain" }} />
+                  ) : (
+                    <img src={project.media_url} alt={project.title} style={{ width: "100%", maxHeight: 640, objectFit: "contain", display: "block" }} />
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* OPPORTUNITY */}
         {(project.opportunityTitle || project.opportunityCopy) && (
           <section className="case-study-intro">
@@ -193,8 +216,7 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
                 {project.opportunityTitle && <h2>{project.opportunityTitle}</h2>}
                 {project.opportunityCopy && <p>{project.opportunityCopy}</p>}
                 {project.conceptStatus && (
-                  <aside>
-                    <strong>Concept status</strong>
+                  <aside style={{ display: "block" }}>
                     <span>{project.conceptStatus}</span>
                   </aside>
                 )}
@@ -274,9 +296,12 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
 
                       {/* Action button */}
                       {project.systemConsole.action && (
-                        <button type="button">
+                        <Link
+                          href={`/contact?project=${project.slug}`}
+                          className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-[#ff5a36] text-white text-xs font-bold rounded hover:bg-[#ff6f4e] transition-colors"
+                        >
                           {project.systemConsole.action} <ArrowUpRight size={14} />
-                        </button>
+                        </Link>
                       )}
                     </div>
                   </div>

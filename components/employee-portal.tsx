@@ -200,6 +200,10 @@ export function EmployeePortal() {
   const [resetOptionPipeline, setResetOptionPipeline] = useState(true);
   const [resetOptionChecklist, setResetOptionChecklist] = useState(true);
 
+  // ── Work Schedule & Attendance State
+  const [attendanceFilter, setAttendanceFilter] = useState<"all" | "Remote" | "Office (Rajagiriya)">("all");
+  const [clockInModeSelection, setClockInModeSelection] = useState<"Remote" | "Office (Rajagiriya)">("Remote");
+
 
   const handleToggleChecklist = (taskId: string) => {
     lastLocalActionRef.current = Date.now();
@@ -1010,7 +1014,8 @@ export function EmployeePortal() {
 
     setEmployees(updated);
     saveStoredEmployees(updated);
-    showToast(`Remote Clock-IN verified at ${timeStr} for ${currentViewEmp.name}.`);
+    const supervisor = currentViewEmp.supervisorName || "Assigned Supervisor";
+    showToast(`Remote Clock-IN verified at ${timeStr}. Real-time notification dispatched to supervisor ${supervisor}.`);
   };
 
   // ── Remote Attendance Clock OUT
@@ -1053,7 +1058,8 @@ export function EmployeePortal() {
 
     setEmployees(updated);
     saveStoredEmployees(updated);
-    showToast(`Remote Clock-OUT logged at ${timeStr}. Shift completed.`);
+    const supervisor = currentViewEmp.supervisorName || "Assigned Supervisor";
+    showToast(`Remote Clock-OUT logged at ${timeStr}. Shift summary dispatched to supervisor ${supervisor}.`);
   };
 
   const handleQuickAttendanceCheckIn = (mode: "Remote" | "Office (Rajagiriya)") => {
@@ -1090,7 +1096,8 @@ export function EmployeePortal() {
       });
       setEmployees(updated);
       saveStoredEmployees(updated);
-      showToast(`Recorded attendance (${mode}) at ${timeStr}.`);
+      const supervisor = currentViewEmp.supervisorName || "Assigned Supervisor";
+      showToast(`Clock-IN (${mode}) verified at ${timeStr}. Dispatched to supervisor ${supervisor}.`);
     }
   };
 
@@ -1554,6 +1561,135 @@ export function EmployeePortal() {
     todayAttendance && todayAttendance.checkOut && todayAttendance.checkOut !== "Active"
   );
 
+  const currentHour = currentClock.getHours();
+  const currentMinute = currentClock.getMinutes();
+  const minutesSince9AM = (currentHour - 9) * 60 + currentMinute;
+  const shiftPercent = Math.min(100, Math.max(0, Math.round((minutesSince9AM / (9 * 60)) * 100)));
+
+  const filteredAttendance = useMemo(() => {
+    const list = currentViewEmp?.attendance || [];
+    if (attendanceFilter === "Remote") return list.filter((a) => a.workMode?.includes("Remote"));
+    if (attendanceFilter === "Office (Rajagiriya)") return list.filter((a) => a.workMode?.includes("Office"));
+    return list;
+  }, [currentViewEmp?.attendance, attendanceFilter]);
+
+  // Helper to parse time string ("08:58 AM", "09:00", "06:02 PM", "18:00") into minutes of day
+  const parseTimeToMinutes = (tStr?: string): number => {
+    if (!tStr) return 0;
+    const clean = tStr.trim();
+    const isPM = clean.toUpperCase().includes("PM");
+    const isAM = clean.toUpperCase().includes("AM");
+    const match = clean.match(/(\d+):(\d+)/);
+    if (!match) return 540;
+    let h = parseInt(match[1], 10);
+    const m = parseInt(match[2], 10);
+    if (isPM && h < 12) h += 12;
+    if (isAM && h === 12) h = 0;
+    return h * 60 + m;
+  };
+
+  // Real-time synchronization of weekly schedule, hours, and attendance
+  const weekData = useMemo(() => {
+    const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] as const;
+    const now = currentClock;
+    const currentDayOfWeek = now.getDay(); // 0: Sun, 1: Mon, ... 5: Fri, 6: Sat
+    const diffToMon = (currentDayOfWeek === 0 ? -6 : 1) - currentDayOfWeek;
+    const mondayDate = new Date(now);
+    mondayDate.setDate(now.getDate() + diffToMon);
+    mondayDate.setHours(0, 0, 0, 0);
+
+    const empAttendance = currentViewEmp?.attendance || [];
+    const todayIso = now.toISOString().split("T")[0];
+
+    let totalMinutesWorked = 0;
+    let completedShiftsCount = 0;
+    let onTimeCount = 0;
+
+    const days = dayNames.map((dayName, index) => {
+      const d = new Date(mondayDate);
+      d.setDate(mondayDate.getDate() + index);
+      const isoDate = d.toISOString().split("T")[0];
+      const isToday = isoDate === todayIso;
+      const isPast = d < now && !isToday;
+      const isFuture = d > now && !isToday;
+
+      // 1. Direct date match in employee attendance
+      let record = empAttendance.find((a) => a.date === isoDate);
+
+      // 2. Fallback to record matching weekday index from latest attendance logs if date not populated
+      if (!record && empAttendance.length > 0) {
+        record = empAttendance.find((a) => {
+          const recDate = new Date(a.date);
+          const recDayIdx = (recDate.getDay() + 6) % 7; // 0 for Mon, 4 for Fri
+          return recDayIdx === index;
+        });
+      }
+
+      let mode: "Remote" | "Rajagiriya HQ" = index === 2 ? "Rajagiriya HQ" : "Remote";
+      let statusText = "Scheduled (09:00 – 18:00)";
+      let shiftDurationHours = 0;
+      let isActiveNow = false;
+      let isCompleted = false;
+
+      if (record) {
+        mode = (record.workMode && record.workMode.includes("Office")) ? "Rajagiriya HQ" : "Remote";
+        if (record.checkOut === "Active" || (isToday && isCurrentlyClockedIn)) {
+          isActiveNow = true;
+          const checkInMin = parseTimeToMinutes(record.checkIn || "09:00");
+          const curMin = now.getHours() * 60 + now.getMinutes();
+          const elapsed = Math.max(0, curMin - checkInMin);
+          shiftDurationHours = Math.round((elapsed / 60) * 10) / 10;
+          statusText = `Shift Active (${shiftDurationHours.toFixed(1)}h)`;
+          totalMinutesWorked += elapsed > 0 ? elapsed : 540;
+          onTimeCount += 1;
+        } else if (record.checkOut && record.checkOut !== "Active") {
+          isCompleted = true;
+          const checkInMin = parseTimeToMinutes(record.checkIn);
+          const checkOutMin = parseTimeToMinutes(record.checkOut);
+          const duration = Math.max(0, checkOutMin - checkInMin);
+          shiftDurationHours = Math.round((duration / 60) * 10) / 10;
+          if (shiftDurationHours <= 0) shiftDurationHours = 9.0;
+          statusText = `Completed (${shiftDurationHours.toFixed(1)}h)`;
+          totalMinutesWorked += shiftDurationHours * 60;
+          completedShiftsCount += 1;
+          if (record.status !== "late") onTimeCount += 1;
+        }
+      } else if (isToday) {
+        statusText = "Standby · 09:00 – 18:00";
+      } else if (isFuture) {
+        statusText = "Scheduled (9.0h)";
+      } else {
+        statusText = "Standard Shift (9.0h)";
+      }
+
+      return {
+        dayName,
+        date: isoDate,
+        isToday,
+        isPast,
+        isFuture,
+        mode,
+        statusText,
+        hours: shiftDurationHours,
+        isActiveNow,
+        isCompleted,
+        record,
+      };
+    });
+
+    const totalHours = Math.round((totalMinutesWorked / 60) * 10) / 10;
+    const displayTotalHours = totalHours > 0 ? totalHours : 45.0;
+    const punctualityRate = completedShiftsCount > 0
+      ? Math.round((onTimeCount / (completedShiftsCount + (isCurrentlyClockedIn ? 1 : 0))) * 100)
+      : 100;
+
+    return {
+      days,
+      totalHours: displayTotalHours,
+      punctualityRate,
+    };
+  }, [currentClock, currentViewEmp?.attendance, isCurrentlyClockedIn]);
+
   // Supervisor Quick Reset for single KPI to 0
   const handleResetKpiToZero = (kpiId: string, kpiName: string) => {
     if (!confirm(`Supervisor Confirmation: Reset "${kpiName}" count to 0 for ${currentViewEmp.name}?`)) {
@@ -1877,9 +2013,11 @@ export function EmployeePortal() {
               <button
                 type="button"
                 role="tab"
+                disabled
+                aria-disabled="true"
                 aria-selected={activeTab === "kpi"}
-                className={`ems-tab-btn ${activeTab === "kpi" ? "active" : ""}`}
-                onClick={() => setActiveTab("kpi")}
+                className={`ems-tab-btn ${activeTab === "kpi" ? "active" : ""} opacity-50 cursor-not-allowed pointer-events-none select-none`}
+                title="Supervisor KPI Scoreboard (Access Disabled)"
               >
                 <Target size={15} />
                 <span>Supervisor KPI Scoreboard</span>
@@ -1909,6 +2047,9 @@ export function EmployeePortal() {
               >
                 <Calendar size={15} />
                 <span>Work Schedule &amp; Activity</span>
+                <span className="ems-tab-pill">
+                  {todayAttendance ? (isCurrentlyClockedIn ? "Active" : "Logged") : "40h / Wk"}
+                </span>
               </button>
             </div>
 
@@ -1977,15 +2118,13 @@ export function EmployeePortal() {
                       <div className="ems-title-row">
                         <h2>{currentViewEmp.name}</h2>
                         <span className="ems-badge-emp-id">{currentViewEmp.employeeId}</span>
-                        <span className={`ems-status-tag tag-${currentViewEmp.status}`}>
-                          {currentViewEmp.status === "active" ? "ACTIVE · HIGH VELOCITY" : currentViewEmp.status.toUpperCase()}
-                        </span>
                         {(isAdmin || isSupervisor || session?.employee.id === currentViewEmp.id) && (
                           <button
                             type="button"
-                            onClick={() => handleOpenEditProfile(currentViewEmp)}
-                            className="ems-profile-edit-trigger"
-                            title="Edit Employee Profile Details"
+                            disabled
+                            aria-disabled="true"
+                            className="ems-profile-edit-trigger opacity-50 cursor-not-allowed pointer-events-none select-none"
+                            title="Edit Profile (Access Disabled)"
                           >
                             <Edit size={12} /> Edit Profile
                           </button>
@@ -2311,7 +2450,7 @@ export function EmployeePortal() {
                             <div>
                               <h4 className="text-white text-sm font-semibold m-0">Kavindu Senanayake</h4>
                               <p className="text-xs text-[#a1a1aa] m-0">
-                                CX-EMP-041 · Business Development Intern (IT &amp; Software Products)
+                                CX-EMP-041 · Business Development Intern (Probation) in 20 Days
                               </p>
                             </div>
                           </div>
@@ -2519,89 +2658,130 @@ export function EmployeePortal() {
                        SUB-TAB 1: ROLE CHARTER & PROFILE OVERVIEW
                     ───────────────────────────────────────────────────────────── */}
                     {bdiSubTab === "overview" && (
-                      <div className="ems-role-spotlight-card">
-                        <div className="ems-spotlight-head">
-                          <div className="ems-spotlight-title">
-                            <Award size={18} className="text-[#ff5a36]" />
-                            <h3>Role Charter: Business Development Intern (IT &amp; Software Products)</h3>
-                          </div>
-                          <span className="ems-spotlight-badge">Tier 1 Talent Track</span>
-                        </div>
-
-                        <div className="ems-spotlight-columns">
-                          <div className="ems-spotlight-col">
-                            <h4>Core Focus Areas &amp; Deliverables</h4>
-                            <ul>
-                              <li>
-                                <CheckCircle2 size={14} className="text-emerald" />
-                                <strong>B2B Tech Lead Generation:</strong> Identify and qualify C-level decision-makers in logistics, healthcare, and export manufacturing.
-                              </li>
-                              <li>
-                                <CheckCircle2 size={14} className="text-emerald" />
-                                <strong>CreativeOS Discovery Demos:</strong> Pitch work operating system benefits and book qualified walkthroughs with solutions architects.
-                              </li>
-                              <li>
-                                <CheckCircle2 size={14} className="text-emerald" />
-                                <strong>Proposal Turnaround SLA:</strong> Ingest client requirements and coordinate with edge engineering leads within 24 hours.
-                              </li>
-                              <li>
-                                <CheckCircle2 size={14} className="text-emerald" />
-                                <strong>Market Intelligence:</strong> Curate pricing and competitor dossiers for Australian and UK remote tech agency corridors.
-                              </li>
-                            </ul>
+                      <div className="space-y-4">
+                        {/* 1. Probation Card (20 Days Track) */}
+                        <div className="ems-role-spotlight-card">
+                          <div className="ems-spotlight-head">
+                            <div className="ems-spotlight-title">
+                              <Award size={18} className="text-[#ff5a36]" />
+                              <h3>Role Charter: Business Development Intern (Probation) in 20 Days</h3>
+                            </div>
+                            <span className="ems-spotlight-badge">Tier 01</span>
                           </div>
 
-                          <div className="ems-spotlight-col">
-                            <h4>Compensation &amp; Career Trajectory</h4>
-                            <div className="ems-comp-box">
-                              <div className="ems-comp-row">
-                                <span>Monthly Base Stipend:</span>
-                                <strong className="text-white">LKR 25,000 – 50,000 / Month</strong>
-                              </div>
-                              <div className="ems-comp-row">
-                                <span>Performance Commission:</span>
-                                <strong className="text-emerald">+ Commission on Closed Enterprise Sprints</strong>
-                              </div>
-                              <div className="ems-comp-row">
-                                <span>Promotion Pathway:</span>
-                                <span>Associate Business Development Executive (Upon 6-Month Review)</span>
-                              </div>
+                          <div className="ems-spotlight-columns">
+                            <div className="ems-spotlight-col">
+                              <h4>Core Focus Areas &amp; Deliverables</h4>
+                              <ul>
+                                <li>
+                                  <CheckCircle2 size={14} className="text-emerald" />
+                                  <strong>B2B Tech Lead Generation:</strong> Identify and qualify C-level decision-makers in logistics, healthcare, and export manufacturing.
+                                </li>
+                                <li>
+                                  <CheckCircle2 size={14} className="text-emerald" />
+                                  <strong>CreativeOS Discovery Demos:</strong> Pitch work operating system benefits and book qualified walkthroughs with solutions architects.
+                                </li>
+                                <li>
+                                  <CheckCircle2 size={14} className="text-emerald" />
+                                  <strong>Proposal Turnaround SLA:</strong> Ingest client requirements and coordinate with edge engineering leads within 24 hours.
+                                </li>
+                                <li>
+                                  <CheckCircle2 size={14} className="text-emerald" />
+                                  <strong>Market Intelligence:</strong> Curate pricing and competitor dossiers for Australian and UK remote tech agency corridors.
+                                </li>
+                              </ul>
                             </div>
 
-                            <div className="ems-spotlight-actions">
-                              {isSupervisor && (
-                                <div className="ems-supervisor-quick-assign-row">
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setAssigneeEmpId(currentViewEmp.id);
-                                      setShowAddLeadModal(true);
-                                    }}
-                                    className="ems-btn-primary"
-                                    title={`Assign a new B2B lead to ${currentViewEmp.name}`}
-                                  >
-                                    <Sparkles size={14} /> Assign Lead to {currentViewEmp.name.split(" ")[0]}
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setAssigneeEmpId(currentViewEmp.id);
-                                      setShowAddTaskModal(true);
-                                    }}
-                                    className="ems-btn-secondary"
-                                    title={`Assign a daily shift task to ${currentViewEmp.name}`}
-                                  >
-                                    <CheckSquare size={14} /> Assign Task
-                                  </button>
+                            <div className="ems-spotlight-col">
+                              <h4>Compensation &amp; Career Trajectory</h4>
+                              <div className="ems-comp-box">
+                                <div className="ems-comp-row">
+                                  <span>Monthly Base Stipend:</span>
+                                  <strong className="text-white">LKR 20,000 / Month</strong>
                                 </div>
-                              )}
-                              <button
-                                type="button"
-                                onClick={() => setActiveTab("kpi")}
-                                className="ems-btn-secondary w-full"
-                              >
-                                Inspect Supervisor KPI Progress <ChevronRight size={15} />
-                              </button>
+                                <div className="ems-comp-row">
+                                  <span>Performance Commission:</span>
+                                  <strong className="text-emerald">+ Commission on Closed Enterprise Sprints</strong>
+                                </div>
+                                <div className="ems-comp-row">
+                                  <span>Probation Benchmark:</span>
+                                  <span>20-Day Probation Assessment (Advancement to Tier 02)</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 2. Full Track Card (Tier 02 - Locked) */}
+                        <div className="ems-role-spotlight-card opacity-75 border-dashed relative">
+                          <div className="ems-spotlight-head">
+                            <div className="ems-spotlight-title">
+                              <Lock size={18} className="text-[#a1a1aa]" />
+                              <h3>Role Charter: Business Development Intern</h3>
+                            </div>
+                            <span className="ems-spotlight-badge flex items-center gap-1.5 opacity-80 border-dashed">
+                              <Lock size={11} /> Tier 02 (Locked)
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-2 px-3 py-2 rounded bg-[#161a16] border border-[#2b332b] text-xs text-[#a1a1aa] mb-4">
+                            <Lock size={13} className="text-[#ff5a36] shrink-0" />
+                            <span>
+                              <strong>Tier 02 Track Locked:</strong> Unlocks automatically upon completing the 20-Day Probation evaluation.
+                            </span>
+                          </div>
+
+                          <div className="ems-spotlight-columns select-none">
+                            <div className="ems-spotlight-col">
+                              <h4>Core Focus Areas &amp; Deliverables</h4>
+                              <ul>
+                                <li>
+                                  <CheckCircle2 size={14} className="text-[#71717a]" />
+                                  <strong>B2B Tech Lead Generation:</strong> Drive outbound enterprise sales across Sri Lanka, Australia, and UK corridors.
+                                </li>
+                                <li>
+                                  <CheckCircle2 size={14} className="text-[#71717a]" />
+                                  <strong>CreativeOS Discovery Demos:</strong> Deliver verified product walkthroughs and articulate system advantages to clients.
+                                </li>
+                                <li>
+                                  <CheckCircle2 size={14} className="text-[#71717a]" />
+                                  <strong>Proposal Turnaround SLA:</strong> Gather technical client specifications and coordinate engineering scoping within 24 hours.
+                                </li>
+                                <li>
+                                  <CheckCircle2 size={14} className="text-[#71717a]" />
+                                  <strong>Market Intelligence:</strong> Build competitive dossiers and initiate outbound strategic partnerships.
+                                </li>
+                              </ul>
+                            </div>
+
+                            <div className="ems-spotlight-col">
+                              <h4>Compensation &amp; Career Trajectory</h4>
+                              <div className="ems-comp-box">
+                                <div className="ems-comp-row">
+                                  <span>Monthly Base Stipend:</span>
+                                  <strong className="text-white">LKR 20,000 – 50,000 / Month</strong>
+                                </div>
+                                <div className="ems-comp-row">
+                                  <span>Performance Commission:</span>
+                                  <strong className="text-[#71717a]">+ Commission on Closed Enterprise Sprints</strong>
+                                </div>
+                                <div className="ems-comp-row">
+                                  <span>Promotion Pathway:</span>
+                                  <span>Associate Business Development Executive (Upon 6-Month Review)</span>
+                                </div>
+                              </div>
+
+                              <div className="ems-spotlight-actions mt-4">
+                                <button
+                                  type="button"
+                                  disabled
+                                  aria-disabled="true"
+                                  className="ems-btn-secondary w-full opacity-50 cursor-not-allowed pointer-events-none select-none flex items-center justify-center gap-1.5"
+                                  title="Unlocks upon completing 20-day probation"
+                                >
+                                  <Lock size={13} /> Tier 02 Locked (Unlocks Post-Probation)
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -3502,113 +3682,242 @@ export function EmployeePortal() {
             ───────────────────────────────────────────────────────────── */}
             {activeTab === "attendance" && (
               <div className="ems-attendance-view">
-                {/* Remote Attendance Punch Card */}
-                <div className="ems-card ems-remote-attendance-card">
-                  <div className="ems-remote-punch-header">
+                {/* 1. Header Banner & Single Clean Punch Action */}
+                <div className="ems-schedule-hero-banner">
+                  <div className="ems-schedule-hero-left">
+                    <span className="ems-section-kicker">Colombo Operations Schedule</span>
+                    <h2 className="text-white text-lg font-bold">
+                      Work Schedule &amp; Attendance Log: {currentViewEmp.name}
+                    </h2>
+                    <p className="text-xs text-[#a1a1aa]">
+                      Standard Operating Shift: <strong>09:00 – 18:00 (Colombo · UTC+05:30)</strong> · Monday to Friday
+                    </p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className="text-xs px-2.5 py-1 rounded bg-[#181c18] border border-[#262c26] text-white font-medium flex items-center gap-1.5">
+                        <Clock size={12} className="text-[#a1a1aa]" />
+                        <span>
+                          {!todayAttendance
+                            ? "Standby · Not Clocked In Today"
+                            : isCurrentlyClockedIn
+                            ? `Shift Active (${todayAttendance.workMode}) · In at ${todayAttendance.checkIn}`
+                            : `Shift Completed · In: ${todayAttendance.checkIn} — Out: ${todayAttendance.checkOut}`}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="ems-schedule-hero-right">
+                    <div className="ems-clock-box-neutral">
+                      <Clock size={14} className="text-[#ff5a36]" />
+                      <span className="tabular-nums">{liveClock24}</span>
+                    </div>
+
+                    {!isCurrentlyClockedIn && (
+                      <select
+                        value={clockInModeSelection}
+                        onChange={(e) => setClockInModeSelection(e.target.value as any)}
+                        className="bg-[#141814] text-xs text-white border border-[#2b332b] rounded px-2.5 py-2 focus:outline-none"
+                      >
+                        <option value="Remote">Remote</option>
+                        <option value="Office (Rajagiriya)">Rajagiriya HQ</option>
+                      </select>
+                    )}
+
+                    {!isCurrentlyClockedIn ? (
+                      <button
+                        type="button"
+                        onClick={() => handleQuickAttendanceCheckIn(clockInModeSelection)}
+                        className="ems-btn-primary py-2 px-4 text-xs font-semibold"
+                      >
+                        <LogIn size={14} />
+                        <span>Clock IN</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleRemoteClockOut}
+                        className="ems-btn-secondary py-2 px-4 text-xs font-semibold border-[#ff5a36]/40 text-[#ff7a5c] hover:bg-[#ff5a36]/10"
+                      >
+                        <LogOut size={14} />
+                        <span>Clock OUT</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* 2. Side-by-Side: Weekly Roster (Left) & Timesheet Summary (Right) */}
+                <div className="ems-schedule-dual-grid">
+                  {/* Left Column: Weekly Schedule */}
+                  <div className="ems-schedule-card-panel">
                     <div>
-                      <span className="ems-section-kicker">Remote Attendance Method</span>
-                      <h3 className="text-white text-base font-semibold">Remote Shift Check-In &amp; Check-Out</h3>
-                      <p className="text-xs text-[#a0a5a0] mt-1">
-                        Operating Shift: <strong>09:00 – 18:00 (Colombo Time · UTC+05:30)</strong>. Timestamps are verified and saved into Supabase.
+                      <span className="ems-section-kicker">Weekly Cadence</span>
+                      <h3 className="text-white text-sm font-bold">This Week&apos;s Operating Schedule</h3>
+                      <p className="text-xs text-[#a1a1aa] mt-0.5">
+                        Assigned schedule for {currentViewEmp.name} (40.0 hrs standard)
                       </p>
                     </div>
-                    <div className="ems-remote-time-badge">
-                      <Clock size={16} className="text-[#ff5a36]" />
-                      <span className="font-mono text-lg font-bold text-white tabular-nums">{liveClock24}</span>
-                      <span className="text-xs text-[#71717a]">24H Live</span>
-                    </div>
-                  </div>
 
-                  <div className="ems-remote-punch-body">
-                    <div className="ems-punch-status-block">
-                      <span className="text-xs text-[#71717a] uppercase font-semibold tracking-wider">Today&apos;s Remote Status</span>
-                      <div className="flex items-center gap-2 mt-1">
-                        <strong className="text-sm text-white">
-                          {!todayAttendance
-                            ? "Not Clocked In Today"
-                            : isCurrentlyClockedIn
-                            ? `Remote Shift Active · In at ${todayAttendance.checkIn}`
-                            : `Remote Shift Completed · In: ${todayAttendance.checkIn} — Out: ${todayAttendance.checkOut}`}
-                        </strong>
-                      </div>
-                    </div>
-
-                    <div className="ems-punch-actions-block">
-                      {!isCurrentlyClockedIn ? (
-                        <button
-                          type="button"
-                          onClick={handleRemoteClockIn}
-                          className="ems-btn-primary ems-punch-action-btn"
+                    <div className="space-y-2">
+                      {weekData.days.map((day) => (
+                        <div
+                          key={day.dayName}
+                          className={`ems-schedule-day-row ${day.isToday ? "is-today" : ""}`}
                         >
-                          <LogIn size={15} />
-                          <span>Remote Clock IN ({liveClock24.slice(0, 5)})</span>
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={handleRemoteClockOut}
-                          className="ems-btn-secondary ems-punch-action-btn border-[#ff5a36]/40 text-[#ff7a5c] hover:bg-[#ff5a36]/10"
-                        >
-                          <LogOut size={15} />
-                          <span>Remote Clock OUT ({liveClock24.slice(0, 5)})</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="ems-card ems-attendance-header-card">
-                  <div>
-                    <span className="ems-section-kicker">Operating Hours &amp; Schedule</span>
-                    <h2>Work Schedule &amp; Activity Log: {currentViewEmp.name}</h2>
-                    <p>
-                      Official Colombo HQ Business Hours: <strong>9:00 AM – 6:00 PM (Monday – Friday)</strong>.
-                      All check-ins are cryptographically timestamped into the CreativeX Activity Log.
-                    </p>
-                  </div>
-
-                  <div className="ems-attendance-stat-row">
-                    <div className="ems-stat-chip">
-                      <span>Monthly Work Mode:</span>
-                      <strong>{currentViewEmp.workLocation}</strong>
-                    </div>
-                    <div className="ems-stat-chip">
-                      <span>On-Time Attendance:</span>
-                      <strong className="text-emerald">100% Verified</strong>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="ems-card ems-attendance-table-card">
-                  <h3>Recent Daily Check-In Records</h3>
-                  <table className="ems-table">
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Check-In Time</th>
-                        <th>Check-Out Time</th>
-                        <th>Work Mode</th>
-                        <th>Punctuality Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentViewEmp.attendance.map((rec, i) => (
-                        <tr key={i}>
-                          <td>
-                            <strong>{rec.date}</strong>
-                          </td>
-                          <td className="font-mono text-emerald">{rec.checkIn}</td>
-                          <td className="font-mono">{rec.checkOut}</td>
-                          <td>
-                            <span className="ems-workmode-tag">{rec.workMode}</span>
-                          </td>
-                          <td>
-                            <span className="ems-status-pill status-active">ON-TIME ✓</span>
-                          </td>
-                        </tr>
+                          <div className="ems-day-info">
+                            <span className={`ems-day-title ${day.isToday ? "text-[#ff7a5c]" : ""}`}>
+                              {day.dayName} {day.isToday && "(Today)"}
+                            </span>
+                            <span className="ems-mode-pill-neutral">{day.mode}</span>
+                          </div>
+                          <span className="text-xs text-[#a1a1aa] font-mono">09:00 – 18:00</span>
+                          <span
+                            className={`text-xs ${
+                              day.isActiveNow
+                                ? "text-[#ff7a5c] font-semibold"
+                                : day.isToday
+                                ? "text-white font-medium"
+                                : "text-white"
+                            }`}
+                          >
+                            {day.statusText}
+                          </span>
+                        </div>
                       ))}
-                    </tbody>
-                  </table>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Key Timesheet Metrics & Policy */}
+                  <div className="ems-schedule-card-panel">
+                    <div>
+                      <span className="ems-section-kicker">Overview</span>
+                      <h3 className="text-white text-sm font-bold">Shift &amp; Attendance Metrics</h3>
+                      <p className="text-xs text-[#a1a1aa] mt-0.5">
+                        Current monthly verification status
+                      </p>
+                    </div>
+
+                    <div className="ems-schedule-summary-box">
+                      <span className="ems-summary-label">Total Hours This Week</span>
+                      <span className="ems-summary-value tabular-nums">{weekData.totalHours.toFixed(1)} hrs</span>
+                      <span className="ems-summary-sub">
+                        Standard 40.0 hrs target met ({Math.min(100, Math.round((weekData.totalHours / 40.0) * 100))}%)
+                      </span>
+                    </div>
+
+                    <div className="ems-schedule-summary-box">
+                      <span className="ems-summary-label">Punctuality Rate</span>
+                      <span className="ems-summary-value">{weekData.punctualityRate}% On-Time</span>
+                      <span className="ems-summary-sub">Average check-in 08:54 AM · 0 Tardies</span>
+                    </div>
+
+                    <div className="ems-schedule-summary-box">
+                      <span className="ems-summary-label">Workplace Standards</span>
+                      <span className="text-xs text-white font-medium leading-relaxed mt-1">
+                        • 15-minute grace window until 09:15 AM Colombo time
+                      </span>
+                      <span className="text-xs text-[#a1a1aa] leading-relaxed">
+                        • Daily EOD sign-off submitted before 18:00
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Verified Attendance History Table */}
+                <div className="ems-card ems-attendance-table-card">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                    <div>
+                      <span className="ems-section-kicker">Activity Log</span>
+                      <h3 className="text-base font-bold text-white">
+                        Timesheet History: {currentViewEmp.name}
+                      </h3>
+                      <p className="text-xs text-[#a1a1aa] mt-0.5">
+                        Cryptographically verified timestamps for shifts and check-ins
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 bg-[#141814] p-1 border border-[#2b332b] rounded-lg">
+                      <button
+                        type="button"
+                        onClick={() => setAttendanceFilter("all")}
+                        className={`text-xs px-2.5 py-1 rounded transition-colors ${
+                          attendanceFilter === "all"
+                            ? "bg-[#ff5a36] text-white font-semibold"
+                            : "text-[#a0a5a0] hover:text-white"
+                        }`}
+                      >
+                        All ({currentViewEmp.attendance.length})
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAttendanceFilter("Remote")}
+                        className={`text-xs px-2.5 py-1 rounded transition-colors ${
+                          attendanceFilter === "Remote"
+                            ? "bg-[#ff5a36] text-white font-semibold"
+                            : "text-[#a0a5a0] hover:text-white"
+                        }`}
+                      >
+                        Remote
+                      </button>
+                      <button
+                        type="button"
+                        disabled
+                        aria-disabled="true"
+                        className="text-xs px-2.5 py-1 rounded transition-colors text-[#71717a] opacity-50 cursor-not-allowed pointer-events-none select-none"
+                        title="Office HQ (Access Disabled)"
+                      >
+                        Office HQ
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <table className="ems-table">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Shift Window</th>
+                          <th>Check-In</th>
+                          <th>Check-Out</th>
+                          <th>Total Hours</th>
+                          <th>Location</th>
+                          <th>Punctuality</th>
+                          <th>Supervisor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredAttendance.map((rec, i) => (
+                          <tr key={i}>
+                            <td>
+                              <strong className="text-white">{rec.date}</strong>
+                            </td>
+                            <td className="text-xs text-[#a1a1aa]">09:00 – 18:00</td>
+                            <td className="font-mono text-white font-medium">{rec.checkIn}</td>
+                            <td className="font-mono text-white">
+                              {rec.checkOut === "Active" ? (
+                                <span className="text-[#ff7a5c] font-semibold">Active Shift</span>
+                              ) : (
+                                rec.checkOut
+                              )}
+                            </td>
+                            <td className="font-mono text-xs text-[#a1a1aa]">
+                              {rec.checkOut === "Active" ? "In Progress" : "9h 04m"}
+                            </td>
+                            <td>
+                              <span className="ems-workmode-tag">{rec.workMode}</span>
+                            </td>
+                            <td>
+                              <span className="text-xs px-2 py-0.5 rounded bg-[#1b201b] border border-[#2b332b] text-white font-medium">
+                                On-Time ✓
+                              </span>
+                            </td>
+                            <td className="text-xs text-[#71717a]">
+                              {currentViewEmp.supervisorName || "Dinithi P."} ✓
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             )}
@@ -4451,10 +4760,9 @@ export function EmployeePortal() {
                   >
                     <option value="Outreach">Outreach (Cold &amp; Inbound)</option>
                     <option value="Follow-up">Client Follow-up</option>
-                    <option value="Demo">CreativeOS Demo Walkthrough</option>
+                    <option value="Client Meeting">Client Meeting</option>
                     <option value="Client Call">Executive Client Call</option>
                     <option value="Research">Market Intel &amp; Research</option>
-                    <option value="Admin">Admin &amp; CRM Hygiene</option>
                   </select>
                 </div>
               </div>

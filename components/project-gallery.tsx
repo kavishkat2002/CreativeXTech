@@ -23,7 +23,7 @@ export function ProjectGallery() {
     <section className="projects-gallery-section" aria-labelledby="projects-gallery-title">
       <div className="site-width">
         <div className="project-filter-bar">
-          <div><p className="section-index">Selected systems / 01—05</p><h2 id="projects-gallery-title">Explore the work.</h2></div>
+          <div><p className="section-index">Selected systems / 01—{String(projects.length).padStart(2, "0")}</p><h2 id="projects-gallery-title">Explore the work.</h2></div>
           <div className="project-filters" role="group" aria-label="Filter projects">
             {filters.map((filter) => (
               <button type="button" aria-pressed={activeFilter === filter} className={activeFilter === filter ? "active" : ""} key={filter} onClick={() => setActiveFilter(filter)}>{filter}</button>

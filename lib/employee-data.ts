@@ -60,7 +60,7 @@ export interface DailyChecklistItem {
   task: string;
   timeSlot: string;
   completed: boolean;
-  category: "Outreach" | "Follow-up" | "Demo" | "Admin" | "Research" | "Client Call";
+  category: "Outreach" | "Follow-up" | "Demo" | "Admin" | "Research" | "Client Call" | "Client Meeting";
   priority?: "urgent" | "high" | "normal";
   shiftBlock?: "morning" | "afternoon" | "eod";
   notes?: string;
@@ -243,7 +243,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
     email: "intern.bd@creativexlab.online",
     password: "@Intern2026",
     role: "employee",
-    designation: "Business Development Intern (IT & Software Products)",
+    designation: "Business Development Intern (Probation) in 20 Days",
     department: "Business Development & Sales",
     supervisorId: "emp-sup-001",
     supervisorName: "Dinithi Perera (Lead BD Manager) & Kavishka T.",
@@ -385,7 +385,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
         task: "Prep discovery agenda with Solutions Architect (Kavishka T.) for Highland Teas",
         timeSlot: "01:30 PM",
         completed: false,
-        category: "Demo",
+        category: "Client Meeting",
         priority: "high",
         shiftBlock: "afternoon",
         notes: "Review export supply chain architecture slides and live sandbox URL.",
