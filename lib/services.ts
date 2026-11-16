@@ -1,4 +1,4 @@
-import { AppWindow, Bot, BriefcaseBusiness, ChartNoAxesCombined, CloudCog, RadioTower, HelpCircle } from "lucide-react";
+import { AppWindow, Bot, BriefcaseBusiness, ChartNoAxesCombined, CloudCog, Code2, RadioTower, HelpCircle } from "lucide-react";
 import { supabaseSelect } from "./supabase";
 
 export interface Service {
@@ -63,39 +63,39 @@ export const services = [
     copy: "We connect assets, environments, and teams through real-time telemetry, operational control tools, alerting, and intelligence that supports faster field decisions.",
     overview: "CreativeX develops connected-operation platforms that bring device data, business context, alerts, and field workflows into one usable environment. Systems are designed for resilience, clear ownership, and the realities of people working across facilities and the field.",
     details: ["IoT architecture", "Telemetry & alerts", "Operations control rooms"],
-    features: ["Device, sensor, and gateway architecture", "Real-time telemetry and event processing", "Rules, anomaly detection, and alert orchestration", "Operations dashboards and mobile field tools", "Integration with maintenance and business systems"],
-    useCases: ["Smart facility and energy monitoring", "Equipment health and preventive maintenance", "Cold-chain and environmental visibility", "Connected logistics and asset tracking"],
-    process: ["Map assets, signals, and field decisions", "Validate connectivity and data quality", "Build the control and response experience", "Pilot, observe, and expand by site or asset class"],
-    controls: ["Secure device identity and communication", "Offline and degraded-mode behavior", "Alert ownership and escalation paths", "Telemetry health and system observability"],
-    outcomes: ["Earlier response to operational issues", "Less manual monitoring and coordination", "More visible facility and asset performance"],
+    features: ["Telemetry pipelines and device communication", "State modeling, anomaly alerts, and incident workflows", "Integration with physical assets, sensors, and legacy systems", "Field and dispatch interfaces designed for shift work", "Audit logs and operational history"],
+    useCases: ["Cold-chain and perishable cargo monitoring", "Production line and facility condition visibility", "Distributed fleet and remote equipment oversight", "Environmental, security, and access alerting"],
+    process: ["Survey physical assets and operational points of failure", "Design telemetry pipelines and control schemas", "Build the alerting and operational interface", "Field test, train operators, and harden the system"],
+    controls: ["Role-scoped device commands and safety interlocks", "Device identity, encryption, and firmware safeguards", "Graceful operation during network dropouts", "Incident logs with traceable field resolutions"],
+    outcomes: ["Earlier intervention before asset loss", "Less manual monitoring and verification overhead", "A single operational view of physical assets"],
     icon: RadioTower,
   },
   {
     slug: "web-mobile-product-engineering",
     number: "04",
-    eyebrow: "Digital products",
+    eyebrow: "Product engineering",
     title: "Web & Mobile Product Engineering",
-    headline: "Design the product and the system behind it.",
-    copy: "We design and engineer secure digital products—from customer platforms and internal portals to mobile field tools—with one accountable team from discovery to release.",
-    overview: "CreativeX combines product strategy, interface design, software engineering, and delivery into one connected practice. We build new products and modernize important workflows with an emphasis on usability, maintainability, security, and measurable adoption.",
-    details: ["Product strategy", "Web platforms", "Mobile applications"],
-    features: ["Product discovery and experience design", "Responsive web applications and portals", "Cross-platform and field-ready mobile products", "API and system integration", "Testing, analytics, accessibility, and delivery automation"],
-    useCases: ["Customer self-service and commerce platforms", "Operational portals and internal tools", "Mobile tools for field and frontline teams", "AI-native SaaS and digital products"],
-    process: ["Clarify users, jobs, and product outcomes", "Prototype the core experience", "Engineer and integrate the production system", "Release, measure adoption, and iterate"],
-    controls: ["Secure identity and role-based access", "Accessible and responsive interaction", "Automated testing and release controls", "Performance and product observability"],
-    outcomes: ["A clearer and more useful customer experience", "Faster learning with real users", "A maintainable foundation for product growth"],
+    headline: "Build products that feel simple and hold up under scale.",
+    copy: "We take digital products from initial definition through production release, combining fast interfaces, modern architectures, and maintainable engineering practices.",
+    overview: "CreativeX engineers web and mobile applications that balance fast-loading, expressive interfaces with clean, dependable engineering underneath. We work as the primary product team or alongside internal staff, helping teams ship products that serve users reliably from day one.",
+    details: ["Product design", "Web & mobile apps", "Design systems & APIs"],
+    features: ["Product strategy, scoping, and interface design", "Next.js, React, React Native, and mobile engineering", "Component libraries and shared design systems", "API design, database modeling, and state management", "End-to-end testing, observability, and release delivery"],
+    useCases: ["Customer-facing portals and SaaS products", "Field, service, and mobile operations tools", "Internal workflow applications and dashboards", "Design-system and frontend platform modernization"],
+    process: ["Shape scope, key journeys, and architecture", "Prototype interactions and validate technical choices", "Build incrementally with automated test suites", "Launch with monitoring and a support roadmap"],
+    controls: ["Accessibility, performance, and cross-device testing", "Code reviews, linting, and type safety", "Security reviews across auth, data, and APIs", "Observability for errors, latency, and core flows"],
+    outcomes: ["Faster path from concept to reliable release", "Products that customers find clear and intuitive", "A codebase internal teams can easily maintain"],
     icon: AppWindow,
   },
   {
     slug: "cloud-solutions",
     number: "05",
-    eyebrow: "Modern infrastructure",
-    title: "Cloud Solutions",
-    headline: "Build a cloud foundation the product can depend on.",
-    copy: "We create resilient cloud foundations, modernize applications, and build delivery platforms with security, observability, and operating cost considered from the beginning.",
-    overview: "CreativeX helps teams move from fragile infrastructure to secure, observable, and repeatable cloud operations. Architecture layout choices are connected to the product roadmap, team capabilities, compliance needs, and total operating cost.",
-    details: ["Cloud architecture", "Platform engineering", "Security & observability"],
-    features: ["Cloud architecture and workload assessment", "Application and data-platform modernization", "Infrastructure automation and delivery pipelines", "Identity, security, backup, and recovery design", "Monitoring, observability, and cost visibility"],
+    eyebrow: "Resilient systems",
+    title: "Cloud Solutions & Infrastructure",
+    headline: "Build cloud infrastructure that is secure, fast, and maintainable.",
+    copy: "We architect, optimize, and manage cloud systems designed for performance, strict compliance, disaster resilience, and predictable operating costs.",
+    overview: "CreativeX designs cloud environments that treat security, observability, and delivery automation as fundamental requirements. We help organizations modernize legacy infrastructure, scale new applications, and operate in production without unnecessary complexity.",
+    details: ["Cloud architecture", "DevOps & CI/CD", "Site reliability & security"],
+    features: ["Cloud architecture, migration, and cost optimization", "Infrastructure automation and delivery pipelines", "Identity, security, backup, and recovery design", "Monitoring, observability, and cost visibility"],
     useCases: ["New SaaS and AI product foundations", "Legacy application modernization", "Secure data and integration platforms", "Reliable multi-environment delivery"],
     process: ["Assess workloads, risks, and constraints", "Design the target platform and migration path", "Automate infrastructure and delivery", "Migrate safely and establish operating practices"],
     controls: ["Least-privilege identity and access", "Encrypted data and managed secrets", "Backup, recovery, and incident readiness", "Cost, performance, and reliability monitoring"],
@@ -118,12 +118,55 @@ export const services = [
     outcomes: ["A focused portfolio of credible opportunities", "Shared leadership understanding of risk", "A roadmap teams can fund and execute"],
     icon: BriefcaseBusiness,
   },
+  {
+    slug: "custom-software-development",
+    number: "07",
+    eyebrow: "Production engineering",
+    title: "Custom Software Development",
+    headline: "Engineer bespoke software built to survive real production scale.",
+    copy: "We design and build bespoke web portals, mobile apps, SaaS platforms, and dedicated offshore squads for growing enterprises in Sri Lanka and worldwide.",
+    overview: "CreativeX Technology delivers end-to-end custom software development from architectural design and database modeling to agile sprint delivery and CI/CD automation. We provide 100% intellectual property ownership, zero per-seat licensing fees, and senior engineering squads aligned to your operational reality.",
+    details: ["Enterprise web platforms", "Mobile applications", "Dedicated offshore squads"],
+    features: [
+      "Full-lifecycle software architecture and systems design",
+      "Modern web applications with Next.js, React, and TypeScript",
+      "Cross-platform mobile applications with Flutter and native bridges",
+      "High-concurrency microservices, REST APIs, and event pipelines",
+      "Automated CI/CD pipelines, containerization, and cloud deployment",
+      "Dedicated Agile squads with timezone overlap for Australia, UAE, and UK",
+    ],
+    useCases: [
+      "B2B and multi-tenant SaaS product development",
+      "Enterprise internal operations and self-service portals",
+      "Legacy system modernization and monolithic decomposition",
+      "Offshore software engineering squad augmentation",
+    ],
+    process: [
+      "Architecture discovery and schema design",
+      "Interactive UI/UX prototyping and user validation",
+      "Agile sprint delivery with two-week milestones",
+      "Automated testing, security scans, and production cutover",
+    ],
+    controls: [
+      "100% source code, repository, and IP ownership",
+      "Automated unit, integration, and security test coverage",
+      "Strict NDAs, data privacy, and role-based access control",
+      "Direct engineer communication in your Slack and Jira",
+    ],
+    outcomes: [
+      "Zero technical debt and scalable cloud architecture",
+      "60%+ operational cost savings compared to Western tech hubs",
+      "Reliable, on-time milestone delivery with visible sprint velocity",
+    ],
+    icon: Code2,
+  },
 ] as any[];
 
 const iconMap: Record<string, any> = {
   "ai-automation-agents": Bot,
   "data-predictive-analytics": ChartNoAxesCombined,
   "iot-smart-operations": RadioTower,
+  "custom-software-development": Code2,
   "web-mobile-product-engineering": AppWindow,
   "cloud-solutions": CloudCog,
   "ai-business-consultation": BriefcaseBusiness,
@@ -139,7 +182,7 @@ export async function getServices(): Promise<Service[]> {
   try {
     const data = await supabaseSelect<any>("services", { order: "number.asc" });
     if (data && data.length > 0) {
-      return data.map((service: any) => {
+      const dbServices = data.map((service: any) => {
         const { icon: _icon, ...rest } = service;
         return {
           ...rest,
@@ -151,13 +194,27 @@ export async function getServices(): Promise<Service[]> {
           outcomes: service.outcomes || [],
         };
       });
+      // Merge static services that aren't in Supabase
+      const dbSlugs = new Set(dbServices.map((s: any) => s.slug));
+      const missingStatic = services.filter((s) => !dbSlugs.has(s.slug)).map((s) => {
+        const { icon: _icon, ...rest } = s;
+        return rest as Service;
+      });
+      const combined = [...dbServices, ...missingStatic];
+      return combined.map((s, idx) => ({
+        ...s,
+        number: String(idx + 1).padStart(2, "0"),
+      }));
     }
   } catch (err: any) {
     console.error("Error fetching services:", err?.message);
   }
-  return services.map((s) => {
+  return services.map((s, idx) => {
     const { icon: _icon, ...rest } = s;
-    return rest as Service;
+    return {
+      ...(rest as Service),
+      number: String(idx + 1).padStart(2, "0"),
+    };
   });
 }
 
@@ -187,4 +244,3 @@ export async function getService(slug: string): Promise<Service | undefined> {
   }
   return undefined;
 }
-

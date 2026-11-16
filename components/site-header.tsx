@@ -43,6 +43,10 @@ const footerNavigation = [
 
 function sectionHref(section: string, homePage: boolean) {
   if (section === "home") return "/";
+  if (section === "ai-development-sri-lanka") return "/ai-development-sri-lanka";
+  if (section === "erp-solutions-sri-lanka") return "/erp-solutions-sri-lanka";
+  if (section === "it-solutions-sri-lanka") return "/it-solutions-sri-lanka";
+  if (section === "custom-software-development") return "/custom-software-development";
   if (section === "creativeos") return "/creativeos";
   if (section === "solutions") return "/solutions";
   if (section === "projects") return "/projects";
@@ -89,7 +93,15 @@ export function SiteHeader({
           supabaseBrowserClient.from("solutions").select("*").order("number", { ascending: true })
         ]);
         
-        if (srvRes.data && srvRes.data.length > 0) setLiveServices(srvRes.data);
+        if (srvRes.data && srvRes.data.length > 0) {
+          const dbSlugs = new Set(srvRes.data.map((s: any) => s.slug));
+          const missingStatic = (services as Service[]).filter((s) => !dbSlugs.has(s.slug));
+          const merged = [...srvRes.data, ...missingStatic].map((service, index) => ({
+            ...service,
+            number: String(index + 1).padStart(2, "0"),
+          }));
+          setLiveServices(merged);
+        }
         if (solRes.data && solRes.data.length > 0) setLiveSolutions(solRes.data);
       } catch (err) {
         console.error("Failed to fetch live nav", err);
@@ -118,13 +130,16 @@ export function SiteHeader({
                   <span>AI & software services</span>
                   <strong>Choose a capability</strong>
                 </div>
-                {liveServices.map((service) => (
-                  <Link href={`/services/${service.slug}`} key={service.slug}>
-                    <span>{service.number}</span>
-                    <strong>{service.title}</strong>
-                    <ArrowUpRight />
-                  </Link>
-                ))}
+                {liveServices.map((service) => {
+                  const href = service.slug === "custom-software-development" ? "/custom-software-development" : `/services/${service.slug}`;
+                  return (
+                    <Link href={href} key={service.slug}>
+                      <span>{service.number}</span>
+                      <strong>{service.title}</strong>
+                      <ArrowUpRight />
+                    </Link>
+                  );
+                })}
                 <Link className="nav-pulldown-all" href="/services">View all services <ArrowUpRight /></Link>
               </div>
             </div>
@@ -211,17 +226,20 @@ export function SiteHeader({
                     <AccordionContent>
                       <div className="sheet-nav-subbox">
                         <div className="sheet-nav-subhead">Capabilities</div>
-                        {liveServices.map((service) => (
-                          <SheetClose asChild key={service.slug}>
-                            <Link href={`/services/${service.slug}`} className="sheet-nav-sublink">
-                              <div className="flex items-center gap-2">
-                                <span className="font-mono text-[10px] text-[#ff5a36] font-bold">{service.number}</span>
-                                <span>{service.title}</span>
-                              </div>
-                              <ArrowUpRight className="w-3.5 h-3.5 opacity-40" />
-                            </Link>
-                          </SheetClose>
-                        ))}
+                        {liveServices.map((service) => {
+                          const href = service.slug === "custom-software-development" ? "/custom-software-development" : `/services/${service.slug}`;
+                          return (
+                            <SheetClose asChild key={service.slug}>
+                              <Link href={href} className="sheet-nav-sublink">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-mono text-[10px] text-[#ff5a36] font-bold">{service.number}</span>
+                                  <span>{service.title}</span>
+                                </div>
+                                <ArrowUpRight className="w-3.5 h-3.5 opacity-40" />
+                              </Link>
+                            </SheetClose>
+                          );
+                        })}
                         <SheetClose asChild>
                           <Link href="/services" className="sheet-nav-sublink text-[#ff5a36] font-semibold pt-2">
                             <span>View all services</span>

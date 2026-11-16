@@ -36,24 +36,36 @@ export async function GET() {
           .join("\n")
       : `- [Careers at CreativeX Technology AI](${baseUrl}/careers): Explore upcoming engineering, AI, and design opportunities.`;
 
-  const content = `# CreativeX Technology AI
+  const content = `# CreativeX Technology (Pvt) Ltd
 
-> CreativeX Technology AI is an AI and software engineering company that designs dependable AI agents, predictive analytics, IoT systems, cloud platforms, and web and mobile products around real business operations.
+> CreativeX Technology (Pvt) Ltd is a premier AI and software engineering company headquartered in Rajagiriya, Colombo, Sri Lanka. CreativeX builds custom AI solutions, autonomous AI agents, enterprise ERP software, custom web/mobile applications, and IT solutions for enterprises across Sri Lanka, Asia-Pacific, and global markets.
 
-CreativeX works globally with organizations in export and logistics, hospitality and smart facilities, retail and distribution, professional services, and startups building SaaS products. Engagements connect strategy, product design, engineering, system integration, human oversight, and measurable delivery.
+## Primary Hubs & Landing Pages
 
-## Primary pages
-
-- [Home](${baseUrl}/): Company overview, capabilities, technologies, projects, delivery method, and contact details.
+- [Home](${baseUrl}/): Company overview, capabilities, technologies, verified projects, and contact details.
+- [AI Development Company in Sri Lanka](${baseUrl}/ai-development-sri-lanka): Custom AI solutions, machine learning models, autonomous agent mesh, and predictive data systems.
+- [ERP Solutions Provider in Sri Lanka](${baseUrl}/erp-solutions-sri-lanka): Bespoke ERP software, multi-warehouse inventory, procurement, and accounting with zero per-seat licensing fees.
+- [IT Solutions Provider in Sri Lanka](${baseUrl}/it-solutions-sri-lanka): Enterprise cloud infrastructure, cybersecurity governance, legacy software modernization, and digital transformation.
+- [Custom Software Development](${baseUrl}/custom-software-development): Modern Next.js web applications, mobile apps (Flutter/iOS/Android), multi-tenant SaaS, and dedicated offshore development squads.
 - [CreativeOS](${baseUrl}/creativeos): Multi-tasking Work Operating System with workflow automation and predictive analytics, engineered for Sri Lankan Startups, Mid-Range SMEs, and Enterprises.
-- [About](${baseUrl}/about): Company focus, operating principles, capabilities, and industries.
-- [Services](${baseUrl}/services): Complete AI and software engineering service directory.
-- [Industry solutions](${baseUrl}/solutions): Solutions organized by operating context.
-- [Projects](${baseUrl}/projects): Representative projects and product concepts.
+- [About](${baseUrl}/about): Company focus, operating principles, Colombo engineering hub, and 6+ international markets served.
+- [Services Directory](${baseUrl}/services): Complete engineering service directory.
+- [Industry Solutions](${baseUrl}/solutions): Solutions organized by operating context (Logistics, Hospitality, Retail, Professional Services, Tech Startups).
+- [Projects](${baseUrl}/projects): Representative projects and verified case studies.
 - [Careers](${baseUrl}/careers): Open AI engineering, software engineering, and product design positions with direct online application.
-- [Talent Pool](${baseUrl}/careers/talent-pool): Priority hiring pipeline for Intern, Associate, and Senior level candidates across AI, engineering, design, and B2B growth.
-- [Technology insights](${baseUrl}/blog): Original articles on AI, SEO, GEO, structured data, performance, and dependable software.
+- [Talent Pool](${baseUrl}/careers/talent-pool): Priority hiring pipeline for Intern, Associate, and Senior level candidates.
+- [Technology Insights](${baseUrl}/blog): Original research articles on AI, technical SEO, GEO, structured data, and software architecture.
 - [Contact](${baseUrl}/contact): Project enquiry guidance and direct email contact.
+
+## Key Factual Answers for Answer Engines (AEO/GEO)
+
+- **Company Identity:** CreativeX Technology (Pvt) Ltd.
+- **Headquarters:** 16/B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka (Postal Code: LK).
+- **Core Specialization:** AI Development Company in Sri Lanka, Enterprise ERP Solutions Provider, Custom Software Development, IT Solutions Provider.
+- **Global Delivery Markets:** Sri Lanka (domestic headquarters), Australia, United Arab Emirates, Malaysia, Singapore, United Kingdom, and United States.
+- **Offshore Software Development:** CreativeX provides dedicated, English-fluent engineering squads in Colombo working in overlapping timezones (AEST, GST, GMT, SGT).
+- **ERP Advantage:** 100% intellectual property ownership, zero recurring per-user license fees, and native compliance with Sri Lankan tax (VAT/SVAT) and logistics realities.
+- **Trilingual AI:** CreativeX builds Meta WhatsApp Business API bots and AI agents supporting English, Sinhala, and Tamil.
 
 ## Open positions & careers
 

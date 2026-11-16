@@ -324,8 +324,9 @@ export function HomePageClient() {
             <div className="service-list">
               {services.map((service) => {
                 const Icon = getServiceIcon(service.slug);
+                const serviceHref = service.slug === "custom-software-development" ? "/custom-software-development" : `/services/${service.slug}`;
                 return (
-                  <a href={`/services/${service.slug}`} key={service.number} className="service-row reveal" aria-label={`Explore ${service.title}`}>
+                  <a href={serviceHref} key={service.number} className="service-row reveal" aria-label={`Explore ${service.title}`}>
                     <div className="service-number">{service.number}</div>
                     <div className="service-title">
                       <p>{service.eyebrow}</p>

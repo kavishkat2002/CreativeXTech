@@ -23,6 +23,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Core canonical routes
   const corePaths = [
     "",
+    "/ai-development-sri-lanka",
+    "/erp-solutions-sri-lanka",
+    "/it-solutions-sri-lanka",
+    "/custom-software-development",
     "/creativeos",
     "/services",
     "/solutions",
@@ -34,9 +38,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/contact",
   ];
 
+  const currentDate = new Date();
+
   const coreEntries: MetadataRoute.Sitemap = corePaths.map((path) => ({
     url: `${baseUrl}${path}`,
-    lastModified: siteFallbackDate,
+    lastModified: currentDate,
   }));
 
   try {

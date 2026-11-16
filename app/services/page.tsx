@@ -110,8 +110,9 @@ export default async function ServicesPage() {
           <div className="services-directory-grid">
             {allServices.map((service) => {
               const Icon = getServiceIcon(service.slug);
+              const serviceHref = service.slug === "custom-software-development" ? "/custom-software-development" : `/services/${service.slug}`;
               return (
-                <a href={`/services/${service.slug}`} className="service-directory-card" key={service.slug}>
+                <a href={serviceHref} className="service-directory-card" key={service.slug}>
                   <header><span>{service.number}</span><Icon aria-hidden="true" /></header>
                   <p>{service.eyebrow}</p>
                   <h2>{service.title}</h2>

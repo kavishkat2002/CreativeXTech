@@ -4,25 +4,30 @@ import { HomePageClient } from "@/components/home-page-client";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "CreativeX Technology AI | Global AI Agents & Enterprise Software Consultancy",
+  title: "AI & Software Engineering Company in Sri Lanka | CreativeX Technology",
   description:
-    "Global AI & software consultancy engineering autonomous AI agents, predictive data analytics, IoT platforms, resilient cloud infrastructure, and custom web & mobile software solutions worldwide.",
+    "CreativeX Technology is a Sri Lankan AI and software engineering company delivering custom AI solutions, enterprise ERP systems, business automation, web and mobile applications, and IT solutions for businesses in Sri Lanka and worldwide.",
   keywords: [
+    "AI Development Company in Sri Lanka",
+    "AI Solutions Provider in Sri Lanka",
+    "AI Automation Company in Sri Lanka",
+    "ERP Solutions Provider in Sri Lanka",
+    "IT Solutions Provider in Sri Lanka",
+    "Software Development Company in Sri Lanka",
+    "Custom Software Development Sri Lanka",
+    "AI Development Company in Asia",
+    "Software Development Company in Asia",
+    "WhatsApp AI Chatbot Sri Lanka",
     "Autonomous AI Agents",
-    "Enterprise Artificial Intelligence",
-    "Predictive Data Analytics",
-    "IoT Platforms",
-    "Cloud Software Engineering",
-    "Generative Engine Optimization",
-    "GEO Solutions",
-    "Global AI Consultancy",
-    "CreativeX Technology AI",
+    "Enterprise Software Solutions",
+    "CreativeX Technology (Pvt) Ltd",
   ],
   alternates: {
     canonical: baseUrl,
     languages: {
       "en-US": baseUrl,
       "en-GB": baseUrl,
+      "en-LK": baseUrl,
       "x-default": baseUrl,
     },
   },
@@ -39,19 +44,19 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "CreativeX Technology AI | Global AI & Software Engineering",
+    title: "AI & Software Engineering Company in Sri Lanka | CreativeX Technology",
     description:
-      "Enterprise autonomous AI agents, predictive analytics, IoT platforms, and digital product engineering built for global operations.",
+      "CreativeX Technology delivers custom AI solutions, enterprise ERP software, business automation, and software engineering for businesses in Sri Lanka and worldwide.",
     type: "website",
     url: baseUrl,
-    siteName: "CreativeX Technology AI",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "CreativeX Technology AI" }],
+    siteName: "CreativeX Technology",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "CreativeX Technology - AI & Software Engineering in Sri Lanka" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CreativeX Technology AI | Global AI & Software Consultancy",
+    title: "AI & Software Engineering Company in Sri Lanka | CreativeX Technology",
     description:
-      "Enterprise autonomous AI agents, predictive analytics, IoT platforms, and digital product engineering built for global operations.",
+      "CreativeX Technology delivers custom AI solutions, enterprise ERP software, business automation, and software engineering for businesses in Sri Lanka and worldwide.",
     images: [`${baseUrl}/og.png`],
   },
 };
@@ -64,19 +69,19 @@ export default function Home() {
         "@type": "WebPage",
         "@id": `${baseUrl}/#webpage`,
         url: baseUrl,
-        name: "CreativeX Technology AI | Global AI Agents & Enterprise Software",
+        name: "AI & Software Engineering Company in Sri Lanka | CreativeX Technology",
         description:
-          "Global AI & software consultancy engineering autonomous AI agents, predictive analytics, IoT platforms, and scalable cloud solutions for enterprise operations.",
+          "CreativeX Technology (Pvt) Ltd is an AI and software engineering company in Sri Lanka delivering custom AI development, enterprise ERP systems, IT solutions, and business automation.",
         isPartOf: { "@id": `${baseUrl}/#website` },
         about: { "@id": `${baseUrl}/#organization` },
         inLanguage: "en-US",
       },
       {
         "@type": "SoftwareApplication",
-        name: "CreativeX Autonomous AI Agent Suite",
+        name: "CreativeOS Work Operating System",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Cloud / Multi-Platform",
-        url: baseUrl,
+        url: `${baseUrl}/creativeos`,
         publisher: { "@id": `${baseUrl}/#organization` },
         offers: {
           "@type": "Offer",
