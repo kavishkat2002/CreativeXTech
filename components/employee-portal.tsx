@@ -1927,11 +1927,12 @@ export function EmployeePortal() {
                     <small>tkavishka101@gmail.com · Full Access &amp; Management</small>
                   </button>
 
-                  {/* Business Development Intern Button */}
+                  {/* Business Development Intern Button - Click Disabled */}
                   <button
                     type="button"
-                    className="ems-demo-account-btn"
-                    onClick={() => handleQuickLogin("intern.bd@creativexlab.online", "@Intern2026")}
+                    disabled
+                    aria-disabled="true"
+                    className="ems-demo-account-btn ems-btn-disabled"
                   >
                     <div className="ems-acc-role">
                       <span className="badge-emp">BD INTERN</span>
@@ -1940,11 +1941,12 @@ export function EmployeePortal() {
                     <small>intern.bd@creativexlab.online · Live KPI Tracking</small>
                   </button>
 
-                  {/* Supervisor Button */}
+                  {/* Supervisor Button - Click Disabled */}
                   <button
                     type="button"
-                    className="ems-demo-account-btn"
-                    onClick={() => handleQuickLogin("supervisor.bd@creativexlab.online", "@Supervisor2026")}
+                    disabled
+                    aria-disabled="true"
+                    className="ems-demo-account-btn ems-btn-disabled"
                   >
                     <div className="ems-acc-role">
                       <span className="badge-sup">SUPERVISOR</span>

@@ -18986,12 +18986,6 @@ article#retail-distribution {
   opacity: 0.85;
 }
 
-.ems-demo-account-btn:disabled:hover,
-.ems-demo-account-btn.ems-btn-disabled:hover {
-  background: rgba(255, 90, 54, 0.04) !important;
-  border-color: rgba(255, 90, 54, 0.35) !important;
-}
-
 .ems-demo-account-btn.highlight-admin {
   border-color: rgba(255, 90, 54, 0.35);
   background: rgba(255, 90, 54, 0.04);
