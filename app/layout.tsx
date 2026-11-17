@@ -107,7 +107,7 @@ export default function RootLayout({
           "CreativeX Technology (Pvt) Ltd is a premier AI and software engineering company headquartered in Rajagiriya, Colombo, Sri Lanka. CreativeX delivers custom AI development, enterprise ERP systems, IT solutions, business automation, cloud platforms, and full-stack software products for clients across Sri Lanka, Asia-Pacific, and worldwide.",
         address: {
           "@type": "PostalAddress",
-          streetAddress: "16/B Perera Mawatha",
+          streetAddress: "166 / B Perera Mawatha",
           addressLocality: "Rajagiriya",
           addressRegion: "Western Province",
           addressCountry: "LK",

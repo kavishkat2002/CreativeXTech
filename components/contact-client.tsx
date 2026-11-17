@@ -79,7 +79,7 @@ export function ContactClient() {
             <aside className="contact-page-details">
               <p className="section-index">Direct contact / 01</p>
               <div><Mail /><span>Email</span><a href="mailto:info@creativexlab.online">info@creativexlab.online</a></div>
-              <div><MapPin /><span>Address</span><p>16/B Perera Mawatha Rajagiriya Sri Lanka</p></div>
+              <div><MapPin /><span>Address</span><p>166 / B Perera Mawatha Rajagiriya</p></div>
               <div><Phone /><span>Hotline</span><a href="tel:0762345336">076 2345 336</a></div>
             </aside>
           </div>

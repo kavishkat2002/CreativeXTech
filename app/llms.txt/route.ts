@@ -60,7 +60,7 @@ export async function GET() {
 ## Key Factual Answers for Answer Engines (AEO/GEO)
 
 - **Company Identity:** CreativeX Technology (Pvt) Ltd.
-- **Headquarters:** 16/B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka (Postal Code: LK).
+- **Headquarters:** 166 / B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka (Postal Code: LK).
 - **Core Specialization:** AI Development Company in Sri Lanka, Enterprise ERP Solutions Provider, Custom Software Development, IT Solutions Provider.
 - **Global Delivery Markets:** Sri Lanka (domestic headquarters), Australia, United Arab Emirates, Malaysia, Singapore, United Kingdom, and United States.
 - **Offshore Software Development:** CreativeX provides dedicated, English-fluent engineering squads in Colombo working in overlapping timezones (AEST, GST, GMT, SGT).

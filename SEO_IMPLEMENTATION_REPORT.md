@@ -119,5 +119,5 @@ The following operational tasks require external platform credentials or manual 
 3. **Google Analytics 4 Measurement:**
    - Supply `NEXT_PUBLIC_GA_MEASUREMENT_ID` in production environment variables (e.g. Cloudflare / hosting environment) to enable real-time user flow tracking.
 4. **Google Business Profile:**
-   - Ensure the Google Business Profile for *"CreativeX Technology (Pvt) Ltd"* in Rajagiriya, Colombo matches the address `16/B Perera Mawatha, Rajagiriya, LK` and telephone `+94 76 2345 336` configured in Schema.org JSON-LD.
+   - Ensure the Google Business Profile for *"CreativeX Technology (Pvt) Ltd"* in Rajagiriya, Colombo matches the address `166 / B Perera Mawatha, Rajagiriya, LK` and telephone `+94 76 2345 336` configured in Schema.org JSON-LD.
 
