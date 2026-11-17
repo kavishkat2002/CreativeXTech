@@ -378,7 +378,7 @@ export function SiteFooter({ homePage = false }: { homePage?: boolean }) {
           </div>
           <div className="flex gap-4 text-[11px] text-white/45">
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <a href="/contact" className="hover:text-white transition-colors">Terms of Service</a>
+            <Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms &amp; Conditions</Link>
           </div>
         </div>
       </div>

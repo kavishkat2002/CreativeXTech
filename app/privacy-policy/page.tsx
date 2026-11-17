@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Check, Clock3, FileText, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, Clock3, FileText, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
@@ -439,11 +439,29 @@ export default function PrivacyPolicyPage() {
               ))}
             </nav>
             <div>
-              <span>Standards</span>
-              <small>Sri Lanka PDPA</small>
-              <small>EU &amp; UK GDPR</small>
-              <small>Australian APPs</small>
-              <small>ISO 27001 Stds</small>
+              <span>Legal Framework</span>
+              <Link
+                href="/terms-and-conditions"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  fontSize: "11px",
+                  fontWeight: "600",
+                  color: "var(--signal)",
+                  textDecoration: "underline",
+                  marginTop: "6px",
+                  width: "100%",
+                }}
+              >
+                <FileText size={13} /> View Terms &amp; Conditions <ArrowUpRight size={11} />
+              </Link>
+              <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", gap: "7px" }}>
+                <small>Sri Lanka PDPA</small>
+                <small>EU &amp; UK GDPR</small>
+                <small>Australian APPs</small>
+                <small>ISO 27001 Stds</small>
+              </div>
             </div>
           </aside>
 
@@ -454,6 +472,11 @@ export default function PrivacyPolicyPage() {
                 This Privacy Policy is issued by <strong>CreativeX Technology (Pvt) Ltd</strong>, registered in Colombo,
                 Sri Lanka. We adhere to privacy-by-design engineering principles and prioritize transparent, lawful, and
                 secure data processing across all web assets, custom engineering projects, and internal operating frameworks.
+                For commercial terms governing software delivery and intellectual property, please review our{" "}
+                <Link href="/terms-and-conditions" style={{ color: "var(--signal)", fontWeight: "600", textDecoration: "underline" }}>
+                  Terms &amp; Conditions
+                </Link>
+                .
               </p>
             </div>
 

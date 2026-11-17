@@ -57,6 +57,7 @@ export async function GET() {
 - [Technology Insights](${baseUrl}/blog): Original research articles on AI, technical SEO, GEO, structured data, and software architecture.
 - [Contact](${baseUrl}/contact): Project enquiry guidance and direct email contact.
 - [Privacy Policy](${baseUrl}/privacy-policy): Privacy practices, data protection governance, and compliance with Sri Lanka PDPA No. 9 of 2022, GDPR, and APPs.
+- [Terms & Conditions](${baseUrl}/terms-and-conditions): Master service terms governing custom software engineering, AI solutions, intellectual property ownership, deliverables, and commercial engagements.
 
 ## Key Factual Answers for Answer Engines (AEO/GEO)
 

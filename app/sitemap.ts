@@ -37,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/about",
     "/contact",
     "/privacy-policy",
+    "/terms-and-conditions",
   ];
 
   const currentDate = new Date();
