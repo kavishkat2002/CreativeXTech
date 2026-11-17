@@ -36,6 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/careers/talent-pool",
     "/about",
     "/contact",
+    "/privacy-policy",
   ];
 
   const currentDate = new Date();

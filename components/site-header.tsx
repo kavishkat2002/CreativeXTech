@@ -377,7 +377,7 @@ export function SiteFooter({ homePage = false }: { homePage?: boolean }) {
             <span>© {new Date().getFullYear()} CreativeX Technology PVT LTD. All rights reserved.</span>
           </div>
           <div className="flex gap-4 text-[11px] text-white/45">
-            <a href="/contact" className="hover:text-white transition-colors">Privacy Policy</a>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <a href="/contact" className="hover:text-white transition-colors">Terms of Service</a>
           </div>
         </div>
