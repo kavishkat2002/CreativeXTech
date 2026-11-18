@@ -527,24 +527,347 @@ export default function PrivacyPolicyPage() {
               </section>
             ))}
 
-            {/* ── Bottom Summary & Certification Card ── */}
-            <section className="article-takeaways">
-              <p className="section-index">Data Protection Office</p>
-              <h2>Commitment to Transparency</h2>
-              <p>
+            {/* ── Bottom Summary & Certification Card (Redesigned Modern User-Friendly Card) ── */}
+            <section
+              style={{
+                marginTop: "48px",
+                background: "#ffffff",
+                border: "1px solid rgba(11, 12, 11, 0.12)",
+                borderTop: "3px solid var(--signal)",
+                borderRadius: "16px",
+                padding: "36px 32px",
+                boxShadow: "0 14px 34px -10px rgba(11, 12, 11, 0.08), 0 2px 6px -2px rgba(11, 12, 11, 0.03)",
+              }}
+            >
+              {/* Header Badges */}
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    background: "rgba(255, 90, 54, 0.09)",
+                    color: "var(--signal)",
+                    border: "1px solid rgba(255, 90, 54, 0.22)",
+                    borderRadius: "9999px",
+                    padding: "4px 12px",
+                    fontSize: "11px",
+                    fontWeight: "700",
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    fontFamily: "var(--font-mono)",
+                  }}
+                >
+                  <ShieldCheck size={13} /> Data Protection Office
+                </span>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    background: "rgba(11, 12, 11, 0.04)",
+                    color: "rgba(11, 12, 11, 0.72)",
+                    borderRadius: "9999px",
+                    padding: "4px 10px",
+                    fontSize: "11px",
+                    fontWeight: "600",
+                  }}
+                >
+                  <Check size={12} style={{ color: "#16a34a" }} /> Annual Audit 2026 Active
+                </span>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    background: "rgba(11, 12, 11, 0.04)",
+                    color: "rgba(11, 12, 11, 0.72)",
+                    borderRadius: "9999px",
+                    padding: "4px 10px",
+                    fontSize: "11px",
+                    fontWeight: "600",
+                  }}
+                >
+                  <Check size={12} style={{ color: "#16a34a" }} /> Sri Lanka PDPA Compliant
+                </span>
+              </div>
+
+              {/* Title & Description */}
+              <h2
+                style={{
+                  fontSize: "clamp(1.65rem, 2.8vw, 2.15rem)",
+                  fontWeight: "700",
+                  lineHeight: "1.25",
+                  letterSpacing: "-0.03em",
+                  color: "var(--ink)",
+                  margin: "0 0 12px",
+                }}
+              >
+                Commitment to Transparency
+              </h2>
+              <p
+                style={{
+                  fontSize: "15px",
+                  lineHeight: "1.7",
+                  color: "rgba(11, 12, 11, 0.72)",
+                  margin: "0 0 24px",
+                  maxWidth: "720px",
+                }}
+              >
                 CreativeX Technology (Pvt) Ltd reviews and audits its data handling practices annually. If you have any
-                inquiries or wish to exercise statutory data subject rights, contact us directly at{" "}
-                <a href="mailto:info@creativexlab.online" style={{ color: "var(--signal)", textDecoration: "underline" }}>
-                  info@creativexlab.online
-                </a>{" "}
-                or call our hotline at{" "}
-                <a href="tel:0762345336" style={{ color: "var(--signal)", textDecoration: "underline" }}>
-                  076 2345 336
-                </a>
-                .
+                inquiries, wish to exercise statutory data subject rights, or require data deletion, reach out directly
+                to our Data Protection and Compliance team:
               </p>
-              <div style={{ marginTop: "16px", fontSize: "12px", color: "rgba(11, 12, 11, 0.55)", fontFamily: "var(--font-mono)" }}>
-                Last Updated: {lastUpdated} · Effective: {effectiveDate} · Colombo, Sri Lanka
+
+              {/* Actionable Contact Cards Grid */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
+                  gap: "14px",
+                  marginBottom: "24px",
+                }}
+              >
+                <a
+                  href="mailto:info@creativexlab.online"
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "12px",
+                    padding: "16px",
+                    borderRadius: "12px",
+                    background: "rgba(11, 12, 11, 0.025)",
+                    border: "1px solid rgba(11, 12, 11, 0.08)",
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
+                  className="hover:border-[#ff5a36] hover:bg-[#fff9f8] transition-colors"
+                >
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "10px",
+                      background: "rgba(255, 90, 54, 0.1)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "var(--signal)",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Mail size={18} />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        fontWeight: "600",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        color: "rgba(11, 12, 11, 0.55)",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
+                      Direct DPO Email
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        color: "var(--ink)",
+                        marginTop: "2px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      info@creativexlab.online
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        color: "var(--signal)",
+                        marginTop: "4px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "3px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Send inquiry <ArrowUpRight size={11} />
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  href="tel:0762345336"
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "12px",
+                    padding: "16px",
+                    borderRadius: "12px",
+                    background: "rgba(11, 12, 11, 0.025)",
+                    border: "1px solid rgba(11, 12, 11, 0.08)",
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
+                  className="hover:border-[#ff5a36] hover:bg-[#fff9f8] transition-colors"
+                >
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "10px",
+                      background: "rgba(255, 90, 54, 0.1)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "var(--signal)",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Phone size={18} />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        fontWeight: "600",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        color: "rgba(11, 12, 11, 0.55)",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
+                      Hotline &amp; Telephone
+                    </div>
+                    <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--ink)", marginTop: "2px" }}>
+                      076 2345 336
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        color: "var(--signal)",
+                        marginTop: "4px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "3px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Call directly <ArrowUpRight size={11} />
+                    </div>
+                  </div>
+                </a>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "12px",
+                    padding: "16px",
+                    borderRadius: "12px",
+                    background: "rgba(11, 12, 11, 0.025)",
+                    border: "1px solid rgba(11, 12, 11, 0.08)",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "10px",
+                      background: "rgba(255, 90, 54, 0.1)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "var(--signal)",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <MapPin size={18} />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        fontWeight: "600",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        color: "rgba(11, 12, 11, 0.55)",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
+                      Registered Office
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "13px",
+                        fontWeight: "600",
+                        color: "var(--ink)",
+                        marginTop: "2px",
+                        lineHeight: "1.4",
+                      }}
+                    >
+                      166 / B Perera Mawatha, Rajagiriya, Colombo
+                    </div>
+                    <div style={{ fontSize: "11px", color: "rgba(11, 12, 11, 0.55)", marginTop: "3px" }}>
+                      Sri Lanka
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Metadata & Fast Cross-Link Bar */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "12px",
+                  borderTop: "1px solid rgba(11, 12, 11, 0.08)",
+                  paddingTop: "18px",
+                  fontSize: "12px",
+                  color: "rgba(11, 12, 11, 0.6)",
+                }}
+              >
+                <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontFamily: "var(--font-mono)" }}>
+                  <Clock3 size={13} style={{ color: "var(--signal)" }} />
+                  <span>
+                    Last Updated: {lastUpdated} · Effective: {effectiveDate} · Colombo, Sri Lanka
+                  </span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                  <Link
+                    href="/terms-and-conditions"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      fontWeight: "600",
+                      color: "var(--signal)",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    <FileText size={13} /> Terms &amp; Conditions <ArrowUpRight size={11} />
+                  </Link>
+                  <a
+                    href="#top"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      fontWeight: "600",
+                      color: "rgba(11, 12, 11, 0.7)",
+                      textDecoration: "none",
+                    }}
+                    className="hover:text-black transition-colors"
+                  >
+                    Back to top ↑
+                  </a>
+                </div>
               </div>
             </section>
           </div>
