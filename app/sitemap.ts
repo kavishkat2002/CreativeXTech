@@ -7,7 +7,7 @@ import { getServices } from "@/lib/services";
 
 export const dynamic = "force-dynamic";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 const siteFallbackDate = new Date("2026-09-12T00:00:00.000Z");
 
 /**

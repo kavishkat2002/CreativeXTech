@@ -6,7 +6,7 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getArticles, getArticle, getArticleSlugs, formatArticleDate } from "@/lib/articles";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export async function generateStaticParams() {
   const slugs = await getArticleSlugs();

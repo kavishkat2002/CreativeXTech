@@ -1,0 +1,39 @@
+Old URL,New URL,HTTP Status,Notes
+https://creativexlab.online/,https://www.creativextechnology.com/,301,Homepage canonical redirect
+https://creativexlab.online,https://www.creativextechnology.com,301,Homepage without trailing slash
+https://creativexlab.online/about,https://www.creativextechnology.com/about,301,About page
+https://creativexlab.online/services,https://www.creativextechnology.com/services,301,Services directory
+https://creativexlab.online/services/ai-automation-agents,https://www.creativextechnology.com/services/ai-automation-agents,301,Service - AI Automation
+https://creativexlab.online/services/data-predictive-analytics,https://www.creativextechnology.com/services/data-predictive-analytics,301,Service - Data Analytics
+https://creativexlab.online/services/iot-smart-operations,https://www.creativextechnology.com/services/iot-smart-operations,301,Service - IoT
+https://creativexlab.online/services/web-mobile-product-engineering,https://www.creativextechnology.com/services/web-mobile-product-engineering,301,Service - Web & Mobile
+https://creativexlab.online/services/cloud-solutions,https://www.creativextechnology.com/services/cloud-solutions,301,Service - Cloud
+https://creativexlab.online/services/ai-business-consultation,https://www.creativextechnology.com/services/ai-business-consultation,301,Service - AI Consultation
+https://creativexlab.online/solutions,https://www.creativextechnology.com/solutions,301,Solutions hub
+https://creativexlab.online/solutions/export-logistics,https://www.creativextechnology.com/solutions/export-logistics,301,Solution - Logistics
+https://creativexlab.online/solutions/hospitality-smart-facilities,https://www.creativextechnology.com/solutions/hospitality-smart-facilities,301,Solution - Hospitality
+https://creativexlab.online/solutions/retail-distribution,https://www.creativextechnology.com/solutions/retail-distribution,301,Solution - Retail
+https://creativexlab.online/solutions/professional-services,https://www.creativextechnology.com/solutions/professional-services,301,Solution - Professional
+https://creativexlab.online/solutions/startups-saas-products,https://www.creativextechnology.com/solutions/startups-saas-products,301,Solution - SaaS
+https://creativexlab.online/projects,https://www.creativextechnology.com/projects,301,Projects index
+https://creativexlab.online/projects/alexa-business-agent,https://www.creativextechnology.com/projects/alexa-business-agent,301,Project - Alexa AI Agent (static)
+https://creativexlab.online/projects/herbcey-store-whatsapp-assistant,https://www.creativextechnology.com/projects/herbcey-store-whatsapp-assistant,301,Project - Herbcey WhatsApp (static)
+https://creativexlab.online/ai-development-sri-lanka,https://www.creativextechnology.com/ai-development-sri-lanka,301,Commercial pillar - AI Development
+https://creativexlab.online/erp-solutions-sri-lanka,https://www.creativextechnology.com/erp-solutions-sri-lanka,301,Commercial pillar - ERP
+https://creativexlab.online/it-solutions-sri-lanka,https://www.creativextechnology.com/it-solutions-sri-lanka,301,Commercial pillar - IT Solutions
+https://creativexlab.online/custom-software-development,https://www.creativextechnology.com/custom-software-development,301,Commercial pillar - Custom Software
+https://creativexlab.online/creativeos,https://www.creativextechnology.com/creativeos,301,CreativeOS platform page
+https://creativexlab.online/blog,https://www.creativextechnology.com/blog,301,Blog index
+https://creativexlab.online/careers,https://www.creativextechnology.com/careers,301,Careers hub
+https://creativexlab.online/careers/talent-pool,https://www.creativextechnology.com/careers/talent-pool,301,Talent pool
+https://creativexlab.online/contact,https://www.creativextechnology.com/contact,301,Contact page
+https://creativexlab.online/privacy-policy,https://www.creativextechnology.com/privacy-policy,301,Privacy policy
+https://creativexlab.online/terms-and-conditions,https://www.creativextechnology.com/terms-and-conditions,301,Terms & conditions
+https://creativexlab.online/sitemap.xml,https://www.creativextechnology.com/sitemap.xml,301,XML sitemap
+https://creativexlab.online/robots.txt,https://www.creativextechnology.com/robots.txt,301,Robots.txt
+https://creativexlab.online/rss.xml,https://www.creativextechnology.com/rss.xml,301,RSS feed - articles
+https://creativexlab.online/careers/rss.xml,https://www.creativextechnology.com/careers/rss.xml,301,RSS feed - careers
+https://creativexlab.online/careers/jobs.json,https://www.creativextechnology.com/careers/jobs.json,301,Jobs JSON feed
+https://creativexlab.online/llms.txt,https://www.creativextechnology.com/llms.txt,301,LLM manifest file
+https://creativextechnology.com/,https://www.creativextechnology.com/,301,Apex to www redirect (new domain)
+https://creativextechnology.com/:path*,https://www.creativextechnology.com/:path*,301,Apex path passthrough (new domain)

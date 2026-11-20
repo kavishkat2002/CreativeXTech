@@ -1,0 +1,24 @@
+# Cloudflare Pages / Workers — Redirect Rules
+# =============================================================================
+# Purpose: Permanent 301 redirects from old domain (creativexlab.online) and
+#          non-www new domain (creativextechnology.com) to canonical production
+#          domain (https://www.creativextechnology.com).
+#
+# IMPORTANT DEPLOYMENT NOTES:
+# 1. This _redirects file is served by Cloudflare Pages when present in the
+#    output/public directory. For Workers-based deployments (vinext), you may
+#    instead need to configure Cloudflare Redirect Rules in the Cloudflare
+#    dashboard under: Rules → Redirect Rules for each source domain.
+# 2. The old domain (creativexlab.online) MUST have its DNS pointing to the
+#    same Cloudflare zone or have a separate Cloudflare Redirect Rule configured
+#    at the account level before these redirects resolve.
+# 3. Do NOT delete or cancel the old domain during the migration.
+# 4. Test redirect chains to prevent loops before going live.
+# =============================================================================
+
+# Redirect non-www new domain → www (prevents duplicate indexing)
+https://creativextechnology.com/* https://www.creativextechnology.com/:splat 301
+
+# Redirect old domain → new www canonical (preserves all URL paths)
+https://creativexlab.online/* https://www.creativextechnology.com/:splat 301
+https://www.creativexlab.online/* https://www.creativextechnology.com/:splat 301

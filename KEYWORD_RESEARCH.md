@@ -1,21 +1,22 @@
-# Keyword Research & Search Intent Strategy
-**Company:** CreativeX Technology (Pvt) Ltd  
-**Website:** https://creativexlab.online/  
+# Keyword Research & Search Intent Strategy — Creativex Technology
+
+**Company:** Creativex Technology (Pvt) Ltd  
+**Primary Domain:** `https://www.creativextechnology.com`  
 **Primary Market:** Sri Lanka (Domestic B2B & Enterprise)  
-**Secondary Markets:** Asia-Pacific (Malaysia, Australia, UAE, Bangladesh, Nepal, Singapore, Global Offshore)  
-**Methodology:** Intent-driven semantic clustering, Google Search Console query patterns, competitor landscape analysis for South Asian IT exporters, and generative query syntax modeling.  
-**Note on Metrics:** As external paid third-party API keys (e.g. Ahrefs/Semrush) are not directly bound to this environment, all search volumes and difficulty ratings are explicitly labeled as **Strategic Industry Estimates** based on regional commercial search volume indices and SERP competitive density.
+**Secondary Markets:** Australia, Malaysia, Singapore, United Arab Emirates (UAE), Bangladesh, and Nepal  
+**Methodology:** Intent-driven semantic clustering, Search Console query modeling, competitor landscape analysis for South Asian IT exporters, and generative query syntax modeling for LLM answer engines.  
+**Note on Metrics:** As external paid third-party API keys (e.g., Ahrefs/Semrush) are not directly bound to this environment, all search volumes and difficulty ratings are explicitly labeled as **Strategic Industry Estimates** based on regional commercial search volume indices and SERP competitive density.
 
 ---
 
 ## 1. Executive Strategy & Semantic Architecture
 
-The organic visibility architecture for CreativeX Technology (Pvt) Ltd rests upon five distinct keyword clusters that align commercial intent with the company's verified engineering offerings:
+The organic visibility architecture for Creativex Technology (Pvt) Ltd rests upon five distinct keyword clusters that align commercial intent with the company's verified engineering offerings:
 
-1. **AI Development & Enterprise Intelligence (Sri Lanka & Asia):** High commercial intent targeting decision-makers seeking machine learning, generative AI, autonomous agent design, and enterprise AI transformation.
-2. **ERP & Enterprise Business Software (Sri Lanka & Regional SMEs):** High-intent B2B searches for business management systems, inventory tracking, distribution workflows, and custom enterprise resource planning.
-3. **IT Solutions & Digital Transformation (Sri Lanka):** Broad corporate and institutional queries seeking reliable, end-to-end technology partners.
-4. **Custom Software Development & Offshore Engineering:** High-value procurement queries from Sri Lankan enterprises and foreign founders (Australia, UAE, Malaysia, UK) seeking dedicated engineering squads.
+1. **AI Development & Enterprise Intelligence (Sri Lanka & Regional):** High commercial intent targeting decision-makers seeking machine learning, generative AI, autonomous agent design, and enterprise AI transformation.
+2. **ERP & Enterprise Business Software (Sri Lanka & Regional SMEs):** High-intent B2B searches for business management systems, inventory tracking, distribution workflows, and custom enterprise resource planning with zero per-seat fees.
+3. **IT Solutions & Digital Transformation (Sri Lanka & Asia):** Broad corporate and institutional queries seeking reliable, end-to-end technology partners for cloud infrastructure, security, and legacy modernization.
+4. **Custom Software Development & Offshore Engineering:** High-value procurement queries from Sri Lankan enterprises and foreign founders (Australia, UAE, Malaysia, Singapore, Bangladesh, Nepal) seeking dedicated engineering squads.
 5. **AI Automation & Intelligent Workflows:** Transactional and consultative searches for WhatsApp chatbots, business process automation, operational triage, and customer service automation.
 
 ---
@@ -44,7 +45,7 @@ The organic visibility architecture for CreativeX Technology (Pvt) Ltd rests upo
 
 ---
 
-### Cluster B: ERP & Enterprise Software Solutions (Sri Lanka)
+### Cluster B: ERP & Enterprise Software Solutions (Sri Lanka & Regional)
 
 | Keyword | Intent | Target Market | Priority | Type | Recommended Landing Page | Content Format |
 |---|---|---|---|---|---|---|
@@ -61,82 +62,57 @@ The organic visibility architecture for CreativeX Technology (Pvt) Ltd rests upo
 
 ---
 
-### Cluster C: IT Solutions & Enterprise Technology (Sri Lanka)
+### Cluster C: IT Solutions & Enterprise Technology (Sri Lanka & Secondary Markets)
 
 | Keyword | Intent | Target Market | Priority | Type | Recommended Landing Page | Content Format |
 |---|---|---|---|---|---|---|
 | IT solutions provider in Sri Lanka | Commercial / B2B | Sri Lanka | Critical | Primary | `/it-solutions-sri-lanka` | Dedicated Service Landing |
 | Best IT solutions company in Sri Lanka | Commercial Investigation | Sri Lanka | High | Secondary | `/it-solutions-sri-lanka` | Verification & Client Proof |
 | IT services company Sri Lanka | Commercial | Sri Lanka | High | Primary | `/it-solutions-sri-lanka` | Service Spectrum |
-| Technology solutions provider Sri Lanka | Broad Commercial | Sri Lanka | Medium | Secondary | `/it-solutions-sri-lanka` | Technology Capabilities |
-| IT consulting company Sri Lanka | Consultative | Sri Lanka | Medium | Secondary | `/it-solutions-sri-lanka` | Advisory & Audit Roadmap |
-| Business technology solutions Sri Lanka | Commercial | Sri Lanka | Medium | Secondary | `/it-solutions-sri-lanka` | Digital Transformation Spec |
-| Enterprise IT solutions Sri Lanka | High B2B | Sri Lanka | High | Secondary | `/it-solutions-sri-lanka` | Infrastructure & Security |
-| Digital transformation company Sri Lanka | Executive / Commercial | Sri Lanka | High | Secondary | `/it-solutions-sri-lanka` | Modernization Case Studies |
+| Enterprise IT solutions Sri Lanka | B2B / Transactional | Sri Lanka | High | Primary | `/it-solutions-sri-lanka` | Architecture & Infrastructure |
+| Corporate IT solutions provider Colombo | Commercial | Sri Lanka (Colombo) | High | Primary | `/it-solutions-sri-lanka` | Colombo Hub & Delivery Model |
+| IT consulting company Sri Lanka | Consultative | Sri Lanka | Medium | Secondary | `/it-solutions-sri-lanka` | Strategic Roadmap Section |
+| Cloud solutions provider Sri Lanka | Technical / Commercial | Sri Lanka | High | Primary | `/services/cloud-solutions` | Cloud Architecture Spec |
+| Digital transformation company Sri Lanka | Consultative / B2B | Sri Lanka | High | Primary | `/it-solutions-sri-lanka` | Transformation Methodology |
+| IT systems integrator Sri Lanka | Commercial | Sri Lanka | Medium | Secondary | `/it-solutions-sri-lanka` | Integration Capabilities |
+| Business IT solutions Sri Lanka | Commercial | Sri Lanka | High | Secondary | `/it-solutions-sri-lanka` | B2B Solutions Overview |
 
 ---
 
-### Cluster D: Software Development & Engineering (Domestic & International)
+### Cluster D: Custom Software Development & Offshore Engineering
 
 | Keyword | Intent | Target Market | Priority | Type | Recommended Landing Page | Content Format |
 |---|---|---|---|---|---|---|
-| Software development company Sri Lanka | Commercial / Transactional | Sri Lanka | Critical | Primary | `/custom-software-development` | Core Engineering Hub |
-| Custom software development Sri Lanka | High Transactional | Sri Lanka | Critical | Primary | `/custom-software-development` | Methodology & Architecture |
-| Software engineering company Sri Lanka | Commercial | Sri Lanka | High | Secondary | `/custom-software-development` | Squad Model & Delivery |
-| Web application development Sri Lanka | Transactional | Sri Lanka | High | Secondary | `/custom-software-development` | Full-Stack Capabilities |
-| Enterprise software development Sri Lanka | Commercial / Enterprise | Sri Lanka | High | Primary | `/custom-software-development` | High-Availability Architecture |
-| SaaS development company Sri Lanka | Technical / Startup | Sri Lanka / Global | High | Secondary | `/solutions#startups-saas-products` | SaaS Acceleration |
-| Mobile app development company Sri Lanka | Transactional | Sri Lanka | High | Secondary | `/services/web-mobile-product-engineering` | Cross-Platform Engineering |
-| Offshore software development Sri Lanka | International Commercial | Australia, UK, UAE, Global | Critical | Primary | `/custom-software-development` | Offshore Engagement Models |
-| Software development company in Asia | International Commercial | Asia-Pacific / Global | High | Primary | `/custom-software-development` | Global Delivery Capabilities |
+| Custom software development Sri Lanka | Commercial / Transactional | Sri Lanka / Global | Critical | Primary | `/custom-software-development` | Comprehensive Pillar Page |
+| Software development company in Sri Lanka | Commercial / High Intent | Sri Lanka / Global | Critical | Primary | `/custom-software-development` | Full Capability Overview |
+| Best software development company Sri Lanka | Commercial Investigation | Sri Lanka / Global | High | Secondary | `/custom-software-development` | Client Proof & Metrics |
+| Bespoke software development Sri Lanka | High-Value B2B | Sri Lanka / UK / AU | High | Primary | `/custom-software-development` | Engineering Standard Spec |
+| Offshore software development Sri Lanka | International Procurement | Australia / UAE / Singapore | Critical | Primary | `/custom-software-development` | Offshore Delivery Model |
+| Dedicated development team Sri Lanka | International Transactional | Australia / Singapore / UAE | High | Primary | `/custom-software-development` | Squad Staffing Model |
+| Web application development Sri Lanka | Commercial | Sri Lanka / Global | High | Secondary | `/services/web-mobile-product-engineering` | Full-Stack Tech Stack |
+| Mobile app development company Sri Lanka | Commercial / Transactional | Sri Lanka / Global | High | Secondary | `/services/web-mobile-product-engineering` | Native & Cross-Platform Spec |
+| Software engineering company Colombo | Commercial / Local | Sri Lanka (Colombo) | High | Primary | `/about` | Studio & Leadership Section |
+| Next.js development agency Sri Lanka | Technical / Specialist | Global / APAC | Medium | Secondary | `/custom-software-development` | Modern Tech Stack Matrix |
 
 ---
 
-### Cluster E: AI Automation, Agents & Conversational Systems
+### Cluster E: Secondary Markets & Regional Commercial Intent
 
 | Keyword | Intent | Target Market | Priority | Type | Recommended Landing Page | Content Format |
 |---|---|---|---|---|---|---|
-| AI automation solutions Sri Lanka | Commercial / Transactional | Sri Lanka | Critical | Primary | `/services/ai-automation-agents` | Intelligent Systems Spec |
-| AI chatbot development Sri Lanka | Transactional | Sri Lanka | High | Primary | `/services/ai-automation-agents` | Bot & Agent Architecture |
-| WhatsApp AI chatbot Sri Lanka | High Transactional | Sri Lanka | Critical | Primary | `/services/ai-automation-agents` | Omnichannel CRM Integration |
-| AI agent development Sri Lanka | Technical / Commercial | Sri Lanka | High | Primary | `/services/ai-automation-agents` | Autonomous Agent Mesh |
-| Business process automation Sri Lanka | Commercial / Operations | Sri Lanka | High | Secondary | `/creativeos` | Workflow Automation Engine |
-| Workflow automation company Sri Lanka | Consultative / Commercial | Sri Lanka | Medium | Secondary | `/creativeos` | Operations Control |
-| Customer service automation Sri Lanka | Transactional | Sri Lanka | Medium | Secondary | `/services/ai-automation-agents` | Support Triage Workflows |
-| WhatsApp automation company Sri Lanka | Transactional | Sri Lanka | High | Secondary | `/services/ai-automation-agents` | Enterprise API Integration |
+| Offshore software engineering squads Australia | Commercial / Offshore | Australia | High | Primary | `/custom-software-development` | AEST Overlap & Delivery Hub |
+| Work Operating System Australia | Software Discovery | Australia | High | Primary | `/creativeos` | Statutory AU Super & APPs Spec |
+| Enterprise AI development UAE | Commercial B2B | UAE / Middle East | High | Secondary | `/ai-development-sri-lanka` | GST Timezone Alignment |
+| Custom ERP development Singapore | Commercial B2B | Singapore | High | Secondary | `/erp-solutions-sri-lanka` | High-Efficiency Offshore Model |
+| Software development outsourcing Malaysia | Commercial / Tech | Malaysia | High | Secondary | `/custom-software-development` | Regional Nearshore Delivery |
+| Custom business software Bangladesh | Commercial B2B | Bangladesh | Medium | Secondary | `/erp-solutions-sri-lanka` | Scalable Architecture |
+| IT solutions provider Nepal | Commercial B2B | Nepal | Medium | Secondary | `/creativeos` | South Asian Cross-Border Systems |
 
 ---
 
-## 3. Search Engine Cannibalization Prevention Matrix
+## 3. Search Engine Optimization & Intent Mapping
 
-To eliminate internal keyword cannibalization, strict ownership of primary keywords is assigned to designated canonical URLs:
-
-1. **`/ai-development-sri-lanka`** OWNS:
-   - *"AI development company in Sri Lanka"*
-   - *"AI solutions provider in Sri Lanka"*
-   - *"Artificial intelligence company Sri Lanka"*
-   - *"AI company in Asia"*
-2. **`/erp-solutions-sri-lanka`** OWNS:
-   - *"ERP software company Sri Lanka"*
-   - *"ERP solutions provider Sri Lanka"*
-   - *"Custom ERP development Sri Lanka"*
-   - *"Inventory management software Sri Lanka"*
-3. **`/it-solutions-sri-lanka`** OWNS:
-   - *"IT solutions provider in Sri Lanka"*
-   - *"IT services company Sri Lanka"*
-   - *"Digital transformation company Sri Lanka"*
-4. **`/custom-software-development`** OWNS:
-   - *"Software development company Sri Lanka"*
-   - *"Custom software development Sri Lanka"*
-   - *"Offshore software development Sri Lanka"*
-   - *"Software development company in Asia"*
-5. **`/services/ai-automation-agents`** OWNS:
-   - *"AI automation company Sri Lanka"*
-   - *"WhatsApp AI chatbot Sri Lanka"*
-   - *"AI chatbot development Sri Lanka"*
-   - *"AI agent development Sri Lanka"*
-6. **`/` (Homepage)** OWNS:
-   - Brand entity: *"CreativeX Technology (Pvt) Ltd"*
-   - Master Category: *"AI & Software Engineering Company in Sri Lanka"*
-   - Secondary Category: *"Enterprise Technology Solutions Provider"*
-
+### Content Format & Landing Page Rules:
+1. **Zero Visible Content Modification:** All target keywords must align with existing headers, existing service descriptions, and semantic HTML without injecting spammy text blocks.
+2. **Metadata Integration:** Title tags and meta descriptions derived directly from existing visible page content satisfy search intent for both primary and secondary keyword variants.
+3. **Internal Anchor Text:** Internal navigation and cross-links (e.g. from `/services` and `/solutions` to specific pillar pages) provide strong topical signals.

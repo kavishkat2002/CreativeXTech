@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { CustomSoftwareClient } from "@/components/custom-software-client";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "Custom Software Development Sri Lanka | Software Engineering Company | Creativex Technology",

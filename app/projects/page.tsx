@@ -6,7 +6,7 @@ import { ProjectGallery } from "@/components/project-gallery";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { staticProjects } from "@/lib/projects";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "AI Agents & Software Engineering Projects | Creativex Technology",

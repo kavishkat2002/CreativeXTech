@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -27,6 +27,10 @@ export default function robots(): MetadataRoute.Robots {
           "Bytespider",
           "CCBot",
           "cohere-ai",
+          "meta-externalagent",
+          "FacebookBot",
+          "DuckAssistBot",
+          "Diffbot",
         ],
         allow: "/",
         disallow: ["/admin", "/admin/", "/api/", "/api/*"],

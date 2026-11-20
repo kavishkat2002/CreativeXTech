@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CreativeOSShowcase } from "@/components/creativeos-showcase";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "CreativeOS — Autonomous Work Operating System & Predictive Capacity Engine | Australia, UK, Nepal & Global",
@@ -46,14 +46,6 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: `${baseUrl}/creativeos`,
-    languages: {
-      "en-AU": `${baseUrl}/creativeos?region=au`,
-      "en-GB": `${baseUrl}/creativeos?region=gb`,
-      "en-NP": `${baseUrl}/creativeos?region=np`,
-      "en-LK": `${baseUrl}/creativeos?region=lk`,
-      "en-US": `${baseUrl}/creativeos?region=us`,
-      "x-default": `${baseUrl}/creativeos`,
-    },
   },
   openGraph: {
     title: "CreativeOS — Autonomous Work Operating System & Predictive Capacity Engine",

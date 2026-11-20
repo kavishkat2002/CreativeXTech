@@ -5,7 +5,7 @@ import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 export const viewport: Viewport = {
@@ -37,7 +37,10 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "vb3sWn18iqKIyBI2czOJNniLqFLtlg2mJBl6uxgQkLg",
+    google: [
+      "GVZZ1telPd2vPJ5mQlTB7Up1pyeP94YYIVAL0UfYwqc",
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "vb3sWn18iqKIyBI2czOJNniLqFLtlg2mJBl6uxgQkLg",
+    ],
     other: {
       "msvalidate.01": "BCF31216FC65CB0D5A1BBDC8BB3E4983",
     },
@@ -204,6 +207,23 @@ export default function RootLayout({
             areaServed: "Worldwide",
           },
         ],
+        founder: {
+          "@type": "Person",
+          name: "Kavishka Thilakarathna",
+          jobTitle: "Executive Director & Technology Lead",
+        },
+        foundingDate: "2024",
+        slogan: "Engineering Tomorrow's Intelligence Today",
+        currenciesAccepted: "LKR, USD, AUD, GBP, EUR, AED, SGD",
+        paymentAccepted: "Bank Transfer, Credit Card, Wire Transfer",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            opens: "09:00",
+            closes: "18:00",
+          },
+        ],
         sameAs: [
           "https://www.linkedin.com/company/creativex-technology",
           "https://www.facebook.com/CreativeTechlk",
@@ -217,6 +237,11 @@ export default function RootLayout({
         "@id": `${baseUrl}/#website`,
         url: baseUrl,
         name: "Creativex Technology",
+        alternateName: [
+          "Creativex Technology",
+          "Creativex Tech",
+          "Creativex AI Lab",
+        ],
         description:
           "AI and software engineering company in Sri Lanka building AI solutions, ERP systems, custom software, and enterprise automation worldwide.",
         publisher: { "@id": `${baseUrl}/#organization` },
@@ -233,6 +258,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <meta name="google-site-verification" content="GVZZ1telPd2vPJ5mQlTB7Up1pyeP94YYIVAL0UfYwqc" />
         <meta name="codex-preview" content="development" />
         <meta name="format-detection" content="telephone=no" />
         <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM Context Summary" />

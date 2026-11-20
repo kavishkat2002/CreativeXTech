@@ -18,7 +18,7 @@ import {
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "IT Solutions Provider in Sri Lanka | Enterprise IT Services | Creativex Technology",

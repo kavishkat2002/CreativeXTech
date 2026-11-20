@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ContactClient } from "@/components/contact-client";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "Contact Creativex Technology | Book an AI & Software Engineering Consultation",

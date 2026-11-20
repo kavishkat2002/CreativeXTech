@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { ErpSolutionClient } from "@/components/erp-solution-client";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "ERP Solutions Provider in Sri Lanka | Custom ERP Software | Creativex Technology",
