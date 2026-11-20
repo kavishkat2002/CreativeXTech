@@ -32,9 +32,11 @@ export function WhatsAppButton() {
   const pathname = usePathname();
 
   const isAdmin = pathname?.startsWith("/admin");
+  const isEmployee = pathname?.startsWith("/employee");
+  const shouldHide = isAdmin || isEmployee;
 
   useEffect(() => {
-    if (isAdmin) return;
+    if (shouldHide) return;
 
     // Listen for first interaction to unlock audio
     window.addEventListener("mousedown", initAudio);
@@ -86,10 +88,10 @@ export function WhatsAppButton() {
       clearTimeout(showTimer);
       clearInterval(interval);
     };
-  }, [isAdmin]);
+  }, [shouldHide]);
 
-  // If we are in the admin section, do not render the WhatsApp button
-  if (isAdmin) {
+  // If we are in the admin or employee section, do not render the WhatsApp button
+  if (shouldHide) {
     return null;
   }
 

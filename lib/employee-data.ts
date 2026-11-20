@@ -67,6 +67,7 @@ export interface DailyChecklistItem {
   completedAt?: string;
   assignedBy?: string;
   assignedTo?: string;
+  date?: string; // YYYY-MM-DD
 }
 
 export interface SalesScriptItem {
@@ -76,6 +77,19 @@ export interface SalesScriptItem {
   keyHook: string;
   pitchBody: string;
   objectionHandling: string;
+}
+
+export interface EodReportItem {
+  id: string;
+  date: string; // YYYY-MM-DD
+  submittedAt: string;
+  deliverablesCount: string;
+  accomplishments: string;
+  blockers?: string;
+  status: "pending_review" | "signed_off";
+  signedOffBy?: string;
+  signedOffAt?: string;
+  supervisorNotes?: string;
 }
 
 export interface Employee {
@@ -102,6 +116,7 @@ export interface Employee {
   attendance: AttendanceRecord[];
   leads?: LeadPipelineItem[];
   checklist?: DailyChecklistItem[];
+  eodReports?: EodReportItem[];
 }
 
 export interface EMSUserSession {
@@ -168,9 +183,9 @@ export const INITIAL_EMPLOYEES: Employee[] = [
     ],
     weeklyReviews: [],
     attendance: [
-      { date: "2026-11-14", checkIn: "08:30 AM", checkOut: "07:30 PM", status: "present", workMode: "Office (Rajagiriya)" },
-      { date: "2026-11-13", checkIn: "08:45 AM", checkOut: "07:15 PM", status: "present", workMode: "Office (Rajagiriya)" },
-      { date: "2026-11-12", checkIn: "09:00 AM", checkOut: "07:00 PM", status: "present", workMode: "Remote" },
+      { date: "2026-11-18", checkIn: "08:30 AM", checkOut: "07:30 PM", status: "present", workMode: "Office (Rajagiriya)" },
+      { date: "2026-11-17", checkIn: "08:45 AM", checkOut: "07:15 PM", status: "present", workMode: "Office (Rajagiriya)" },
+      { date: "2026-11-16", checkIn: "09:00 AM", checkOut: "07:00 PM", status: "present", workMode: "Remote" },
     ],
   },
 
@@ -178,14 +193,14 @@ export const INITIAL_EMPLOYEES: Employee[] = [
   {
     id: "emp-sup-001",
     employeeId: "CX-MGR-012",
-    name: "Dinithi Perera",
-    email: "supervisor.bd@creativexlab.online",
-    password: "@Supervisor2026",
+    name: "Thimathi Dissanayaka",
+    email: "thimathi@creativexlab.online",
+    password: "thimathi@2001",
     role: "supervisor",
-    designation: "Lead Business Development & Strategic Sales Manager",
-    department: "Business Development & Sales",
+    designation: "Head Of Engineering and Business Development",
+    department: "Engineering & Business Development",
     supervisorId: "emp-admin-001",
-    supervisorName: "Kavishka Thilakarathna",
+    supervisorName: "",
     joiningDate: "2025-06-01",
     contractType: "Permanent",
     workLocation: "Remote · Colombo HQ",
@@ -229,9 +244,9 @@ export const INITIAL_EMPLOYEES: Employee[] = [
     ],
     weeklyReviews: [],
     attendance: [
-      { date: "2026-11-14", checkIn: "08:50 AM", checkOut: "06:10 PM", status: "present", workMode: "Remote" },
-      { date: "2026-11-13", checkIn: "08:55 AM", checkOut: "06:05 PM", status: "present", workMode: "Office (Rajagiriya)" },
-      { date: "2026-11-12", checkIn: "09:00 AM", checkOut: "06:00 PM", status: "present", workMode: "Remote" },
+      { date: "2026-11-18", checkIn: "08:50 AM", checkOut: "06:10 PM", status: "present", workMode: "Remote" },
+      { date: "2026-11-17", checkIn: "08:55 AM", checkOut: "06:05 PM", status: "present", workMode: "Office (Rajagiriya)" },
+      { date: "2026-11-16", checkIn: "09:00 AM", checkOut: "06:00 PM", status: "present", workMode: "Remote" },
     ],
   },
 
@@ -239,18 +254,18 @@ export const INITIAL_EMPLOYEES: Employee[] = [
   {
     id: "emp-bdi-001",
     employeeId: "CX-EMP-041",
-    name: "Kavindu Senanayake",
-    email: "intern.bd@creativexlab.online",
-    password: "@Intern2026",
+    name: "Ikram Lantra",
+    email: "ikram@creativex.online",
+    password: "CreativexIkram041",
     role: "employee",
     designation: "Business Development Intern (Probation) in 20 Days",
     department: "Business Development & Sales",
     supervisorId: "emp-sup-001",
-    supervisorName: "Dinithi Perera (Lead BD Manager) & Kavishka T.",
+    supervisorName: "Thimathi Dissanayaka (Head Of Engineering and Business Development)",
     joiningDate: "2026-10-15",
     contractType: "Full-Time Remote Internship (6 Months)",
     workLocation: "Remote · Rajagiriya / Colombo, Sri Lanka (9:00 AM – 6:00 PM)",
-    phone: "+94 77 412 8990",
+    phone: "+94 77 690 2960",
     allocatedTerritory: "Sri Lanka SMEs, Australia & UK Outbound Tech Sales",
     status: "active",
     bio: "",
@@ -315,7 +330,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
       {
         id: "rev-1",
         date: "2026-11-12",
-        supervisorName: "Dinithi Perera",
+        supervisorName: "Thimathi Dissanayaka",
         rating: 5,
         strengths: "Outstanding outreach pace on Sri Lankan SME manufacturing & logistics accounts. Created 14 verified decision-maker opportunities in a single week.",
         improvements: "Spend 5 minutes more on pre-call qualification notes to arm the solutions architect with deeper client pain points.",
@@ -324,7 +339,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
       {
         id: "rev-2",
         date: "2026-11-05",
-        supervisorName: "Kavishka Thilakarathna",
+        supervisorName: "Thimathi Dissanayaka",
         rating: 4.8,
         strengths: "Sharp understanding of CreativeOS technical architecture (PostgreSQL JSONB, Meta Prophet) when answering first-round client questions.",
         improvements: "Ensure client follow-ups via WhatsApp are timestamped within 2 hours of demo completion.",
@@ -332,6 +347,9 @@ export const INITIAL_EMPLOYEES: Employee[] = [
       },
     ],
     attendance: [
+      { date: "2026-11-18", checkIn: "08:50 AM", checkOut: "06:10 PM", status: "present", workMode: "Office (Rajagiriya)" },
+      { date: "2026-11-17", checkIn: "08:55 AM", checkOut: "06:00 PM", status: "present", workMode: "Remote" },
+      { date: "2026-11-16", checkIn: "08:58 AM", checkOut: "06:05 PM", status: "present", workMode: "Remote" },
       { date: "2026-11-14", checkIn: "08:58 AM", checkOut: "06:02 PM", status: "present", workMode: "Remote" },
       { date: "2026-11-13", checkIn: "08:55 AM", checkOut: "06:00 PM", status: "present", workMode: "Remote" },
       { date: "2026-11-12", checkIn: "08:50 AM", checkOut: "06:15 PM", status: "present", workMode: "Office (Rajagiriya)" },
@@ -382,7 +400,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
       },
       {
         id: "chk-5",
-        task: "Prep discovery agenda with Solutions Architect (Kavishka T.) for Highland Teas",
+        task: "Prep discovery agenda with Solutions Architect for Highland Teas",
         timeSlot: "01:30 PM",
         completed: false,
         category: "Client Meeting",
@@ -422,7 +440,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
       },
       {
         id: "chk-9",
-        task: "Submit End-of-Day (EOD) daily activity report & daily attendance sign-off to Dinithi P.",
+        task: "Submit End-of-Day (EOD) daily activity report & daily attendance sign-off to Thimathi D.",
         timeSlot: "05:50 PM",
         completed: false,
         category: "Admin",
@@ -431,6 +449,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
         notes: "Daily wrap summary automatically dispatched to supervisor scoreboard.",
       },
     ],
+    eodReports: [],
   },
 ];
 
@@ -486,10 +505,56 @@ export function getStoredEmployees(): Employee[] {
     if (Array.isArray(parsed) && parsed.length > 0) {
       // Ensure admin and initial intern are always present and valid
       parsed.forEach((p) => {
+        if (p.id === "emp-bdi-001" || p.name === "Kavindu Senanayake" || p.email === "intern.bd@creativexlab.online") {
+          p.name = "Ikram Lantra";
+          p.email = "ikram@creativex.online";
+          p.password = "CreativexIkram041";
+          p.phone = "+94 77 690 2960";
+        }
+        if (
+          p.id === "emp-sup-001" ||
+          p.name === "Dinithi Perera" ||
+          p.name === "Thimathi Dissanayaka" ||
+          p.email === "supervisor.bd@creativexlab.online" ||
+          p.email === "thimathi@creativexlab.online"
+        ) {
+          p.name = "Thimathi Dissanayaka";
+          p.email = "thimathi@creativexlab.online";
+          p.password = "thimathi@2001";
+          p.designation = "Head Of Engineering and Business Development";
+          p.department = "Engineering & Business Development";
+          p.supervisorName = "";
+        }
+        if (p.supervisorName) {
+          p.supervisorName = p.supervisorName
+            .replace(/Dinithi\s*Perera(\s*\(Lead\s*BD\s*Manager\))?/gi, "Thimathi Dissanayaka (Head Of Engineering and Business Development)")
+            .replace(/Dinithi/gi, "Thimathi Dissanayaka")
+            .replace(/Lead\s*BD\s*Manager/gi, "Head Of Engineering and Business Development")
+            .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+            .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+            .trim();
+        }
+        if (p.id === "emp-bdi-001" && (!p.supervisorName || p.supervisorName.toLowerCase().includes("dinithi"))) {
+          p.supervisorName = "Thimathi Dissanayaka (Head Of Engineering and Business Development)";
+        }
+        const seed = INITIAL_EMPLOYEES.find((m) => m.id === p.id);
         if (!p.kpis || p.kpis.length === 0) {
-          const seed = INITIAL_EMPLOYEES.find((m) => m.id === p.id);
           if (seed?.kpis) p.kpis = seed.kpis;
         }
+        // Ensure attendance has this week's seeded days if missing
+        if (seed?.attendance) {
+          if (!p.attendance || p.attendance.length === 0) {
+            p.attendance = [...seed.attendance];
+          } else {
+            seed.attendance.forEach((sa) => {
+              if (!p.attendance.some((pa: AttendanceRecord) => pa.date === sa.date)) {
+                p.attendance.push(sa);
+              }
+            });
+            p.attendance.sort((a: AttendanceRecord, b: AttendanceRecord) => b.date.localeCompare(a.date));
+          }
+        }
+        p.eodReports = p.eodReports || [];
       });
       const hasAdmin = parsed.some((e) => e.email === "tkavishka101@gmail.com");
       const hasIntern = parsed.some((e) => e.id === "emp-bdi-001");
@@ -539,7 +604,22 @@ export async function fetchEmployeesFromSupabase(): Promise<Employee[] | null> {
     if (!res.ok) return null;
     const data = await res.json();
     if (data.success && Array.isArray(data.employees) && data.employees.length > 0) {
-      return data.employees as Employee[];
+      // Do not overwrite user-added KPIs or leads with uninitialized fallback seed
+      if (data.source === "fallback") {
+        return null;
+      }
+      return (data.employees as Employee[]).map((e) => {
+        if (e.id === "emp-bdi-001" || e.name === "Kavindu Senanayake" || e.email === "intern.bd@creativexlab.online") {
+          return {
+            ...e,
+            name: "Ikram Lantra",
+            email: "ikram@creativex.online",
+            password: "CreativexIkram041",
+            phone: "+94 77 690 2960",
+          };
+        }
+        return e;
+      });
     }
   } catch (err) {
     console.warn("[ems] Supabase pull notice:", err);
@@ -552,7 +632,31 @@ export function getStoredEMSSession(): EMSUserSession | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_SESSION);
     if (!raw) return null;
-    return JSON.parse(raw);
+    const session = JSON.parse(raw);
+    if (
+      session?.employee &&
+      (session.employee.id === "emp-bdi-001" ||
+        session.employee.name === "Kavindu Senanayake" ||
+        session.employee.email === "intern.bd@creativexlab.online")
+    ) {
+      session.employee.name = "Ikram Lantra";
+      session.employee.email = "ikram@creativex.online";
+      session.employee.password = "CreativexIkram041";
+      session.employee.phone = "+94 77 690 2960";
+    }
+    if (
+      session?.employee &&
+      (session.employee.id === "emp-sup-001" ||
+        session.employee.name === "Dinithi Perera" ||
+        session.employee.name === "Thimathi Dissanayaka" ||
+        session.employee.email === "supervisor.bd@creativexlab.online")
+    ) {
+      session.employee.name = "Thimathi Dissanayaka";
+      session.employee.email = "thimathi@creativexlab.online";
+      session.employee.password = "thimathi@2001";
+      session.employee.designation = "Head Of Engineering and Business Development";
+    }
+    return session;
   } catch {
     return null;
   }
@@ -594,6 +698,57 @@ export function authenticateEmployee(
       return { success: true, session };
     } else {
       return { success: false, error: "Invalid password for administrator account." };
+    }
+  }
+
+  // 2. Direct Intern Account Check (ikram@creativex.online / CreativexIkram041)
+  if (cleanEmail === "ikram@creativex.online" || cleanEmail === "intern.bd@creativexlab.online") {
+    if (cleanPassword === "CreativexIkram041" || cleanPassword === "@Intern2026") {
+      const employees = getStoredEmployees();
+      const internEmp = employees.find((e) => e.id === "emp-bdi-001") || INITIAL_EMPLOYEES[2];
+      const normalizedIntern = {
+        ...internEmp,
+        name: "Ikram Lantra",
+        email: "ikram@creativex.online",
+        password: "CreativexIkram041",
+      };
+      const session: EMSUserSession = {
+        employee: normalizedIntern,
+        token: `cx_tok_employee_${Date.now()}`,
+        role: "employee",
+        loginTime: new Date().toISOString(),
+      };
+      saveStoredEMSSession(session);
+      return { success: true, session };
+    } else {
+      return { success: false, error: "Incorrect password for intern account." };
+    }
+  }
+
+  // 3. Direct Supervisor Check (thimathi@creativexlab.online / thimathi@2001)
+  if (cleanEmail === "thimathi@creativexlab.online" || cleanEmail === "supervisor.bd@creativexlab.online") {
+    if (cleanPassword === "thimathi@2001" || cleanPassword === "@Supervisor2026") {
+      const employees = getStoredEmployees();
+      const supEmp = employees.find((e) => e.id === "emp-sup-001") || INITIAL_EMPLOYEES[1];
+      const normalizedSup = {
+        ...supEmp,
+        name: "Thimathi Dissanayaka",
+        email: "thimathi@creativexlab.online",
+        password: "thimathi@2001",
+        designation: "Head Of Engineering and Business Development",
+        department: "Engineering & Business Development",
+        supervisorName: "",
+      };
+      const session: EMSUserSession = {
+        employee: normalizedSup,
+        token: `cx_tok_sup_${Date.now()}`,
+        role: "supervisor",
+        loginTime: new Date().toISOString(),
+      };
+      saveStoredEMSSession(session);
+      return { success: true, session };
+    } else {
+      return { success: false, error: "Incorrect password for supervisor account." };
     }
   }
 

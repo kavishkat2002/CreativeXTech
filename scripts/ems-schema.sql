@@ -120,7 +120,7 @@ insert into public.ems_employees (
 (
   'emp-bdi-001', 'CX-EMP-041', 'Kavindu Senanayake', 'intern.bd@creativexlab.online', '@Intern2026',
   'employee', 'Business Development Intern (IT & Software Products)', 'Business Development & Sales',
-  'emp-sup-001', 'Dinithi Perera (Lead BD Manager) & Kavishka T.', '2026-10-15', 'Full-Time Remote Internship (6 Months)',
+  'emp-sup-001', 'Thimathi Dissanayaka (Head Of Engineering and Business Development)', '2026-10-15', 'Full-Time Remote Internship (6 Months)',
   'Remote · Rajagiriya / Colombo, Sri Lanka (9:00 AM – 6:00 PM)', '+94 77 412 8990', 'active',
   ''
 )

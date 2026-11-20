@@ -2,28 +2,82 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseSelect, supabaseUpsert, supabaseDelete } from "@/lib/supabase";
 import { Employee, INITIAL_EMPLOYEES } from "@/lib/employee-data";
 
+// In-memory cache to guarantee state consistency across rapid reads/writes
+let inMemoryEmployeeCache: Employee[] | null = null;
+
 export async function GET() {
   try {
     const rows = await supabaseSelect<any>("ems_employees", { order: "created_at.asc" });
     if (rows && rows.length > 0) {
+      let needsDatabaseFix = false;
       // Map database row snake_case back to Employee object format
       const employees: Employee[] = rows.map((r) => {
         const seedEmp = INITIAL_EMPLOYEES.find((e) => e.id === r.id);
+        let correctedName = r.name;
+        let correctedEmail = r.email;
+        let correctedPassword = r.password;
+        let correctedPhone = r.phone;
+        let correctedDesignation = r.designation;
+        if (
+          r.id === "emp-bdi-001" ||
+          r.name === "Kavindu Senanayake" ||
+          r.email === "intern.bd@creativexlab.online"
+        ) {
+          correctedName = "Ikram Lantra";
+          correctedEmail = "ikram@creativex.online";
+          correctedPassword = "CreativexIkram041";
+          correctedPhone = "+94 77 690 2960";
+          if (
+            r.name !== "Ikram Lantra" ||
+            r.email !== "ikram@creativex.online" ||
+            r.password !== "CreativexIkram041" ||
+            r.phone !== "+94 77 690 2960"
+          ) {
+            needsDatabaseFix = true;
+          }
+        }
+        if (
+          r.id === "emp-sup-001" ||
+          r.name === "Dinithi Perera" ||
+          r.name === "Thimathi Dissanayaka" ||
+          r.email === "supervisor.bd@creativexlab.online" ||
+          r.email === "thimathi@creativexlab.online"
+        ) {
+          correctedName = "Thimathi Dissanayaka";
+          correctedEmail = "thimathi@creativexlab.online";
+          correctedPassword = "thimathi@2001";
+          correctedDesignation = "Head Of Engineering and Business Development";
+        }
+
+        let correctedSupervisor = (r.supervisor_name || "")
+          .replace(/Dinithi\s*Perera(\s*\(Lead\s*BD\s*Manager\))?/gi, "Thimathi Dissanayaka (Head Of Engineering and Business Development)")
+          .replace(/Dinithi/gi, "Thimathi Dissanayaka")
+          .replace(/Lead\s*BD\s*Manager/gi, "Head Of Engineering and Business Development")
+          .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+          .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+          .trim();
+        if (r.id === "emp-bdi-001" && (!correctedSupervisor || correctedSupervisor.toLowerCase().includes("dinithi"))) {
+          correctedSupervisor = "Thimathi Dissanayaka (Head Of Engineering and Business Development)";
+        }
+        if (r.id === "emp-sup-001") {
+          correctedSupervisor = "";
+        }
+
         return {
           id: r.id,
           employeeId: r.employee_id || r.id,
-          name: r.name,
-          email: r.email,
-          password: r.password,
+          name: correctedName,
+          email: correctedEmail,
+          password: correctedPassword,
           role: r.role || "employee",
-          designation: r.designation,
+          designation: correctedDesignation,
           department: r.department,
           supervisorId: r.supervisor_id || "",
-          supervisorName: r.supervisor_name || "",
+          supervisorName: correctedSupervisor,
           joiningDate: r.joining_date || "",
           contractType: r.contract_type || "",
           workLocation: r.work_location || "",
-          phone: r.phone || "",
+          phone: correctedPhone || "",
           allocatedTerritory: r.allocated_territory || "",
           status: r.status || "active",
           avatar: r.avatar,
@@ -33,8 +87,26 @@ export async function GET() {
           attendance: Array.isArray(r.attendance) && r.attendance.length > 0 ? r.attendance : seedEmp?.attendance || [],
           leads: Array.isArray(r.leads) ? r.leads : seedEmp?.leads || [],
           checklist: Array.isArray(r.checklist) ? r.checklist : seedEmp?.checklist || [],
+          eodReports: Array.isArray(r.eod_reports)
+            ? r.eod_reports
+            : Array.isArray(r.eodReports)
+            ? r.eodReports
+            : seedEmp?.eodReports || [],
         };
       });
+
+      // If Supabase database still holds the legacy credentials, persist the corrected record to DB
+      if (needsDatabaseFix) {
+        supabaseUpsert("ems_employees", [
+          {
+            id: "emp-bdi-001",
+            name: "Ikram Lantra",
+            email: "ikram@creativex.online",
+            password: "CreativexIkram041",
+            phone: "+94 77 690 2960",
+          },
+        ]).catch(() => {});
+      }
 
       // Ensure any initial team profile not yet in the DB is available
       const existingIds = new Set(employees.map((e) => e.id));
@@ -44,6 +116,7 @@ export async function GET() {
         }
       });
 
+      inMemoryEmployeeCache = employees;
       return NextResponse.json({
         success: true,
         source: "supabase",
@@ -52,6 +125,15 @@ export async function GET() {
     }
   } catch (err: any) {
     console.warn("[ems-sync] Supabase read note:", err.message);
+  }
+
+  // If in-memory cache exists from recent supervisor/intern updates, serve it
+  if (inMemoryEmployeeCache && inMemoryEmployeeCache.length > 0) {
+    return NextResponse.json({
+      success: true,
+      source: "cache",
+      employees: inMemoryEmployeeCache,
+    });
   }
 
   // Fallback to initial seed if table not yet initialized in Supabase
@@ -76,32 +158,56 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const dbRows = listToSync.map((emp) => ({
-      id: emp.id,
-      employee_id: emp.employeeId,
-      name: emp.name,
-      email: emp.email,
-      password: emp.password,
-      role: emp.role,
-      designation: emp.designation,
-      department: emp.department,
-      supervisor_id: emp.supervisorId,
-      supervisor_name: emp.supervisorName,
-      joining_date: emp.joiningDate,
-      contract_type: emp.contractType,
-      work_location: emp.workLocation,
-      phone: emp.phone,
-      allocated_territory: emp.allocatedTerritory || null,
-      status: emp.status,
-      avatar: emp.avatar || null,
-      bio: emp.bio || null,
-      kpis: emp.kpis || [],
-      weekly_reviews: emp.weeklyReviews || [],
-      attendance: emp.attendance || [],
-      leads: emp.leads || [],
-      checklist: emp.checklist || [],
-      updated_at: new Date().toISOString(),
-    }));
+    // Instantly update in-memory cache so subsequent GETs reflect new KPIs and leads
+    inMemoryEmployeeCache = listToSync;
+
+    const dbRows = listToSync.map((emp) => {
+      const isIkram =
+        emp.id === "emp-bdi-001" ||
+        emp.name === "Kavindu Senanayake" ||
+        emp.email === "intern.bd@creativexlab.online";
+      const isThimathi =
+        emp.id === "emp-sup-001" ||
+        emp.name === "Dinithi Perera" ||
+        emp.name === "Thimathi Dissanayaka" ||
+        emp.email === "supervisor.bd@creativexlab.online" ||
+        emp.email === "thimathi@creativexlab.online";
+      return {
+        id: emp.id,
+        employee_id: emp.employeeId,
+        name: isIkram ? "Ikram Lantra" : isThimathi ? "Thimathi Dissanayaka" : emp.name,
+        email: isIkram ? "ikram@creativex.online" : isThimathi ? "thimathi@creativexlab.online" : emp.email,
+        password: isIkram ? "CreativexIkram041" : isThimathi ? "thimathi@2001" : emp.password,
+        role: emp.role,
+        designation: isThimathi ? "Head Of Engineering and Business Development" : emp.designation,
+        department: emp.department,
+        supervisor_id: emp.supervisorId,
+        supervisor_name: isThimathi
+          ? ""
+          : (emp.supervisorName || "")
+              .replace(/Dinithi\s*Perera(\s*\(Lead\s*BD\s*Manager\))?/gi, "Thimathi Dissanayaka (Head Of Engineering and Business Development)")
+              .replace(/Dinithi/gi, "Thimathi Dissanayaka")
+              .replace(/Lead\s*BD\s*Manager/gi, "Head Of Engineering and Business Development")
+              .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+              .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+              .trim(),
+        joining_date: emp.joiningDate,
+        contract_type: emp.contractType,
+        work_location: emp.workLocation,
+        phone: isIkram ? "+94 77 690 2960" : emp.phone,
+        allocated_territory: emp.allocatedTerritory || null,
+        status: emp.status,
+        avatar: emp.avatar || null,
+        bio: emp.bio || null,
+        kpis: emp.kpis || [],
+        weekly_reviews: emp.weeklyReviews || [],
+        attendance: emp.attendance || [],
+        leads: emp.leads || [],
+        checklist: emp.checklist || [],
+        eod_reports: emp.eodReports || [],
+        updated_at: new Date().toISOString(),
+      };
+    });
 
     // 1. Upsert each employee individually so one conflict never blocks others
     let empErrors: string[] = [];

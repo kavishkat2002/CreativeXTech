@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SiteHeader, SiteFooter } from "@/components/site-header";
 import { EmployeePortal } from "@/components/employee-portal";
 
 export const metadata: Metadata = {
@@ -14,13 +13,9 @@ export const metadata: Metadata = {
 
 export default function EmployeePage() {
   return (
-    <>
-      <SiteHeader activeSection="employee" />
-      <main className="ems-root-wrapper">
-        <EmployeePortal />
-      </main>
-      <SiteFooter />
-    </>
+    <main className="ems-root-wrapper">
+      <EmployeePortal />
+    </main>
   );
 }
 

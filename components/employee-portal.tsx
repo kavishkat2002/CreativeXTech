@@ -26,6 +26,7 @@ import {
   LogOut,
   UserCheck,
   Star,
+  ChevronLeft,
   ChevronRight,
   ChevronDown,
   Filter,
@@ -45,6 +46,7 @@ import {
   Send,
   Zap,
   RotateCcw,
+  SlidersHorizontal,
 } from "lucide-react";
 import {
   Employee,
@@ -56,6 +58,7 @@ import {
   EMSUserSession,
   LeadPipelineItem,
   DailyChecklistItem,
+  EodReportItem,
   getStoredEmployees,
   saveStoredEmployees,
   getStoredEMSSession,
@@ -110,7 +113,7 @@ export function EmployeePortal() {
   const [newEmpRole, setNewEmpRole] = useState<EmployeeRole>("employee");
   const [newEmpDesignation, setNewEmpDesignation] = useState("");
   const [newEmpDepartment, setNewEmpDepartment] = useState("Business Development & Sales");
-  const [newEmpSupervisor, setNewEmpSupervisor] = useState("Dinithi Perera & Kavishka T.");
+  const [newEmpSupervisor, setNewEmpSupervisor] = useState("Thimathi Dissanayaka");
   const [newEmpContract, setNewEmpContract] = useState("Full-time Internship");
   const [newEmpTerritory, setNewEmpTerritory] = useState("Sri Lanka SMEs / Global Outbound");
 
@@ -131,6 +134,7 @@ export function EmployeePortal() {
 
   // ── Update KPI Value Form
   const [kpiUpdateVal, setKpiUpdateVal] = useState<number>(0);
+  const [kpiUpdateTargetVal, setKpiUpdateTargetVal] = useState<number>(0);
 
   // ── Search & Filter State in Admin Table
   const [searchTerm, setSearchTerm] = useState("");
@@ -186,6 +190,8 @@ export function EmployeePortal() {
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskTime, setNewTaskTime] = useState("10:30 AM");
+  const [newTaskDate, setNewTaskDate] = useState<string>("");
+  const [selectedTaskDate, setSelectedTaskDate] = useState<string>("");
   const [newTaskCategory, setNewTaskCategory] = useState<DailyChecklistItem["category"]>("Outreach");
   const [newTaskPriority, setNewTaskPriority] = useState<"urgent" | "high" | "normal">("normal");
   const [newTaskShift, setNewTaskShift] = useState<"morning" | "afternoon" | "eod">("morning");
@@ -193,10 +199,14 @@ export function EmployeePortal() {
   const [workflowFilter, setWorkflowFilter] = useState<"all" | "morning" | "afternoon" | "eod" | "urgent" | "pending" | "completed">("all");
   const [showEodModal, setShowEodModal] = useState(false);
   const [eodSummaryNotes, setEodSummaryNotes] = useState("");
+  const [eodBlockersNotes, setEodBlockersNotes] = useState("");
 
   // ── Supervisor Reset Intern Data State
   const [showResetInternModal, setShowResetInternModal] = useState(false);
+  const [resetTargetEmpId, setResetTargetEmpId] = useState<string>("emp-bdi-001");
   const [resetOptionKpis, setResetOptionKpis] = useState(true);
+  const [resetLeadsTarget, setResetLeadsTarget] = useState<number>(45);
+  const [resetDemosTarget, setResetDemosTarget] = useState<number>(16);
   const [resetOptionPipeline, setResetOptionPipeline] = useState(true);
   const [resetOptionChecklist, setResetOptionChecklist] = useState(true);
 
@@ -242,17 +252,24 @@ export function EmployeePortal() {
 
   const handleMarkAllTasks = (completed: boolean) => {
     lastLocalActionRef.current = Date.now();
+    const targetDate = selectedTaskDate && selectedTaskDate !== "all" ? selectedTaskDate : formatLocalDate(new Date());
     const updated: Employee[] = employees.map((emp) => {
       if (emp.id === currentViewEmp.id && emp.checklist) {
         return {
           ...emp,
-          checklist: emp.checklist.map((c) => ({
-            ...c,
-            completed,
-            completedAt: completed
-              ? new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-              : undefined,
-          })),
+          checklist: emp.checklist.map((c) => {
+            const taskDate = c.date || targetDate;
+            if (selectedTaskDate === "all" || taskDate === targetDate) {
+              return {
+                ...c,
+                completed,
+                completedAt: completed
+                  ? new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                  : undefined,
+              };
+            }
+            return c;
+          }),
         };
       }
       return emp;
@@ -261,8 +278,8 @@ export function EmployeePortal() {
     saveStoredEmployees(updated);
     showToast(
       completed
-        ? "All workflow tasks marked as completed! High velocity!"
-        : "Workflow checklist reset for today's shift."
+        ? `All tasks for ${selectedTaskDate === "all" ? "all days" : targetDate} marked as completed!`
+        : `Checklist reset for ${selectedTaskDate === "all" ? "all days" : targetDate}.`
     );
   };
 
@@ -284,10 +301,40 @@ export function EmployeePortal() {
 
   const handleSubmitEodReport = (e: React.FormEvent) => {
     e.preventDefault();
+    lastLocalActionRef.current = Date.now();
     const tasksTotal = (currentViewEmp.checklist || []).length;
     const tasksDone = (currentViewEmp.checklist || []).filter((c) => c.completed).length;
+    const deliverables = `${tasksDone}/${tasksTotal}`;
+    const reportDate = activeTaskDate !== "all" ? activeTaskDate : todayIsoDate;
+    const submittedTime = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 
-    // Dispatches to Supabase EOD reports table
+    const newReport: EodReportItem = {
+      id: `eod-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      date: reportDate,
+      submittedAt: submittedTime,
+      deliverablesCount: deliverables,
+      accomplishments: eodSummaryNotes.trim() || `Completed ${tasksDone} of ${tasksTotal} scheduled deliverables for shift ${reportDate}.`,
+      blockers: eodBlockersNotes.trim() || undefined,
+      status: "pending_review",
+    };
+
+    const updated: Employee[] = employees.map((emp) => {
+      if (emp.id === currentViewEmp.id) {
+        const existing = emp.eodReports || [];
+        // Replace existing submission for the same date or prepend new one
+        const filtered = existing.filter((r) => r.date !== reportDate);
+        return {
+          ...emp,
+          eodReports: [newReport, ...filtered],
+        };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+
+    // Dispatches to Supabase EOD reports API
     if (typeof fetch === "function") {
       fetch("/api/employee/eod", {
         method: "POST",
@@ -296,17 +343,24 @@ export function EmployeePortal() {
           employeeId: currentViewEmp.id,
           employeeName: currentViewEmp.name,
           supervisorName: currentViewEmp.supervisorName,
-          deliverablesCount: `${tasksDone}/${tasksTotal}`,
-          accomplishments: eodSummaryNotes,
+          deliverablesCount: deliverables,
+          accomplishments: newReport.accomplishments,
+          blockers: newReport.blockers,
+          date: reportDate,
         }),
       }).catch((err) => console.warn("[ems] EOD Supabase sync notice:", err));
     }
 
+    const targetSupervisor = (currentViewEmp.supervisorName || "Thimathi Dissanayaka")
+      .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+      .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+      .trim() || "Thimathi Dissanayaka";
     showToast(
-      `EOD Shift Report successfully saved to Supabase & logged for Dinithi Perera & Kavishka T. (${tasksDone}/${tasksTotal} deliverables verified).`
+      `EOD Shift Report successfully logged for ${targetSupervisor} (${deliverables} deliverables pending sign-off).`
     );
     setShowEodModal(false);
     setEodSummaryNotes("");
+    setEodBlockersNotes("");
   };
 
   const handleAdvanceLeadStage = (leadId: string) => {
@@ -353,7 +407,7 @@ export function EmployeePortal() {
                   ...lead,
                   stage: "Closed Won",
                   approvalStatus: "approved",
-                  approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+                  approvedBy: session?.employee.name || "Supervisor Thimathi Dissanayaka",
                   approvedAt: new Date().toISOString(),
                   commissionLKR,
                 };
@@ -385,7 +439,7 @@ export function EmployeePortal() {
 
     if (isPendingApproval) {
       showToast(
-        `Lead "${advancedLeadName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Dinithi Perera"}) for Closed Won sign-off! 10% commission (${formatLKR(commissionLKR)}) will be assigned upon approval.`
+        `Lead "${advancedLeadName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Thimathi Dissanayaka"}) for Closed Won sign-off! 10% commission (${formatLKR(commissionLKR)}) will be assigned upon approval.`
       );
     } else if (isApprovedWon) {
       showToast(
@@ -428,7 +482,7 @@ export function EmployeePortal() {
                   ...lead,
                   stage: "Closed Won",
                   approvalStatus: "approved",
-                  approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+                  approvedBy: session?.employee.name || "Supervisor Thimathi Dissanayaka",
                   approvedAt: new Date().toISOString(),
                   commissionLKR,
                 };
@@ -461,7 +515,7 @@ export function EmployeePortal() {
 
     if (isPendingApproval) {
       showToast(
-        `Lead "${clientName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Dinithi Perera"}) for sign-off! 10% commission (${formatLKR(commissionLKR)}) will be assigned once approved.`
+        `Lead "${clientName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Thimathi Dissanayaka"}) for sign-off! 10% commission (${formatLKR(commissionLKR)}) will be assigned once approved.`
       );
     } else if (isApprovedWon) {
       showToast(
@@ -491,7 +545,7 @@ export function EmployeePortal() {
               ...lead,
               stage: "Closed Won",
               approvalStatus: "approved",
-              approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+              approvedBy: session?.employee.name || "Supervisor Thimathi Dissanayaka",
               approvedAt: new Date().toISOString(),
               commissionLKR: commissionAmt,
               pendingRequestType: undefined,
@@ -561,7 +615,7 @@ export function EmployeePortal() {
               ...lead,
               ...edits,
               approvalStatus: edits.stage === "Closed Won" ? ("approved" as const) : undefined,
-              approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+              approvedBy: session?.employee.name || "Supervisor Thimathi Dissanayaka",
               approvedAt: new Date().toISOString(),
               commissionLKR: edits.stage === "Closed Won" ? commissionLKR : lead.commissionLKR,
               pendingRequestType: undefined,
@@ -657,6 +711,53 @@ export function EmployeePortal() {
     showToast(`Deletion request for "${client}" rejected. Lead remains active in pipeline.`);
   };
 
+  const handleSupervisorSignOffEodReport = (employeeId: string, reportId: string, notes?: string) => {
+    lastLocalActionRef.current = Date.now();
+    const supervisorSignerName = session?.employee.name || "Thimathi Dissanayaka";
+    const signOffTime = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+
+    let signedEmployeeName = "";
+    const updated: Employee[] = employees.map((emp) => {
+      if (emp.id === employeeId && emp.eodReports) {
+        signedEmployeeName = emp.name;
+        const nextReports = emp.eodReports.map((r) => {
+          if (r.id === reportId) {
+            return {
+              ...r,
+              status: "signed_off" as const,
+              signedOffBy: supervisorSignerName,
+              signedOffAt: `${todayIsoDate} ${signOffTime}`,
+              supervisorNotes: notes || "Shift deliverables verified and authorized by supervisor.",
+            };
+          }
+          return r;
+        });
+        return { ...emp, eodReports: nextReports };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+
+    // Sync sign-off to API
+    if (typeof fetch === "function") {
+      fetch("/api/employee/eod", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reportId,
+          status: "signed_off",
+          signedOffBy: supervisorSignerName,
+          signedOffAt: `${todayIsoDate} ${signOffTime}`,
+          supervisorNotes: notes || "Shift deliverables verified and authorized by supervisor.",
+        }),
+      }).catch((err) => console.warn("[ems] EOD PATCH sync notice:", err));
+    }
+
+    showToast(`✓ EOD Shift Report for ${signedEmployeeName || "Intern"} officially signed off & verified.`);
+  };
+
   const handleAddNewLead = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newLeadClient.trim()) return;
@@ -675,7 +776,9 @@ export function EmployeePortal() {
       stage: "New Lead",
       nextFollowUp: "Today · Pending Outreach",
       notes: newLeadNotes.trim() || "Outbound prospect identified.",
-      assignedBy: isSupervisor ? `${session?.employee.name} (${session?.role.toUpperCase()})` : undefined,
+      assignedBy: isSupervisor
+        ? `${session?.employee.name} (${session?.role === "employee" ? "INTERN" : session?.role.toUpperCase()})`
+        : undefined,
       assignedTo: targetEmpId,
     };
 
@@ -774,7 +877,7 @@ export function EmployeePortal() {
               ...l,
               ...proposedEditData,
               approvalStatus: editLeadStage === "Closed Won" ? ("approved" as const) : undefined,
-              approvedBy: session?.employee.name || "Supervisor Dinithi Perera",
+              approvedBy: session?.employee.name || "Supervisor Thimathi Dissanayaka",
               approvedAt: new Date().toISOString(),
               commissionLKR: editLeadStage === "Closed Won" ? commissionLKR : l.commissionLKR,
               pendingRequestType: undefined,
@@ -807,7 +910,7 @@ export function EmployeePortal() {
 
     if (isEditRequested) {
       showToast(
-        `Proposed edits for "${updatedClientName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Dinithi Perera"}) for approval!`
+        `Proposed edits for "${updatedClientName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Thimathi Dissanayaka"}) for approval!`
       );
     } else if (isApprovedWon) {
       showToast(
@@ -847,7 +950,7 @@ export function EmployeePortal() {
       setEmployees(updated);
       saveStoredEmployees(updated);
       showToast(
-        `Deletion request for "${clientName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Dinithi Perera"}) for approval.`
+        `Deletion request for "${clientName}" submitted to Supervisor (${currentViewEmp.supervisorName || "Thimathi Dissanayaka"}) for approval.`
       );
       return;
     }
@@ -929,6 +1032,14 @@ export function EmployeePortal() {
     const targetEmpId = isSupervisor && assigneeEmpId ? assigneeEmpId : currentViewEmp.id;
     const targetEmp = employees.find((emp) => emp.id === targetEmpId) || currentViewEmp;
 
+    const todayIso = formatLocalDate(new Date());
+    const targetDate = newTaskDate || (selectedTaskDate && selectedTaskDate !== "all" ? selectedTaskDate : todayIso);
+
+    if (!isSupervisor && targetDate < todayIso) {
+      showToast("Employees cannot add tasks to past shifts. Please select today or an upcoming shift.");
+      return;
+    }
+
     const newTask: DailyChecklistItem = {
       id: `chk-${Date.now()}`,
       task: newTaskTitle.trim(),
@@ -938,7 +1049,10 @@ export function EmployeePortal() {
       priority: newTaskPriority,
       shiftBlock: newTaskShift,
       notes: newTaskNotes.trim() || undefined,
-      assignedBy: isSupervisor ? `${session?.employee.name} (${session?.role.toUpperCase()})` : undefined,
+      date: targetDate,
+      assignedBy: isSupervisor
+        ? `${session?.employee.name} (${session?.role === "employee" ? "INTERN" : session?.role.toUpperCase()})`
+        : undefined,
       assignedTo: targetEmpId,
     };
 
@@ -958,11 +1072,20 @@ export function EmployeePortal() {
     setShowAddTaskModal(false);
     setNewTaskTitle("");
     setNewTaskNotes("");
+    setNewTaskDate("");
     showToast(
       isSupervisor
         ? `Task assigned to ${targetEmp.name}! Added to their daily workflow schedule.`
         : "Daily workflow task added to schedule."
     );
+  };
+
+  // Helper for consistent YYYY-MM-DD in local time
+  const formatLocalDate = (d: Date = new Date()): string => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
   };
 
   // ── Remote Attendance Clock IN
@@ -972,7 +1095,7 @@ export function EmployeePortal() {
     const hours24 = String(now.getHours()).padStart(2, "0");
     const mins = String(now.getMinutes()).padStart(2, "0");
     const timeStr = `${hours24}:${mins}`;
-    const dateStr = now.toISOString().split("T")[0];
+    const dateStr = formatLocalDate(now);
 
     const isLate = now.getHours() > 9 || (now.getHours() === 9 && now.getMinutes() > 15);
     const punctualityStatus: AttendanceRecord["status"] = isLate ? "late" : "present";
@@ -1025,7 +1148,7 @@ export function EmployeePortal() {
     const hours24 = String(now.getHours()).padStart(2, "0");
     const mins = String(now.getMinutes()).padStart(2, "0");
     const timeStr = `${hours24}:${mins}`;
-    const dateStr = now.toISOString().split("T")[0];
+    const dateStr = formatLocalDate(now);
 
     const updated = employees.map((emp) => {
       if (emp.id === currentViewEmp.id) {
@@ -1071,7 +1194,7 @@ export function EmployeePortal() {
       const hours24 = String(now.getHours()).padStart(2, "0");
       const mins = String(now.getMinutes()).padStart(2, "0");
       const timeStr = `${hours24}:${mins}`;
-      const dateStr = now.toISOString().split("T")[0];
+      const dateStr = formatLocalDate(now);
       const updated = employees.map((emp) => {
         if (emp.id === currentViewEmp.id) {
           const existing = emp.attendance || [];
@@ -1122,16 +1245,84 @@ export function EmployeePortal() {
           return;
         }
         if (isMounted && remoteEmployees && remoteEmployees.length > 0) {
-          setEmployees(remoteEmployees);
+          const localStored = getStoredEmployees();
+          const sanitized = remoteEmployees.map((e) => {
+            const localEmp = localStored.find((l) => l.id === e.id);
+            const remoteEods = e.eodReports || [];
+            const localEods = localEmp?.eodReports || [];
+            const eodMap = new Map<string, EodReportItem>();
+            // Remote reports first
+            remoteEods.forEach((r) => eodMap.set(r.id, r));
+            // Local reports take precedence - especially authorized sign-offs
+            localEods.forEach((lr) => {
+              const remoteMatch = eodMap.get(lr.id);
+              if (remoteMatch) {
+                // If local report was signed off by supervisor, ALWAYS keep signed off
+                if (lr.status === "signed_off") {
+                  eodMap.set(lr.id, { ...remoteMatch, ...lr });
+                } else if (remoteMatch.status === "signed_off") {
+                  eodMap.set(lr.id, remoteMatch);
+                } else {
+                  eodMap.set(lr.id, { ...remoteMatch, ...lr });
+                }
+              } else {
+                eodMap.set(lr.id, lr);
+              }
+            });
+            const mergedEodReports = Array.from(eodMap.values());
+
+            const isIkram =
+              e.id === "emp-bdi-001" ||
+              e.name === "Kavindu Senanayake" ||
+              e.email === "intern.bd@creativexlab.online";
+            const isThimathi =
+              e.id === "emp-sup-001" ||
+              e.name === "Dinithi Perera" ||
+              e.name === "Thimathi Dissanayaka" ||
+              e.email === "supervisor.bd@creativexlab.online" ||
+              e.email === "thimathi@creativexlab.online";
+
+            const cleanedSup = isThimathi
+              ? ""
+              : (e.supervisorName || "")
+                  .replace(/Dinithi\s*Perera(\s*\(Lead\s*BD\s*Manager\))?/gi, "Thimathi Dissanayaka (Head Of Engineering and Business Development)")
+                  .replace(/Dinithi/gi, "Thimathi Dissanayaka")
+                  .replace(/Lead\s*BD\s*Manager/gi, "Head Of Engineering and Business Development")
+                  .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+                  .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+                  .trim();
+
+            return {
+              ...e,
+              name: isIkram ? "Ikram Lantra" : isThimathi ? "Thimathi Dissanayaka" : e.name,
+              email: isIkram ? "ikram@creativex.online" : isThimathi ? "thimathi@creativexlab.online" : e.email,
+              password: isIkram ? "CreativexIkram041" : isThimathi ? "thimathi@2001" : e.password,
+              phone: isIkram ? "+94 77 690 2960" : e.phone,
+              designation: isThimathi ? "Head Of Engineering and Business Development" : e.designation,
+              department: isThimathi ? "Engineering & Business Development" : e.department,
+              supervisorName: isThimathi
+                ? ""
+                : isIkram
+                ? (cleanedSup || "Thimathi Dissanayaka (Head Of Engineering and Business Development)")
+                : cleanedSup,
+              eodReports: mergedEodReports,
+            };
+          });
+          setEmployees(sanitized);
           try {
-            localStorage.setItem("creativex_ems_employees_v4", JSON.stringify(remoteEmployees));
+            localStorage.setItem("creativex_ems_employees_v4", JSON.stringify(sanitized));
           } catch {}
 
           // Refresh session employee if profile data was updated in Supabase
           setSession((prev) => {
             if (!prev) return null;
-            const updatedSelf = remoteEmployees.find((e) => e.id === prev.employee.id);
-            return updatedSelf ? { ...prev, employee: updatedSelf } : prev;
+            const updatedSelf = sanitized.find((e) => e.id === prev.employee.id);
+            if (updatedSelf) {
+              const nextSession = { ...prev, employee: updatedSelf };
+              saveStoredEMSSession(nextSession);
+              return nextSession;
+            }
+            return prev;
           });
         }
       } catch (err) {
@@ -1194,7 +1385,49 @@ export function EmployeePortal() {
         try {
           const parsed = JSON.parse(e.newValue);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            setEmployees(parsed);
+            const sanitized = parsed.map((emp: Employee) => {
+              const isThim = emp.id === "emp-sup-001" || emp.name === "Dinithi Perera" || emp.name === "Thimathi Dissanayaka";
+              const cleanedSupervisor = isThim
+                ? ""
+                : (emp.supervisorName || "")
+                    .replace(/Dinithi\s*Perera(\s*\(Lead\s*BD\s*Manager\))?/gi, "Thimathi Dissanayaka (Head Of Engineering and Business Development)")
+                    .replace(/Dinithi/gi, "Thimathi Dissanayaka")
+                    .replace(/Lead\s*BD\s*Manager/gi, "Head Of Engineering and Business Development")
+                    .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+                    .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+                    .trim();
+
+              if (
+                emp.id === "emp-bdi-001" ||
+                emp.name === "Kavindu Senanayake" ||
+                emp.email === "intern.bd@creativexlab.online"
+              ) {
+                return {
+                  ...emp,
+                  name: "Ikram Lantra",
+                  email: "ikram@creativex.online",
+                  password: "CreativexIkram041",
+                  phone: "+94 77 690 2960",
+                  supervisorName: cleanedSupervisor || "Thimathi Dissanayaka (Head Of Engineering and Business Development)",
+                };
+              }
+              if (isThim) {
+                return {
+                  ...emp,
+                  name: "Thimathi Dissanayaka",
+                  email: "thimathi@creativexlab.online",
+                  password: "thimathi@2001",
+                  designation: "Head Of Engineering and Business Development",
+                  department: "Engineering & Business Development",
+                  supervisorName: "",
+                };
+              }
+              return {
+                ...emp,
+                supervisorName: cleanedSupervisor,
+              };
+            });
+            setEmployees(sanitized);
           }
         } catch {}
       }
@@ -1203,7 +1436,49 @@ export function EmployeePortal() {
     const handleCustomLocalSync = (e: Event) => {
       const customEvent = e as CustomEvent<Employee[]>;
       if (Array.isArray(customEvent.detail)) {
-        setEmployees(customEvent.detail);
+        const sanitized = customEvent.detail.map((emp) => {
+          const isThim = emp.id === "emp-sup-001" || emp.name === "Dinithi Perera" || emp.name === "Thimathi Dissanayaka";
+          const cleanedSupervisor = isThim
+            ? ""
+            : (emp.supervisorName || "")
+                .replace(/Dinithi\s*Perera(\s*\(Lead\s*BD\s*Manager\))?/gi, "Thimathi Dissanayaka (Head Of Engineering and Business Development)")
+                .replace(/Dinithi/gi, "Thimathi Dissanayaka")
+                .replace(/Lead\s*BD\s*Manager/gi, "Head Of Engineering and Business Development")
+                .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+                .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+                .trim();
+
+          if (
+            emp.id === "emp-bdi-001" ||
+            emp.name === "Kavindu Senanayake" ||
+            emp.email === "intern.bd@creativexlab.online"
+          ) {
+            return {
+              ...emp,
+              name: "Ikram Lantra",
+              email: "ikram@creativex.online",
+              password: "CreativexIkram041",
+              phone: "+94 77 690 2960",
+              supervisorName: cleanedSupervisor || "Thimathi Dissanayaka (Head Of Engineering and Business Development)",
+            };
+          }
+          if (isThim) {
+            return {
+              ...emp,
+              name: "Thimathi Dissanayaka",
+              email: "thimathi@creativexlab.online",
+              password: "thimathi@2001",
+              designation: "Head Of Engineering and Business Development",
+              department: "Engineering & Business Development",
+              supervisorName: "",
+            };
+          }
+          return {
+            ...emp,
+            supervisorName: cleanedSupervisor,
+          };
+        });
+        setEmployees(sanitized);
       }
     };
 
@@ -1266,7 +1541,8 @@ export function EmployeePortal() {
     const res = authenticateEmployee(email, pwd);
     if (res.success && res.session) {
       setSession(res.session);
-      showToast(`Logged in as ${res.session.employee.name} (${res.session.role.toUpperCase()})`);
+      const roleBadge = res.session.role === "employee" ? "INTERN" : res.session.role.toUpperCase();
+      showToast(`Logged in as ${res.session.employee.name} (${roleBadge})`);
       if (res.session.role === "employee" || res.session.role === "supervisor") {
         setSelectedEmpId(res.session.employee.id);
         setActiveTab("profile");
@@ -1296,7 +1572,7 @@ export function EmployeePortal() {
       designation: newEmpDesignation.trim() || "Associate Specialist",
       department: newEmpDepartment,
       supervisorId: "emp-admin-001",
-      supervisorName: newEmpSupervisor.trim() || "Kavishka Thilakarathna",
+      supervisorName: newEmpSupervisor.trim() || "Thimathi Dissanayaka",
       joiningDate: new Date().toISOString().split("T")[0],
       contractType: newEmpContract,
       workLocation: "Remote · Rajagiriya, Colombo",
@@ -1367,7 +1643,9 @@ export function EmployeePortal() {
       return;
     }
 
+    lastLocalActionRef.current = Date.now();
     const reviewerName = session?.employee.name || "Supervisor";
+    const targetEmpId = currentViewEmp.id || selectedEmpId;
     const newRev: SupervisorReview = {
       id: `rev-${Date.now()}`,
       date: new Date().toISOString().split("T")[0],
@@ -1379,7 +1657,7 @@ export function EmployeePortal() {
     };
 
     const updated = employees.map((emp) => {
-      if (emp.id === selectedEmpId) {
+      if (emp.id === targetEmpId) {
         return {
           ...emp,
           weeklyReviews: [newRev, ...emp.weeklyReviews],
@@ -1394,7 +1672,7 @@ export function EmployeePortal() {
     setReviewStrengths("");
     setReviewImprovements("");
     setReviewGoals("");
-    showToast("Supervisor 1-on-1 review recorded successfully.");
+    showToast(`Supervisor 1-on-1 review recorded successfully for ${currentViewEmp.name}.`);
   };
 
   // ── Supervisor / Admin: Add New KPI Target
@@ -1405,6 +1683,9 @@ export function EmployeePortal() {
       return;
     }
 
+    lastLocalActionRef.current = Date.now();
+    const targetEmpId = currentViewEmp.id || selectedEmpId;
+
     const newKpiItem: EmployeeKPI = {
       id: `kpi-${Date.now()}`,
       title: kpiTitle.trim(),
@@ -1414,11 +1695,11 @@ export function EmployeePortal() {
       period: kpiPeriod.trim() || "Monthly",
       weight: Number(kpiWeight) || 20,
       status: Number(kpiCurrent) >= Number(kpiTarget) ? "exceeding" : "on_track",
-      notes: kpiNotes.trim() || "Target assigned by supervisor.",
+      notes: kpiNotes.trim() || `Target assigned by supervisor ${session?.employee?.name || "Supervisor"}.`,
     };
 
     const updated = employees.map((emp) => {
-      if (emp.id === selectedEmpId) {
+      if (emp.id === targetEmpId) {
         return {
           ...emp,
           kpis: [...emp.kpis, newKpiItem],
@@ -1432,32 +1713,54 @@ export function EmployeePortal() {
     setShowAddKpiModal(false);
     setKpiTitle("");
     setKpiNotes("");
-    showToast(`Added new KPI target for ${employees.find((e) => e.id === selectedEmpId)?.name}.`);
+    showToast(`Added new KPI target for ${currentViewEmp.name}.`);
   };
 
-  // ── Supervisor / Admin: Update KPI Actual Progress
+  // ── Supervisor / Admin: Update KPI Actual Progress & Target
   const handleUpdateKpiProgress = (e: React.FormEvent) => {
     e.preventDefault();
     if (!showUpdateKpiModal) return;
 
+    lastLocalActionRef.current = Date.now();
     const { kpi, empId } = showUpdateKpiModal;
-    const newVal = Number(kpiUpdateVal);
+    const newVal = Math.max(0, Number(kpiUpdateVal));
+    const newTarget = isSupervisor && kpiUpdateTargetVal > 0 ? Number(kpiUpdateTargetVal) : kpi.target;
 
     const updated = employees.map((emp) => {
       if (emp.id === empId) {
-        const nextKpis = emp.kpis.map((k) => {
+        let hasKpi = false;
+        const nextKpis = (emp.kpis || []).map((k) => {
           if (k.id === kpi.id) {
+            hasKpi = true;
             let nextStatus: EmployeeKPI["status"] = "on_track";
-            if (newVal >= k.target) nextStatus = "exceeding";
-            else if (newVal < k.target * 0.7) nextStatus = "needs_attention";
+            if (newVal >= newTarget) nextStatus = "exceeding";
+            else if (newVal < newTarget * 0.7) nextStatus = "needs_attention";
             return {
               ...k,
+              target: newTarget,
               current: newVal,
               status: nextStatus,
+              notes: isSupervisor
+                ? `Target (${newTarget}) & progress (${newVal}) updated by supervisor ${session?.employee?.name || "Supervisor"} on ${new Date().toLocaleDateString()}.`
+                : k.notes,
             };
           }
           return k;
         });
+
+        if (!hasKpi) {
+          nextKpis.push({
+            id: kpi.id,
+            title: kpi.title,
+            target: newTarget,
+            current: newVal,
+            unit: kpi.unit || "Units",
+            weight: kpi.weight || 25,
+            period: kpi.period || "Monthly (Q4 2026)",
+            status: newVal >= newTarget ? "exceeding" : (newVal < newTarget * 0.7 ? "needs_attention" : "on_track"),
+            notes: `Target (${newTarget}) & progress (${newVal}) assigned by supervisor.`,
+          });
+        }
         return { ...emp, kpis: nextKpis };
       }
       return emp;
@@ -1466,11 +1769,82 @@ export function EmployeePortal() {
     setEmployees(updated);
     saveStoredEmployees(updated);
     setShowUpdateKpiModal(null);
-    showToast(`Updated progress for "${kpi.title}" to ${newVal} ${kpi.unit}.`);
+    showToast(`Updated "${kpi.title}": ${newVal} / ${newTarget} ${kpi.unit}.`);
   };
 
-  // Find currently viewed employee
-  const currentViewEmp = employees.find((e) => e.id === selectedEmpId) || employees[2] || employees[0];
+  // Find currently viewed employee (supervisors can only view their own account or intern profiles)
+  const rawViewEmp = useMemo(() => {
+    let emp = employees.find((e) => e.id === selectedEmpId);
+    if (session?.role === "supervisor" && emp?.role === "admin") {
+      emp = employees.find((e) => e.id === session.employee.id) || employees.find((e) => e.role === "employee");
+    }
+    return emp || employees.find((e) => e.id === session?.employee?.id) || employees[2] || employees[0];
+  }, [employees, selectedEmpId, session]);
+
+  // Viewable employees for the top profile picker (Admin sees all; Supervisor only sees themselves and interns)
+  const viewableEmployees = useMemo(() => {
+    if (session?.role === "admin") {
+      return employees;
+    }
+    if (session?.role === "supervisor") {
+      return employees.filter(
+        (emp) => emp.id === session.employee.id || emp.role === "employee"
+      );
+    }
+    return employees.filter((emp) => emp.id === session?.employee?.id);
+  }, [employees, session]);
+
+  useEffect(() => {
+    if (session?.role === "supervisor" && selectedEmpId === "emp-admin-001") {
+      setSelectedEmpId(session.employee.id);
+    }
+  }, [session, selectedEmpId]);
+  const currentViewEmp: Employee = useMemo(() => {
+    if (!rawViewEmp) return rawViewEmp;
+    let supervisor = (rawViewEmp.supervisorName || "")
+      .replace(/Dinithi\s*Perera(\s*\(Lead\s*BD\s*Manager\))?/gi, "Thimathi Dissanayaka (Head Of Engineering and Business Development)")
+      .replace(/Dinithi/gi, "Thimathi Dissanayaka")
+      .replace(/Lead\s*BD\s*Manager/gi, "Head Of Engineering and Business Development")
+      .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+      .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+      .trim();
+
+    if (
+      rawViewEmp.id === "emp-bdi-001" ||
+      rawViewEmp.name === "Kavindu Senanayake" ||
+      rawViewEmp.email === "intern.bd@creativexlab.online"
+    ) {
+      return {
+        ...rawViewEmp,
+        name: "Ikram Lantra",
+        email: "ikram@creativex.online",
+        password: "CreativexIkram041",
+        phone: "+94 77 690 2960",
+        supervisorName: supervisor || "Thimathi Dissanayaka (Head Of Engineering and Business Development)",
+      };
+    }
+    if (
+      rawViewEmp.id === "emp-sup-001" ||
+      rawViewEmp.name === "Dinithi Perera" ||
+      rawViewEmp.name === "Thimathi Dissanayaka" ||
+      rawViewEmp.email === "supervisor.bd@creativexlab.online" ||
+      rawViewEmp.email === "thimathi@creativexlab.online"
+    ) {
+      return {
+        ...rawViewEmp,
+        name: "Thimathi Dissanayaka",
+        email: "thimathi@creativexlab.online",
+        password: "thimathi@2001",
+        designation: "Head Of Engineering and Business Development",
+        department: "Engineering & Business Development",
+        supervisorName: "",
+      };
+    }
+    return {
+      ...rawViewEmp,
+      supervisorName: supervisor,
+    };
+  }, [rawViewEmp]);
   const overallKpiScore = calculateOverallKPIScore(currentViewEmp?.kpis || []);
 
   // Realtime B2B Pipeline & Incentive Calculations
@@ -1528,6 +1902,25 @@ export function EmployeePortal() {
     return list;
   }, [employees]);
 
+  // ── All Pending Intern EOD Reports across supervised employees
+  const allSupervisedPendingEodReports = useMemo(() => {
+    const list: {
+      report: EodReportItem;
+      employee: Employee;
+    }[] = [];
+    employees.forEach((emp) => {
+      (emp.eodReports || []).forEach((report) => {
+        if (report.status === "pending_review") {
+          list.push({ report, employee: emp });
+        }
+      });
+    });
+    return list;
+  }, [employees]);
+
+  const totalPendingSupervisorApprovals =
+    allSupervisedPendingApprovals.length + allSupervisedPendingEodReports.length;
+
   // B2B Intern KPI Progress Values (Dynamic with fallback)
   const kpiLeads = currentViewEmp?.kpis?.find((k) => k.id === "kpi-bdi-1") || currentViewEmp?.kpis?.[0];
   const kpiDemos = currentViewEmp?.kpis?.find((k) => k.id === "kpi-bdi-2") || currentViewEmp?.kpis?.[1];
@@ -1552,7 +1945,128 @@ export function EmployeePortal() {
     year: "numeric",
   });
 
-  const todayIsoDate = currentClock.toISOString().split("T")[0];
+  const todayIsoDate = formatLocalDate(currentClock);
+
+  // ── Day-by-Day Task Workflow State & Helpers
+  const activeTaskDate = selectedTaskDate === "all" ? "all" : (selectedTaskDate || todayIsoDate);
+
+  const navigateTaskDay = (offsetDays: number) => {
+    const cur = activeTaskDate && activeTaskDate !== "all" ? activeTaskDate : todayIsoDate;
+    const [y, m, d] = cur.split("-").map(Number);
+    const dateObj = new Date(y, m - 1, d);
+    dateObj.setDate(dateObj.getDate() + offsetDays);
+    setSelectedTaskDate(formatLocalDate(dateObj));
+  };
+
+  const taskWeekDays = useMemo(() => {
+    const cur = activeTaskDate && activeTaskDate !== "all" ? activeTaskDate : todayIsoDate;
+    const [y, m, d] = cur.split("-").map(Number);
+    const baseDate = new Date(y, m - 1, d);
+    const dayOfWeek = baseDate.getDay(); // 0 Sun, 1 Mon ... 6 Sat
+    const diffToMon = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
+    const monday = new Date(baseDate);
+    monday.setDate(baseDate.getDate() + diffToMon);
+
+    const checklist = currentViewEmp?.checklist || [];
+
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const dayDate = new Date(monday);
+      dayDate.setDate(monday.getDate() + i);
+      const iso = formatLocalDate(dayDate);
+      const dayTasks = checklist.filter((item) => (item.date || todayIsoDate) === iso);
+      const completedTasks = dayTasks.filter((item) => item.completed);
+      const dayShort = dayDate.toLocaleDateString("en-US", { weekday: "short" });
+      const dayNum = dayDate.getDate();
+      const isToday = iso === todayIsoDate;
+      const isSelected = activeTaskDate !== "all" && iso === activeTaskDate;
+
+      days.push({
+        iso,
+        dayShort,
+        dayNum,
+        isToday,
+        isSelected,
+        total: dayTasks.length,
+        completed: completedTasks.length,
+      });
+    }
+    return days;
+  }, [activeTaskDate, currentViewEmp?.checklist, todayIsoDate]);
+
+  const activeDayTasks = useMemo(() => {
+    const all = currentViewEmp?.checklist || [];
+    if (activeTaskDate === "all") return all;
+    return all.filter((item) => (item.date || todayIsoDate) === activeTaskDate);
+  }, [currentViewEmp?.checklist, activeTaskDate, todayIsoDate]);
+
+  const activeDayCompletedCount = activeDayTasks.filter((c) => c.completed).length;
+  const activeDayTotalCount = activeDayTasks.length;
+  const activeDayProgressPct =
+    activeDayTotalCount > 0 ? Math.round((activeDayCompletedCount / activeDayTotalCount) * 100) : 0;
+
+  const pendingPastTasksCount = useMemo(() => {
+    if (activeTaskDate === "all") return 0;
+    const all = currentViewEmp?.checklist || [];
+    return all.filter((c) => {
+      const d = c.date || todayIsoDate;
+      return !c.completed && d < activeTaskDate;
+    }).length;
+  }, [currentViewEmp?.checklist, activeTaskDate, todayIsoDate]);
+
+  const isPastShift = activeTaskDate !== "all" && activeTaskDate < todayIsoDate;
+  const canAddTasksForShift = isSupervisor || !isPastShift;
+
+  const formattedActiveTaskDay = useMemo(() => {
+    if (activeTaskDate === "all") return "All Shift Days";
+    const [y, m, d] = activeTaskDate.split("-").map(Number);
+    const dateObj = new Date(y, m - 1, d);
+    const dayName = dateObj.toLocaleDateString("en-US", {
+      weekday: "long",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+    if (activeTaskDate === todayIsoDate) return `${dayName} (Today)`;
+    return dayName;
+  }, [activeTaskDate, todayIsoDate]);
+
+  const handleCarryForwardPendingTasks = () => {
+    lastLocalActionRef.current = Date.now();
+    const all = currentViewEmp?.checklist || [];
+    const targetDate = activeTaskDate !== "all" ? activeTaskDate : todayIsoDate;
+    const pendingPastTasks = all.filter((c) => {
+      const d = c.date || todayIsoDate;
+      return !c.completed && d < targetDate;
+    });
+
+    if (pendingPastTasks.length === 0) {
+      showToast("No pending tasks from previous days to carry forward.");
+      return;
+    }
+
+    const updated: Employee[] = employees.map((emp) => {
+      if (emp.id === currentViewEmp.id && emp.checklist) {
+        const clonedTasks: DailyChecklistItem[] = pendingPastTasks.map((pt) => ({
+          ...pt,
+          id: `chk-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          date: targetDate,
+          notes: pt.notes
+            ? `${pt.notes} (Carried from ${pt.date || "previous day"})`
+            : `Carried forward from ${pt.date || "previous day"}`,
+        }));
+        return {
+          ...emp,
+          checklist: [...emp.checklist, ...clonedTasks],
+        };
+      }
+      return emp;
+    });
+
+    setEmployees(updated);
+    saveStoredEmployees(updated);
+    showToast(`Carried forward ${pendingPastTasks.length} pending task(s) to ${targetDate}!`);
+  };
   const todayAttendance = currentViewEmp?.attendance?.find((a) => a.date === todayIsoDate);
   const isCurrentlyClockedIn = Boolean(
     todayAttendance && (todayAttendance.checkOut === "Active" || !todayAttendance.checkOut || todayAttendance.checkOut === "")
@@ -1592,38 +2106,28 @@ export function EmployeePortal() {
   const weekData = useMemo(() => {
     const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] as const;
     const now = currentClock;
-    const currentDayOfWeek = now.getDay(); // 0: Sun, 1: Mon, ... 5: Fri, 6: Sat
+    const currentDayOfWeek = now.getDay(); // 0: Sun, 1: Mon, ... 4: Thu, 5: Fri, 6: Sat
     const diffToMon = (currentDayOfWeek === 0 ? -6 : 1) - currentDayOfWeek;
-    const mondayDate = new Date(now);
-    mondayDate.setDate(now.getDate() + diffToMon);
+    const mondayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diffToMon);
     mondayDate.setHours(0, 0, 0, 0);
 
     const empAttendance = currentViewEmp?.attendance || [];
-    const todayIso = now.toISOString().split("T")[0];
+    const todayIso = formatLocalDate(now);
 
     let totalMinutesWorked = 0;
     let completedShiftsCount = 0;
     let onTimeCount = 0;
+    let tardiesCount = 0;
 
     const days = dayNames.map((dayName, index) => {
-      const d = new Date(mondayDate);
-      d.setDate(mondayDate.getDate() + index);
-      const isoDate = d.toISOString().split("T")[0];
+      const d = new Date(mondayDate.getFullYear(), mondayDate.getMonth(), mondayDate.getDate() + index);
+      const isoDate = formatLocalDate(d);
       const isToday = isoDate === todayIso;
       const isPast = d < now && !isToday;
       const isFuture = d > now && !isToday;
 
-      // 1. Direct date match in employee attendance
-      let record = empAttendance.find((a) => a.date === isoDate);
-
-      // 2. Fallback to record matching weekday index from latest attendance logs if date not populated
-      if (!record && empAttendance.length > 0) {
-        record = empAttendance.find((a) => {
-          const recDate = new Date(a.date);
-          const recDayIdx = (recDate.getDay() + 6) % 7; // 0 for Mon, 4 for Fri
-          return recDayIdx === index;
-        });
-      }
+      // Match actual attendance record strictly by isoDate (no fallbacks across unrelated weeks)
+      let record = isToday ? todayAttendance : empAttendance.find((a) => a.date === isoDate);
 
       let mode: "Remote" | "Rajagiriya HQ" = index === 2 ? "Rajagiriya HQ" : "Remote";
       let statusText = "Scheduled (09:00 – 18:00)";
@@ -1631,18 +2135,38 @@ export function EmployeePortal() {
       let isActiveNow = false;
       let isCompleted = false;
 
-      if (record) {
+      if (isToday) {
+        if (todayAttendance) {
+          record = todayAttendance;
+          mode = (todayAttendance.workMode && todayAttendance.workMode.includes("Office")) ? "Rajagiriya HQ" : "Remote";
+          if (isCurrentlyClockedIn) {
+            isActiveNow = true;
+            const checkInMin = parseTimeToMinutes(todayAttendance.checkIn || "09:00");
+            const curMin = now.getHours() * 60 + now.getMinutes();
+            const elapsed = Math.max(0, curMin - checkInMin);
+            shiftDurationHours = Math.round((elapsed / 60) * 10) / 10;
+            statusText = `Shift Active (${shiftDurationHours.toFixed(1)}h)`;
+            totalMinutesWorked += elapsed;
+            if (todayAttendance.status === "late") tardiesCount += 1;
+            else onTimeCount += 1;
+          } else if (todayAttendance.checkOut && todayAttendance.checkOut !== "Active") {
+            isCompleted = true;
+            const checkInMin = parseTimeToMinutes(todayAttendance.checkIn);
+            const checkOutMin = parseTimeToMinutes(todayAttendance.checkOut);
+            const duration = Math.max(0, checkOutMin - checkInMin);
+            shiftDurationHours = Math.round((duration / 60) * 10) / 10;
+            statusText = `Completed (${shiftDurationHours.toFixed(1)}h)`;
+            totalMinutesWorked += shiftDurationHours * 60;
+            completedShiftsCount += 1;
+            if (todayAttendance.status === "late") tardiesCount += 1;
+            else onTimeCount += 1;
+          }
+        } else {
+          statusText = "Standby · Not Clocked In";
+        }
+      } else if (record) {
         mode = (record.workMode && record.workMode.includes("Office")) ? "Rajagiriya HQ" : "Remote";
-        if (record.checkOut === "Active" || (isToday && isCurrentlyClockedIn)) {
-          isActiveNow = true;
-          const checkInMin = parseTimeToMinutes(record.checkIn || "09:00");
-          const curMin = now.getHours() * 60 + now.getMinutes();
-          const elapsed = Math.max(0, curMin - checkInMin);
-          shiftDurationHours = Math.round((elapsed / 60) * 10) / 10;
-          statusText = `Shift Active (${shiftDurationHours.toFixed(1)}h)`;
-          totalMinutesWorked += elapsed > 0 ? elapsed : 540;
-          onTimeCount += 1;
-        } else if (record.checkOut && record.checkOut !== "Active") {
+        if (record.checkOut && record.checkOut !== "Active") {
           isCompleted = true;
           const checkInMin = parseTimeToMinutes(record.checkIn);
           const checkOutMin = parseTimeToMinutes(record.checkOut);
@@ -1652,14 +2176,15 @@ export function EmployeePortal() {
           statusText = `Completed (${shiftDurationHours.toFixed(1)}h)`;
           totalMinutesWorked += shiftDurationHours * 60;
           completedShiftsCount += 1;
-          if (record.status !== "late") onTimeCount += 1;
+          if (record.status === "late") tardiesCount += 1;
+          else onTimeCount += 1;
+        } else {
+          statusText = `Logged (${record.checkIn || "09:00"})`;
         }
-      } else if (isToday) {
-        statusText = "Standby · 09:00 – 18:00";
-      } else if (isFuture) {
-        statusText = "Scheduled (9.0h)";
+      } else if (isPast) {
+        statusText = "Off / Excused";
       } else {
-        statusText = "Standard Shift (9.0h)";
+        statusText = "Scheduled (09:00 – 18:00)";
       }
 
       return {
@@ -1678,17 +2203,18 @@ export function EmployeePortal() {
     });
 
     const totalHours = Math.round((totalMinutesWorked / 60) * 10) / 10;
-    const displayTotalHours = totalHours > 0 ? totalHours : 45.0;
-    const punctualityRate = completedShiftsCount > 0
-      ? Math.round((onTimeCount / (completedShiftsCount + (isCurrentlyClockedIn ? 1 : 0))) * 100)
+    const totalActiveDays = completedShiftsCount + (isCurrentlyClockedIn ? 1 : 0);
+    const punctualityRate = totalActiveDays > 0
+      ? Math.round((onTimeCount / totalActiveDays) * 100)
       : 100;
 
     return {
       days,
-      totalHours: displayTotalHours,
+      totalHours,
       punctualityRate,
+      tardiesCount,
     };
-  }, [currentClock, currentViewEmp?.attendance, isCurrentlyClockedIn]);
+  }, [currentClock, currentViewEmp?.attendance, isCurrentlyClockedIn, todayAttendance]);
 
   // Supervisor Quick Reset for single KPI to 0
   const handleResetKpiToZero = (kpiId: string, kpiName: string) => {
@@ -1698,8 +2224,10 @@ export function EmployeePortal() {
     lastLocalActionRef.current = Date.now();
     const updated = employees.map((emp) => {
       if (emp.id === currentViewEmp.id) {
-        const nextKpis = emp.kpis.map((k) => {
+        let hasKpi = false;
+        const nextKpis = (emp.kpis || []).map((k) => {
           if (k.id === kpiId) {
+            hasKpi = true;
             return {
               ...k,
               current: 0,
@@ -1709,6 +2237,20 @@ export function EmployeePortal() {
           }
           return k;
         });
+
+        if (!hasKpi) {
+          nextKpis.push({
+            id: kpiId,
+            title: kpiName,
+            target: kpiId === "kpi-bdi-1" ? 45 : (kpiId === "kpi-bdi-2" ? 16 : 10),
+            current: 0,
+            unit: kpiId === "kpi-bdi-1" ? "Qualified Leads" : "Discovery Demos",
+            weight: 25,
+            period: "Monthly (Q4 2026)",
+            status: "needs_attention",
+            notes: `Reset to 0 by supervisor on ${new Date().toLocaleDateString()}.`,
+          });
+        }
         return { ...emp, kpis: nextKpis };
       }
       return emp;
@@ -1721,12 +2263,16 @@ export function EmployeePortal() {
 
   // Supervisor Quick Reset for all pipeline deals to 0
   const handleResetPipelineDeals = () => {
-    if (!confirm(`Supervisor Confirmation: Clear all pipeline deals for ${currentViewEmp.name} and reset pipeline value to LKR 0?`)) {
+    const target = currentViewEmp.role === "employee"
+      ? currentViewEmp
+      : (employees.find((e) => e.role === "employee" || e.id === "emp-bdi-001") || currentViewEmp);
+
+    if (!confirm(`Supervisor Confirmation: Clear all pipeline deals for ${target.name} (${target.employeeId}) and reset pipeline value to LKR 0?`)) {
       return;
     }
     lastLocalActionRef.current = Date.now();
     const updated = employees.map((emp) => {
-      if (emp.id === currentViewEmp.id) {
+      if (emp.id === target.id) {
         return { ...emp, leads: [] };
       }
       return emp;
@@ -1734,21 +2280,56 @@ export function EmployeePortal() {
 
     setEmployees(updated);
     saveStoredEmployees(updated);
-    showToast(`Supervisor cleared all pipeline deals for ${currentViewEmp.name}.`);
+    showToast(`Supervisor cleared all pipeline deals for ${target.name}.`);
   };
 
   // Supervisor Comprehensive Reset Modal Action
-  const handleSupervisorResetSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSupervisorResetSubmit = (e?: React.FormEvent, forceFullReset = false) => {
+    if (e && e.preventDefault) e.preventDefault();
     lastLocalActionRef.current = Date.now();
 
+    const targetInternId = resetTargetEmpId || (currentViewEmp.role === "employee" ? currentViewEmp.id : "emp-bdi-001");
+    const targetInternObj =
+      employees.find((emp) => emp.id === targetInternId) ||
+      employees.find((emp) => emp.role === "employee") ||
+      employees.find((emp) => emp.id === "emp-bdi-001") ||
+      currentViewEmp;
+
+    const doKpis = forceFullReset || resetOptionKpis;
+    const doPipeline = forceFullReset || resetOptionPipeline;
+    const doChecklist = forceFullReset || resetOptionChecklist;
+
     const updated = employees.map((emp) => {
-      if (emp.id === currentViewEmp.id) {
+      if (emp.id === targetInternObj.id) {
         let nextEmp = { ...emp };
 
-        if (resetOptionKpis) {
-          nextEmp.kpis = emp.kpis.map((k) => {
-            if (k.id === "kpi-bdi-1" || k.id === "kpi-bdi-2") {
+        if (doKpis) {
+          let hasLeadsKpi = false;
+          let hasDemosKpi = false;
+          const nextKpis = (emp.kpis || []).map((k) => {
+            if (k.id === "kpi-bdi-1") {
+              hasLeadsKpi = true;
+              const tgt = resetLeadsTarget > 0 ? resetLeadsTarget : k.target;
+              return {
+                ...k,
+                target: tgt,
+                current: 0,
+                status: "needs_attention" as const,
+                notes: `Sprint reset to 0 / ${tgt} target by supervisor ${session?.employee?.name || "Supervisor"} on ${new Date().toLocaleDateString()}.`,
+              };
+            }
+            if (k.id === "kpi-bdi-2") {
+              hasDemosKpi = true;
+              const tgt = resetDemosTarget > 0 ? resetDemosTarget : k.target;
+              return {
+                ...k,
+                target: tgt,
+                current: 0,
+                status: "needs_attention" as const,
+                notes: `Sprint reset to 0 / ${tgt} target by supervisor ${session?.employee?.name || "Supervisor"} on ${new Date().toLocaleDateString()}.`,
+              };
+            }
+            if (forceFullReset && k.id === "kpi-bdi-4") {
               return {
                 ...k,
                 current: 0,
@@ -1758,13 +2339,41 @@ export function EmployeePortal() {
             }
             return k;
           });
+
+          if (!hasLeadsKpi) {
+            nextKpis.push({
+              id: "kpi-bdi-1",
+              title: "Monthly Leads Logged",
+              target: resetLeadsTarget > 0 ? resetLeadsTarget : 45,
+              current: 0,
+              unit: "Qualified Leads",
+              weight: 25,
+              period: "Monthly (Q4 2026)",
+              status: "needs_attention",
+              notes: `Sprint initialized by supervisor on ${new Date().toLocaleDateString()}.`,
+            });
+          }
+          if (!hasDemosKpi) {
+            nextKpis.push({
+              id: "kpi-bdi-2",
+              title: "Discovery Demos Scheduled",
+              target: resetDemosTarget > 0 ? resetDemosTarget : 16,
+              current: 0,
+              unit: "Discovery Demos",
+              weight: 25,
+              period: "Monthly (Q4 2026)",
+              status: "needs_attention",
+              notes: `Sprint initialized by supervisor on ${new Date().toLocaleDateString()}.`,
+            });
+          }
+          nextEmp.kpis = nextKpis;
         }
 
-        if (resetOptionPipeline) {
+        if (doPipeline) {
           nextEmp.leads = [];
         }
 
-        if (resetOptionChecklist) {
+        if (doChecklist) {
           nextEmp.checklist = (emp.checklist || []).map((c) => ({
             ...c,
             completed: false,
@@ -1779,11 +2388,14 @@ export function EmployeePortal() {
     setEmployees(updated);
     saveStoredEmployees(updated);
     setShowResetInternModal(false);
-    showToast(`Supervisor successfully reset sprint data for ${currentViewEmp.name}.`);
+    showToast(`Supervisor successfully reset sprint data for ${targetInternObj.name} (${targetInternObj.employeeId}).`);
   };
 
-  // Filtered employees in Admin table
+  // Filtered employees in Admin/Supervisor table
   const filteredEmployees = employees.filter((emp) => {
+    if (session?.role === "supervisor" && emp.role === "admin") {
+      return false;
+    }
     const matchesSearch =
       emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       emp.designation.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -1826,7 +2438,9 @@ export function EmployeePortal() {
 
             {session ? (
               <div className="ems-session-pill">
-                <span className={`ems-role-tag role-${session.role}`}>{session.role.toUpperCase()}</span>
+                <span className={`ems-role-tag role-${session.role}`}>
+                  {session.role === "employee" ? "INTERN" : session.role.toUpperCase()}
+                </span>
                 <span className="ems-user-name">{session.employee.name}</span>
                 <button type="button" onClick={handleLogout} className="ems-btn-logout" title="Sign Out">
                   <LogOut size={14} />
@@ -1882,7 +2496,6 @@ export function EmployeePortal() {
                     id="ems-email"
                     type="email"
                     required
-                    placeholder="e.g. intern.bd@creativexlab.online"
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
                   />
@@ -1909,16 +2522,16 @@ export function EmployeePortal() {
               <div className="ems-demo-logins-box">
                 <div className="ems-demo-head">
                   <Sparkles size={14} className="text-[#ff5a36]" />
-                  <span>Authorized Accounts Quick Access:</span>
+                  <span>Authorized Accounts (Click to Log In):</span>
                 </div>
 
                 <div className="ems-demo-buttons-grid">
-                  {/* Master Admin Button - Click Disabled */}
+                  {/* Master Admin Button */}
                   <button
                     type="button"
-                    disabled
-                    aria-disabled="true"
-                    className="ems-demo-account-btn highlight-admin ems-btn-disabled"
+                    onClick={() => handleQuickLogin("tkavishka101@gmail.com", "@Kavishka2002")}
+                    className="ems-demo-account-btn highlight-admin"
+                    title="Click to instant sign-in as Master Admin"
                   >
                     <div className="ems-acc-role">
                       <span className="badge-admin">MASTER ADMIN</span>
@@ -1927,32 +2540,32 @@ export function EmployeePortal() {
                     <small>tkavishka101@gmail.com · Full Access &amp; Management</small>
                   </button>
 
-                  {/* Business Development Intern Button - Click Disabled */}
+                  {/* Business Development Intern Button */}
                   <button
                     type="button"
-                    disabled
-                    aria-disabled="true"
-                    className="ems-demo-account-btn ems-btn-disabled"
+                    onClick={() => handleQuickLogin("ikram@creativex.online", "CreativexIkram041")}
+                    className="ems-demo-account-btn"
+                    title="Click to instant sign-in as BD Intern (Ikram Lantra)"
                   >
                     <div className="ems-acc-role">
                       <span className="badge-emp">BD INTERN</span>
-                      <strong className="text-white">Kavindu Senanayake</strong>
+                      <strong className="text-white">Ikram Lantra</strong>
                     </div>
-                    <small>intern.bd@creativexlab.online · Live KPI Tracking</small>
+                    <small>ikram@creativex.online · Live KPI Tracking</small>
                   </button>
 
-                  {/* Supervisor Button - Click Disabled */}
+                  {/* Supervisor Button */}
                   <button
                     type="button"
-                    disabled
-                    aria-disabled="true"
-                    className="ems-demo-account-btn ems-btn-disabled"
+                    onClick={() => handleQuickLogin("thimathi@creativexlab.online", "thimathi@2001")}
+                    className="ems-demo-account-btn"
+                    title="Click to instant sign-in as Supervisor"
                   >
                     <div className="ems-acc-role">
                       <span className="badge-sup">SUPERVISOR</span>
-                      <strong className="text-white">Dinithi Perera</strong>
+                      <strong className="text-white">Thimathi Dissanayaka</strong>
                     </div>
-                    <small>supervisor.bd@creativexlab.online · Team Evaluation</small>
+                    <small>thimathi@creativexlab.online · Head Of Engineering &amp; BD</small>
                   </button>
                 </div>
               </div>
@@ -1976,11 +2589,11 @@ export function EmployeePortal() {
                     className={`ems-subnav-btn ${selectedEmpId === "emp-sup-001" && activeTab === "profile" ? "active" : ""}`}
                     title="Open Supervisor Profile & Intern Approvals Center"
                   >
-                    <ShieldCheck size={14} className={allSupervisedPendingApprovals.length > 0 ? "text-amber-400" : "text-emerald"} />
+                    <ShieldCheck size={14} className={totalPendingSupervisorApprovals > 0 ? "text-amber-400" : "text-emerald"} />
                     <span>Supervisor Approvals</span>
-                    {allSupervisedPendingApprovals.length > 0 ? (
+                    {totalPendingSupervisorApprovals > 0 ? (
                       <span className="ems-count-pill border-amber-500/40 text-amber-300 bg-amber-500/10">
-                        {allSupervisedPendingApprovals.length} Pending
+                        {totalPendingSupervisorApprovals} Pending
                       </span>
                     ) : (
                       <span className="ems-count-pill text-emerald border-emerald-500/30">0</span>
@@ -1995,7 +2608,7 @@ export function EmployeePortal() {
                       onChange={(e) => setSelectedEmpId(e.target.value)}
                       className="ems-select-styled"
                     >
-                      {employees.map((emp) => (
+                      {viewableEmployees.map((emp) => (
                         <option key={emp.id} value={emp.id}>
                           {emp.employeeId} — {emp.name} ({emp.designation})
                         </option>
@@ -2022,14 +2635,13 @@ export function EmployeePortal() {
               <button
                 type="button"
                 role="tab"
-                disabled
-                aria-disabled="true"
                 aria-selected={activeTab === "kpi"}
-                className={`ems-tab-btn ${activeTab === "kpi" ? "active" : ""} opacity-50 cursor-not-allowed pointer-events-none select-none`}
-                title="Supervisor KPI Scoreboard (Access Disabled)"
+                className={`ems-tab-btn ${activeTab === "kpi" ? "active" : ""}`}
+                onClick={() => setActiveTab("kpi")}
+                title={isSupervisor ? "Supervisor KPI Scoreboard" : "My Performance & KPI Scoreboard"}
               >
                 <Target size={15} />
-                <span>Supervisor KPI Scoreboard</span>
+                <span>{isSupervisor ? "Supervisor KPI Scoreboard" : "My KPI Scoreboard"}</span>
                 <span className="ems-tab-pill">{currentViewEmp.kpis.length} KPIs</span>
               </button>
 
@@ -2059,6 +2671,18 @@ export function EmployeePortal() {
                 <span className="ems-tab-pill">
                   {todayAttendance ? (isCurrentlyClockedIn ? "Active" : "Logged") : "40h / Wk"}
                 </span>
+              </button>
+
+              <button
+                type="button"
+                role="tab"
+                disabled
+                aria-disabled="true"
+                className="ems-tab-btn opacity-50 cursor-not-allowed pointer-events-none select-none"
+                title="Creative Team (Access Disabled)"
+              >
+                <Users size={15} />
+                <span>Creative Team</span>
               </button>
             </div>
 
@@ -2111,75 +2735,280 @@ export function EmployeePortal() {
                   </div>
                 </div>
 
-                {/* Hero Profile Dossier Card */}
-                <div className="ems-card ems-profile-hero">
-                  <div className="ems-profile-hero-top">
-                    <div className="ems-avatar-box">
-                      <div className="ems-avatar-initials">
-                        {currentViewEmp.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
+                {/* ─────────────────────────────────────────────────────────────
+                   ENTERPRISE HR SYSTEM PROFILE DOSSIER (WORKDAY / DEEL STYLE)
+                ───────────────────────────────────────────────────────────── */}
+                <div className="ems-hr-profile-hero">
+                  {/* Top Identity & HR Header */}
+                  <div className="ems-hr-identity-header">
+                    <div className="flex items-start gap-4 flex-1 min-w-0">
+                      <div className="ems-hr-avatar-wrap">
+                        <div className="ems-hr-avatar">
+                          {currentViewEmp.name
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </div>
+                      </div>
+
+                      <div className="ems-hr-meta-main">
+                        <div className="ems-hr-title-wrap">
+                          <h2>{currentViewEmp.name}</h2>
+                          <span className="ems-hr-badge-id">{currentViewEmp.employeeId}</span>
+                          <span className="ems-hr-status-pill">
+                            {currentViewEmp.role === "employee" ? "Active · Internship" : "Full-Time Active"}
+                          </span>
+                          <span className="ems-hr-band-pill">
+                            {currentViewEmp.role === "admin"
+                              ? "Executive Tier · L5"
+                              : currentViewEmp.role === "supervisor"
+                              ? "Band L3 · Management"
+                              : "Band L1 · Associate"}
+                          </span>
+                        </div>
+
+                        <div className="ems-hr-designation-line">
+                          <span className="ems-hr-designation-text">{currentViewEmp.designation}</span>
+                          <span className="text-white/30">·</span>
+                          <span className="ems-hr-department-text">{currentViewEmp.department}</span>
+                        </div>
+
+                        {/* Corporate Contact & Tenure Strip */}
+                        <div className="ems-hr-contact-strip">
+                          <div className="ems-hr-contact-item">
+                            <Mail size={13} className="text-[#a1a1aa]" />
+                            <a href={`mailto:${currentViewEmp.email}`} className="ems-hr-contact-item text-link">
+                              {currentViewEmp.email}
+                            </a>
+                          </div>
+                          {currentViewEmp.phone && (
+                            <div className="ems-hr-contact-item">
+                              <Phone size={13} className="text-[#a1a1aa]" />
+                              <a href={`tel:${currentViewEmp.phone.replace(/\s+/g, '')}`} className="ems-hr-contact-item text-link">
+                                {currentViewEmp.phone}
+                              </a>
+                            </div>
+                          )}
+                          <div className="ems-hr-contact-item">
+                            <MapPin size={13} className="text-[#a1a1aa]" />
+                            <span>Colombo Operations Center (UTC+05:30)</span>
+                          </div>
+                          <div className="ems-hr-contact-item">
+                            <Calendar size={13} className="text-[#a1a1aa]" />
+                            <span>
+                              {(() => {
+                                if (!currentViewEmp.joiningDate) return "Active Standing";
+                                const start = new Date(currentViewEmp.joiningDate);
+                                const now = new Date();
+                                const diffMonths = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+                                if (diffMonths < 1) {
+                                  const diffDays = Math.max(1, Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)));
+                                  return `${diffDays} days active (Joined ${currentViewEmp.joiningDate})`;
+                                }
+                                const years = Math.floor(diffMonths / 12);
+                                const months = diffMonths % 12;
+                                if (years === 0) return `${months} mos active (Joined ${currentViewEmp.joiningDate})`;
+                                if (months === 0) return `${years} yr${years > 1 ? "s" : ""} tenure (Joined ${currentViewEmp.joiningDate})`;
+                                return `${years} yr${years > 1 ? "s" : ""} ${months} mo${months > 1 ? "s" : ""} tenure (Joined ${currentViewEmp.joiningDate})`;
+                              })()}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="ems-profile-hero-meta">
-                      <div className="ems-title-row">
-                        <h2>{currentViewEmp.name}</h2>
-                        <span className="ems-badge-emp-id">{currentViewEmp.employeeId}</span>
-                        {(isAdmin || isSupervisor || session?.employee.id === currentViewEmp.id) && (
-                          <button
-                            type="button"
-                            disabled
-                            aria-disabled="true"
-                            className="ems-profile-edit-trigger opacity-50 cursor-not-allowed pointer-events-none select-none"
-                            title="Edit Profile (Access Disabled)"
-                          >
-                            <Edit size={12} /> Edit Profile
-                          </button>
-                        )}
-                      </div>
-                      <div className="ems-designation-line">
-                        <span className="ems-designation-text">{currentViewEmp.designation}</span>
-                        <span className="ems-dot-sep">·</span>
-                        <span className="ems-department-text">{currentViewEmp.department}</span>
-                      </div>
-                    </div>
-
-                    <div className="ems-profile-kpi-summary">
-                      <div className="ems-kpi-score-gauge">
-                        <div className="ems-gauge-circle">
-                          <span className="ems-score-val">{overallKpiScore}%</span>
-                          <span className="ems-score-lbl">KPI Score</span>
+                    {/* Performance & Appraisal Summary Card */}
+                    <div className="ems-hr-appraisal-box">
+                      <div className="ems-hr-appraisal-top">
+                        <div>
+                          <div className="ems-hr-appraisal-val">{overallKpiScore}%</div>
+                          <div className="ems-hr-appraisal-lbl">Appraisal KPI Score</div>
                         </div>
-                        <div className="ems-gauge-grade">
-                          <strong>Grade A+</strong>
-                          <small>Exceeding Expectations</small>
+                        <div className="ems-hr-appraisal-grade">
+                          <strong>{overallKpiScore >= 100 ? "Grade A+" : overallKpiScore >= 85 ? "Grade A" : "Grade B"}</strong>
+                          <small>{overallKpiScore >= 100 ? "Exceeding Expectations" : "Target Achieved"}</small>
                         </div>
+                      </div>
+                      <div className="ems-hr-appraisal-footer">
+                        <span>Q4 2026 Appraisal Cycle</span>
+                        <span className="ems-hr-appraisal-tag">Evaluation Active</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="ems-profile-details-grid">
-                    <div className="ems-detail-col">
-                      <span className="ems-lbl">Direct Supervisor(s)</span>
-                      <strong>{currentViewEmp.supervisorName}</strong>
-                      <small>Solutions Engineering &amp; Strategic Sales Lead</small>
+                  {/* Executive 2-Column HR Dossier Specification (Linear / Stripe Grade) */}
+                  <div className="ems-hr-exec-grid">
+                    {/* Panel 1: Organizational & Employment Structure */}
+                    <div className="ems-hr-exec-panel">
+                      <div className="ems-hr-exec-panel-head">
+                        <div className="ems-hr-exec-panel-title">
+                          <Building size={14} />
+                          <span>Organizational &amp; Employment Structure</span>
+                        </div>
+                        <span className="ems-hr-exec-panel-tag">
+                          {currentViewEmp.role === "admin" ? "CC-EXEC-01" : "CC-BD-04"}
+                        </span>
+                      </div>
+                      <div className="ems-hr-exec-rows">
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Reporting Line</span>
+                          <div className="ems-hr-exec-value">
+                            {(() => {
+                              let cleanedSupervisor = (currentViewEmp.supervisorName || "")
+                                .replace(/Dinithi\s*Perera(\s*\(Lead\s*BD\s*Manager\))?/gi, "Thimathi Dissanayaka (Head Of Engineering and Business Development)")
+                                .replace(/Dinithi/gi, "Thimathi Dissanayaka")
+                                .replace(/Lead\s*BD\s*Manager/gi, "Head Of Engineering and Business Development")
+                                .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+                                .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+                                .trim();
+                              if (currentViewEmp.id === "emp-bdi-001" && (!cleanedSupervisor || cleanedSupervisor.toLowerCase().includes("dinithi"))) {
+                                cleanedSupervisor = "Thimathi Dissanayaka (Head Of Engineering and Business Development)";
+                              }
+                              return cleanedSupervisor ? (
+                                <>
+                                  <div>{cleanedSupervisor}</div>
+                                  <span className="ems-hr-exec-sub">
+                                    {currentViewEmp.role === "admin"
+                                      ? "CreativeX Board of Directors"
+                                      : "Strategic Leadership & Solutions Engineering"}
+                                  </span>
+                                </>
+                              ) : (
+                                <div>
+                                  {currentViewEmp.role === "admin"
+                                    ? "CreativeX Board of Directors"
+                                    : "Strategic Leadership & Solutions Engineering"}
+                                </div>
+                              );
+                            })()}
+                          </div>
+                        </div>
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Department &amp; Unit</span>
+                          <div className="ems-hr-exec-value">
+                            <div>{currentViewEmp.department}</div>
+                            <span className="ems-hr-exec-sub">Colombo Operations Hub</span>
+                          </div>
+                        </div>
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Employment Agreement</span>
+                          <div className="ems-hr-exec-value">
+                            <div>{currentViewEmp.contractType}</div>
+                          </div>
+                        </div>
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Operating Schedule</span>
+                          <div className="ems-hr-exec-value">
+                            <div>09:00 – 18:00 (Colombo Time)</div>
+                            <span className="ems-hr-exec-sub">Monday to Friday · Standard 40h/wk</span>
+                          </div>
+                        </div>
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Work Location</span>
+                          <div className="ems-hr-exec-value">
+                            <div>{currentViewEmp.workLocation}</div>
+                          </div>
+                        </div>
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Assigned Corridors</span>
+                          <div className="ems-hr-exec-value">
+                            <div>{currentViewEmp.allocatedTerritory || "Sri Lanka SMEs, Australia & UK Tech"}</div>
+                            <span className="ems-hr-exec-sub">Outbound B2B Discovery &amp; Solution Scoping</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="ems-detail-col">
-                      <span className="ems-lbl">Contract Agreement</span>
-                      <strong>{currentViewEmp.contractType}</strong>
-                      <small>Started {currentViewEmp.joiningDate} · Regular Review</small>
-                    </div>
-                    <div className="ems-detail-col">
-                      <span className="ems-lbl">Work Location &amp; Hours</span>
-                      <strong>{currentViewEmp.workLocation}</strong>
-                      <small>9:00 AM – 6:00 PM (Monday – Friday, Colombo Time)</small>
-                    </div>
-                    <div className="ems-detail-col">
-                      <span className="ems-lbl">Assigned Market Corridors</span>
-                      <strong>{currentViewEmp.allocatedTerritory || "General Operations"}</strong>
-                      <small>B2B Outbound Leads &amp; Discovery Scheduling</small>
+
+                    {/* Panel 2: Compensation, Clearances & Authority */}
+                    <div className="ems-hr-exec-panel">
+                      <div className="ems-hr-exec-panel-head">
+                        <div className="ems-hr-exec-panel-title">
+                          <ShieldCheck size={14} />
+                          <span>Compensation, Governance &amp; Clearances</span>
+                        </div>
+                        <span className="ems-hr-exec-panel-tag">Clearance Level 2</span>
+                      </div>
+                      <div className="ems-hr-exec-rows">
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Remuneration Model</span>
+                          <div className="ems-hr-exec-value">
+                            <div>
+                              {currentViewEmp.role === "employee"
+                                ? "Monthly Corporate Stipend + 10% Closed-Won Commission"
+                                : currentViewEmp.role === "supervisor"
+                                ? "Executive Monthly Salary + Team Overrides"
+                                : "Executive Director Remuneration"}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Disbursement Cycle</span>
+                          <div className="ems-hr-exec-value">
+                            <div>Monthly Direct Wire · Disbursed on 28th</div>
+                            <span className="ems-hr-exec-sub">LKR / Direct Bank Transfer</span>
+                          </div>
+                        </div>
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Leave Entitlement</span>
+                          <div className="ems-hr-exec-value">
+                            <div>
+                              {currentViewEmp.role === "employee"
+                                ? "Study & Exam Leave (3 Days Available)"
+                                : "14 Annual (11 Avail) · 7 Casual (5 Avail)"}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="ems-hr-exec-row">
+                          <span className="ems-hr-exec-label">Sign-Off &amp; Authority</span>
+                          <div className="ems-hr-exec-value">
+                            <div>
+                              {currentViewEmp.role === "supervisor"
+                                ? "Up to LKR 2,500,000 Milestone Authority"
+                                : currentViewEmp.role === "admin"
+                                ? "Unrestricted Executive Board Authority"
+                                : "Milestone Intake & Discovery Scoping"}
+                            </div>
+                            <span className="ems-hr-exec-sub">
+                              Escalation: Executive Office · Same-Day Resolution
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Security & Compliance Clearance Grid */}
+                      <div className="ems-hr-clearance-section">
+                        <div className="ems-hr-clearance-head">Active Clearances &amp; Legal Undertakings</div>
+                        <div className="ems-hr-clearance-grid">
+                          <div className="ems-hr-clearance-item">
+                            <CheckCircle2 size={14} />
+                            <div className="ems-hr-clearance-text">
+                              <strong>Corporate NDA</strong>
+                              <span>Active on File</span>
+                            </div>
+                          </div>
+                          <div className="ems-hr-clearance-item">
+                            <CheckCircle2 size={14} />
+                            <div className="ems-hr-clearance-text">
+                              <strong>IP Assignment</strong>
+                              <span>100% CreativeX Tech</span>
+                            </div>
+                          </div>
+                          <div className="ems-hr-clearance-item">
+                            <CheckCircle2 size={14} />
+                            <div className="ems-hr-clearance-text">
+                              <strong>PDPA Level 2</strong>
+                              <span>Operator Clearance</span>
+                            </div>
+                          </div>
+                          <div className="ems-hr-clearance-item">
+                            <CheckCircle2 size={14} />
+                            <div className="ems-hr-clearance-text">
+                              <strong>Workstation</strong>
+                              <span>Encrypted Profile</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2187,7 +3016,7 @@ export function EmployeePortal() {
                 {/* ─────────────────────────────────────────────────────────────
                    SUPERVISOR MANAGEMENT WORKSPACE & INTERN APPROVAL CENTER
                 ───────────────────────────────────────────────────────────── */}
-                {currentViewEmp.role === "supervisor" && (
+                {(currentViewEmp.role === "supervisor" || currentViewEmp.role === "admin") && (
                   <div className="ems-supervisor-workspace">
                     {/* 1. Quick Stats Strip */}
                     <div className="ems-bdi-quickstats-strip">
@@ -2218,7 +3047,7 @@ export function EmployeePortal() {
                             <strong className="ems-stat-val tabular-nums">1 Active Intern</strong>
                             <span className="ems-stat-target">B2B Sales</span>
                           </div>
-                          <span className="text-[11px] text-[#71717a] mt-1 block">Kavindu Senanayake (CX-EMP-041)</span>
+                          <span className="text-[11px] text-[#71717a] mt-1 block">Ikram Lantra (CX-EMP-041)</span>
                         </div>
                       </div>
 
@@ -2229,18 +3058,18 @@ export function EmployeePortal() {
                         <div className="ems-stat-info">
                           <div className="ems-card-header-row">
                             <span className="ems-stat-label">Intern Sign-Offs Pending</span>
-                            {allSupervisedPendingApprovals.length > 0 && (
+                            {totalPendingSupervisorApprovals > 0 && (
                               <span className="ems-badge-pending-count">
-                                {allSupervisedPendingApprovals.length} Action{allSupervisedPendingApprovals.length === 1 ? "" : "s"}
+                                {totalPendingSupervisorApprovals} Action{totalPendingSupervisorApprovals === 1 ? "" : "s"}
                               </span>
                             )}
                           </div>
                           <div className="ems-stat-val-row">
-                            <strong className={`ems-stat-val tabular-nums ${allSupervisedPendingApprovals.length > 0 ? "text-amber-400" : "text-emerald"}`}>
-                              {allSupervisedPendingApprovals.length}
+                            <strong className={`ems-stat-val tabular-nums ${totalPendingSupervisorApprovals > 0 ? "text-amber-400" : "text-emerald"}`}>
+                              {totalPendingSupervisorApprovals}
                             </strong>
                             <span className="ems-stat-target">
-                              {allSupervisedPendingApprovals.length === 0 ? "All requests cleared" : "Requires Authorization"}
+                              {totalPendingSupervisorApprovals === 0 ? "All requests cleared" : "Requires Authorization"}
                             </span>
                           </div>
                         </div>
@@ -2267,18 +3096,27 @@ export function EmployeePortal() {
                         <div className="ems-pipeline-header-info">
                           <div className="flex items-center gap-2">
                             <h3 className="ems-subview-title">Intern Sign-Off &amp; Approvals Command Center</h3>
-                            <span className={`ems-count-pill ${allSupervisedPendingApprovals.length > 0 ? "border-amber-500/40 text-amber-300 bg-amber-500/10" : "border-emerald-500/40 text-emerald-300 bg-emerald-500/10"}`}>
-                              {allSupervisedPendingApprovals.length} Pending
+                            <span className={`ems-count-pill ${totalPendingSupervisorApprovals > 0 ? "border-amber-500/40 text-amber-300 bg-amber-500/10" : "border-emerald-500/40 text-emerald-300 bg-emerald-500/10"}`}>
+                              {totalPendingSupervisorApprovals} Pending
                             </span>
                           </div>
                           <p className="ems-subview-desc">
-                            Review and authorize Closed Won deals, proposed edits, and deletion requests submitted by supervised Business Development Interns.
+                            Review and authorize daily EOD shift reports, Closed Won deals, proposed edits, and deletion requests submitted by supervised Business Development Interns.
                           </p>
                         </div>
                         <div className="ems-pipeline-header-actions">
                           <button
                             type="button"
-                            onClick={() => setShowResetInternModal(true)}
+                            onClick={() => {
+                              const targetId = currentViewEmp.role === "employee"
+                                ? currentViewEmp.id
+                                : (employees.find((e) => e.role === "employee" || e.id === "emp-bdi-001")?.id || "emp-bdi-001");
+                              setResetTargetEmpId(targetId);
+                              setResetOptionKpis(true);
+                              setResetOptionPipeline(true);
+                              setResetOptionChecklist(true);
+                              setShowResetInternModal(true);
+                            }}
                             className="ems-btn-secondary"
                             title="Supervisor controls to reset sprint targets, leads or metrics"
                           >
@@ -2297,16 +3135,80 @@ export function EmployeePortal() {
                         </div>
                       </div>
 
-                      {allSupervisedPendingApprovals.length === 0 ? (
+                      {totalPendingSupervisorApprovals === 0 ? (
                         <div className="ems-approvals-empty-card">
                           <CheckCircle2 size={36} className="text-emerald" />
                           <h4 className="text-white text-sm font-semibold mt-3 mb-1">All Intern Requests Cleared</h4>
                           <p className="text-xs text-[#a0a5a0] max-w-md text-center m-0">
-                            There are no pending Closed Won deals, proposed edits, or deletion requests awaiting supervisor authorization. Any new intern submissions will appear here for review.
+                            There are no pending daily EOD shift reports, Closed Won deals, proposed edits, or deletion requests awaiting supervisor authorization. Any new intern submissions will appear here for review.
                           </p>
                         </div>
                       ) : (
                         <div className="ems-supervisor-approvals-grid">
+                          {/* 1. Pending EOD Shift Reports */}
+                          {allSupervisedPendingEodReports.map(({ report, employee }) => (
+                            <div key={report.id} className="ems-supervisor-approval-card border border-amber-500/25 bg-[#151715]">
+                              <div className="ems-approval-card-top">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="ems-sub-emp-chip">
+                                    <Users size={12} className="text-[#a1a1aa]" />
+                                    <strong>{employee.name}</strong> ({employee.employeeId})
+                                  </span>
+                                  <span className="ems-stage-badge border border-amber-500/30 text-amber-300 bg-amber-500/10">
+                                    EOD Shift Sign-Off Pending
+                                  </span>
+                                </div>
+                                <div className="ems-lead-value-badge font-mono text-xs text-amber-300">
+                                  {report.deliverablesCount} Deliverables
+                                </div>
+                              </div>
+
+                              <div className="ems-approval-card-details">
+                                <div className="ems-approval-detail-row">
+                                  <strong className="text-white text-sm">Shift Operations Handover ({report.date})</strong>
+                                  <span className="text-xs text-[#a1a1aa]">Submitted at {report.submittedAt} · Supervisor: {employee.supervisorName}</span>
+                                </div>
+
+                                <div className="mt-2 text-xs bg-black/40 p-2.5 rounded border border-white/5">
+                                  <div className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1">Accomplishments &amp; Output</div>
+                                  <p className="m-0 text-zinc-200 leading-relaxed">{report.accomplishments}</p>
+                                  {report.blockers && (
+                                    <div className="mt-2 pt-2 border-t border-white/5 text-[11.5px] text-amber-200/90">
+                                      <strong className="text-amber-400 font-semibold">Blockers / Tomorrow Priority: </strong>
+                                      {report.blockers}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Supervisor Authorization Action Buttons */}
+                              <div className="ems-approval-action-buttons mt-3 pt-3 border-t border-zinc-800 flex items-center gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => handleSupervisorSignOffEodReport(employee.id, report.id)}
+                                  className="ems-btn-approve-deal flex-1"
+                                >
+                                  <CheckCircle2 size={13} />
+                                  <span>Sign-Off &amp; Authorize Shift</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setSelectedEmpId(employee.id);
+                                    setActiveTab("profile");
+                                    setSelectedTaskDate(report.date);
+                                  }}
+                                  className="ems-btn-reject-deal"
+                                  title="Inspect intern daily workflow for this shift"
+                                >
+                                  <FileText size={13} />
+                                  <span>Inspect Shift</span>
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+
+                          {/* 2. Pending Lead Deals, Edits, Deletions */}
                           {allSupervisedPendingApprovals.map(({ lead, employee }) => {
                             const isWon = lead.pendingRequestType === "won" || lead.stage === "Closed Won";
                             const isEdit = lead.pendingRequestType === "edit";
@@ -2437,6 +3339,85 @@ export function EmployeePortal() {
                           })}
                         </div>
                       )}
+
+                      {/* 2b. All Intern EOD Reports Archive (Signed-Off & Pending) */}
+                      {(() => {
+                        const allInternEods: Array<{ report: EodReportItem; employee: Employee }> =
+                          employees.flatMap((emp) => (emp.eodReports || []).map((r) => ({ report: r, employee: emp })));
+
+                        if (allInternEods.length === 0) return null;
+
+                        return (
+                          <div className="ems-eod-archive-box mt-4 pt-4 border-t border-white/10">
+                            <div className="flex items-center justify-between mb-3">
+                              <span className="text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider flex items-center gap-1.5">
+                                <FileText size={13} className="text-[#ff5a36]" />
+                                All Intern Shift EOD Reports ({allInternEods.length})
+                              </span>
+                              <span className="text-[11px] text-[#71717a]">
+                                Historical Handover Log
+                              </span>
+                            </div>
+
+                            <div className="space-y-2">
+                              {allInternEods.map(({ report, employee }) => {
+                                const isPending = report.status === "pending_review";
+                                return (
+                                  <div
+                                    key={report.id}
+                                    className="p-3 rounded-lg bg-black/40 border border-white/5 flex items-start justify-between gap-3 text-xs"
+                                  >
+                                    <div className="space-y-1">
+                                      <div className="flex items-center gap-2">
+                                        <strong className="text-white font-medium">{employee.name}</strong>
+                                        <span className="text-zinc-500 font-mono text-[11px]">({employee.employeeId})</span>
+                                        <span className="text-zinc-400">·</span>
+                                        <span className="text-zinc-300 font-mono text-[11px]">{report.date}</span>
+                                        <span
+                                          className={`text-[10px] px-1.5 py-0.2 rounded border font-medium ${
+                                            isPending
+                                              ? "bg-amber-950/40 border-amber-500/30 text-amber-300"
+                                              : "bg-emerald-950/40 border-emerald-500/30 text-emerald-300"
+                                          }`}
+                                        >
+                                          {isPending ? "Pending Review" : "Signed Off ✓"}
+                                        </span>
+                                      </div>
+                                      <p className="m-0 text-zinc-300 leading-relaxed text-[11.5px]">{report.accomplishments}</p>
+                                      {report.blockers && (
+                                        <div className="text-[11px] text-amber-200/90 pt-0.5">
+                                          <strong className="text-amber-400">Next Shift Focus: </strong>
+                                          {report.blockers}
+                                        </div>
+                                      )}
+                                      {!isPending && report.signedOffBy && (
+                                        <div className="text-[10.5px] text-zinc-500">
+                                          Authorized by {report.signedOffBy} {report.signedOffAt ? `· ${report.signedOffAt}` : ""}
+                                        </div>
+                                      )}
+                                    </div>
+
+                                    <div className="flex flex-col items-end gap-1.5 shrink-0">
+                                      <span className="font-mono text-emerald font-semibold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 text-[11px]">
+                                        {report.deliverablesCount} Tasks
+                                      </span>
+                                      {isPending && (
+                                        <button
+                                          type="button"
+                                          onClick={() => handleSupervisorSignOffEodReport(employee.id, report.id)}
+                                          className="ems-btn-primary py-1 px-2.5 text-[11px] bg-emerald-600 hover:bg-emerald-500 border-emerald-500/40"
+                                        >
+                                          <CheckCircle2 size={11} /> Sign-Off
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })()}
                     </div>
 
                     {/* 3. Supervised Team & Interns Quick Management Card */}
@@ -2454,10 +3435,10 @@ export function EmployeePortal() {
                         <div className="flex items-center justify-between flex-wrap gap-3">
                           <div className="flex items-center gap-3">
                             <div className="ems-avatar-box" style={{ width: 40, height: 40, minWidth: 40 }}>
-                              <div className="ems-avatar-initials text-xs">KS</div>
+                              <div className="ems-avatar-initials text-xs">IL</div>
                             </div>
                             <div>
-                              <h4 className="text-white text-sm font-semibold m-0">Kavindu Senanayake</h4>
+                              <h4 className="text-white text-sm font-semibold m-0">Ikram Lantra</h4>
                               <p className="text-xs text-[#a1a1aa] m-0">
                                 CX-EMP-041 · Business Development Intern (Probation) in 20 Days
                               </p>
@@ -2504,14 +3485,39 @@ export function EmployeePortal() {
                           <div className="ems-card-header-row">
                             <span className="ems-stat-label">Monthly Leads Logged</span>
                             {isSupervisor && (
-                              <button
-                                type="button"
-                                onClick={() => handleResetKpiToZero(kpiLeads?.id || "kpi-bdi-1", "Monthly Leads Logged")}
-                                className="ems-card-reset-btn"
-                                title="Supervisor: Reset count to 0"
-                              >
-                                <RotateCcw size={10} /> Reset
-                              </button>
+                              <div className="ems-card-actions-group">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setKpiUpdateVal(leadsCurrent);
+                                    setKpiUpdateTargetVal(leadsTarget);
+                                    setShowUpdateKpiModal({
+                                      kpi: kpiLeads || {
+                                        id: "kpi-bdi-1",
+                                        title: "Monthly Leads Logged",
+                                        target: leadsTarget,
+                                        current: leadsCurrent,
+                                        unit: "Qualified Leads",
+                                        weight: 25,
+                                        status: "needs_attention",
+                                      },
+                                      empId: currentViewEmp.id,
+                                    });
+                                  }}
+                                  className="ems-card-assign-btn"
+                                  title="Supervisor: Assign Target & Progress"
+                                >
+                                  <SlidersHorizontal size={10} /> Assign
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleResetKpiToZero(kpiLeads?.id || "kpi-bdi-1", "Monthly Leads Logged")}
+                                  className="ems-card-reset-btn"
+                                  title="Supervisor: Reset count to 0"
+                                >
+                                  <RotateCcw size={10} /> Reset
+                                </button>
+                              </div>
                             )}
                           </div>
                           <div className="ems-stat-val-row">
@@ -2533,14 +3539,39 @@ export function EmployeePortal() {
                           <div className="ems-card-header-row">
                             <span className="ems-stat-label">Discovery Demos Scheduled</span>
                             {isSupervisor && (
-                              <button
-                                type="button"
-                                onClick={() => handleResetKpiToZero(kpiDemos?.id || "kpi-bdi-2", "Discovery Demos Scheduled")}
-                                className="ems-card-reset-btn"
-                                title="Supervisor: Reset count to 0"
-                              >
-                                <RotateCcw size={10} /> Reset
-                              </button>
+                              <div className="ems-card-actions-group">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setKpiUpdateVal(demosCurrent);
+                                    setKpiUpdateTargetVal(demosTarget);
+                                    setShowUpdateKpiModal({
+                                      kpi: kpiDemos || {
+                                        id: "kpi-bdi-2",
+                                        title: "Discovery Demos Scheduled",
+                                        target: demosTarget,
+                                        current: demosCurrent,
+                                        unit: "Discovery Demos",
+                                        weight: 25,
+                                        status: "needs_attention",
+                                      },
+                                      empId: currentViewEmp.id,
+                                    });
+                                  }}
+                                  className="ems-card-assign-btn"
+                                  title="Supervisor: Assign Target & Progress"
+                                >
+                                  <SlidersHorizontal size={10} /> Assign
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleResetKpiToZero(kpiDemos?.id || "kpi-bdi-2", "Discovery Demos Scheduled")}
+                                  className="ems-card-reset-btn"
+                                  title="Supervisor: Reset count to 0"
+                                >
+                                  <RotateCcw size={10} /> Reset
+                                </button>
+                              </div>
                             )}
                           </div>
                           <div className="ems-stat-val-row">
@@ -2794,6 +3825,8 @@ export function EmployeePortal() {
                             </div>
                           </div>
                         </div>
+
+
                       </div>
                     )}
 
@@ -2949,7 +3982,7 @@ export function EmployeePortal() {
                                 {isPendingDelete && (
                                   <div className="ems-intern-waiting-badge text-red-300 border-red-500/25 bg-red-500/10">
                                     <Clock size={12} className="text-red-400 flex-shrink-0" />
-                                    <span>Deletion requested. Awaiting Supervisor ({currentViewEmp.supervisorName || "Dinithi Perera"}) approval. Lead remains active until authorized.</span>
+                                    <span>Deletion requested. Awaiting Supervisor ({currentViewEmp.supervisorName || "Thimathi Dissanayaka"}) approval. Lead remains active until authorized.</span>
                                   </div>
                                 )}
 
@@ -2972,7 +4005,7 @@ export function EmployeePortal() {
                                       )}
                                     </div>
                                     <p className="ems-approval-panel-note">
-                                      Submitted to Supervisor ({currentViewEmp.supervisorName || "Dinithi Perera"}). Lead will update automatically once signed off.
+                                      Submitted to Supervisor ({currentViewEmp.supervisorName || "Thimathi Dissanayaka"}). Lead will update automatically once signed off.
                                     </p>
                                   </div>
                                 )}
@@ -2992,7 +4025,7 @@ export function EmployeePortal() {
                                       </span>
                                     </div>
                                     <p className="ems-approval-panel-note">
-                                      Submitted to Supervisor ({currentViewEmp.supervisorName || "Dinithi Perera"}). 10% commission will be credited upon supervisor approval.
+                                      Submitted to Supervisor ({currentViewEmp.supervisorName || "Thimathi Dissanayaka"}). 10% commission will be credited upon supervisor approval.
                                     </p>
                                   </div>
                                 )}
@@ -3001,7 +4034,7 @@ export function EmployeePortal() {
                                 {isWonApproved && (
                                   <div className="ems-lead-verified-banner">
                                     <CheckCircle2 size={13} className="text-[#34d399] flex-shrink-0" />
-                                    <span>Complete Won · Approved by {lead.approvedBy || "Dinithi Perera"} · 10% Commission Assigned</span>
+                                    <span>Complete Won · Approved by {lead.approvedBy || "Thimathi Dissanayaka"} · 10% Commission Assigned</span>
                                   </div>
                                 )}
 
@@ -3078,17 +4111,11 @@ export function EmployeePortal() {
                                 <span className="ems-progress-lbl">Shift Progress</span>
                                 <div className="ems-progress-nums">
                                   <strong className="text-emerald tabular-nums">
-                                    {(currentViewEmp.checklist || []).filter((c) => c.completed).length} of{" "}
-                                    {Math.max(1, (currentViewEmp.checklist || []).length)}
+                                    {activeDayCompletedCount} of{" "}
+                                    {Math.max(1, activeDayTotalCount)}
                                   </strong>
                                   <span className="ems-pct-sub">
-                                    (
-                                    {Math.round(
-                                      (((currentViewEmp.checklist || []).filter((c) => c.completed).length) /
-                                        Math.max(1, (currentViewEmp.checklist || []).length)) *
-                                        100
-                                    )}
-                                    %)
+                                    ({activeDayProgressPct}%)
                                   </span>
                                 </div>
                               </div>
@@ -3096,25 +4123,37 @@ export function EmployeePortal() {
                                 <div className="ems-bar-track">
                                   <div
                                     className="ems-bar-fill"
-                                    style={{
-                                      width: `${Math.round(
-                                        (((currentViewEmp.checklist || []).filter((c) => c.completed).length) /
-                                          Math.max(1, (currentViewEmp.checklist || []).length)) *
-                                          100
-                                      )}%`,
-                                    }}
+                                    style={{ width: `${activeDayProgressPct}%` }}
                                   />
                                 </div>
                               </div>
                             </div>
 
-                            <button
-                              type="button"
-                              onClick={() => setShowAddTaskModal(true)}
-                              className="ems-btn-primary"
-                            >
-                              <Plus size={14} /> Add Task
-                            </button>
+                            {canAddTasksForShift ? (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setNewTaskDate(activeTaskDate !== "all" ? activeTaskDate : todayIsoDate);
+                                  setShowAddTaskModal(true);
+                                }}
+                                className="ems-btn-primary"
+                              >
+                                <Plus size={14} /> Add Task
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setSelectedTaskDate(todayIsoDate);
+                                  setNewTaskDate(todayIsoDate);
+                                  setShowAddTaskModal(true);
+                                }}
+                                className="ems-btn-secondary text-xs"
+                                title="Past shifts are closed. Jump to today to add a task."
+                              >
+                                <Plus size={13} /> Add Task for Today
+                              </button>
+                            )}
 
                             <button
                               type="button"
@@ -3127,6 +4166,99 @@ export function EmployeePortal() {
                           </div>
                         </div>
 
+                        {/* ── DAY-BY-DAY CALENDAR & WEEK STRIP ── */}
+                        <div className="ems-day-nav-card">
+                          <div className="ems-day-nav-header">
+                            <div className="ems-day-title-wrap">
+                              <Calendar size={16} className="text-[#ff5a36]" />
+                              <span className="ems-day-title-text font-semibold text-white">
+                                {formattedActiveTaskDay}
+                              </span>
+                              {activeTaskDate === todayIsoDate && (
+                                <span className="ems-badge-today">Active Shift</span>
+                              )}
+                              {activeTaskDate !== "all" && activeTaskDate < todayIsoDate && (
+                                <span className="ems-badge-past">Past Shift</span>
+                              )}
+                              {activeTaskDate !== "all" && activeTaskDate > todayIsoDate && (
+                                <span className="ems-badge-future">Upcoming</span>
+                              )}
+                            </div>
+
+                            <div className="ems-day-nav-actions">
+                              <div className="ems-day-stepper">
+                                <button
+                                  type="button"
+                                  onClick={() => navigateTaskDay(-1)}
+                                  className="ems-stepper-btn"
+                                  title="Previous Day"
+                                >
+                                  <ChevronLeft size={14} />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setSelectedTaskDate(todayIsoDate)}
+                                  className={`ems-stepper-today-btn ${activeTaskDate === todayIsoDate ? "active" : ""}`}
+                                >
+                                  Today
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => navigateTaskDay(1)}
+                                  className="ems-stepper-btn"
+                                  title="Next Day"
+                                >
+                                  <ChevronRight size={14} />
+                                </button>
+                              </div>
+
+                              <div className="ems-date-picker-wrap">
+                                <input
+                                  type="date"
+                                  value={activeTaskDate !== "all" ? activeTaskDate : todayIsoDate}
+                                  onChange={(e) => setSelectedTaskDate(e.target.value)}
+                                  className="ems-date-input"
+                                  title="Jump to date"
+                                />
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={() => setSelectedTaskDate(activeTaskDate === "all" ? todayIsoDate : "all")}
+                                className={`ems-all-days-btn ${activeTaskDate === "all" ? "active" : ""}`}
+                              >
+                                {activeTaskDate === "all" ? "Day View" : "All Days"}
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* 7-Day Week Strip */}
+                          <div className="ems-week-strip">
+                            {taskWeekDays.map((d) => (
+                              <button
+                                key={d.iso}
+                                type="button"
+                                onClick={() => setSelectedTaskDate(d.iso)}
+                                className={`ems-week-day-btn ${d.isSelected ? "selected" : ""} ${d.isToday ? "is-today" : ""}`}
+                              >
+                                <span className="ems-week-day-name">{d.dayShort}</span>
+                                <span className="ems-week-day-num">{d.dayNum}</span>
+                                <span className="ems-week-day-status">
+                                  {d.total > 0 ? (
+                                    d.completed === d.total ? (
+                                      <span className="text-emerald font-semibold">Done</span>
+                                    ) : (
+                                      <span>{d.completed}/{d.total}</span>
+                                    )
+                                  ) : (
+                                    <span className="text-zinc-600">—</span>
+                                  )}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
                         {/* 2. Shift Filter Pills & Quick Actions */}
                         <div className="ems-workflow-filters-bar">
                           <div className="ems-workflow-pills">
@@ -3135,53 +4267,49 @@ export function EmployeePortal() {
                               onClick={() => setWorkflowFilter("all")}
                               className={`ems-wf-filter-pill ${workflowFilter === "all" ? "active" : ""}`}
                             >
-                              All Shifts ({currentViewEmp.checklist?.length || 0})
+                              All Shifts ({activeDayTasks.length})
                             </button>
                             <button
                               type="button"
                               onClick={() => setWorkflowFilter("morning")}
                               className={`ems-wf-filter-pill ${workflowFilter === "morning" ? "active" : ""}`}
                             >
-                              Morning (09:00–12:00)
+                              Morning ({activeDayTasks.filter((c) => c.shiftBlock === "morning").length})
                             </button>
                             <button
                               type="button"
                               onClick={() => setWorkflowFilter("afternoon")}
                               className={`ems-wf-filter-pill ${workflowFilter === "afternoon" ? "active" : ""}`}
                             >
-                              Afternoon (12:00–17:00)
+                              Afternoon ({activeDayTasks.filter((c) => c.shiftBlock === "afternoon").length})
                             </button>
                             <button
                               type="button"
                               onClick={() => setWorkflowFilter("eod")}
                               className={`ems-wf-filter-pill ${workflowFilter === "eod" ? "active" : ""}`}
                             >
-                              EOD Wrap (17:00–18:00)
+                              EOD Wrap ({activeDayTasks.filter((c) => c.shiftBlock === "eod").length})
                             </button>
                             <button
                               type="button"
                               onClick={() => setWorkflowFilter("urgent")}
                               className={`ems-wf-filter-pill pill-urgent ${workflowFilter === "urgent" ? "active" : ""}`}
                             >
-                              <AlertCircle size={12} /> Urgent Priority
+                              <AlertCircle size={12} /> Urgent ({activeDayTasks.filter((c) => c.priority === "urgent").length})
                             </button>
                             <button
                               type="button"
                               onClick={() => setWorkflowFilter("pending")}
                               className={`ems-wf-filter-pill ${workflowFilter === "pending" ? "active" : ""}`}
                             >
-                              Pending (
-                              {(currentViewEmp.checklist || []).filter((c) => !c.completed).length}
-                              )
+                              Pending ({activeDayTasks.filter((c) => !c.completed).length})
                             </button>
                             <button
                               type="button"
                               onClick={() => setWorkflowFilter("completed")}
                               className={`ems-wf-filter-pill pill-completed ${workflowFilter === "completed" ? "active" : ""}`}
                             >
-                              Completed (
-                              {(currentViewEmp.checklist || []).filter((c) => c.completed).length}
-                              )
+                              Completed ({activeDayCompletedCount})
                             </button>
                           </div>
 
@@ -3199,126 +4327,303 @@ export function EmployeePortal() {
                               type="button"
                               onClick={() => handleMarkAllTasks(false)}
                               className="ems-link-btn"
-                              title="Reset all tasks to pending"
+                              title="Reset tasks to pending"
                             >
                               Reset
                             </button>
+                            {pendingPastTasksCount > 0 && activeTaskDate !== "all" && (
+                              <>
+                                <span className="ems-sep-dot">·</span>
+                                <button
+                                  type="button"
+                                  onClick={handleCarryForwardPendingTasks}
+                                  className="ems-link-btn text-[#ff5a36] hover:underline"
+                                  title={`Carry forward ${pendingPastTasksCount} incomplete task(s) from earlier days`}
+                                >
+                                  Carry Forward ({pendingPastTasksCount})
+                                </button>
+                              </>
+                            )}
                           </div>
                         </div>
 
                         {/* 3. Filtered Tasks List */}
-                        <div className="ems-checklist-list">
-                          {(currentViewEmp.checklist || [])
-                            .filter((item) => {
-                              if (workflowFilter === "morning") return item.shiftBlock === "morning";
-                              if (workflowFilter === "afternoon") return item.shiftBlock === "afternoon";
-                              if (workflowFilter === "eod") return item.shiftBlock === "eod";
-                              if (workflowFilter === "urgent") return item.priority === "urgent";
-                              if (workflowFilter === "pending") return !item.completed;
-                              if (workflowFilter === "completed") return item.completed;
-                              return true;
-                            })
-                            .map((item) => {
-                              const priorityClass =
-                                item.priority === "urgent"
-                                  ? "priority-urgent"
-                                  : item.priority === "high"
-                                  ? "priority-high"
-                                  : "priority-normal";
-
-                              return (
-                                <div
-                                  key={item.id}
-                                  className={`ems-checklist-row ${item.completed ? "task-completed" : ""}`}
+                        {activeDayTasks.filter((item) => {
+                          if (workflowFilter === "morning") return item.shiftBlock === "morning";
+                          if (workflowFilter === "afternoon") return item.shiftBlock === "afternoon";
+                          if (workflowFilter === "eod") return item.shiftBlock === "eod";
+                          if (workflowFilter === "urgent") return item.priority === "urgent";
+                          if (workflowFilter === "pending") return !item.completed;
+                          if (workflowFilter === "completed") return item.completed;
+                          return true;
+                        }).length === 0 ? (
+                          <div className="ems-workflow-empty-state">
+                            <Calendar size={28} className="text-zinc-500 mb-2" />
+                            <h4 className="text-white text-sm font-semibold m-0">
+                              No Tasks for {formattedActiveTaskDay}
+                            </h4>
+                            <p className="text-xs text-[#a0a5a0] max-w-md text-center mt-1 mb-4">
+                              {isPastShift && !isSupervisor
+                                ? "This shift is closed. Employees cannot add tasks to past shifts."
+                                : workflowFilter === "all"
+                                ? "No tasks have been scheduled for this shift yet. Organize outreach, meetings, and follow-ups by adding a task."
+                                : `No tasks match the "${workflowFilter}" filter on this day.`}
+                            </p>
+                            <div className="flex gap-2 items-center flex-wrap justify-center">
+                              {canAddTasksForShift ? (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setNewTaskDate(activeTaskDate !== "all" ? activeTaskDate : todayIsoDate);
+                                    setShowAddTaskModal(true);
+                                  }}
+                                  className="ems-btn-primary"
                                 >
-                                  <div
-                                    className="ems-check-box"
-                                    onClick={() => handleToggleChecklist(item.id)}
-                                    title={item.completed ? "Mark as pending" : "Mark as completed"}
+                                  <Plus size={13} /> Add Task for {activeTaskDate === todayIsoDate ? "Today" : activeTaskDate}
+                                </button>
+                              ) : (
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs text-zinc-400 bg-white/5 border border-white/10 px-3 py-1.5 rounded-md flex items-center gap-1.5">
+                                    <Lock size={12} className="text-zinc-400" /> Past Shift Closed (Read-Only)
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => setSelectedTaskDate(todayIsoDate)}
+                                    className="ems-btn-primary text-xs"
                                   >
-                                    {item.completed ? (
-                                      <CheckSquare size={19} className="text-emerald" />
-                                    ) : (
-                                      <Square size={19} className="text-[#a0a5a0]" />
-                                    )}
-                                  </div>
+                                    View Today&apos;s Active Shift
+                                  </button>
+                                </div>
+                              )}
+                              {pendingPastTasksCount > 0 && activeTaskDate !== "all" && canAddTasksForShift && (
+                                <button
+                                  type="button"
+                                  onClick={handleCarryForwardPendingTasks}
+                                  className="ems-btn-secondary"
+                                >
+                                  <RotateCcw size={13} /> Carry Forward ({pendingPastTasksCount}) Pending
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="ems-checklist-list">
+                            {activeDayTasks
+                              .filter((item) => {
+                                if (workflowFilter === "morning") return item.shiftBlock === "morning";
+                                if (workflowFilter === "afternoon") return item.shiftBlock === "afternoon";
+                                if (workflowFilter === "eod") return item.shiftBlock === "eod";
+                                if (workflowFilter === "urgent") return item.priority === "urgent";
+                                if (workflowFilter === "pending") return !item.completed;
+                                if (workflowFilter === "completed") return item.completed;
+                                return true;
+                              })
+                              .map((item) => {
+                                const priorityClass =
+                                  item.priority === "urgent"
+                                    ? "priority-urgent"
+                                    : item.priority === "high"
+                                    ? "priority-high"
+                                    : "priority-normal";
 
+                                return (
                                   <div
-                                    className="ems-check-content"
-                                    onClick={() => handleToggleChecklist(item.id)}
+                                    key={item.id}
+                                    className={`ems-checklist-row ${item.completed ? "task-completed" : ""}`}
                                   >
-                                    <div className="ems-task-title-row">
-                                      <span
-                                        className={`ems-task-title ${
-                                          item.completed ? "line-through text-[#666]" : "text-white"
-                                        }`}
-                                      >
-                                        {item.task}
-                                      </span>
-                                      {item.assignedBy && (
-                                        <span className="ems-priority-tag ems-assigned-task-tag" title={`Delegated by ${item.assignedBy}`}>
-                                          <UserCheck size={11} className="text-[#ff5a36]" /> Assigned by {item.assignedBy}
-                                        </span>
+                                    <div
+                                      className="ems-check-box"
+                                      onClick={() => handleToggleChecklist(item.id)}
+                                      title={item.completed ? "Mark as pending" : "Mark as completed"}
+                                    >
+                                      {item.completed ? (
+                                        <CheckSquare size={19} className="text-emerald" />
+                                      ) : (
+                                        <Square size={19} className="text-[#a0a5a0]" />
                                       )}
                                     </div>
-                                    {item.notes && (
-                                      <p className="ems-task-notes-text">{item.notes}</p>
-                                    )}
-                                  </div>
 
-                                  <div className="ems-check-meta">
-                                    {item.priority && (
-                                      <span className={`ems-priority-tag ${priorityClass}`}>
-                                        {item.priority.toUpperCase()}
-                                      </span>
-                                    )}
-                                    <span className="ems-time-badge tabular-nums">
-                                      <Clock size={12} /> {item.timeSlot}
-                                    </span>
-                                    <span className="ems-cat-badge">{item.category}</span>
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleDeleteTask(item.id);
-                                      }}
-                                      className="ems-task-del-btn"
-                                      title="Remove from workflow"
+                                    <div
+                                      className="ems-check-content"
+                                      onClick={() => handleToggleChecklist(item.id)}
                                     >
-                                      <Trash2 size={13} />
-                                    </button>
+                                      <div className="ems-task-title-row">
+                                        <span
+                                          className={`ems-task-title ${
+                                            item.completed ? "line-through text-[#666]" : "text-white"
+                                          }`}
+                                        >
+                                          {item.task}
+                                        </span>
+                                        {item.assignedBy && (
+                                          <span className="ems-priority-tag ems-assigned-task-tag" title={`Delegated by ${item.assignedBy}`}>
+                                            <UserCheck size={11} className="text-[#ff5a36]" /> Assigned by {item.assignedBy}
+                                          </span>
+                                        )}
+                                      </div>
+                                      {item.notes && (
+                                        <p className="ems-task-notes-text">{item.notes}</p>
+                                      )}
+                                    </div>
+
+                                    <div className="ems-check-meta">
+                                      {activeTaskDate === "all" && item.date && (
+                                        <span className="ems-time-badge tabular-nums">
+                                          <Calendar size={11} /> {item.date}
+                                        </span>
+                                      )}
+                                      {item.priority && (
+                                        <span className={`ems-priority-tag ${priorityClass}`}>
+                                          {item.priority.toUpperCase()}
+                                        </span>
+                                      )}
+                                      <span className="ems-time-badge tabular-nums">
+                                        <Clock size={12} /> {item.timeSlot}
+                                      </span>
+                                      <span className="ems-cat-badge">{item.category}</span>
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleDeleteTask(item.id);
+                                        }}
+                                        className="ems-task-del-btn"
+                                        title="Remove from workflow"
+                                      >
+                                        <Trash2 size={13} />
+                                      </button>
+                                    </div>
                                   </div>
-                                </div>
-                              );
-                            })}
-                        </div>
+                                );
+                              })}
+                          </div>
+                        )}
 
                         {/* 4. Bottom EOD Operations Handover Bar */}
-                        <div className="ems-eod-handover-banner">
-                          <div className="ems-eod-banner-left">
-                            <div className="ems-eod-icon">
-                              <Sparkles size={18} className="text-[#ff5a36]" />
+                        {(() => {
+                          const activeShiftDateForEod = activeTaskDate !== "all" ? activeTaskDate : todayIsoDate;
+                          const activeDayEodReport = (currentViewEmp.eodReports || []).find(
+                            (r) => r.date === activeShiftDateForEod
+                          );
+
+                          if (activeDayEodReport && activeDayEodReport.status === "signed_off") {
+                            return (
+                              <div className="ems-eod-handover-banner border-emerald-500/30 bg-emerald-950/20">
+                                <div className="ems-eod-banner-left">
+                                  <div className="ems-eod-icon bg-emerald-500/10 text-emerald">
+                                    <CheckCircle2 size={18} />
+                                  </div>
+                                  <div>
+                                    <strong className="ems-eod-title text-emerald-300">
+                                      EOD Shift Report Signed Off &amp; Authorized
+                                    </strong>
+                                    <p className="ems-eod-desc text-zinc-300">
+                                      Verified by <strong>{activeDayEodReport.signedOffBy || currentViewEmp.supervisorName}</strong>
+                                      {activeDayEodReport.signedOffAt ? ` (${activeDayEodReport.signedOffAt})` : ""}. 
+                                      Deliverables: <strong>{activeDayEodReport.deliverablesCount}</strong> verified.
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="ems-eod-banner-right">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setEodSummaryNotes(activeDayEodReport.accomplishments || "");
+                                      setEodBlockersNotes(activeDayEodReport.blockers || "");
+                                      setShowEodModal(true);
+                                    }}
+                                    className="ems-btn-secondary text-xs"
+                                  >
+                                    <FileText size={13} /> View / Update Report
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          }
+
+                          if (activeDayEodReport && activeDayEodReport.status === "pending_review") {
+                            return (
+                              <div className="ems-eod-handover-banner border-amber-500/30 bg-amber-950/15">
+                                <div className="ems-eod-banner-left">
+                                  <div className="ems-eod-icon bg-amber-500/10 text-amber-400">
+                                    <Clock size={18} />
+                                  </div>
+                                  <div>
+                                    <strong className="ems-eod-title text-amber-300">
+                                      EOD Shift Report Logged · Pending Supervisor Review
+                                    </strong>
+                                    <p className="ems-eod-desc text-zinc-300">
+                                      Submitted at {activeDayEodReport.submittedAt} for{" "}
+                                      <strong>
+                                        {(currentViewEmp.supervisorName || "Thimathi Dissanayaka")
+                                          .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+                                          .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+                                          .trim() || "Thimathi Dissanayaka"}
+                                      </strong> (
+                                      {activeDayEodReport.deliverablesCount} deliverables).
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="ems-eod-banner-right flex items-center gap-2">
+                                  {isSupervisor && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleSupervisorSignOffEodReport(currentViewEmp.id, activeDayEodReport.id)}
+                                      className="ems-btn-primary text-xs py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 border-emerald-500/40"
+                                    >
+                                      <CheckCircle2 size={13} /> Sign-Off Now
+                                    </button>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setEodSummaryNotes(activeDayEodReport.accomplishments || "");
+                                      setEodBlockersNotes(activeDayEodReport.blockers || "");
+                                      setShowEodModal(true);
+                                    }}
+                                    className="ems-btn-secondary text-xs border-amber-500/30 text-amber-300"
+                                  >
+                                    <Edit size={13} /> Edit Report
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <div className="ems-eod-handover-banner">
+                              <div className="ems-eod-banner-left">
+                                <div className="ems-eod-icon">
+                                  <Sparkles size={18} className="text-[#ff5a36]" />
+                                </div>
+                                <div>
+                                  <strong className="ems-eod-title">
+                                    EOD Daily Operations Handover &amp; Supervisor Audit
+                                  </strong>
+                                  <p className="ems-eod-desc">
+                                    Direct supervisor review with{" "}
+                                    <strong>
+                                      {(currentViewEmp.supervisorName || "Thimathi Dissanayaka")
+                                        .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+                                        .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+                                        .trim() || "Thimathi Dissanayaka"}
+                                    </strong>. 
+                                    Completed tasks automatically map to monthly KPI weightings.
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="ems-eod-banner-right">
+                                <button
+                                  type="button"
+                                  onClick={() => setShowEodModal(true)}
+                                  className="ems-btn-primary"
+                                >
+                                  <Send size={14} /> Submit Today&apos;s Report
+                                </button>
+                              </div>
                             </div>
-                            <div>
-                              <strong className="ems-eod-title">
-                                EOD Daily Operations Handover &amp; Supervisor Audit
-                              </strong>
-                              <p className="ems-eod-desc">
-                                Direct supervisor review with <strong>{currentViewEmp.supervisorName}</strong>. 
-                                Completed tasks automatically map to monthly KPI weightings.
-                              </p>
-                            </div>
-                          </div>
-                          <div className="ems-eod-banner-right">
-                            <button
-                              type="button"
-                              onClick={() => setShowEodModal(true)}
-                              className="ems-btn-primary"
-                            >
-                              <Send size={14} /> Submit Today&apos;s Report
-                            </button>
-                          </div>
-                        </div>
+                          );
+                        })()}
                       </div>
                     )}
                   </div>
@@ -3335,8 +4640,14 @@ export function EmployeePortal() {
                 <div className="ems-card ems-kpi-header-card">
                   <div className="ems-kpi-header-content">
                     <div>
-                      <span className="ems-section-kicker">Supervisor Evaluation Framework</span>
-                      <h2>KPI Performance Scoreboard: {currentViewEmp.name}</h2>
+                      <span className="ems-section-kicker">
+                        {isSupervisor ? "Supervisor Evaluation Framework" : "Employee Performance Framework"}
+                      </span>
+                      <h2>
+                        {isSupervisor
+                          ? `KPI Performance Scoreboard: ${currentViewEmp.name}`
+                          : "My Performance & KPI Scoreboard"}
+                      </h2>
                       <p>
                         Track monthly targets, weighted output percentages, and qualitative 1-on-1 supervisor evaluations.
                         Performance ratings directly inform quarterly promotion and incentive calculations.
@@ -3437,6 +4748,7 @@ export function EmployeePortal() {
                               onClick={() => {
                                 setShowUpdateKpiModal({ kpi, empId: currentViewEmp.id });
                                 setKpiUpdateVal(kpi.current);
+                                setKpiUpdateTargetVal(kpi.target);
                               }}
                               className="ems-kpi-edit-btn"
                               title="Update Progress"
@@ -3621,14 +4933,21 @@ export function EmployeePortal() {
 
                             <td>
                               <div className="ems-role-cell">
-                                <span className={`ems-role-tag role-${emp.role}`}>{emp.role.toUpperCase()}</span>
+                                <span className={`ems-role-tag role-${emp.role}`}>
+                                  {emp.role === "employee" ? "INTERN" : emp.role.toUpperCase()}
+                                </span>
                                 <span className="ems-cell-desig">{emp.designation}</span>
                                 <small className="text-white/50">{emp.department}</small>
                               </div>
                             </td>
 
                             <td>
-                              <span className="ems-supervisor-cell">{emp.supervisorName}</span>
+                              <span className="ems-supervisor-cell">
+                                {(emp.supervisorName || "")
+                                  .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+                                  .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+                                  .trim() || (emp.role === "admin" ? "Board of Directors" : "Executive Directorate")}
+                              </span>
                             </td>
 
                             <td>
@@ -3816,7 +5135,11 @@ export function EmployeePortal() {
                     <div className="ems-schedule-summary-box">
                       <span className="ems-summary-label">Punctuality Rate</span>
                       <span className="ems-summary-value">{weekData.punctualityRate}% On-Time</span>
-                      <span className="ems-summary-sub">Average check-in 08:54 AM · 0 Tardies</span>
+                      <span className="ems-summary-sub">
+                        {weekData.tardiesCount === 0
+                          ? "All shifts within grace window · 0 Tardies"
+                          : `${weekData.tardiesCount} Late arrivals logged`}
+                      </span>
                     </div>
 
                     <div className="ems-schedule-summary-box">
@@ -3909,18 +5232,33 @@ export function EmployeePortal() {
                               )}
                             </td>
                             <td className="font-mono text-xs text-[#a1a1aa]">
-                              {rec.checkOut === "Active" ? "In Progress" : "9h 04m"}
+                              {rec.checkOut === "Active"
+                                ? "In Progress"
+                                : (() => {
+                                    const inM = parseTimeToMinutes(rec.checkIn);
+                                    const outM = parseTimeToMinutes(rec.checkOut);
+                                    const diff = Math.max(0, outM - inM);
+                                    const h = Math.floor(diff / 60);
+                                    const m = diff % 60;
+                                    return `${h}h ${String(m).padStart(2, "0")}m`;
+                                  })()}
                             </td>
                             <td>
                               <span className="ems-workmode-tag">{rec.workMode}</span>
                             </td>
                             <td>
-                              <span className="text-xs px-2 py-0.5 rounded bg-[#1b201b] border border-[#2b332b] text-white font-medium">
-                                On-Time ✓
+                              <span
+                                className={`text-xs px-2 py-0.5 rounded border font-medium ${
+                                  rec.status === "late"
+                                    ? "bg-amber-950/40 border-amber-500/30 text-amber-300"
+                                    : "bg-[#1b201b] border-[#2b332b] text-white"
+                                }`}
+                              >
+                                {rec.status === "late" ? "Late Check-in" : "On-Time ✓"}
                               </span>
                             </td>
                             <td className="text-xs text-[#71717a]">
-                              {currentViewEmp.supervisorName || "Dinithi P."} ✓
+                              {currentViewEmp.supervisorName || "Thimathi D."} ✓
                             </td>
                           </tr>
                         ))}
@@ -4256,7 +5594,10 @@ export function EmployeePortal() {
         <div className="ems-modal-backdrop" onClick={() => setShowUpdateKpiModal(null)}>
           <div className="ems-modal-card modal-sm" onClick={(e) => e.stopPropagation()}>
             <div className="ems-modal-header">
-              <h3>Update Progress: {showUpdateKpiModal.kpi.title}</h3>
+              <div className="ems-modal-title-with-icon">
+                <Target size={18} className="text-[#ff5a36]" />
+                <h3>{isSupervisor ? "Assign Target & Progress" : `Update Progress: ${showUpdateKpiModal.kpi.title}`}</h3>
+              </div>
               <button
                 type="button"
                 onClick={() => setShowUpdateKpiModal(null)}
@@ -4267,19 +5608,60 @@ export function EmployeePortal() {
             </div>
 
             <form onSubmit={handleUpdateKpiProgress} className="ems-modal-form">
-              <div className="ems-form-group">
-                <label>
-                  Current Value (Target is {showUpdateKpiModal.kpi.target} {showUpdateKpiModal.kpi.unit})
-                </label>
-                <input
-                  type="number"
-                  required
-                  value={kpiUpdateVal}
-                  onChange={(e) => setKpiUpdateVal(Number(e.target.value))}
-                />
+              <div className="p-2.5 rounded bg-[#141814] border border-white/10 mb-3 text-xs">
+                <div className="text-[10px] uppercase font-semibold text-[#a1a1aa] tracking-wider">Indicator</div>
+                <div className="text-white font-semibold mt-0.5">{showUpdateKpiModal.kpi.title}</div>
+                <div className="text-[#71717a] mt-0.5">
+                  Unit: {showUpdateKpiModal.kpi.unit || "Units"} · Target intern: {currentViewEmp.name}
+                </div>
               </div>
 
-              <div className="ems-modal-actions">
+              {isSupervisor && (
+                <div className="ems-form-group">
+                  <label>
+                    Target Value ({showUpdateKpiModal.kpi.unit || "Units"}) *
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    required
+                    value={kpiUpdateTargetVal || showUpdateKpiModal.kpi.target}
+                    onChange={(e) => setKpiUpdateTargetVal(Math.max(1, Number(e.target.value)))}
+                    className="ems-input"
+                  />
+                  <small className="text-[#71717a] text-[11px] block mt-1">
+                    Supervisor assigned benchmark target for this sprint cycle.
+                  </small>
+                </div>
+              )}
+
+              <div className="ems-form-group">
+                <label>
+                  Current Progress ({showUpdateKpiModal.kpi.unit || "Units"}) *
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    min="0"
+                    required
+                    value={kpiUpdateVal}
+                    onChange={(e) => setKpiUpdateVal(Math.max(0, Number(e.target.value)))}
+                    className="ems-input flex-1"
+                  />
+                  {isSupervisor && (
+                    <button
+                      type="button"
+                      onClick={() => setKpiUpdateVal(0)}
+                      className="ems-btn-secondary px-2.5 text-xs text-[#a1a1aa] hover:text-white"
+                      title="Reset current progress to 0"
+                    >
+                      <RotateCcw size={11} className="inline mr-1" /> Reset to 0
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="ems-modal-actions mt-4">
                 <button
                   type="button"
                   onClick={() => setShowUpdateKpiModal(null)}
@@ -4288,7 +5670,7 @@ export function EmployeePortal() {
                   Cancel
                 </button>
                 <button type="submit" className="ems-btn-primary">
-                  Save Progress
+                  {isSupervisor ? "Save & Assign Target" : "Save Progress"}
                 </button>
               </div>
             </form>
@@ -4452,7 +5834,7 @@ export function EmployeePortal() {
                 <div className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 p-2.5 rounded-md flex items-center gap-2 mb-3">
                   <ShieldAlert size={15} className="text-amber-400 flex-shrink-0" />
                   <span>
-                    As an intern, your submitted edits will be dispatched to Supervisor ({currentViewEmp.supervisorName || "Dinithi Perera"}) for approval before taking effect.
+                    As an intern, your submitted edits will be dispatched to Supervisor ({currentViewEmp.supervisorName || "Thimathi Dissanayaka"}) for approval before taking effect.
                   </span>
                 </div>
               )}
@@ -4751,6 +6133,60 @@ export function EmployeePortal() {
                 />
               </div>
 
+              <div className="ems-form-group">
+                <label className="flex items-center justify-between">
+                  <span>Scheduled Shift Date *</span>
+                  {!isSupervisor && (
+                    <span className="text-[10px] text-zinc-400 font-normal">Past dates restricted for employees</span>
+                  )}
+                </label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="date"
+                    required
+                    min={!isSupervisor ? todayIsoDate : undefined}
+                    value={
+                      newTaskDate ||
+                      (!isSupervisor && activeTaskDate < todayIsoDate
+                        ? todayIsoDate
+                        : (activeTaskDate !== "all" ? activeTaskDate : todayIsoDate))
+                    }
+                    onChange={(e) => {
+                      if (!isSupervisor && e.target.value < todayIsoDate) {
+                        showToast("Employees cannot select past dates for new tasks.");
+                        setNewTaskDate(todayIsoDate);
+                      } else {
+                        setNewTaskDate(e.target.value);
+                      }
+                    }}
+                    className="ems-input flex-1"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setNewTaskDate(todayIsoDate)}
+                    className="ems-btn-secondary px-3 py-1.5 text-xs whitespace-nowrap"
+                  >
+                    Today
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const tomorrow = new Date();
+                      tomorrow.setDate(tomorrow.getDate() + 1);
+                      setNewTaskDate(formatLocalDate(tomorrow));
+                    }}
+                    className="ems-btn-secondary px-3 py-1.5 text-xs whitespace-nowrap"
+                  >
+                    Tomorrow
+                  </button>
+                </div>
+                {!isSupervisor && (
+                  <small className="text-[#71717a] text-[11px] block mt-1">
+                    Employees can only schedule tasks for the active shift today or upcoming future dates.
+                  </small>
+                )}
+              </div>
+
               <div className="ems-form-grid-2">
                 <div className="ems-form-group">
                   <label>Scheduled Shift Time</label>
@@ -4851,16 +6287,36 @@ export function EmployeePortal() {
             <form onSubmit={handleSubmitEodReport} className="ems-modal-form">
               <div className="ems-eod-summary-grid">
                 <div className="ems-eod-stat-box">
+                  <span className="lbl">Shift Date</span>
+                  <strong className="val text-white tabular-nums">
+                    {activeTaskDate !== "all" ? activeTaskDate : todayIsoDate}
+                  </strong>
+                  <small>Active Shift Reporting</small>
+                </div>
+                <div className="ems-eod-stat-box">
                   <span className="lbl">Deliverables Verified</span>
                   <strong className="val text-emerald tabular-nums">
-                    {(currentViewEmp.checklist || []).filter((c) => c.completed).length} /{" "}
-                    {(currentViewEmp.checklist || []).length}
+                    {(currentViewEmp.checklist || []).filter((c) => {
+                      const d = c.date || todayIsoDate;
+                      const target = activeTaskDate !== "all" ? activeTaskDate : todayIsoDate;
+                      return c.completed && d === target;
+                    }).length} /{" "}
+                    {(currentViewEmp.checklist || []).filter((c) => {
+                      const d = c.date || todayIsoDate;
+                      const target = activeTaskDate !== "all" ? activeTaskDate : todayIsoDate;
+                      return d === target;
+                    }).length}
                   </strong>
-                  <small>Tasks Completed Today</small>
+                  <small>Tasks Completed For Shift</small>
                 </div>
                 <div className="ems-eod-stat-box">
                   <span className="lbl">Assigned Reviewers</span>
-                  <strong className="val text-white">{currentViewEmp.supervisorName}</strong>
+                  <strong className="val text-white">
+                    {(currentViewEmp.supervisorName || "Thimathi Dissanayaka")
+                      .replace(/\s*&\s*Kavishka\s*(T\.|Thilakarathna)?/gi, "")
+                      .replace(/^Kavishka\s*(T\.|Thilakarathna)?$/gi, "")
+                      .trim() || "Strategic Leadership"}
+                  </strong>
                   <small>Strategic Sales &amp; Systems Leads</small>
                 </div>
               </div>
@@ -4881,6 +6337,8 @@ export function EmployeePortal() {
                 <input
                   type="text"
                   placeholder="e.g. Awaiting client feedback on AEST timing; prep demo sandbox for London scaleup."
+                  value={eodBlockersNotes}
+                  onChange={(e) => setEodBlockersNotes(e.target.value)}
                 />
               </div>
 
@@ -4904,104 +6362,169 @@ export function EmployeePortal() {
       {/* ─────────────────────────────────────────────────────────────
           MODAL: SUPERVISOR RESET INTERN DATA
       ───────────────────────────────────────────────────────────── */}
-      {showResetInternModal && (
-        <div className="ems-modal-backdrop" onClick={() => setShowResetInternModal(false)}>
-          <div className="ems-modal-card modal-md" onClick={(e) => e.stopPropagation()}>
-            <div className="ems-modal-header">
-              <div className="ems-modal-title-with-icon">
-                <RotateCcw size={18} className="text-[#ff5a36]" />
-                <h3>Supervisor Control: Reset Intern Sprint Data</h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowResetInternModal(false)}
-                className="ems-modal-close"
-              >
-                &times;
-              </button>
-            </div>
+      {showResetInternModal && (() => {
+        const modalTargetIntern =
+          employees.find((e) => e.id === resetTargetEmpId) ||
+          employees.find((e) => e.role === "employee") ||
+          employees.find((e) => e.id === "emp-bdi-001") ||
+          currentViewEmp;
+        const candidateInterns = employees.filter((e) => e.role === "employee");
 
-            <form onSubmit={handleSupervisorResetSubmit} className="ems-modal-form">
-              <p className="text-xs text-[#a0a5a0] mb-3 leading-relaxed">
-                As supervisor, you can reset sprint metrics, sales leads, or daily tasks for{" "}
-                <strong className="text-white">{currentViewEmp.name}</strong> ({currentViewEmp.employeeId}) to prepare for a new month or sprint cycle.
-              </p>
-
-              <div className="ems-form-group">
-                <label className="flex items-center gap-2.5 cursor-pointer text-sm font-medium text-white">
-                  <input
-                    type="checkbox"
-                    checked={resetOptionKpis}
-                    onChange={(e) => setResetOptionKpis(e.target.checked)}
-                    className="rounded border-zinc-700 bg-zinc-900 text-[#ff5a36] focus:ring-0"
-                  />
-                  <span>Reset Monthly KPI Metrics (Leads Logged &amp; Demos Scheduled to 0)</span>
-                </label>
-                <small className="text-[#71717a] text-xs block pl-6">
-                  Sets Monthly Leads Logged to 0 and Discovery Demos Scheduled to 0.
-                </small>
-              </div>
-
-              <div className="ems-form-group">
-                <label className="flex items-center gap-2.5 cursor-pointer text-sm font-medium text-white">
-                  <input
-                    type="checkbox"
-                    checked={resetOptionPipeline}
-                    onChange={(e) => setResetOptionPipeline(e.target.checked)}
-                    className="rounded border-zinc-700 bg-zinc-900 text-[#ff5a36] focus:ring-0"
-                  />
-                  <span>Reset B2B Sales Pipeline (Set Active Pipeline Value &amp; Incentive to LKR 0)</span>
-                </label>
-                <small className="text-[#71717a] text-xs block pl-6">
-                  Clears all current pipeline leads, resetting pipeline value and incentive commissions to 0.
-                </small>
-              </div>
-
-              <div className="ems-form-group">
-                <label className="flex items-center gap-2.5 cursor-pointer text-sm font-medium text-white">
-                  <input
-                    type="checkbox"
-                    checked={resetOptionChecklist}
-                    onChange={(e) => setResetOptionChecklist(e.target.checked)}
-                    className="rounded border-zinc-700 bg-zinc-900 text-[#ff5a36] focus:ring-0"
-                  />
-                  <span>Reset Daily Outreach Tasks Checklist</span>
-                </label>
-                <small className="text-[#71717a] text-xs block pl-6">
-                  Marks all daily tasks as uncompleted for a fresh shift.
-                </small>
-              </div>
-
-              <div className="ems-modal-actions mt-4 flex justify-between items-center">
+        return (
+          <div className="ems-modal-backdrop" onClick={() => setShowResetInternModal(false)}>
+            <div className="ems-modal-card modal-md" onClick={(e) => e.stopPropagation()}>
+              <div className="ems-modal-header">
+                <div className="ems-modal-title-with-icon">
+                  <RotateCcw size={18} className="text-[#ff5a36]" />
+                  <h3>Supervisor Control: Reset Intern Sprint Data</h3>
+                </div>
                 <button
                   type="button"
-                  onClick={() => {
-                    setResetOptionKpis(true);
-                    setResetOptionPipeline(true);
-                    setResetOptionChecklist(true);
-                    handleSupervisorResetSubmit({ preventDefault: () => {} } as any);
-                  }}
-                  className="ems-btn-secondary border-red-500/40 text-red-400 hover:bg-red-500/10"
+                  onClick={() => setShowResetInternModal(false)}
+                  className="ems-modal-close"
                 >
-                  Full Reset (All to 0)
+                  &times;
                 </button>
-                <div className="flex gap-2">
+              </div>
+
+              <form onSubmit={(e) => handleSupervisorResetSubmit(e, false)} className="ems-modal-form">
+                {/* Target Supervised Intern Banner / Selector */}
+                <div className="p-3 rounded-lg bg-[#141814] border border-white/10 mb-4 flex items-center justify-between">
+                  <div>
+                    <div className="text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wider">Supervised Intern Target</div>
+                    <div className="text-sm font-semibold text-white mt-0.5">
+                      {modalTargetIntern.name} <span className="font-mono text-xs text-zinc-400">({modalTargetIntern.employeeId})</span>
+                    </div>
+                    <div className="text-xs text-[#71717a] mt-0.5">{modalTargetIntern.designation}</div>
+                  </div>
+                  {candidateInterns.length > 1 ? (
+                    <select
+                      value={modalTargetIntern.id}
+                      onChange={(e) => setResetTargetEmpId(e.target.value)}
+                      className="bg-[#1b201b] border border-white/15 text-white text-xs rounded px-2.5 py-1.5 focus:outline-none"
+                    >
+                      {candidateInterns.map((ci) => (
+                        <option key={ci.id} value={ci.id}>
+                          {ci.name} ({ci.employeeId})
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span className="text-[11px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-zinc-300 font-medium">
+                      Active Intern
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-xs text-[#a0a5a0] mb-3 leading-relaxed">
+                  As supervisor, you can reset sprint metrics, sales leads, or daily tasks for{" "}
+                  <strong className="text-white">{modalTargetIntern.name}</strong> ({modalTargetIntern.employeeId}) to prepare for a new month or sprint cycle.
+                </p>
+
+                <div className="ems-form-group">
+                  <label className="flex items-center gap-2.5 cursor-pointer text-sm font-medium text-white">
+                    <input
+                      type="checkbox"
+                      checked={resetOptionKpis}
+                      onChange={(e) => setResetOptionKpis(e.target.checked)}
+                      className="rounded border-zinc-700 bg-zinc-900 text-[#ff5a36] focus:ring-0"
+                    />
+                    <span>Reset Monthly KPI Metrics (Leads Logged &amp; Demos Scheduled to 0)</span>
+                  </label>
+                  <small className="text-[#71717a] text-xs block pl-6">
+                    Sets Monthly Leads Logged to 0 and Discovery Demos Scheduled to 0 for {modalTargetIntern.name}.
+                  </small>
+                  {resetOptionKpis && (
+                    <div className="pl-6 pt-3 pb-1">
+                      <div className="text-[11px] font-semibold text-zinc-300 uppercase tracking-wider mb-2">
+                        Assign New Sprint Targets (Optional)
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="text-[11px] font-medium text-zinc-400 block mb-1">
+                            Monthly Leads Target
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={resetLeadsTarget}
+                            onChange={(e) => setResetLeadsTarget(Math.max(1, Number(e.target.value)))}
+                            className="bg-[#1b201b] border border-white/15 text-white text-xs rounded px-2.5 py-1.5 w-full focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[11px] font-medium text-zinc-400 block mb-1">
+                            Discovery Demos Target
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={resetDemosTarget}
+                            onChange={(e) => setResetDemosTarget(Math.max(1, Number(e.target.value)))}
+                            className="bg-[#1b201b] border border-white/15 text-white text-xs rounded px-2.5 py-1.5 w-full focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="ems-form-group">
+                  <label className="flex items-center gap-2.5 cursor-pointer text-sm font-medium text-white">
+                    <input
+                      type="checkbox"
+                      checked={resetOptionPipeline}
+                      onChange={(e) => setResetOptionPipeline(e.target.checked)}
+                      className="rounded border-zinc-700 bg-zinc-900 text-[#ff5a36] focus:ring-0"
+                    />
+                    <span>Reset B2B Sales Pipeline (Set Active Pipeline Value &amp; Incentive to LKR 0)</span>
+                  </label>
+                  <small className="text-[#71717a] text-xs block pl-6">
+                    Clears all current pipeline leads for {modalTargetIntern.name}, resetting pipeline value and incentive commissions to 0.
+                  </small>
+                </div>
+
+                <div className="ems-form-group">
+                  <label className="flex items-center gap-2.5 cursor-pointer text-sm font-medium text-white">
+                    <input
+                      type="checkbox"
+                      checked={resetOptionChecklist}
+                      onChange={(e) => setResetOptionChecklist(e.target.checked)}
+                      className="rounded border-zinc-700 bg-zinc-900 text-[#ff5a36] focus:ring-0"
+                    />
+                    <span>Reset Daily Outreach Tasks Checklist</span>
+                  </label>
+                  <small className="text-[#71717a] text-xs block pl-6">
+                    Marks all daily tasks as uncompleted for a fresh shift.
+                  </small>
+                </div>
+
+                <div className="ems-modal-actions mt-4 flex justify-between items-center">
                   <button
                     type="button"
-                    onClick={() => setShowResetInternModal(false)}
-                    className="ems-btn-secondary"
+                    onClick={() => handleSupervisorResetSubmit(undefined, true)}
+                    className="ems-btn-secondary border-red-500/40 text-red-400 hover:bg-red-500/10"
                   >
-                    Cancel
+                    Full Reset (All to 0)
                   </button>
-                  <button type="submit" className="ems-btn-primary">
-                    Apply Reset
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowResetInternModal(false)}
+                      className="ems-btn-secondary"
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="ems-btn-primary">
+                      Apply Reset
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 }

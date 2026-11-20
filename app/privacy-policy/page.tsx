@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Check, Clock3, FileText, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, Clock3, FileText, Mail, MapPin, Phone } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
@@ -545,7 +545,6 @@ export default function PrivacyPolicyPage() {
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
-                    gap: "6px",
                     background: "rgba(255, 90, 54, 0.09)",
                     color: "var(--signal)",
                     border: "1px solid rgba(255, 90, 54, 0.22)",
@@ -558,7 +557,7 @@ export default function PrivacyPolicyPage() {
                     fontFamily: "var(--font-mono)",
                   }}
                 >
-                  <ShieldCheck size={13} /> Data Protection Office
+                  Data Protection Office
                 </span>
                 <span
                   style={{
