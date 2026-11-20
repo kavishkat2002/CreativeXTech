@@ -26,11 +26,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const description =
     jobTitles.length > 0
-      ? `Explore ${jobs.length} open position${jobs.length === 1 ? "" : "s"} at Creativex Technology (${jobTitles.join(", ")}). Hiring top Sri Lankan talent in Colombo & worldwide remote AI engineers, full-stack builders, and product designers.`
-      : "Join Creativex Technology. Explore open roles in AI agents, full-stack Next.js engineering, and enterprise product design across Colombo studio and remote global squads.";
+      ? `Explore open engineering and AI roles at Creativex Technology (${jobTitles.join(", ")}). Hiring top Sri Lankan talent in Colombo and global remote squads.`
+      : "Explore open engineering and AI roles at Creativex Technology in Colombo and global remote squads. Build high-impact AI agents and cloud systems.";
 
   return {
-    title: "Careers & Open AI Engineering Jobs | Creativex Technology",
+    title: "Careers | Open AI & Software Engineering Jobs | Creativex Technology",
     description,
     keywords: [
       "Creativex Technology Careers",

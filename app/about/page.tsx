@@ -7,8 +7,8 @@ import { GlobalReachSection } from "@/components/global-reach-section";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "About Creativex Technology | AI & Software Engineering Consultancy",
-  description: "Learn about Creativex Technology—an AI and software engineering consultancy building autonomous AI agents, enterprise ERP systems, predictive data analytics, and cloud platforms for global businesses.",
+  title: "About Us | Creativex Technology — AI & Software Engineering Company",
+  description: "Creativex Technology is a premier Sri Lankan AI and software engineering consultancy delivering custom AI solutions, enterprise ERP systems, and cloud platforms worldwide.",
   keywords: [
     "About Creativex Technology",
     "AI Consultancy Global",

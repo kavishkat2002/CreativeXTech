@@ -74,7 +74,9 @@ export const metadata: Metadata = {
     images: ["/og.png"],
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
     shortcut: "/favicon.svg",
     apple: "/favicon.svg",
   },
@@ -251,6 +253,56 @@ export default function RootLayout({
           target: `${baseUrl}/blog?q={search_term_string}`,
           "query-input": "required name=search_term_string",
         },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${baseUrl}/#navigation`,
+        name: "Primary Site Navigation",
+        description: "Core sitelinks and primary sections of Creativex Technology",
+        itemListElement: [
+          {
+            "@type": "SiteNavigationElement",
+            position: 1,
+            name: "Services",
+            description: "Explore our full-lifecycle engineering services across custom AI development, enterprise ERP systems, and cloud platforms.",
+            url: `${baseUrl}/services`,
+          },
+          {
+            "@type": "SiteNavigationElement",
+            position: 2,
+            name: "Careers",
+            description: "Explore open engineering and AI roles at Creativex Technology in Colombo and global remote squads.",
+            url: `${baseUrl}/careers`,
+          },
+          {
+            "@type": "SiteNavigationElement",
+            position: 3,
+            name: "About Us",
+            description: "Learn about Creativex Technology—a premier Sri Lankan AI and software engineering consultancy delivering autonomous AI agents and cloud solutions worldwide.",
+            url: `${baseUrl}/about`,
+          },
+          {
+            "@type": "SiteNavigationElement",
+            position: 4,
+            name: "AI Development Sri Lanka",
+            description: "Custom AI development, autonomous AI agents, machine learning models, and enterprise automation engineered in Sri Lanka.",
+            url: `${baseUrl}/ai-development-sri-lanka`,
+          },
+          {
+            "@type": "SiteNavigationElement",
+            position: 5,
+            name: "ERP Solutions Sri Lanka",
+            description: "Custom ERP solutions in Sri Lanka for inventory, supply chain, and retail with zero recurring per-user licensing fees.",
+            url: `${baseUrl}/erp-solutions-sri-lanka`,
+          },
+          {
+            "@type": "SiteNavigationElement",
+            position: 6,
+            name: "Contact Us",
+            description: "Talk to our engineering team in Colombo about your AI, ERP, or custom software project.",
+            url: `${baseUrl}/contact`,
+          },
+        ],
       },
     ],
   };
