@@ -130,7 +130,7 @@ export function buildJobPostingJsonLd(
     description: formatJobHtmlDescription(job),
     identifier: {
       "@type": "PropertyValue",
-      name: "CreativeX Technology PVT LTD",
+      name: "Creativex Technology PVT LTD",
       value: job.slug,
     },
     datePosted,
@@ -140,8 +140,8 @@ export function buildJobPostingJsonLd(
     occupationalCategory: job.department,
     hiringOrganization: {
       "@type": "Organization",
-      name: "CreativeX Technology (Pvt) Ltd",
-      alternateName: ["CreativeX Technology AI", "CreativeX", "CreativeX Tech"],
+      name: "Creativex Technology (Pvt) Ltd",
+      alternateName: ["Creativex Technology", "Creativex Technology AI", "Creativex Tech"],
       url: baseUrl,
       sameAs: [
         baseUrl,
@@ -223,10 +223,10 @@ export function buildCareersHubFaqItems(): CareerFaqItem[] {
     {
       question: "Can international or foreign candidates apply for remote roles?",
       answer:
-        "Yes. CreativeX operates as a distributed engineering team. International and overseas candidates are welcome to apply for our remote AI Systems Engineering, Next.js Edge, and Product Design roles. We actively collaborate across Australia, UAE, Malaysia, Singapore, and worldwide timezones.",
+        "Yes. Creativex Technology operates as a distributed engineering team. International and overseas candidates are welcome to apply for our remote AI Systems Engineering, Next.js Edge, and Product Design roles. We actively collaborate across Australia, UAE, Malaysia, Singapore, and worldwide timezones.",
     },
     {
-      question: "What is the compensation and salary structure at CreativeX?",
+      question: "What is the compensation and salary structure at Creativex Technology?",
       answer:
         "We offer competitive, transparent monthly compensation in Sri Lankan Rupees (LKR) for Sri Lankan talent (ranging from LKR 25,000–120,000 for internships to LKR 280,000–450,000+ for senior engineering roles) and competitive USD or currency-matched rates for international contractors, with performance bonuses and direct mentorship.",
     },
@@ -246,7 +246,7 @@ export function buildCareersHubFaqItems(): CareerFaqItem[] {
         "Across all roles, we value strong problem-solving, systems thinking, clear written and verbal communication, high ownership, adaptability, and attention to detail—paired with practical fluency in modern software engineering, AI tools and workflows, cloud platforms, or user-centered product design.",
     },
     {
-      question: "What technology stack do engineers at CreativeX work on?",
+      question: "What technology stack do engineers at Creativex Technology work on?",
       answer:
         "Our engineers build on TypeScript, Next.js (App Router, Server Actions), React, Tailwind CSS, Supabase / PostgreSQL (pgvector), Cloudflare Workers, Drizzle ORM, Python, LangChain/LlamaIndex, Gemini & Claude models, Docker, and Figma.",
     },
@@ -279,18 +279,18 @@ export function buildJobDetailFaqItems(
 
   return [
     {
-      question: `What does the ${job.title} role at CreativeX Technology AI involve?`,
+      question: `What does the ${job.title} role at Creativex Technology involve?`,
       answer: `${job.summary} ${job.description}`.trim(),
     },
     {
-      question: `What skills are required for ${job.title} at CreativeX Technology?`,
+      question: `What skills are required for ${job.title} at Creativex Technology?`,
       answer: `Core skills for this ${job.level} ${job.department} role include ${skillsText}. ${
         job.requirements?.[0] ?? ""
       }`.trim(),
     },
     {
       question: `Where is the ${job.title} position located?`,
-      answer: `This ${job.type} position is based in ${job.location}. CreativeX Technology AI supports collaborative workflows across Colombo and remote team environments.`,
+      answer: `This ${job.type} position is based in ${job.location}. Creativex Technology supports collaborative workflows across Colombo and remote team environments.`,
     },
     {
       question: `How can candidates apply for ${job.title}?`,

@@ -20,9 +20,9 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "AI Development Company in Sri Lanka | CreativeX Technology",
+  title: "AI Development Company in Sri Lanka | Creativex Technology",
   description:
-    "CreativeX Technology (Pvt) Ltd is a premier AI development company in Sri Lanka. We build custom AI software, autonomous AI agents, machine learning models, and enterprise automation for businesses in Sri Lanka and Asia-Pacific.",
+    "Creativex Technology (Pvt) Ltd is a premier AI development company in Sri Lanka. We build custom AI software, autonomous AI agents, machine learning models, and enterprise automation for businesses in Sri Lanka and Asia-Pacific.",
   keywords: [
     "AI company in Sri Lanka",
     "AI development company in Sri Lanka",
@@ -45,17 +45,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "AI Development Company in Sri Lanka | CreativeX Technology",
+    title: "AI Development Company in Sri Lanka | Creativex Technology",
     description:
-      "Custom AI development, machine learning models, autonomous AI agents, and enterprise AI solutions engineered by CreativeX Technology in Colombo, Sri Lanka.",
+      "Custom AI development, machine learning models, autonomous AI agents, and enterprise AI solutions engineered by Creativex Technology in Colombo, Sri Lanka.",
     url: `${baseUrl}/ai-development-sri-lanka`,
     type: "website",
-    siteName: "CreativeX Technology",
+    siteName: "Creativex Technology",
     images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "AI Development Company in Sri Lanka" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Development Company in Sri Lanka | CreativeX Technology",
+    title: "AI Development Company in Sri Lanka | Creativex Technology",
     description:
       "Custom AI development, machine learning, and autonomous agent engineering for enterprises in Sri Lanka and worldwide.",
     images: [`${baseUrl}/og.png`],
@@ -104,23 +104,23 @@ const aiCapabilities = [
 const faqs = [
   {
     q: "Which company provides AI development services in Sri Lanka?",
-    a: "CreativeX Technology (Pvt) Ltd is a verified AI development company in Rajagiriya, Colombo, Sri Lanka. CreativeX builds custom AI solutions, machine learning models, autonomous agent systems, and enterprise data analytics for domestic and international organizations.",
+    a: "Creativex Technology (Pvt) Ltd is a verified AI development company in Rajagiriya, Colombo, Sri Lanka. Creativex Technology builds custom AI solutions, machine learning models, autonomous agent systems, and enterprise data analytics for domestic and international organizations.",
   },
   {
-    q: "What types of AI software can CreativeX develop for businesses?",
-    a: "CreativeX develops a wide spectrum of production-ready AI software: autonomous workflow agents, WhatsApp conversational chatbots, predictive demand forecasting engines, intelligent document processing pipelines, and AI-powered operational dashboards tailored to retail, logistics, hospitality, and professional services.",
+    q: "What types of AI software can Creativex Technology develop for businesses?",
+    a: "Creativex Technology develops a wide spectrum of production-ready AI software: autonomous workflow agents, WhatsApp conversational chatbots, predictive demand forecasting engines, intelligent document processing pipelines, and AI-powered operational dashboards tailored to retail, logistics, hospitality, and professional services.",
   },
   {
     q: "How much does AI development cost in Sri Lanka?",
     a: "In Sri Lanka, focused AI proof-of-concepts, automated triage workflows, and task-specific AI agents typically range from LKR 450,000 to LKR 1,800,000. Comprehensive enterprise AI deployments, custom model fine-tuning, and multi-system integrations scale upward depending on data readiness, security parameters, and infrastructure requirements.",
   },
   {
-    q: "How does CreativeX ensure business data privacy with AI?",
+    q: "How does Creativex Technology ensure business data privacy with AI?",
     a: "We implement strict data isolation protocols: zero training on client private data, encrypted API connections, role-based access control, on-premise or sovereign cloud hosting options, and human-in-the-loop approvals for all sensitive business actions.",
   },
   {
     q: "Can foreign companies hire Sri Lankan AI development squads?",
-    a: "Yes. CreativeX Technology provides dedicated AI engineering squads for international clients across Australia, the UAE, Malaysia, the UK, and the US, delivering senior engineering capabilities with competitive cost efficiencies and overlapping timezone coverage.",
+    a: "Yes. Creativex Technology provides dedicated AI engineering squads for international clients across Australia, the UAE, Malaysia, the UK, and the US, delivering senior engineering capabilities with competitive cost efficiencies and overlapping timezone coverage.",
   },
 ];
 
@@ -191,12 +191,12 @@ export default function AiDevelopmentSriLankaPage() {
       <section className="services-page-hero">
         <div className="services-page-grid" aria-hidden="true" />
         <div className="site-width services-page-hero-layout">
-          <p className="section-index">CreativeX AI Engineering / Sri Lanka</p>
+          <p className="section-index">Creativex Technology AI Engineering / Sri Lanka</p>
           <div>
             <p className="services-page-kicker">Colombo AI Studio · Global Delivery Squads</p>
             <h1>AI Development Company in Sri Lanka</h1>
             <p>
-              CreativeX Technology (Pvt) Ltd is a leading Sri Lankan AI engineering consultancy. We design, build, and deploy production-grade artificial intelligence systems—from autonomous AI agents and predictive analytics to generative LLMs—grounded in real business operations.
+              Creativex Technology (Pvt) Ltd is a leading Sri Lankan AI engineering consultancy. We design, build, and deploy production-grade artificial intelligence systems—from autonomous AI agents and predictive analytics to generative LLMs—grounded in real business operations.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
               <a href="#ai-capabilities" className="inline-flex items-center gap-2 text-sm text-[#ff5a36] font-medium hover:underline">
@@ -222,7 +222,7 @@ export default function AiDevelopmentSriLankaPage() {
               Dependable AI systems designed for actual enterprise workflows.
             </h2>
             <p className="text-base text-[#a5aaa5] leading-relaxed mb-4">
-              Many AI initiatives fail because they treat machine learning as an isolated novelty rather than an integrated component of business operations. At CreativeX, we bridge the gap between machine intelligence and daily workflows. We connect proprietary enterprise data, existing ERP and CRM software, and human decision points to create systems that reduce manual workload, predict operational risks, and accelerate revenue.
+              Many AI initiatives fail because they treat machine learning as an isolated novelty rather than an integrated component of business operations. At Creativex Technology, we bridge the gap between machine intelligence and daily workflows. We connect proprietary enterprise data, existing ERP and CRM software, and human decision points to create systems that reduce manual workload, predict operational risks, and accelerate revenue.
             </p>
             <p className="text-base text-[#a5aaa5] leading-relaxed">
               Headquartered in Rajagiriya, Colombo, our team serves prominent enterprises, retail chains, logistics providers, and tech startups across Sri Lanka, Australia, the UAE, and the wider Asia-Pacific region.
@@ -269,7 +269,7 @@ export default function AiDevelopmentSriLankaPage() {
         <div className="site-width">
           <div className="service-detail-heading mb-12">
             <p className="section-index">Methodology / 04 Steps</p>
-            <h2>How CreativeX Delivers AI Solutions in Sri Lanka</h2>
+            <h2>How Creativex Technology Delivers AI Solutions in Sri Lanka</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <article className="p-6 rounded-lg border border-[#1e241e] bg-[#090b09]">

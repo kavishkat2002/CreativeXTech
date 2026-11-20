@@ -130,7 +130,7 @@ export function AdminClientLayout({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside style={{ width: "260px", background: "#fff", borderRight: "1px solid #eaeaea", display: "flex", flexDirection: "column" }}>
         <div style={{ padding: "24px", borderBottom: "1px solid #eaeaea" }}>
-          <strong style={{ fontSize: "18px", letterSpacing: "-0.02em" }}>CreativeX Admin</strong>
+          <strong style={{ fontSize: "18px", letterSpacing: "-0.02em" }}>Creativex Technology Admin</strong>
         </div>
         <nav style={{ padding: "16px", flex: 1, display: "flex", flexDirection: "column", gap: "4px" }}>
           {navItems.map((item) => {

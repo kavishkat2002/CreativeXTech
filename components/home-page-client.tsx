@@ -75,7 +75,7 @@ const clientFeedback = [
   {
     number: "01",
     label: "",
-    quote: "CreativeX Technology (Pvt) Ltd delivered a smooth and practical digital solution for our business. The team understood our requirements, communicated clearly, and handled every detail professionally. The final result has improved our workflow and overall customer experience, and we’re very satisfied with the service and support.",
+    quote: "Creativex Technology (Pvt) Ltd delivered a smooth and practical digital solution for our business. The team understood our requirements, communicated clearly, and handled every detail professionally. The final result has improved our workflow and overall customer experience, and we’re very satisfied with the service and support.",
     role: "Kavin SK",
     company: "Entrepreneur",
     initials: "KS",
@@ -85,7 +85,7 @@ const clientFeedback = [
   {
     number: "02",
     label: "",
-    quote: "CreativeX Technology helped us shape a more connected digital experience for Fink Restaurant, bringing reservations, guest service, and day-to-day operations into a clearer workflow. The approach felt practical, well considered, and aligned with how our team actually works, while also improving the overall experience we want to deliver to our guests.",
+    quote: "Creativex Technology helped us shape a more connected digital experience for Fink Restaurant, bringing reservations, guest service, and day-to-day operations into a clearer workflow. The approach felt practical, well considered, and aligned with how our team actually works, while also improving the overall experience we want to deliver to our guests.",
     role: "Graham Ackling",
     company: "General Manager, Fink Restaurant",
     initials: "GA",
@@ -95,7 +95,7 @@ const clientFeedback = [
   {
     number: "03",
     label: "",
-    quote: "CreativeX Technology helped us bring student records, attendance, communication, and day-to-day administration into one more organized system. The platform made routine tasks easier for our staff and gave us a clearer way to manage student information while supporting a smoother experience for both teachers and families.",
+    quote: "Creativex Technology helped us bring student records, attendance, communication, and day-to-day administration into one more organized system. The platform made routine tasks easier for our staff and gave us a clearer way to manage student information while supporting a smoother experience for both teachers and families.",
     role: "School Administrator",
     company: "St. Anthony's Schools",
     initials: "AS",
@@ -115,7 +115,7 @@ const clientFeedback = [
   {
     number: "05",
     label: "",
-    quote: "CreativeX Technology helped us bring TL Packing Global’s digital vision into a much clearer and more professional direction. The team understood what we needed as a growing business and created an experience that feels practical, scalable, and built to support our next stage of growth.",
+    quote: "Creativex Technology helped us bring TL Packing Global’s digital vision into a much clearer and more professional direction. The team understood what we needed as a growing business and created an experience that feels practical, scalable, and built to support our next stage of growth.",
     role: "Tim Lee",
     company: "Founder, TL Packing Global",
     initials: "TL",
@@ -125,7 +125,7 @@ const clientFeedback = [
   {
     number: "06",
     label: "",
-    quote: "CreativeX Technology helped us modernize the way our business operates, bringing customer management, internal workflows, and digital services into one connected experience. The result feels professional, easy for our team to use, and flexible enough to support the business as we continue to grow.",
+    quote: "Creativex Technology helped us modernize the way our business operates, bringing customer management, internal workflows, and digital services into one connected experience. The result feels professional, easy for our team to use, and flexible enough to support the business as we continue to grow.",
     role: "Operations Manager",
     company: "GAC international",
     initials: "OM",
@@ -257,7 +257,7 @@ export function HomePageClient() {
               <div className="reference-halo" />
               <Image
                 src="/creativex-android-v2.png"
-                alt="CreativeX AI Systems Visual"
+                alt="Creativex Technology AI Systems Visual"
                 priority
                 unoptimized
                 width={640}
@@ -280,7 +280,7 @@ export function HomePageClient() {
               </div>
             </div>
           </div>
-          <div className="reference-side-note" aria-hidden="true">© {new Date().getFullYear()} CreativeX Technology PVT LTD</div>
+          <div className="reference-side-note" aria-hidden="true">© {new Date().getFullYear()} Creativex Technology PVT LTD</div>
         </section>
 
         <section className="partner-band" aria-labelledby="partner-band-title">
@@ -390,7 +390,7 @@ export function HomePageClient() {
             <a className="contact-action" href="/projects">View all projects <ArrowUpRight /></a>
           </div>
 
-          <div className="home-project-marquee" aria-label="Selected CreativeX projects">
+          <div className="home-project-marquee" aria-label="Selected Creativex Technology projects">
             <div className="home-project-track">
               {[0, 1].map((copyIndex) => (
                 <div className="home-project-set" aria-hidden={copyIndex === 1} key={copyIndex}>
@@ -485,7 +485,7 @@ export function HomePageClient() {
           <div className="site-width">
             <div className="client-feedback-heading reveal">
               <p className="section-index">Client feedback / 06</p>
-              <div><span>AI & software delivery</span><h2 id="client-feedback-heading">What clients say about working with CreativeX.</h2></div>
+              <div><span>AI & software delivery</span><h2 id="client-feedback-heading">What clients say about working with Creativex Technology.</h2></div>
             </div>
 
             <div className="client-feedback-grid">
@@ -548,7 +548,7 @@ export function HomePageClient() {
             <div>
               <h2>Bring us the problem you keep circling.</h2>
               <p>We’ll help you work out whether AI belongs in the answer—and what the smallest credible first move looks like.</p>
-              <a className="contact-action" href="mailto:info@creativexlab.online?subject=CreativeX%20project%20conversation&body=Hello%20CreativeX%2C%0A%0AThe%20workflow%20I%20want%20to%20improve%3A%0AWho%20does%20this%20work%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0A%0A">Start a conversation <ArrowUpRight /></a>
+              <a className="contact-action" href="mailto:info@creativexlab.online?subject=Creativex%20Technology%20project%20conversation&body=Hello%20Creativex%20Technology%2C%0A%0AThe%20workflow%20I%20want%20to%20improve%3A%0AWho%20does%20this%20work%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0A%0A">Start a conversation <ArrowUpRight /></a>
             </div>
             <div className="contact-detail-card">
               <div className="newsletter-group">
@@ -575,7 +575,7 @@ export function HomePageClient() {
                 </form>
               </div>
               <div className="contact-brand-card">
-                <Image src="/brand/creativex-robot-lockup.webp" alt="CreativeX Technology logo" width={600} height={400} style={{ width: "100%", height: "auto" }} unoptimized />
+                <Image src="/brand/creativex-robot-lockup.webp" alt="Creativex Technology logo" width={600} height={400} style={{ width: "100%", height: "auto" }} unoptimized />
               </div>
             </div>
           </div>

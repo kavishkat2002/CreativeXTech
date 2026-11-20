@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AdminClientLayout } from "./admin-client-layout";
 
 export const metadata: Metadata = {
-  title: "Admin Panel | CreativeX Technology AI",
+  title: "Admin Panel | Creativex Technology",
   robots: {
     index: false,
     follow: false,

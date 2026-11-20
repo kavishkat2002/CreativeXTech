@@ -14,8 +14,8 @@ import { ProfessionalServicesSolutionSection } from "@/components/professional-s
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "Industry AI & Enterprise Software Solutions | CreativeX Technology AI",
-  description: "Explore tailored AI automation, predictive data models, IoT operations, and custom software solutions for export & logistics, hospitality, retail, professional services, and startups worldwide.",
+  title: "Industry AI & Enterprise Software Solutions | Creativex Technology",
+  description: "Explore tailored AI automation, enterprise ERP software, predictive data models, IoT operations, and custom software solutions for export & logistics, hospitality, retail, professional services, and startups worldwide.",
   keywords: [
     "Logistics AI Solutions",
     "Hospitality AI Automation",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "Professional Services Software",
     "SaaS Product Engineering",
     "Smart Operations IoT",
-    "CreativeX Solutions",
+    "Creativex Technology Solutions",
   ],
   alternates: {
     canonical: `${baseUrl}/solutions`,
@@ -42,16 +42,16 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Enterprise AI & Software Solutions by Industry | CreativeX Technology AI",
+    title: "Enterprise AI & Software Solutions by Industry | Creativex Technology",
     description: "Operational AI, data analytics, IoT platforms, and digital product engineering tailored for logistics, hospitality, retail, professional services, and tech SaaS.",
     url: `${baseUrl}/solutions`,
     type: "website",
-    siteName: "CreativeX Technology AI",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "CreativeX Industry Solutions" }],
+    siteName: "Creativex Technology",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Creativex Technology Industry Solutions" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Enterprise AI & Software Solutions | CreativeX Technology AI",
+    title: "Enterprise AI & Software Solutions | Creativex Technology",
     description: "Operational AI, data analytics, IoT platforms, and digital product engineering tailored for global industries.",
     images: [`${baseUrl}/og.png`],
   },
@@ -65,7 +65,7 @@ export default async function SolutionsPage() {
     "@graph": [
       {
         "@type": "ItemList",
-        name: "CreativeX Technology AI industry solutions",
+        name: "Creativex Technology industry solutions",
         itemListElement: solutions.map((solution, index) => ({
           "@type": "ListItem",
           position: index + 1,

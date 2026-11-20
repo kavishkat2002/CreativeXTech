@@ -7,12 +7,12 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | CreativeX Technology (Pvt) Ltd",
+  title: "Terms & Conditions | Creativex Technology (Pvt) Ltd",
   description:
-    "Read the Terms & Conditions of CreativeX Technology (Pvt) Ltd covering website usage, software development, AI solutions, intellectual property, payments, project delivery, and service agreements.",
+    "Read the Terms & Conditions of Creativex Technology (Pvt) Ltd covering website usage, software development, AI solutions, intellectual property, payments, project delivery, and service agreements.",
   keywords: [
     "Terms and Conditions",
-    "CreativeX Technology Terms",
+    "Creativex Technology Terms",
     "Software Development Agreement",
     "Enterprise AI Service Terms",
     "Master Services Agreement Sri Lanka",
@@ -38,19 +38,19 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Terms & Conditions | CreativeX Technology (Pvt) Ltd",
+    title: "Terms & Conditions | Creativex Technology (Pvt) Ltd",
     description:
-      "Read the Terms & Conditions of CreativeX Technology (Pvt) Ltd covering website usage, software development, AI solutions, intellectual property, payments, project delivery, and service agreements.",
+      "Read the Terms & Conditions of Creativex Technology (Pvt) Ltd covering website usage, software development, AI solutions, intellectual property, payments, project delivery, and service agreements.",
     url: `${baseUrl}/terms-and-conditions`,
     type: "website",
-    siteName: "CreativeX Technology AI",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "CreativeX Technology Terms and Conditions" }],
+    siteName: "Creativex Technology",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Creativex Technology Terms and Conditions" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Terms & Conditions | CreativeX Technology (Pvt) Ltd",
+    title: "Terms & Conditions | Creativex Technology (Pvt) Ltd",
     description:
-      "Read the Terms & Conditions of CreativeX Technology (Pvt) Ltd covering website usage, software development, AI solutions, intellectual property, payments, project delivery, and service agreements.",
+      "Read the Terms & Conditions of Creativex Technology (Pvt) Ltd covering website usage, software development, AI solutions, intellectual property, payments, project delivery, and service agreements.",
     images: [`${baseUrl}/og.png`],
   },
 };
@@ -74,8 +74,8 @@ const termsSections: TermsSection[] = [
     number: "01",
     heading: "Introduction & Acceptance of Terms",
     paragraphs: [
-      "These Terms and Conditions (\"Terms\", \"Agreement\") constitute a legally binding agreement between you (whether individually or on behalf of an enterprise entity, \"Client\", \"User\", or \"you\") and CreativeX Technology (Pvt) Ltd (\"CreativeX\", \"Company\", \"we\", \"us\", or \"our\"), a private limited company incorporated and operating under the laws of the Democratic Socialist Republic of Sri Lanka.",
-      "These Terms govern your access to and use of the CreativeX Technology website (https://creativexlab.online), digital tools, client portals (including the CreativeX Employee Management System and CreativeOS demo environments), and any commercial software engineering, artificial intelligence (AI) consulting, ERP implementation, mobile development, or cloud architecture services provided by us.",
+      "These Terms and Conditions (\"Terms\", \"Agreement\") constitute a legally binding agreement between you (whether individually or on behalf of an enterprise entity, \"Client\", \"User\", or \"you\") and Creativex Technology (Pvt) Ltd (\"Creativex Technology\", \"Company\", \"we\", \"us\", or \"our\"), a private limited company incorporated and operating under the laws of the Democratic Socialist Republic of Sri Lanka.",
+      "These Terms govern your access to and use of the Creativex Technology website (https://creativexlab.online), digital tools, client portals (including the Creativex Technology Employee Management System and CreativeOS demo environments), and any commercial software engineering, artificial intelligence (AI) consulting, ERP implementation, mobile development, or cloud architecture services provided by us.",
       "By accessing our website, executing a Statement of Work (SOW), submitting a project brief, or engaging our engineering squads, you explicitly represent that you have read, understood, and agreed to be bound by these Terms in full. If you do not agree to these Terms, you must immediately discontinue use of our website and services.",
     ],
   },
@@ -88,10 +88,10 @@ const termsSections: TermsSection[] = [
     ],
     bullets: [
       "\"Deliverables\" means all custom source code, documentation, software configurations, database schemas, algorithms, user interfaces, wireframes, and project artifacts specifically engineered for and delivered to Client under a mutually executed Statement of Work.",
-      "\"Statement of Work\" (SOW) means any formal written proposal, quotation, scope document, or sprint agreement executed between CreativeX and Client specifying technical deliverables, milestones, fees, and timelines.",
+      "\"Statement of Work\" (SOW) means any formal written proposal, quotation, scope document, or sprint agreement executed between Creativex Technology and Client specifying technical deliverables, milestones, fees, and timelines.",
       "\"Intellectual Property Rights\" (IPR) means all patents, copyrights, database rights, design rights, trademarks, trade secrets, moral rights, and confidential technical know-how worldwide.",
-      "\"Client Content\" means all data, documentation, branding assets, credentials, proprietary data, and technical specifications provided by Client to CreativeX for project execution.",
-      "\"CreativeX Background IP\" means all pre-existing software libraries, architectural frameworks, boilerplate templates, utility modules, and internal development tools owned or licensed by CreativeX prior to or independently of the SOW.",
+      "\"Client Content\" means all data, documentation, branding assets, credentials, proprietary data, and technical specifications provided by Client to Creativex Technology for project execution.",
+      "\"Creativex Technology Background IP\" means all pre-existing software libraries, architectural frameworks, boilerplate templates, utility modules, and internal development tools owned or licensed by Creativex Technology prior to or independently of the SOW.",
     ],
   },
   {
@@ -99,7 +99,7 @@ const termsSections: TermsSection[] = [
     number: "03",
     heading: "Scope of Services & Engagement Models",
     paragraphs: [
-      "CreativeX Technology provides premium technical consulting and full-stack software development services across four primary operational disciplines:",
+      "Creativex Technology provides premium technical consulting and full-stack software development services across four primary operational disciplines:",
       "1. Artificial Intelligence & Machine Learning: Engineering autonomous AI agents, Retrieval-Augmented Generation (RAG) vector pipelines, natural language processing tools, predictive analytics, and trilingual conversational systems (English, Sinhala, Tamil).",
       "2. Enterprise ERP & Automation Systems: Designing bespoke cloud ERP platforms, multi-warehouse inventory systems, procurement tracking, and compliance workflows with zero recurring per-seat software license fees.",
       "3. Custom Software & Digital Products: Building high-performance Next.js web applications, Flutter mobile apps (iOS & Android), microservices backends, and multi-tenant SaaS architectures.",
@@ -112,7 +112,7 @@ const termsSections: TermsSection[] = [
     number: "04",
     heading: "Statements of Work (SOW) & Project Scoping",
     paragraphs: [
-      "Each commercial engagement between CreativeX and Client shall be documented in an individual Statement of Work (SOW). Each SOW shall set forth technical specifications, acceptance criteria, milestone schedules, financial budgets, and designated project coordinators.",
+      "Each commercial engagement between Creativex Technology and Client shall be documented in an individual Statement of Work (SOW). Each SOW shall set forth technical specifications, acceptance criteria, milestone schedules, financial budgets, and designated project coordinators.",
       "In the event of any direct conflict or inconsistency between the terms of an executed SOW and these general Terms and Conditions, the provisions of the specific SOW shall prevail solely with respect to the deliverables covered therein.",
       "No verbal commitment, discussion, or email exchange shall alter the scope of an SOW unless formalized in writing through our structured Change Request Process.",
     ],
@@ -127,8 +127,8 @@ const termsSections: TermsSection[] = [
     bullets: [
       "Designate a Point of Contact: Appoint a qualified technical or operational Project Sponsor authorized to make binding approvals and clarify requirements without delay.",
       "Provide Timely Dependencies: Furnish necessary third-party API credentials, staging server access, domain DNS configurations, brand guidelines, and test data in a timely manner.",
-      "Prompt Feedback & Approvals: Review milestone deliverables, sprint demos, and user acceptance testing (UAT) releases within five (5) business days of submission by CreativeX.",
-      "Accreditation of Data: Guarantee that all data, images, text, and technical materials provided to CreativeX are legally owned by Client or properly licensed, free from third-party infringement.",
+      "Prompt Feedback & Approvals: Review milestone deliverables, sprint demos, and user acceptance testing (UAT) releases within five (5) business days of submission by Creativex Technology.",
+      "Accreditation of Data: Guarantee that all data, images, text, and technical materials provided to Creativex Technology are legally owned by Client or properly licensed, free from third-party infringement.",
     ],
   },
   {
@@ -136,8 +136,8 @@ const termsSections: TermsSection[] = [
     number: "06",
     heading: "Intellectual Property Rights & Deliverables Ownership",
     paragraphs: [
-      "CreativeX operates on an uncompromised client ownership model for custom commercial software engagements:",
-      "1. Transfer of Custom Deliverables: Upon full and final settlement of all applicable invoices and project fees under the SOW, CreativeX assigns to Client all right, title, and interest in and to the custom Deliverables engineered specifically for Client.",
+      "Creativex Technology operates on an uncompromised client ownership model for custom commercial software engagements:",
+      "1. Transfer of Custom Deliverables: Upon full and final settlement of all applicable invoices and project fees under the SOW, Creativex Technology assigns to Client all right, title, and interest in and to the custom Deliverables engineered specifically for Client.",
       "2. 100% Client Code Ownership: Client maintains full ownership of custom application source code, databases, business logic, workflows, and user interfaces, with zero recurring vendor lock-in or proprietary licensing barriers.",
       "3. Client Content: All trademarks, trade secrets, confidential customer data, and proprietary assets supplied by Client remain the sole and exclusive property of Client throughout the engagement.",
     ],
@@ -147,8 +147,8 @@ const termsSections: TermsSection[] = [
     number: "07",
     heading: "Pre-Existing IP, Frameworks & Background Technology",
     paragraphs: [
-      "CreativeX retains sole ownership of all CreativeX Background IP, including proprietary software engines (e.g., core components of CreativeOS), internal boilerplates, algorithmic libraries, and standard developer utilities developed independently of the SOW.",
-      "To the extent any CreativeX Background IP or standard open-source library is incorporated into a Deliverable, CreativeX hereby grants Client a perpetual, irrevocable, worldwide, non-exclusive, royalty-free license to use, execute, reproduce, and maintain such Background IP solely as integrated within the Deliverable.",
+      "Creativex Technology retains sole ownership of all Creativex Technology Background IP, including proprietary software engines (e.g., core components of CreativeOS), internal boilerplates, algorithmic libraries, and standard developer utilities developed independently of the SOW.",
+      "To the extent any Creativex Technology Background IP or standard open-source library is incorporated into a Deliverable, Creativex Technology hereby grants Client a perpetual, irrevocable, worldwide, non-exclusive, royalty-free license to use, execute, reproduce, and maintain such Background IP solely as integrated within the Deliverable.",
     ],
   },
   {
@@ -156,11 +156,11 @@ const termsSections: TermsSection[] = [
     number: "08",
     heading: "Artificial Intelligence, Model Training & Data Sovereignty",
     paragraphs: [
-      "Given CreativeX Technology's core specialization in enterprise AI systems, we establish strict, enforceable commitments regarding data sovereignty:",
-      "1. No Training on Public Models: CreativeX Technology NEVER uses client confidential data, customer records, database inputs, or proprietary code to train, fine-tune, or calibrate public artificial intelligence foundation models (including those of OpenAI, Google, Anthropic, or Meta).",
+      "Given Creativex Technology's core specialization in enterprise AI systems, we establish strict, enforceable commitments regarding data sovereignty:",
+      "1. No Training on Public Models: Creativex Technology NEVER uses client confidential data, customer records, database inputs, or proprietary code to train, fine-tune, or calibrate public artificial intelligence foundation models (including those of OpenAI, Google, Anthropic, or Meta).",
       "2. Private Vector Embeddings & RAG Isolation: All document vector embeddings, knowledge bases, and custom RAG indexes engineered for Client are strictly isolated within Client's dedicated virtual private tenant or cloud sandbox.",
-      "3. Commercial API Privacy Protections: Where commercial model APIs are integrated, CreativeX enforces enterprise zero-data-retention (ZDR) agreements and encryption policies to guarantee that third-party model providers do not retain or train on Client telemetry.",
-      "4. Deterministic Guardrails: Autonomous agents and LLM tools engineered by CreativeX incorporate strict verification layers, audit trails, and human-in-the-loop controls to prevent hallucination risks.",
+      "3. Commercial API Privacy Protections: Where commercial model APIs are integrated, Creativex Technology enforces enterprise zero-data-retention (ZDR) agreements and encryption policies to guarantee that third-party model providers do not retain or train on Client telemetry.",
+      "4. Deterministic Guardrails: Autonomous agents and LLM tools engineered by Creativex Technology incorporate strict verification layers, audit trails, and human-in-the-loop controls to prevent hallucination risks.",
     ],
   },
   {
@@ -179,8 +179,8 @@ const termsSections: TermsSection[] = [
     heading: "Data Protection, Security & Compliance",
     paragraphs: [
       "Both parties agree to comply with applicable data protection regulations, including the Sri Lanka Personal Data Protection Act (PDPA No. 9 of 2022) and, where applicable, the EU/UK General Data Protection Regulation (GDPR) and the Australian Privacy Principles (APPs).",
-      "Where CreativeX processes personal data on behalf of Client during software testing, data migration, or system hosting, CreativeX acts strictly as a Data Processor and shall execute a formal Data Processing Addendum (DPA) incorporating technical security measures.",
-      "For comprehensive details on how CreativeX Technology collects, stores, and processes information, please review our official Privacy Policy at https://creativexlab.online/privacy-policy.",
+      "Where Creativex Technology processes personal data on behalf of Client during software testing, data migration, or system hosting, Creativex Technology acts strictly as a Data Processor and shall execute a formal Data Processing Addendum (DPA) incorporating technical security measures.",
+      "For comprehensive details on how Creativex Technology collects, stores, and processes information, please review our official Privacy Policy at https://creativexlab.online/privacy-policy.",
     ],
   },
   {
@@ -203,10 +203,10 @@ const termsSections: TermsSection[] = [
     number: "12",
     heading: "Change Request Process & Scope Adjustments",
     paragraphs: [
-      "If Client or CreativeX identifies a requirement to modify project specifications, add new functional modules, or adjust delivery schedules, the following Change Request Process shall apply:",
+      "If Client or Creativex Technology identifies a requirement to modify project specifications, add new functional modules, or adjust delivery schedules, the following Change Request Process shall apply:",
       "1. Submission: The requesting party shall submit a written description of the requested scope enhancement.",
-      "2. Impact Assessment: CreativeX shall evaluate the technical feasibility and provide a formal Change Order detailing the impact on project costs, technical dependencies, and milestone delivery dates.",
-      "3. Approval: No change shall take effect until both parties have formally executed the Change Order in writing. CreativeX shall continue work under the original SOW pending approval.",
+      "2. Impact Assessment: Creativex Technology shall evaluate the technical feasibility and provide a formal Change Order detailing the impact on project costs, technical dependencies, and milestone delivery dates.",
+      "3. Approval: No change shall take effect until both parties have formally executed the Change Order in writing. Creativex Technology shall continue work under the original SOW pending approval.",
     ],
   },
   {
@@ -214,8 +214,8 @@ const termsSections: TermsSection[] = [
     number: "13",
     heading: "Project Timelines, Milestone Delivery & Acceptance Testing",
     paragraphs: [
-      "CreativeX shall use commercially reasonable efforts to deliver project milestones in accordance with the timelines estimated in the SOW. Target dates represent good-faith technical projections dependent on Client inputs and third-party API availability.",
-      "Upon completion of a sprint or milestone, CreativeX will deploy Deliverables to a staging environment for Client User Acceptance Testing (UAT). Client shall have ten (10) business days to review and test the Deliverables against the agreed specifications.",
+      "Creativex Technology shall use commercially reasonable efforts to deliver project milestones in accordance with the timelines estimated in the SOW. Target dates represent good-faith technical projections dependent on Client inputs and third-party API availability.",
+      "Upon completion of a sprint or milestone, Creativex Technology will deploy Deliverables to a staging environment for Client User Acceptance Testing (UAT). Client shall have ten (10) business days to review and test the Deliverables against the agreed specifications.",
       "If Client does not report any substantiated non-conformities in writing within the 10-day UAT review window, or if Client deploys the Deliverables into live production, the Deliverables shall be deemed accepted in full.",
     ],
   },
@@ -224,9 +224,9 @@ const termsSections: TermsSection[] = [
     number: "14",
     heading: "Warranties, Guarantees & Bug-Fix Period",
     paragraphs: [
-      "CreativeX warrants that:",
+      "Creativex Technology warrants that:",
       "1. Professional Standards: Services will be performed in a professional, workmanlike manner adhering to high engineering standards and industry best practices.",
-      "2. Thirty (30) Day Warranty Period: Unless extended by a formal SLA, CreativeX provides a thirty (30) calendar day warranty starting immediately upon final UAT acceptance. During this warranty window, CreativeX will rectify any demonstrable, reproducible bugs or deviations from the SOW specifications at no additional cost.",
+      "2. Thirty (30) Day Warranty Period: Unless extended by a formal SLA, Creativex Technology provides a thirty (30) calendar day warranty starting immediately upon final UAT acceptance. During this warranty window, Creativex Technology will rectify any demonstrable, reproducible bugs or deviations from the SOW specifications at no additional cost.",
       "3. Exclusions: This warranty does not cover issues resulting from Client's unauthorized code alterations, third-party hosting failures, deprecated external APIs, or hardware malfunctions.",
       "4. Disclaimer: Except as explicitly stated herein, software Deliverables are provided on an \"as is\" and \"as available\" basis without warranties of uninterrupted or error-free operation.",
     ],
@@ -238,7 +238,7 @@ const termsSections: TermsSection[] = [
     paragraphs: [
       "To the maximum extent permitted under applicable law:",
       "1. Exclusion of Indirect Damages: Neither party shall be liable to the other for any indirect, incidental, special, exemplary, punitive, or consequential damages, including loss of profits, loss of revenue, business interruption, loss of goodwill, or loss of corrupted data, even if advised of the possibility of such damages.",
-      "2. Aggregate Liability Cap: The total cumulative liability of CreativeX Technology (Pvt) Ltd arising out of or related to this Agreement or any SOW, whether in contract, tort (including negligence), or otherwise, shall not exceed the total fees actually received by CreativeX under the specific Statement of Work giving rise to the claim during the twelve (12) months preceding the event.",
+      "2. Aggregate Liability Cap: The total cumulative liability of Creativex Technology (Pvt) Ltd arising out of or related to this Agreement or any SOW, whether in contract, tort (including negligence), or otherwise, shall not exceed the total fees actually received by Creativex Technology under the specific Statement of Work giving rise to the claim during the twelve (12) months preceding the event.",
     ],
   },
   {
@@ -246,8 +246,8 @@ const termsSections: TermsSection[] = [
     number: "16",
     heading: "Indemnification & Third-Party Claims",
     paragraphs: [
-      "1. CreativeX Indemnity: CreativeX agrees to defend and indemnify Client against substantiated third-party claims alleging that the custom software Deliverables (excluding Client Content and open-source packages) infringe any copyright or trademark valid in Sri Lanka, provided Client promptly notifies CreativeX in writing and allows CreativeX sole control over the defense.",
-      "2. Client Indemnity: Client agrees to defend, indemnify, and hold harmless CreativeX, its directors, officers, and engineers from any claims, damages, or legal expenses arising out of: (a) Client Content or materials infringing third-party rights; (b) Client's violation of applicable laws; or (c) unauthorized use of software Deliverables in breach of these Terms.",
+      "1. Creativex Technology Indemnity: Creativex Technology agrees to defend and indemnify Client against substantiated third-party claims alleging that the custom software Deliverables (excluding Client Content and open-source packages) infringe any copyright or trademark valid in Sri Lanka, provided Client promptly notifies Creativex Technology in writing and allows Creativex Technology sole control over the defense.",
+      "2. Client Indemnity: Client agrees to defend, indemnify, and hold harmless Creativex Technology, its directors, officers, and engineers from any claims, damages, or legal expenses arising out of: (a) Client Content or materials infringing third-party rights; (b) Client's violation of applicable laws; or (c) unauthorized use of software Deliverables in breach of these Terms.",
     ],
   },
   {
@@ -259,7 +259,7 @@ const termsSections: TermsSection[] = [
       "1. Termination for Convenience: Unless otherwise stipulated in an SOW, either party may terminate an ongoing project agreement for convenience by providing thirty (30) calendar days' advance written notice to the other party.",
       "2. Termination for Material Breach: Either party may terminate this Agreement immediately if the other party breaches any material term and fails to remedy such breach within fourteen (14) calendar days of receiving written notice specifying the breach.",
       "3. Insolvency: Either party may terminate immediately if the other party becomes insolvent, enters into liquidation, or makes an assignment for the benefit of creditors.",
-      "4. Right of Suspension: CreativeX reserves the right to suspend ongoing engineering sprints and access to hosted staging sandboxes if invoiced payments remain overdue beyond fourteen (14) days.",
+      "4. Right of Suspension: Creativex Technology reserves the right to suspend ongoing engineering sprints and access to hosted staging sandboxes if invoiced payments remain overdue beyond fourteen (14) days.",
     ],
   },
   {
@@ -268,8 +268,8 @@ const termsSections: TermsSection[] = [
     heading: "Consequences of Termination & Handover Protocols",
     paragraphs: [
       "Upon termination of an SOW or this Agreement for any reason:",
-      "1. Payment for Completed Work: Client shall immediately pay CreativeX for all completed Deliverables, billable engineering hours, and non-cancellable third-party commitments incurred up to the effective termination date.",
-      "2. Code Handover: Subject to full payment of all amounts due, CreativeX will deliver to Client all completed and work-in-progress code files, repositories, database backups, and documentation.",
+      "1. Payment for Completed Work: Client shall immediately pay Creativex Technology for all completed Deliverables, billable engineering hours, and non-cancellable third-party commitments incurred up to the effective termination date.",
+      "2. Code Handover: Subject to full payment of all amounts due, Creativex Technology will deliver to Client all completed and work-in-progress code files, repositories, database backups, and documentation.",
       "3. Return of Confidential Assets: Each party will promptly return or destroy all Confidential Information of the other party in its possession.",
       "4. Survival: Provisions regarding Intellectual Property, Confidentiality, Limitation of Liability, Indemnification, Governing Law, and Severability shall survive termination.",
     ],
@@ -279,8 +279,8 @@ const termsSections: TermsSection[] = [
     number: "19",
     heading: "Third-Party Services, APIs & Cloud Providers",
     paragraphs: [
-      "CreativeX software architectures frequently integrate enterprise third-party platforms, such as cloud infrastructure (AWS, Cloudflare, Supabase), payment gateways (Stripe, PayHere), communication APIs (Meta WhatsApp Business Cloud API, Resend), and external AI model endpoints.",
-      "CreativeX is not responsible for unexpected outages, pricing revisions, rate limiting, or policy updates imposed by third-party API providers. Any third-party software licensing fees, domain registrations, or hosting consumption charges shall be billed directly to Client by the respective providers.",
+      "Creativex Technology software architectures frequently integrate enterprise third-party platforms, such as cloud infrastructure (AWS, Cloudflare, Supabase), payment gateways (Stripe, PayHere), communication APIs (Meta WhatsApp Business Cloud API, Resend), and external AI model endpoints.",
+      "Creativex Technology is not responsible for unexpected outages, pricing revisions, rate limiting, or policy updates imposed by third-party API providers. Any third-party software licensing fees, domain registrations, or hosting consumption charges shall be billed directly to Client by the respective providers.",
     ],
   },
   {
@@ -289,7 +289,7 @@ const termsSections: TermsSection[] = [
     heading: "Software Support, SLA & Maintenance Engagements",
     paragraphs: [
       "Following the expiration of the initial 30-day warranty period, ongoing technical maintenance, security patch updates, operational monitoring, and feature enhancements are governed by a separate Service Level Agreement (SLA) or monthly retainer agreement.",
-      "In the absence of an active SLA or support retainer, any maintenance requests, technical troubleshooting, bug resolutions, or server migrations will be estimated and billed at CreativeX's standard hourly or sprint consulting rates.",
+      "In the absence of an active SLA or support retainer, any maintenance requests, technical troubleshooting, bug resolutions, or server migrations will be estimated and billed at Creativex Technology's standard hourly or sprint consulting rates.",
     ],
   },
   {
@@ -297,8 +297,8 @@ const termsSections: TermsSection[] = [
     number: "21",
     heading: "Non-Solicitation of Personnel",
     paragraphs: [
-      "To protect CreativeX's investment in elite engineering talent, Client agrees that during the term of any active engagement and for a period of twelve (12) months following its conclusion, Client shall not directly or indirectly solicit, recruit, employ, or contract with any software engineer, consultant, or employee of CreativeX who was directly involved in the project.",
-      "If Client breaches this non-solicitation covenant, Client agrees to pay CreativeX as liquidated damages an amount equal to 50% of the relevant employee's annual gross compensation.",
+      "To protect Creativex Technology's investment in elite engineering talent, Client agrees that during the term of any active engagement and for a period of twelve (12) months following its conclusion, Client shall not directly or indirectly solicit, recruit, employ, or contract with any software engineer, consultant, or employee of Creativex Technology who was directly involved in the project.",
+      "If Client breaches this non-solicitation covenant, Client agrees to pay Creativex Technology as liquidated damages an amount equal to 50% of the relevant employee's annual gross compensation.",
     ],
   },
   {
@@ -344,7 +344,7 @@ const termsSections: TermsSection[] = [
     number: "26",
     heading: "Amendments, Modifications & Versioning",
     paragraphs: [
-      "CreativeX Technology reserves the right to modify or replace these Terms and Conditions periodically to reflect evolving legal frameworks, technological capabilities, and service models.",
+      "Creativex Technology reserves the right to modify or replace these Terms and Conditions periodically to reflect evolving legal frameworks, technological capabilities, and service models.",
       "Revisions will become effective immediately upon publication on this page with an updated \"Last Updated\" timestamp. Your continued use of our website or engagement of our engineering services after any update constitutes full acceptance of the revised Terms.",
     ],
   },
@@ -356,7 +356,7 @@ const termsSections: TermsSection[] = [
       "All formal notices, legal demands, or inquiries regarding these Terms and Conditions shall be delivered in writing to the following official corporate channels:",
     ],
     bullets: [
-      "Legal Entity: CreativeX Technology (Pvt) Ltd",
+      "Legal Entity: Creativex Technology (Pvt) Ltd",
       "Corporate Headquarters: 166 / B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka",
       "Legal & Business Email: info@creativexlab.online",
       "Direct Hotline: +94 76 2345 336 (076 2345 336)",
@@ -377,9 +377,9 @@ export default function TermsAndConditionsPage() {
         "@type": "WebPage",
         "@id": `${baseUrl}/terms-and-conditions#webpage`,
         url: `${baseUrl}/terms-and-conditions`,
-        name: "Terms & Conditions | CreativeX Technology (Pvt) Ltd",
+        name: "Terms & Conditions | Creativex Technology (Pvt) Ltd",
         description:
-          "Read the Terms & Conditions of CreativeX Technology (Pvt) Ltd covering website usage, software development, AI solutions, intellectual property, payments, project delivery, and service agreements.",
+          "Read the Terms & Conditions of Creativex Technology (Pvt) Ltd covering website usage, software development, AI solutions, intellectual property, payments, project delivery, and service agreements.",
         breadcrumb: {
           "@type": "BreadcrumbList",
           itemListElement: [
@@ -391,7 +391,7 @@ export default function TermsAndConditionsPage() {
       {
         "@type": "Organization",
         "@id": `${baseUrl}/#organization`,
-        name: "CreativeX Technology (Pvt) Ltd",
+        name: "Creativex Technology (Pvt) Ltd",
         url: baseUrl,
         logo: `${baseUrl}/brand/creativex-wordmark.webp`,
         address: {
@@ -435,14 +435,14 @@ export default function TermsAndConditionsPage() {
                 <small>Commercial</small>
               </div>
               <div>
-                <p className="section-index">CreativeX Technology (Pvt) Ltd · Master Agreement</p>
+                <p className="section-index">Creativex Technology (Pvt) Ltd · Master Agreement</p>
                 <h1>Terms &amp; Conditions</h1>
                 <p className="article-deck">
-                  Read the Terms &amp; Conditions of CreativeX Technology (Pvt) Ltd covering website usage, software
+                  Read the Terms &amp; Conditions of Creativex Technology (Pvt) Ltd covering website usage, software
                   development, AI solutions, intellectual property, payments, project delivery, and service agreements.
                 </p>
                 <div className="article-byline">
-                  <span>CreativeX Legal &amp; Governance</span>
+                  <span>Creativex Technology Legal &amp; Governance</span>
                   <time dateTime="2026-11-17">Effective: {effectiveDate}</time>
                   <span>
                     <Clock3 size={13} /> Last Updated: {lastUpdated}
@@ -493,7 +493,7 @@ export default function TermsAndConditionsPage() {
             >
               <p style={{ fontSize: "16px", lineHeight: "1.7", color: "var(--ink)", margin: 0 }}>
                 These Terms and Conditions govern commercial software engineering, artificial intelligence (AI) consulting,
-                custom ERP delivery, and website usage provided by <strong>CreativeX Technology (Pvt) Ltd</strong>. For data
+                custom ERP delivery, and website usage provided by <strong>Creativex Technology (Pvt) Ltd</strong>. For data
                 protection, telemetry, and privacy commitments, please also refer to our official{" "}
                 <Link href="/privacy-policy" style={{ color: "var(--signal)", fontWeight: "600", textDecoration: "underline" }}>
                   Privacy Policy

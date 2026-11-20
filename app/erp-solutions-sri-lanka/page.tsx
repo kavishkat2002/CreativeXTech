@@ -5,9 +5,9 @@ import { ErpSolutionClient } from "@/components/erp-solution-client";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "ERP Solutions Provider in Sri Lanka | Custom ERP Software | CreativeX",
+  title: "ERP Solutions Provider in Sri Lanka | Custom ERP Software | Creativex Technology",
   description:
-    "CreativeX Technology delivers custom ERP solutions in Sri Lanka. Tailored enterprise software for inventory management, supply chain, multi-branch retail, distribution, and manufacturing without recurring per-seat license fees.",
+    "Creativex Technology delivers custom ERP solutions in Sri Lanka. Tailored enterprise software for inventory management, supply chain, multi-branch retail, distribution, and manufacturing without recurring per-seat license fees.",
   keywords: [
     "ERP software company Sri Lanka",
     "ERP solutions provider Sri Lanka",
@@ -29,17 +29,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "ERP Solutions Provider in Sri Lanka | CreativeX Technology",
+    title: "ERP Solutions Provider in Sri Lanka | Creativex Technology",
     description:
       "Modern, custom ERP development for Sri Lankan enterprises and growing SMEs. Connect inventory, billing, procurement, and accounts with 100% IP ownership.",
     url: `${baseUrl}/erp-solutions-sri-lanka`,
     type: "website",
-    siteName: "CreativeX Technology",
+    siteName: "Creativex Technology",
     images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "ERP Solutions Provider in Sri Lanka" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ERP Solutions Provider in Sri Lanka | CreativeX Technology",
+    title: "ERP Solutions Provider in Sri Lanka | Creativex Technology",
     description:
       "Custom ERP development, inventory systems, and enterprise management software built for Sri Lankan businesses.",
     images: [`${baseUrl}/og.png`],
@@ -49,18 +49,18 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: "Why should a Sri Lankan company choose custom ERP over SAP, NetSuite, or Odoo?",
-    a: "Commercial off-the-shelf (COTS) ERP software imposes heavy ongoing costs: monthly per-user licensing ($60–$150/user), mandatory annual maintenance fees, and expensive customization contracts whenever your workflows change. Furthermore, foreign software is not designed for Sri Lankan realities—such as local VAT/SVAT schedules, van-sales credit cycles, and offline-first POS requirements. CreativeX provides 100% intellectual property ownership, zero recurring seat fees, and a platform engineered precisely around your business differentiators.",
+    a: "Commercial off-the-shelf (COTS) ERP software imposes heavy ongoing costs: monthly per-user licensing ($60–$150/user), mandatory annual maintenance fees, and expensive customization contracts whenever your workflows change. Furthermore, foreign software is not designed for Sri Lankan realities—such as local VAT/SVAT schedules, van-sales credit cycles, and offline-first POS requirements. Creativex Technology provides 100% intellectual property ownership, zero recurring seat fees, and a platform engineered precisely around your business differentiators.",
   },
   {
-    q: "How does CreativeX ERP handle Sri Lankan VAT, SVAT, and statutory taxes?",
+    q: "How does Creativex Technology ERP handle Sri Lankan VAT, SVAT, and statutory taxes?",
     a: "Our accounting module is engineered specifically for Sri Lankan Inland Revenue Department (IRD) regulations. It automatically categorizes input/output VAT, generates RAMIS-compliant tax schedules, manages SVAT credit vouchers, and tracks Withholding Tax (WHT). Tax rate adjustments can be updated in seconds via system configuration without hiring expensive consultants.",
   },
   {
     q: "Can our cashiers continue billing if the Internet or power drops?",
-    a: "Yes. Retail outlets in Sri Lanka require offline resilience. CreativeX POS terminals utilize an offline-first architecture. If your Internet connection drops, cashiers continue scanning barcodes, calculating totals, and printing receipts locally. The second connection restores, the local transaction buffer automatically synchronizes with the head office cloud database.",
+    a: "Yes. Retail outlets in Sri Lanka require offline resilience. Creativex Technology POS terminals utilize an offline-first architecture. If your Internet connection drops, cashiers continue scanning barcodes, calculating totals, and printing receipts locally. The second connection restores, the local transaction buffer automatically synchronizes with the head office cloud database.",
   },
   {
-    q: "What is the typical implementation timeline for a CreativeX ERP project?",
+    q: "What is the typical implementation timeline for a Creativex Technology ERP project?",
     a: "We deploy using an agile, phased modular methodology. Core modules (Inventory, Multi-Branch Billing, and Basic Accounting) typically go live within 8 to 12 weeks. Subsequent modules (Van-Sales, Procurement, HR/Payroll) rollout in planned 2-to-4 week sprints, ensuring zero disruption to your daily trading operations.",
   },
   {

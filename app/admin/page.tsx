@@ -14,7 +14,7 @@ export default function AdminDashboardPage() {
   return (
     <div>
       <h1 style={{ fontSize: "32px", fontWeight: "600", marginBottom: "8px", letterSpacing: "-0.03em" }}>Dashboard</h1>
-      <p style={{ color: "#666", marginBottom: "40px" }}>Welcome to the CreativeX Content Management System.</p>
+      <p style={{ color: "#666", marginBottom: "40px" }}>Welcome to the Creativex Technology Content Management System.</p>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "24px" }}>
         {sections.map((sec) => (

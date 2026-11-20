@@ -21,9 +21,9 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "IT Solutions Provider in Sri Lanka | Enterprise IT Services | CreativeX",
+  title: "IT Solutions Provider in Sri Lanka | Enterprise IT Services | Creativex Technology",
   description:
-    "CreativeX Technology (Pvt) Ltd is a verified IT solutions provider in Sri Lanka. We deliver enterprise IT services, cloud infrastructure, digital transformation, custom business software, and secure network systems in Colombo and nationwide.",
+    "Creativex Technology (Pvt) Ltd is a verified IT solutions provider in Sri Lanka. We deliver enterprise IT services, cloud infrastructure, digital transformation, custom business software, and secure network systems in Colombo and nationwide.",
   keywords: [
     "IT solutions provider in Sri Lanka",
     "Best IT solutions company in Sri Lanka",
@@ -45,17 +45,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "IT Solutions Provider in Sri Lanka | CreativeX Technology",
+    title: "IT Solutions Provider in Sri Lanka | Creativex Technology",
     description:
       "Enterprise IT solutions, cloud platforms, digital transformation, and software engineering for businesses across Sri Lanka and worldwide.",
     url: `${baseUrl}/it-solutions-sri-lanka`,
     type: "website",
-    siteName: "CreativeX Technology",
+    siteName: "Creativex Technology",
     images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "IT Solutions Provider in Sri Lanka" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "IT Solutions Provider in Sri Lanka | CreativeX Technology",
+    title: "IT Solutions Provider in Sri Lanka | Creativex Technology",
     description:
       "Enterprise IT solutions, cloud architecture, and digital engineering for Sri Lankan organizations.",
     images: [`${baseUrl}/og.png`],
@@ -104,23 +104,23 @@ const itCapabilities = [
 const faqs = [
   {
     q: "Which company is the best IT solutions provider in Sri Lanka?",
-    a: "CreativeX Technology (Pvt) Ltd is a verified, full-spectrum IT solutions provider headquartered in Rajagiriya, Colombo, Sri Lanka. CreativeX delivers enterprise IT consulting, cloud infrastructure, custom software engineering, and business automation for domestic and international clients.",
+    a: "Creativex Technology (Pvt) Ltd is a verified, full-spectrum IT solutions provider headquartered in Rajagiriya, Colombo, Sri Lanka. Creativex Technology delivers enterprise IT consulting, cloud infrastructure, custom software engineering, and business automation for domestic and international clients.",
   },
   {
-    q: "What IT services does CreativeX Technology provide?",
+    q: "What IT services does Creativex Technology provide?",
     a: "Our IT services encompass enterprise cloud engineering (AWS, GCP, Azure), custom business software development, enterprise ERP implementation, digital transformation consulting, API and system integration, cybersecurity governance, and 24/7 technical infrastructure support.",
   },
   {
-    q: "How does CreativeX help Sri Lankan businesses with digital transformation?",
+    q: "How does Creativex Technology help Sri Lankan businesses with digital transformation?",
     a: "We audit existing legacy systems and manual workflows, identify operational bottlenecks, design modern cloud architectures, and deploy custom software solutions that streamline communication, inventory, customer operations, and compliance.",
   },
   {
-    q: "Can CreativeX modernize our existing legacy software without downtime?",
+    q: "Can Creativex Technology modernize our existing legacy software without downtime?",
     a: "Yes. We employ strangler-fig and modular microservice modernization patterns, migrating high-friction operational workflows incrementally to ensure continuous business continuity with zero disruption to active customer operations.",
   },
   {
     q: "Do you offer SLA-backed technical support for enterprise IT systems?",
-    a: "Yes. CreativeX offers defined Service Level Agreements (SLAs) covering uptime guarantees, proactive security monitoring, database backup management, and priority incident response for critical enterprise systems.",
+    a: "Yes. Creativex Technology offers defined Service Level Agreements (SLAs) covering uptime guarantees, proactive security monitoring, database backup management, and priority incident response for critical enterprise systems.",
   },
 ];
 
@@ -192,7 +192,7 @@ export default function ItSolutionsSriLankaPage() {
             <p className="services-page-kicker">Enterprise Cloud · Secure Systems · Strategic Digital Transformation</p>
             <h1>IT Solutions Provider in Sri Lanka</h1>
             <p>
-              CreativeX Technology delivers dependable IT solutions, cloud infrastructure, and modern software engineering for businesses across Sri Lanka. We turn fragile, fragmented technology into resilient operating platforms built for scale.
+              Creativex Technology delivers dependable IT solutions, cloud infrastructure, and modern software engineering for businesses across Sri Lanka. We turn fragile, fragmented technology into resilient operating platforms built for scale.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
               <a href="#it-capabilities" className="inline-flex items-center gap-2 text-sm text-[#ff5a36] font-medium hover:underline">
@@ -218,7 +218,7 @@ export default function ItSolutionsSriLankaPage() {
               Engineering technology infrastructure that supports real business growth.
             </h2>
             <p className="text-base text-[#a5aaa5] leading-relaxed mb-4">
-              Modern enterprises cannot afford recurring technical downtime, uncoordinated vendor handoffs, or fragile legacy software that fails during peak trading periods. CreativeX Technology acts as an accountable, single-source technology partner for forward-thinking Sri Lankan organizations, providing end-to-end guidance from cloud architecture to digital workflow automation.
+              Modern enterprises cannot afford recurring technical downtime, uncoordinated vendor handoffs, or fragile legacy software that fails during peak trading periods. Creativex Technology acts as an accountable, single-source technology partner for forward-thinking Sri Lankan organizations, providing end-to-end guidance from cloud architecture to digital workflow automation.
             </p>
             <p className="text-base text-[#a5aaa5] leading-relaxed">
               Based in Rajagiriya, Colombo, our team supports educational institutions, export logistics operators, healthcare facilities, and retail enterprises with dependable IT engineering grounded in security, operational continuity, and measurable ROI.

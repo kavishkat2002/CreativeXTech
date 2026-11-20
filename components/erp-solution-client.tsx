@@ -293,18 +293,18 @@ const comparisonRows = [
 const faqs = [
   {
     q: "Why should a Sri Lankan company choose custom ERP over SAP, NetSuite, or Odoo?",
-    a: "Commercial off-the-shelf (COTS) ERP software imposes heavy ongoing costs: monthly per-user licensing ($60–$150/user), mandatory annual maintenance fees, and expensive customization contracts whenever your workflows change. Furthermore, foreign software is not designed for Sri Lankan realities—such as local VAT/SVAT schedules, van-sales credit cycles, and offline-first POS requirements. CreativeX provides 100% intellectual property ownership, zero recurring seat fees, and a platform engineered precisely around your business differentiators.",
+    a: "Commercial off-the-shelf (COTS) ERP software imposes heavy ongoing costs: monthly per-user licensing ($60–$150/user), mandatory annual maintenance fees, and expensive customization contracts whenever your workflows change. Furthermore, foreign software is not designed for Sri Lankan realities—such as local VAT/SVAT schedules, van-sales credit cycles, and offline-first POS requirements. Creativex Technology provides 100% intellectual property ownership, zero recurring seat fees, and a platform engineered precisely around your business differentiators.",
   },
   {
-    q: "How does CreativeX ERP handle Sri Lankan VAT, SVAT, and statutory taxes?",
+    q: "How does Creativex Technology ERP handle Sri Lankan VAT, SVAT, and statutory taxes?",
     a: "Our accounting module is engineered specifically for Sri Lankan Inland Revenue Department (IRD) regulations. It automatically categorizes input/output VAT, generates RAMIS-compliant tax schedules, manages SVAT credit vouchers, and tracks Withholding Tax (WHT). Tax rate adjustments can be updated in seconds via system configuration without hiring expensive consultants.",
   },
   {
     q: "Can our cashiers continue billing if the Internet or power drops?",
-    a: "Yes. Retail outlets in Sri Lanka require offline resilience. CreativeX POS terminals utilize an offline-first architecture. If your Internet connection drops, cashiers continue scanning barcodes, calculating totals, and printing receipts locally. The second connection restores, the local transaction buffer automatically synchronizes with the head office cloud database.",
+    a: "Yes. Retail outlets in Sri Lanka require offline resilience. Creativex Technology POS terminals utilize an offline-first architecture. If your Internet connection drops, cashiers continue scanning barcodes, calculating totals, and printing receipts locally. The second connection restores, the local transaction buffer automatically synchronizes with the head office cloud database.",
   },
   {
-    q: "What is the typical implementation timeline for a CreativeX ERP project?",
+    q: "What is the typical implementation timeline for a Creativex Technology ERP project?",
     a: "We deploy using an agile, phased modular methodology. Core modules (Inventory, Multi-Branch Billing, and Basic Accounting) typically go live within 8 to 12 weeks. Subsequent modules (Van-Sales, Procurement, HR/Payroll) rollout in planned 2-to-4 week sprints, ensuring zero disruption to your daily trading operations.",
   },
   {
@@ -331,7 +331,7 @@ export function ErpSolutionClient() {
   // Typical COTS SaaS: $85/user/month * 12 = $1020/user/year. In LKR @ 310 = ~LKR 316,000/user/year.
   // 5 Years COTS per-user fees = userCount * 316,000 * 5
   // COTS implementation & maintenance = LKR 4,500,000 + (branchCount * 600,000)
-  // CreativeX Custom ERP: One-time build (~LKR 4.5M - 8M depending on scale) + modest hosting (~LKR 35,000/mo)
+  // Creativex Technology Custom ERP: One-time build (~LKR 4.5M - 8M depending on scale) + modest hosting (~LKR 35,000/mo)
   const cotsFiveYearCost = Math.round(userCount * 316000 * 5 + 4500000 + branchCount * 650000);
   const creativeXFiveYearCost = Math.round(5500000 + branchCount * 450000 + 35000 * 60);
   const estimatedSavingsLkr = Math.max(0, cotsFiveYearCost - creativeXFiveYearCost);
@@ -481,7 +481,7 @@ export function ErpSolutionClient() {
               Most businesses implement generic software like SAP Business One, NetSuite, or Odoo hoping for an easy fix. Within six months, they discover that every small operational tweak requires expensive external developer tickets, per-seat monthly license fees escalate rapidly as teams expand, and cashiers get locked out during local Internet drops.
             </p>
             <p className="text-base text-[#a5aaa5] leading-relaxed">
-              <strong>CreativeX Technology builds custom ERP software as a perpetual corporate asset.</strong> You pay for engineering milestones once, retain 100% intellectual property rights, and run scalable operations without continuous software taxes.
+              <strong>Creativex Technology builds custom ERP software as a perpetual corporate asset.</strong> You pay for engineering milestones once, retain 100% intellectual property rights, and run scalable operations without continuous software taxes.
             </p>
           </div>
         </div>
@@ -735,10 +735,10 @@ export function ErpSolutionClient() {
                   </p>
                 </div>
 
-                {/* CreativeX Custom ERP Cost */}
+                {/* Creativex Technology Custom ERP Cost */}
                 <div className="p-4 rounded-lg bg-[#141b14] border border-[#253525]">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-[#ff5a36] font-semibold">CreativeX Bespoke Enterprise ERP</span>
+                    <span className="text-xs text-[#ff5a36] font-semibold">Creativex Technology Bespoke Enterprise ERP</span>
                     <span className="text-[11px] text-[#ff5a36] font-mono font-bold">100% IP Asset</span>
                   </div>
                   <strong className="text-2xl font-mono text-[#ff5a36]">
@@ -781,7 +781,7 @@ export function ErpSolutionClient() {
           <div className="max-w-3xl mb-12">
             <p className="section-index">Architecture Breakdown</p>
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-4">
-              CreativeX Custom ERP vs. Generic Off-The-Shelf Software
+              Creativex Technology Custom ERP vs. Generic Off-The-Shelf Software
             </h2>
             <p className="text-sm text-[#8c928c]">
               An honest architectural comparison covering IP ownership, software licensing, customization freedom, local tax adaptation, and real support availability.
@@ -794,7 +794,7 @@ export function ErpSolutionClient() {
                 <tr className="border-b border-[#222822] bg-[#121612] text-white">
                   <th className="p-4 sm:p-5 font-bold">Key Architectural Criteria</th>
                   <th className="p-4 sm:p-5 font-bold text-[#ff5a36] bg-[#ff5a36]/10 border-x border-[#ff5a36]/20">
-                    CreativeX Custom ERP (Sri Lanka)
+                    Creativex Technology Custom ERP (Sri Lanka)
                   </th>
                   <th className="p-4 sm:p-5 font-bold text-[#8c928c]">
                     Generic COTS (SAP B1 / NetSuite / Odoo)

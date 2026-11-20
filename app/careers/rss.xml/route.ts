@@ -33,9 +33,9 @@ export async function GET() {
   const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>CreativeX Technology AI Careers &amp; Open Positions</title>
+    <title>Creativex Technology Careers &amp; Open Positions</title>
     <link>${baseUrl}/careers</link>
-    <description>Live AI engineering, full-stack software, and product design job openings at CreativeX Technology AI.</description>
+    <description>Live AI engineering, full-stack software, and product design job openings at Creativex Technology.</description>
     <language>en-us</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${baseUrl}/careers/rss.xml" rel="self" type="application/rss+xml"/>

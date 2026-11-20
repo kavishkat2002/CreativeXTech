@@ -14,15 +14,15 @@ const baseUrl = CAREERS_BASE_URL;
 
 export const metadata: Metadata = {
   title:
-    "Talent Pool (Intern, Associate & Senior Roles) | CreativeX Technology AI",
+    "Talent Pool (Intern, Associate & Senior Roles) | Creativex Technology",
   description:
-    "Join the CreativeX Technology AI Talent Pool for Intern, Associate, and Senior roles in AI systems engineering, full-stack Next.js, product design, and B2B growth.",
+    "Join the Creativex Technology Talent Pool for Intern, Associate, and Senior roles in AI systems engineering, full-stack Next.js, product design, and B2B growth.",
   keywords: [
-    "CreativeX Talent Pool",
+    "Creativex Technology Talent Pool",
     "AI Engineering Internship Sri Lanka",
     "Associate Software Engineer Talent Pool",
     "Senior AI Systems Engineer Pipeline",
-    "CreativeX Technology AI Careers",
+    "Creativex Technology Careers",
   ],
   alternates: {
     canonical: `${baseUrl}/careers/talent-pool`,
@@ -37,11 +37,11 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title:
-      "Talent Pool (Intern, Associate & Senior Roles) | CreativeX Technology AI",
+      "Talent Pool (Intern, Associate & Senior Roles) | Creativex Technology",
     description:
       "Submit your CV once for priority consideration across Intern, Associate, and Senior level engineering, AI, design, and growth tracks.",
     url: `${baseUrl}/careers/talent-pool`,
-    siteName: "CreativeX Technology AI",
+    siteName: "Creativex Technology",
     locale: "en_US",
     type: "website",
     images: [
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
         url: `${baseUrl}/brand/creativex-robot-lockup.webp`,
         width: 1200,
         height: 630,
-        alt: "CreativeX Technology AI Talent Pool",
+        alt: "Creativex Technology Talent Pool",
       },
     ],
   },
@@ -71,7 +71,7 @@ export default async function TalentPoolPage({
         "@type": "WebPage",
         "@id": `${baseUrl}/careers/talent-pool#webpage`,
         url: `${baseUrl}/careers/talent-pool`,
-        name: "CreativeX Talent Pool — Intern, Associate & Senior Level Roles",
+        name: "Creativex Technology Talent Pool — Intern, Associate & Senior Level Roles",
         description:
           "Priority talent pipeline for Intern, Associate, and Senior candidates across AI engineering, full-stack platforms, product design, and B2B sales.",
         inLanguage: "en-US",

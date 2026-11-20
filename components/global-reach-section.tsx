@@ -333,7 +333,7 @@ export function GlobalReachSection() {
               viewBox="0 0 960 520"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              aria-label="Interactive world map showing CreativeX global client markets connected to Sri Lanka headquarters"
+              aria-label="Interactive world map showing Creativex Technology global client markets connected to Sri Lanka headquarters"
             >
               <defs>
                 {/* Clean dot matrix halftone pattern for landmasses */}

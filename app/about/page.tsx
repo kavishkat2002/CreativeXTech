@@ -7,10 +7,10 @@ import { GlobalReachSection } from "@/components/global-reach-section";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "About CreativeX Technology AI | Global AI & Software Engineering Consultancy",
-  description: "Learn about CreativeX Technology AI—an elite AI and software engineering consultancy building autonomous AI agents, predictive data analytics, smart IoT operations, and cloud platforms for global businesses.",
+  title: "About Creativex Technology | AI & Software Engineering Consultancy",
+  description: "Learn about Creativex Technology—an AI and software engineering consultancy building autonomous AI agents, enterprise ERP systems, predictive data analytics, and cloud platforms for global businesses.",
   keywords: [
-    "About CreativeX Technology AI",
+    "About Creativex Technology",
     "AI Consultancy Global",
     "Software Engineering Team",
     "Autonomous AI Agents Expertise",
@@ -33,16 +33,16 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "About CreativeX Technology AI",
+    title: "About Creativex Technology",
     description: "Enterprise AI and software engineering grounded in real operations, responsible AI delivery, and measurable business outcomes.",
     url: `${baseUrl}/about`,
     type: "website",
-    siteName: "CreativeX Technology AI",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "About CreativeX" }],
+    siteName: "Creativex Technology",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "About Creativex Technology" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "About CreativeX Technology AI",
+    title: "About Creativex Technology",
     description: "Enterprise AI and software engineering grounded in real operations, responsible AI delivery, and measurable business outcomes.",
     images: [`${baseUrl}/og.png`],
   },
@@ -70,7 +70,7 @@ export default function AboutPage() {
     "@graph": [
       {
         "@type": "AboutPage",
-        name: "About CreativeX Technology AI",
+        name: "About Creativex Technology",
         url: `${baseUrl}/about`,
         description: "AI and software engineering company delivering automation, analytics, IoT, cloud, and digital product systems worldwide.",
         about: { "@id": `${baseUrl}/#organization` },
@@ -95,11 +95,11 @@ export default function AboutPage() {
       <section className="about-hero">
         <div className="about-grid-overlay" aria-hidden="true" />
         <div className="site-width about-hero-layout">
-          <p className="section-index">About CreativeX / 2026</p>
+          <p className="section-index">About Creativex Technology / 2026</p>
           <div>
             <p className="about-kicker">AI strategy · Product design · Software engineering</p>
             <h1>Technology should leave the business clearer.</h1>
-            <p>CreativeX Technology AI designs intelligent systems around the way people actually work—connecting AI, data, software, cloud, and operations into dependable products.</p>
+            <p>Creativex Technology designs intelligent systems around the way people actually work—connecting AI, data, software, cloud, and operations into dependable products.</p>
             <a href="#about-content">Meet the company <ArrowDownRight /></a>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function AboutPage() {
               <h2>Built for the space between an ambitious idea and daily operations.</h2>
             </div>
             <div className="about-intro-copy-col">
-              <p>CreativeX Technology is a Sri Lanka based AI and software engineering company. We help businesses turn complex real-world problems into practical, scalable digital solutions using AI, automation and modern software engineering.</p>
+              <p>Creativex Technology is a Sri Lanka based AI and software engineering company. We help businesses turn complex real-world problems into practical, scalable digital solutions using AI, automation and modern software engineering.</p>
               <p>Our work spans AI agents, predictive analytics, connected operations, cloud platforms, and web & mobile products. Each engagement is grounded in a business outcome, clear human control, production readiness and measurable delivery.</p>
             </div>
           </div>

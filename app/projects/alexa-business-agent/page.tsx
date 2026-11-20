@@ -10,8 +10,8 @@ const project = projects[0];
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "Alexa AI Business Agent — Case Study | CreativeX",
-  description: "A CreativeX product concept for an omnichannel AI agent that captures leads, follows up, tracks orders, and keeps people in control.",
+  title: "Alexa AI Business Agent — Case Study | Creativex Technology",
+  description: "A Creativex Technology product concept for an omnichannel AI agent that captures leads, follows up, tracks orders, and keeps people in control.",
   alternates: {
     canonical: `${baseUrl}/projects/alexa-business-agent`,
     languages: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
       "x-default": `${baseUrl}/projects/alexa-business-agent`,
     },
   },
-  openGraph: { title: "Alexa AI Business Agent — CreativeX Product Concept", description: "An omnichannel AI agent concept for leads, follow-ups, orders, and human-controlled decisions.", url: `${baseUrl}/projects/alexa-business-agent`, type: "article" },
+  openGraph: { title: "Alexa AI Business Agent — Creativex Technology Product Concept", description: "An omnichannel AI agent concept for leads, follow-ups, orders, and human-controlled decisions.", url: `${baseUrl}/projects/alexa-business-agent`, type: "article" },
 };
 
 const workflow = [
@@ -35,7 +35,7 @@ export default function AlexaCaseStudyPage() {
     "@type": "CreativeWork",
     name: project.title,
     headline: project.headline,
-    description: "A CreativeX product concept for an omnichannel AI business agent that captures enquiries, qualifies leads, schedules follow-ups, tracks orders, and escalates important decisions to people.",
+    description: "A Creativex Technology product concept for an omnichannel AI business agent that captures enquiries, qualifies leads, schedules follow-ups, tracks orders, and escalates important decisions to people.",
     url: "https://creativexlab.online/projects/alexa-business-agent",
     creator: { "@id": "https://creativexlab.online/#organization" },
     about: ["AI agents", "omnichannel customer operations", "lead management", "human-in-the-loop automation"],
@@ -54,12 +54,12 @@ export default function AlexaCaseStudyPage() {
             <Link className="case-study-back" href="/projects"><ArrowLeft /> All projects</Link>
             <div className="case-study-hero-layout">
               <div className="case-study-mark" aria-hidden="true"><Bot /><span>01 / CX</span></div>
-              <div><p className="section-index">CreativeX product concept · AI automation & agents</p><h1>{project.title}</h1><p>{project.headline} A practical omnichannel agent designed to turn customer conversations into traceable business action—with people kept in control.</p><div className="case-study-pills">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
+              <div><p className="section-index">Creativex Technology product concept · AI automation & agents</p><h1>{project.title}</h1><p>{project.headline} A practical omnichannel agent designed to turn customer conversations into traceable business action—with people kept in control.</p><div className="case-study-pills">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
             </div>
           </div>
         </section>
 
-        <section className="case-study-intro"><div className="site-width case-study-two-col"><p className="section-index">The opportunity / 01</p><div><h2>Customer demand arrives everywhere. The operating view should not.</h2><p>Business teams often manage enquiries, follow-ups, and orders across disconnected inboxes. Alexa is a product direction for giving that work one controlled flow: persistent context, clear ownership, and a reliable path from conversation to action.</p><aside style={{ display: "block" }}><span>This case study describes CreativeX’s product direction and interaction model. It does not claim a named client deployment or fabricated performance results.</span></aside></div></div></section>
+        <section className="case-study-intro"><div className="site-width case-study-two-col"><p className="section-index">The opportunity / 01</p><div><h2>Customer demand arrives everywhere. The operating view should not.</h2><p>Business teams often manage enquiries, follow-ups, and orders across disconnected inboxes. Alexa is a product direction for giving that work one controlled flow: persistent context, clear ownership, and a reliable path from conversation to action.</p><aside style={{ display: "block" }}><span>This case study describes Creativex Technology’s product direction and interaction model. It does not claim a named client deployment or fabricated performance results.</span></aside></div></div></section>
 
         <section className="case-study-workflow"><div className="site-width"><div className="case-study-section-head"><p className="section-index">Connected workflow / 02</p><h2>From first message to accountable next step.</h2></div><div className="case-study-workflow-grid">{workflow.map(([number, title, copy]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>)}</div></div></section>
 

@@ -604,7 +604,7 @@ export function CareerApplyPanel({
                       rows={5}
                       minLength={100}
                       required
-                      placeholder="Write your cover letter introducing your relevant experience, key skills, and why you want to join CreativeX (minimum 100 characters)..."
+                      placeholder="Write your cover letter introducing your relevant experience, key skills, and why you want to join Creativex Technology (minimum 100 characters)..."
                     />
                   </div>
 

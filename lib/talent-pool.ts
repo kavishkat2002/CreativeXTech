@@ -107,7 +107,7 @@ export const TALENT_POOL_TRACKS: TalentPoolTrack[] = [
     summary:
       "Fast-track consideration for Associate Engineers, AI Developers, Product Designers, and Growth Associates shipping live client systems.",
     description:
-      "The Associate Talent Pool connects early-career builders (1–3 years of industry or production experience) directly with CreativeX squad leads. Associates own meaningful features across Next.js platforms, LLM agent integrations, enterprise UX, and client delivery—with rapid progression toward mid-senior ownership.",
+      "The Associate Talent Pool connects early-career builders (1–3 years of industry or production experience) directly with Creativex Technology squad leads. Associates own meaningful features across Next.js platforms, LLM agent integrations, enterprise UX, and client delivery—with rapid progression toward mid-senior ownership.",
     expectations: [
       "1–3 years of practical experience shipping software, AI applications, digital products, or B2B pipelines.",
       "Comfort taking well-scoped features from design or specification through testing and deployment.",
@@ -151,7 +151,7 @@ export const TALENT_POOL_TRACKS: TalentPoolTrack[] = [
       "System Architecture",
     ],
     highlights: [
-      "Confidential fast-track directly with CreativeX leadership",
+      "Confidential fast-track directly with Creativex Technology leadership",
       "Shaped around upcoming Senior, Lead, and Principal engagements",
       "Flexible remote global or Colombo studio leadership options",
     ],

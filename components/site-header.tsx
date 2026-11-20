@@ -60,9 +60,9 @@ function sectionHref(section: string, homePage: boolean) {
 
 export function Brand() {
   return (
-    <span className="brand-lockup" aria-label="CreativeX">
+    <span className="brand-lockup" aria-label="Creativex Technology">
       <span className="brand-logo-frame" aria-hidden="true">
-        <img src="/brand/creativex-wordmark.webp" alt="CreativeX Technology AI" width={160} height={40} />
+        <img src="/brand/creativex-wordmark.webp" alt="Creativex Technology" width={160} height={40} />
       </span>
     </span>
   );
@@ -374,7 +374,7 @@ export function SiteFooter({ homePage = false }: { homePage?: boolean }) {
         </div>
         <div className="footer-bottom-bar col-span-full flex flex-wrap justify-between items-center border-t border-white/10 pt-4 gap-3" style={{ justifyContent: "space-between" }}>
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 font-mono font-semibold text-[9px] tracking-widest text-white/40 uppercase" style={{ textAlign: "left" }}>
-            <span>© {new Date().getFullYear()} CreativeX Technology PVT LTD. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Creativex Technology PVT LTD. All rights reserved.</span>
           </div>
           <div className="flex gap-4 text-[11px] text-white/45">
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>

@@ -157,7 +157,7 @@ const softwareDomains: SoftwareDomain[] = [
     name: "API Gateways, Microservices & Event Streams",
     tagline: "High-throughput asynchronous backends designed for enterprise fault tolerance.",
     summary:
-      "When legacy monolithic backends crumble under load, CreativeX architecturally breaks them down into decoupled microservices, gRPC services, and event-driven message queues that scale independently across cloud clusters.",
+      "When legacy monolithic backends crumble under load, Creativex Technology architecturally breaks them down into decoupled microservices, gRPC services, and event-driven message queues that scale independently across cloud clusters.",
     metricLabel: "Peak Request Throughput",
     metricValue: "15,000+ req/s",
     metricBadge: "P99 < 35ms",
@@ -302,7 +302,7 @@ const faqs = [
     a: "You do. Under our standard software engineering agreements, your organization retains 100% ownership of all source code, database schemas, digital assets, and proprietary algorithms upon milestone completion. We provide full GitHub repository access from Day 1 and operate with strict Non-Disclosure Agreements (NDAs).",
   },
   {
-    q: "How do CreativeX dedicated squads collaborate with overseas clients?",
+    q: "How do Creativex Technology dedicated squads collaborate with overseas clients?",
     a: "We integrate directly into your existing communication and sprint ecosystem. Our squads operate in your Slack channels, participate in your daily stand-ups via Zoom/Google Meet, track user stories in Jira or Linear, and submit Pull Requests to your GitHub repositories. Timezone overlap with Australia (AEST), the Gulf (GST), and the UK (GMT) ensures real-time collaboration during regular working hours.",
   },
   {
@@ -401,7 +401,7 @@ export function CustomSoftwareClient() {
               </h1>
 
               <p className="text-sm sm:text-base lg:text-lg text-[#a5aaa5] leading-relaxed mb-6 sm:mb-8 max-w-2xl">
-                CreativeX Technology (Pvt) Ltd engineers enterprise web applications, mobile platforms, multi-tenant SaaS products, and dedicated offshore squads. From Colombo to Australia, the UAE, and the UK, we build software designed to survive real production scale.
+                Creativex Technology (Pvt) Ltd engineers enterprise web applications, mobile platforms, multi-tenant SaaS products, and dedicated offshore squads. From Colombo to Australia, the UAE, and the UK, we build software designed to survive real production scale.
               </p>
 
               {/* Action Buttons */}
@@ -514,13 +514,13 @@ export function CustomSoftwareClient() {
               The Engineering Distinction
             </span>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white tracking-tight mb-5 sm:mb-6">
-              Why leading enterprises partner with CreativeX for custom software development.
+              Why leading enterprises partner with Creativex Technology for custom software development.
             </h2>
             <p className="text-sm sm:text-base text-[#a5aaa5] leading-relaxed mb-5 sm:mb-6">
               Commercial software products inevitably reach operational limits when your business model requires unique customer workflows, proprietary pricing algorithms, or high-throughput data processing. Off-the-shelf templates cannot deliver the differentiation necessary to lead competitive markets.
             </p>
             <p className="text-sm sm:text-base text-[#a5aaa5] leading-relaxed">
-              <strong>CreativeX Technology (Pvt) Ltd is a verified software development company headquartered in Rajagiriya, Colombo, Sri Lanka.</strong> We bridge strategic product design, modern full-stack development (Next.js, TypeScript, Flutter, Python, PostgreSQL), and disciplined agile sprint delivery to engineer digital assets that scale seamlessly for domestic enterprises and global offshore partners.
+              <strong>Creativex Technology (Pvt) Ltd is a verified software development company headquartered in Rajagiriya, Colombo, Sri Lanka.</strong> We bridge strategic product design, modern full-stack development (Next.js, TypeScript, Flutter, Python, PostgreSQL), and disciplined agile sprint delivery to engineer digital assets that scale seamlessly for domestic enterprises and global offshore partners.
             </p>
           </div>
         </div>
@@ -824,7 +824,7 @@ export function CustomSoftwareClient() {
           <div className="max-w-3xl mb-8 sm:mb-12">
             <p className="section-index">Flexible Engagement Models</p>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-tight mb-3 sm:mb-4">
-              How You Can Engage CreativeX Engineering
+              How You Can Engage Creativex Technology Engineering
             </h2>
             <p className="text-xs sm:text-sm text-[#8c928c]">
               We adapt to your organizational structure—delivering end-to-end turnkey software products or augmenting your team with senior offshore engineering squads.

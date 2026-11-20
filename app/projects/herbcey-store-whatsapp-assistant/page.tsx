@@ -18,7 +18,7 @@ const project =
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "Herbcey Store WhatsApp Assistant — Production Case Study | CreativeX Technology",
+  title: "Herbcey Store WhatsApp Assistant — Production Case Study | Creativex Technology",
   description:
     "A production-grade conversational commerce engine for Herbcey featuring Meta Cloud API, live customer consultations, automated orders, and WhatsApp mobile app coexistence with 5-minute human takeover cooldown.",
   keywords: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     "Conversational Commerce",
     "E-Commerce WhatsApp Bot",
     "Order Automation",
-    "CreativeX Projects",
+    "Creativex Technology Projects",
     "Sri Lanka AI Agency",
   ],
   alternates: {
@@ -39,12 +39,12 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Herbcey Store WhatsApp Assistant — Production Case Study | CreativeX",
+    title: "Herbcey Store WhatsApp Assistant — Production Case Study | Creativex Technology",
     description:
       "A production-grade WhatsApp store assistant with Meta Cloud API, live consultations, automated orders, and mobile phone app coexistence.",
     url: `${baseUrl}/projects/herbcey-store-whatsapp-assistant`,
     type: "article",
-    siteName: "CreativeX Technology AI",
+    siteName: "Creativex Technology",
     images: [
       {
         url: `${baseUrl}/images/herbcey-whatsapp-assistant.png`,
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Herbcey Store WhatsApp Assistant — Production Case Study | CreativeX",
+    title: "Herbcey Store WhatsApp Assistant — Production Case Study | Creativex Technology",
     description:
       "Production-grade WhatsApp conversational commerce with Meta Cloud API and Echo Active mobile coexistence.",
     images: [`${baseUrl}/images/herbcey-whatsapp-assistant.png`],

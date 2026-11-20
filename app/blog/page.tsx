@@ -9,7 +9,7 @@ import { getArticles, formatArticleDate } from "@/lib/articles";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "Technology, Technical SEO & Generative Engine Insights | CreativeX Technology AI",
+  title: "Technology, Technical SEO & Generative Engine Insights | Creativex Technology",
   description: "Practical research and engineering field notes on AI system design, Generative Engine Optimization (GEO), technical SEO, structured data, web performance, and reliable AI agents.",
   keywords: [
     "Generative Engine Optimization",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "AI Agents",
     "Structured Data",
     "Software Engineering",
-    "CreativeX Technology AI",
+    "Creativex Technology",
   ],
   alternates: {
     canonical: `${baseUrl}/blog`,
@@ -37,10 +37,10 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Technology, Technical SEO & Generative Engine Insights | CreativeX Technology AI",
+    title: "Technology, Technical SEO & Generative Engine Insights | Creativex Technology",
     description: "Practical research and engineering field notes on AI system design, Generative Engine Optimization (GEO), technical SEO, structured data, web performance, and reliable AI agents.",
     url: `${baseUrl}/blog`,
-    siteName: "CreativeX Technology AI",
+    siteName: "Creativex Technology",
     locale: "en_US",
     type: "website",
     images: [
@@ -48,13 +48,13 @@ export const metadata: Metadata = {
         url: `${baseUrl}/og.png`,
         width: 1200,
         height: 630,
-        alt: "CreativeX Technology AI Insights",
+        alt: "Creativex Technology Insights",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Technology, Technical SEO & Generative Engine Insights | CreativeX Technology AI",
+    title: "Technology, Technical SEO & Generative Engine Insights | Creativex Technology",
     description: "Practical research and engineering field notes on AI system design, Generative Engine Optimization (GEO), technical SEO, structured data, web performance, and reliable AI agents.",
     images: [`${baseUrl}/og.png`],
   },
@@ -78,12 +78,12 @@ export default async function BlogPage() {
       {
         "@type": "Blog",
         "@id": `${baseUrl}/blog#blog`,
-        name: "CreativeX Technology Insights",
+        name: "Creativex Technology Insights",
         description: "Original, evidence-led articles about AI products, technical SEO, generative engine optimization, structured data, performance, and dependable software.",
         url: `${baseUrl}/blog`,
         publisher: {
           "@type": "Organization",
-          name: "CreativeX Technology PVT LTD",
+          name: "Creativex Technology PVT LTD",
           url: baseUrl,
           logo: {
             "@type": "ImageObject",
@@ -100,7 +100,7 @@ export default async function BlogPage() {
           dateModified: article.updatedDate,
           author: {
             "@type": "Organization",
-            name: "CreativeX Technology AI",
+            name: "Creativex Technology",
           },
         })),
       },
@@ -123,7 +123,7 @@ export default async function BlogPage() {
       <section className="blog-hero">
         <div className="blog-grid-overlay" aria-hidden="true" />
         <div className="site-width blog-hero-layout">
-          <p className="section-index">CreativeX field notes / 2026</p>
+          <p className="section-index">Creativex Technology field notes / 2026</p>
           <div>
             <p className="blog-kicker">Technology · Search · Generative discovery</p>
             <h1>Ideas for discoverable, useful technology.</h1>

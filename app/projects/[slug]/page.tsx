@@ -24,15 +24,15 @@ export async function generateMetadata({
 
   if (!project || isExplicitlyHiddenProject(project)) {
     return {
-      title: "Project Case Study | CreativeX Technology AI",
-      description: "Explore operational AI agents, smart facility platforms, and software engineering case studies by CreativeX.",
+      title: "Project Case Study | Creativex Technology",
+      description: "Explore operational AI agents, smart facility platforms, and software engineering case studies by Creativex Technology.",
     };
   }
 
   const ogImage = (project as any).media_url || `${baseUrl}/brand/creativex-robot-lockup.webp`;
 
   return {
-    title: `${project.title} | CreativeX Project Case Study`,
+    title: `${project.title} | Creativex Technology Case Study`,
     description: project.headline || project.summary,
     keywords: project.tags,
     alternates: {
@@ -55,11 +55,11 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title: `${project.title} | CreativeX AI Case Study`,
+      title: `${project.title} | Creativex Technology Case Study`,
       description: project.headline || project.summary,
       url: `${baseUrl}/projects/${project.slug}`,
       type: "article",
-      siteName: "CreativeX Technology AI",
+      siteName: "Creativex Technology",
       images: [
         {
           url: ogImage,
@@ -71,7 +71,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} | CreativeX Case Study`,
+      title: `${project.title} | Creativex Technology Case Study`,
       description: project.headline || project.summary,
       images: [ogImage],
     },
@@ -111,13 +111,13 @@ export default async function ProjectDetailPage({
     image: (project as any).media_url || `${baseUrl}/brand/creativex-robot-lockup.webp`,
     publisher: {
       "@type": "Organization",
-      name: "CreativeX Technology AI",
+      name: "Creativex Technology",
       url: baseUrl,
       logo: `${baseUrl}/brand/creativex-wordmark.webp`,
     },
     author: {
       "@type": "Organization",
-      name: "CreativeX Technology AI",
+      name: "Creativex Technology",
     },
     about: {
       "@type": "SoftwareApplication",

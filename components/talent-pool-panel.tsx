@@ -601,7 +601,7 @@ export function TalentPoolPanel({
                       minLength={100}
                       value={coverLetter}
                       onChange={(e) => setCoverLetter(e.target.value)}
-                      placeholder={`Share your core stack, projects shipped, availability, and why you're targeting ${track.levelLabel} roles at CreativeX...`}
+                      placeholder={`Share your core stack, projects shipped, availability, and why you're targeting ${track.levelLabel} roles at Creativex Technology...`}
                     />
                   </div>
 

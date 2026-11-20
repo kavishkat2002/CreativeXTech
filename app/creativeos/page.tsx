@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   keywords: [
     // Brand & Category
     "CreativeOS",
-    "CreativeX Technology AI",
+    "Creativex Technology",
     "Autonomous Work Operating System",
     "Agentic WorkOS",
     "Predictive Capacity Analytics",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     description:
       "One calm, agentic workspace for task execution, client approvals, and predictive project forecasting. Calibrated for Australia, United Kingdom, Nepal, Sri Lanka, and global distributed tech teams.",
     url: `${baseUrl}/creativeos`,
-    siteName: "CreativeX Technology AI",
+    siteName: "Creativex Technology",
     locale: "en_US",
     type: "website",
     images: [
@@ -98,7 +98,7 @@ export default function CreativeOSPage() {
         softwareVersion: "3.4.2",
         author: {
           "@type": "Organization",
-          name: "CreativeX Technology (Pvt) Ltd",
+          name: "Creativex Technology (Pvt) Ltd",
           url: baseUrl,
         },
         offers: {
@@ -167,7 +167,7 @@ export default function CreativeOSPage() {
       {
         "@type": "Organization",
         "@id": `${baseUrl}#organization`,
-        name: "CreativeX Technology (Pvt) Ltd",
+        name: "Creativex Technology (Pvt) Ltd",
         url: baseUrl,
         logo: `${baseUrl}/brand/creativex-robot-lockup.webp`,
         sameAs: [
@@ -201,7 +201,7 @@ export default function CreativeOSPage() {
             name: "What is CreativeOS?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "CreativeOS is an autonomous, agentic Work Operating System developed by CreativeX Technology. It unifies stage-gated project management, real-time client approvals, autonomous AI copilot agents, and predictive capacity analytics powered by Meta Prophet and LightGBM. It is specifically calibrated for multi-jurisdiction engineering squads operating across Australia, the UK, Nepal, Sri Lanka, and global markets.",
+              text: "CreativeOS is an autonomous, agentic Work Operating System developed by Creativex Technology. It unifies stage-gated project management, real-time client approvals, autonomous AI copilot agents, and predictive capacity analytics powered by Meta Prophet and LightGBM. It is specifically calibrated for multi-jurisdiction engineering squads operating across Australia, the UK, Nepal, Sri Lanka, and global markets.",
             },
           },
           {
@@ -297,7 +297,7 @@ export default function CreativeOSPage() {
           "@type": "WebSite",
           "@id": `${baseUrl}#website`,
           url: baseUrl,
-          name: "CreativeX Technology",
+          name: "Creativex Technology",
         },
         speakable: {
           "@type": "SpeakableSpecification",

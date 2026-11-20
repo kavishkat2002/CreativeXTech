@@ -29,18 +29,18 @@ export async function generateMetadata({
 
   if (!job) {
     return {
-      title: "Career Role | CreativeX Technology AI",
-      description: "Explore engineering and AI roles at CreativeX Technology AI.",
+      title: "Career Role | Creativex Technology",
+      description: "Explore engineering and AI roles at Creativex Technology.",
       robots: { index: false, follow: true },
     };
   }
 
   const skills = [...(job.required_skills ?? []), ...(job.nice_to_have ?? [])];
-  const seoTitle = `${job.title} (${job.location}) — Careers | CreativeX Technology AI`;
+  const seoTitle = `${job.title} (${job.location}) — Careers | Creativex Technology`;
   const salarySnippet = job.salary_range ? ` Compensation: ${job.salary_range}.` : "";
   const seoDescription = `${job.summary} Department: ${job.department}. Type: ${job.type}.${salarySnippet} Location: ${job.location} (Open to Sri Lankan & remote global talent). Skills: ${
     job.required_skills?.slice(0, 6).join(", ") || job.department
-  }. Apply directly online at CreativeX Technology AI.`;
+  }. Apply directly online at Creativex Technology.`;
 
   return {
     title: seoTitle,
@@ -48,13 +48,13 @@ export async function generateMetadata({
     keywords: [
       job.title,
       `${job.title} ${job.location}`,
-      `${job.title} CreativeX`,
+      `${job.title} Creativex Technology`,
       `${job.title} Sri Lanka`,
       `${job.title} Remote`,
       job.department,
       job.location,
       job.type,
-      "CreativeX Technology AI Careers",
+      "Creativex Technology Careers",
       "Sri Lanka Tech Jobs",
       "Remote AI Engineering Vacancies",
       ...skills,
@@ -83,7 +83,7 @@ export async function generateMetadata({
       title: seoTitle,
       description: seoDescription,
       url: `${baseUrl}/careers/${job.slug}`,
-      siteName: "CreativeX Technology AI",
+      siteName: "Creativex Technology",
       locale: "en_US",
       type: "website",
       images: [

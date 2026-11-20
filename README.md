@@ -1,6 +1,6 @@
-# CreativeX Technology AI
+# Creativex Technology
 
-Corporate website for CreativeX Technology AI—an AI and software company focused on intelligent automation, data, IoT, cloud platforms, and digital product engineering.
+Corporate website for Creativex Technology—an AI and software company focused on intelligent automation, data, IoT, cloud platforms, and digital product engineering.
 
 ## Website
 
@@ -13,7 +13,7 @@ Corporate website for CreativeX Technology AI—an AI and software company focus
 - Articles: dedicated long-form pages with canonical metadata and TechArticle structured data
 - About: company positioning, capabilities, operating contexts, and delivery approach
 - Contact: dedicated project enquiry page with a structured email brief
-- Experience: branded CreativeX startup and route-loading animation with reduced-motion support
+- Experience: branded Creativex Technology startup and route-loading animation with reduced-motion support
 
 ## Technology
 
@@ -40,7 +40,7 @@ npm run build
 
 ## Brand assets
 
-Optimized CreativeX wordmark and AI-android lockup assets are stored in `public/brand/`.
+Optimized Creativex Technology wordmark and AI-android lockup assets are stored in `public/brand/`.
 
 ## Content note
 

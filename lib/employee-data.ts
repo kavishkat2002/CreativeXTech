@@ -145,7 +145,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
     workLocation: "Colombo HQ / Global",
     phone: "+94 76 234 5336",
     status: "active",
-    bio: "Head of CreativeX Technology AI ecosystem, executive oversight of all engineering squads, client growth, and employee performance.",
+    bio: "Head of Creativex Technology AI ecosystem, executive oversight of all engineering squads, client growth, and employee performance.",
     kpis: [
       {
         id: "kpi-adm-1",
@@ -436,7 +436,7 @@ export const INITIAL_EMPLOYEES: Employee[] = [
         category: "Research",
         priority: "normal",
         shiftBlock: "eod",
-        notes: "Benchmark hourly developer rates in AU/UK vs CreativeX edge delivery.",
+        notes: "Benchmark hourly developer rates in AU/UK vs Creativex Technology edge delivery.",
       },
       {
         id: "chk-9",
@@ -461,7 +461,7 @@ export const DEFAULT_SALES_SCRIPTS: SalesScriptItem[] = [
     targetAudience: "COOs, MDs, Operations Heads in Sri Lanka (Logistics, Tea, Apparel, Retail)",
     keyHook: "Stops project delays caused by Poya mercantile holidays and fragmented WhatsApp threads.",
     pitchBody:
-      "Hi [Name], I noticed [Company Name] is managing expanding client delivery. Most Sri Lankan teams lose 6-8 hours weekly chasing informal WhatsApp sign-offs and face surprise delays during Poya clusters. CreativeOS by CreativeX Technology is Sri Lanka's first Work Operating System that natively buffers your 2026 Poya calendar and calculates 15% EPF/ETF statutory labor costs. Can I show you a 15-minute live preview with our solutions architect this Thursday?",
+      "Hi [Name], I noticed [Company Name] is managing expanding client delivery. Most Sri Lankan teams lose 6-8 hours weekly chasing informal WhatsApp sign-offs and face surprise delays during Poya clusters. CreativeOS by Creativex Technology is Sri Lanka's first Work Operating System that natively buffers your 2026 Poya calendar and calculates 15% EPF/ETF statutory labor costs. Can I show you a 15-minute live preview with our solutions architect this Thursday?",
     objectionHandling:
       "If they say 'We already use Excel / WhatsApp': Excel cannot automatically predict holiday delays or enforce client approval gates. CreativeOS actually integrates with WhatsApp so your executives can approve deliverables right from chat without logging into another complex tool.",
   },
@@ -471,7 +471,7 @@ export const DEFAULT_SALES_SCRIPTS: SalesScriptItem[] = [
     targetAudience: "CTOs, Founders, Engineering Leads in Sydney, Melbourne, London",
     keyHook: "High-velocity full-stack engineering squads with native timezone alignment and 60% cost efficiency.",
     pitchBody:
-      "Hi [Name], reaching out from CreativeX Technology Colombo. We build scalable edge architectures (Next.js 15, FastAPI, Supabase, PostgreSQL) for Australian and UK scaleups. Our squads work in direct AEST / GMT overlapping sprint windows with ISO 27001-ready controls at a 60% operational efficiency compared to local hiring. Are you exploring expanding your engineering capacity this quarter?",
+      "Hi [Name], reaching out from Creativex Technology Colombo. We build scalable edge architectures (Next.js 15, FastAPI, Supabase, PostgreSQL) for Australian and UK scaleups. Our squads work in direct AEST / GMT overlapping sprint windows with ISO 27001-ready controls at a 60% operational efficiency compared to local hiring. Are you exploring expanding your engineering capacity this quarter?",
     objectionHandling:
       "If they ask about quality / IP: All code is written to strict UK GDPR and Australian Privacy Principles with kernel-enforced Row-Level Security, full IP assignment upon milestone delivery, and direct daily standups with senior engineers.",
   },
@@ -481,7 +481,7 @@ export const DEFAULT_SALES_SCRIPTS: SalesScriptItem[] = [
     targetAudience: "Enterprises seeking process automation, document AI, or ERP modernization",
     keyHook: "Turns unstructured documents and manual workflows into real-time microsecond event systems.",
     pitchBody:
-      "Hi [Name], companies in your sector spend up to 22% of payroll on manual invoice reconciliations and spreadsheet handoffs. At CreativeX, we engineer custom AI workflow agents that parse documents, sync bank ledgers, and automate client approvals in sub-25ms. Would you be open to seeing a 2-minute video case study of how we automated FX settlement for a Colombo trading house?",
+      "Hi [Name], companies in your sector spend up to 22% of payroll on manual invoice reconciliations and spreadsheet handoffs. At Creativex Technology, we engineer custom AI workflow agents that parse documents, sync bank ledgers, and automate client approvals in sub-25ms. Would you be open to seeing a 2-minute video case study of how we automated FX settlement for a Colombo trading house?",
     objectionHandling:
       "If they worry about high upfront cost: We offer staged pilot sprints with clear milestone deliverables so you only invest as ROI is mathematically demonstrated.",
   },

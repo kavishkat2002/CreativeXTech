@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 
 export function LoaderVisual({ route = false, progress = 0 }: { route?: boolean; progress?: number }) {
   return (
-    <div className={`cx-loader${route ? " cx-route-loader" : ""}`} role="status" aria-live="polite" aria-label="CreativeX website loading">
+    <div className={`cx-loader${route ? " cx-route-loader" : ""}`} role="status" aria-live="polite" aria-label="Creativex Technology website loading">
       <div className="cx-loader-grid" aria-hidden="true" />
       <div className="cx-loader-top">
-        <span>CREATIVEX / SYSTEM</span>
+        <span>CREATIVEX / TECHNOLOGY</span>
         <span>INTELLIGENCE IN MOTION</span>
       </div>
 
@@ -21,14 +21,14 @@ export function LoaderVisual({ route = false, progress = 0 }: { route?: boolean;
         <span className="cx-loader-node cx-loader-node-three" />
       </div>
 
-      <div className="cx-loader-brand" aria-hidden="true">CREATIVE<span>X</span></div>
+      <div className="cx-loader-brand" aria-hidden="true">CREATIVEX<span> TECH</span></div>
 
       <div className="cx-loader-bottom">
         <div className="cx-loader-status"><i /><span>{route ? "Preparing next view" : "Connecting intelligence"}</span></div>
         <div className="cx-loader-progress"><i style={route ? undefined : { width: `${progress}%` }} /></div>
         <span>{route ? "···" : String(progress).padStart(3, "0")} / 100</span>
       </div>
-      <span className="sr-only">Loading CreativeX Technology AI</span>
+      <span className="sr-only">Loading Creativex Technology</span>
     </div>
   );
 }

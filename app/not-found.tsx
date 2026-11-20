@@ -4,8 +4,8 @@ import { ArrowLeft, Home, Search, ShieldAlert } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
-  title: "404 - Page Not Found | CreativeX Technology AI",
-  description: "The requested page could not be found on CreativeX Technology AI.",
+  title: "404 - Page Not Found | Creativex Technology",
+  description: "The requested page could not be found on Creativex Technology.",
   robots: {
     index: false,
     follow: false,

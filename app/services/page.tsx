@@ -8,8 +8,8 @@ import { getServices, getServiceIcon } from "@/lib/services";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "AI & Software Engineering Services | CreativeX Technology AI",
-  description: "Explore CreativeX services across AI automation, predictive analytics, IoT, web and mobile product engineering, cloud solutions, and AI business consultation.",
+  title: "AI & Software Engineering Services | Creativex Technology",
+  description: "Explore Creativex Technology services across AI automation, predictive analytics, enterprise ERP, web and mobile product engineering, cloud solutions, and business consultation.",
   keywords: [
     "AI Engineering Services",
     "Autonomous AI Agents Development",
@@ -40,16 +40,16 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "CreativeX AI & Software Engineering Services",
+    title: "Creativex Technology AI & Software Engineering Services",
     description: "Strategy, intelligent systems, and production engineering designed around real business operations.",
     url: `${baseUrl}/services`,
     type: "website",
-    siteName: "CreativeX Technology AI",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "CreativeX Services" }],
+    siteName: "Creativex Technology",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Creativex Technology Services" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CreativeX AI & Software Engineering Services",
+    title: "Creativex Technology AI & Software Engineering Services",
     description: "Strategy, intelligent systems, and production engineering designed around real business operations.",
     images: [`${baseUrl}/og.png`],
   },
@@ -62,7 +62,7 @@ export default async function ServicesPage() {
     "@graph": [
       {
         "@type": "ItemList",
-        name: "CreativeX Technology AI services",
+        name: "Creativex Technology services",
         itemListElement: allServices.map((service, index) => ({
           "@type": "ListItem",
           position: index + 1,
@@ -90,11 +90,11 @@ export default async function ServicesPage() {
       <section className="services-page-hero">
         <div className="services-page-grid" aria-hidden="true" />
         <div className="site-width services-page-hero-layout">
-          <p className="section-index">CreativeX services / 2026</p>
+          <p className="section-index">Creativex Technology services / 2026</p>
           <div>
             <p className="services-page-kicker">Strategy · Product · Engineering · Operations</p>
             <h1>Services designed around the work.</h1>
-            <p>From AI strategy to production software, CreativeX connects the business decision, user experience, data, and engineering required to make intelligent systems useful.</p>
+            <p>From AI strategy to production software, Creativex Technology connects the business decision, user experience, data, and engineering required to make intelligent systems useful.</p>
             <a href="#services-directory">Explore every service <ArrowDownRight /></a>
           </div>
         </div>

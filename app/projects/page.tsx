@@ -9,15 +9,15 @@ import { staticProjects } from "@/lib/projects";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "AI Agents & Software Engineering Projects | CreativeX Technology AI",
-  description: "Discover CreativeX Technology AI projects—from enterprise AI business agents and export logistics control towers to smart facility hubs and AI-native SaaS platforms.",
+  title: "AI Agents & Software Engineering Projects | Creativex Technology",
+  description: "Discover Creativex Technology projects—from enterprise AI business agents and export logistics control towers to smart facility hubs and AI-native SaaS platforms.",
   keywords: [
     "AI Case Studies",
     "Autonomous AI Agent Portfolio",
     "Logistics Control Tower",
     "Smart Facility IoT",
     "AI SaaS Platform",
-    "CreativeX Projects",
+    "Creativex Technology Projects",
   ],
   alternates: {
     canonical: `${baseUrl}/projects`,
@@ -36,17 +36,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "AI & Software Engineering Projects | CreativeX Technology AI",
-    description: "Explore operational AI agents, smart facility platforms, logistics control towers, and SaaS product engineering by CreativeX.",
+    title: "AI & Software Engineering Projects | Creativex Technology",
+    description: "Explore operational AI agents, smart facility platforms, logistics control towers, and SaaS product engineering by Creativex Technology.",
     url: `${baseUrl}/projects`,
     type: "website",
-    siteName: "CreativeX Technology AI",
-    images: [{ url: `${baseUrl}/brand/creativex-robot-lockup.webp`, width: 1200, height: 630, alt: "CreativeX Projects" }],
+    siteName: "Creativex Technology",
+    images: [{ url: `${baseUrl}/brand/creativex-robot-lockup.webp`, width: 1200, height: 630, alt: "Creativex Technology Projects" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI & Software Engineering Projects | CreativeX Technology AI",
-    description: "Explore operational AI agents, smart facility platforms, logistics control towers, and SaaS product engineering by CreativeX.",
+    title: "AI & Software Engineering Projects | Creativex Technology",
+    description: "Explore operational AI agents, smart facility platforms, logistics control towers, and SaaS product engineering by Creativex Technology.",
     images: [`${baseUrl}/brand/creativex-robot-lockup.webp`],
   },
 };
@@ -64,7 +64,7 @@ export default function ProjectsPage() {
   const projectsCatalogJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "CreativeX AI & Software Engineering Projects",
+    name: "Creativex Technology AI & Software Engineering Projects",
     description: "Enterprise project portfolio covering AI agents, smart facilities, logistics control towers, and SaaS platforms.",
     itemListElement: staticProjects.map((project, index) => ({
       "@type": "ListItem",
@@ -85,7 +85,7 @@ export default function ProjectsPage() {
         <section className="projects-page-hero">
           <div className="projects-page-grid" aria-hidden="true" />
           <div className="site-width projects-page-hero-inner">
-            <p className="section-index">CreativeX projects / 2026</p>
+            <p className="section-index">Creativex Technology projects / 2026</p>
             <div>
               <p className="projects-hero-kicker">AI systems · Software products · Connected operations</p>
               <h1>Work designed to operate.</h1>

@@ -19,12 +19,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const service = await getService(slug);
   if (!service) {
     return {
-      title: "Service Not Found | CreativeX Technology AI",
+      title: "Service Not Found | Creativex Technology",
       robots: { index: false, follow: false },
     };
   }
   return {
-    title: `${service.title} | CreativeX Technology AI`,
+    title: `${service.title} | Creativex Technology`,
     description: service.copy,
     keywords: service.features,
     alternates: {

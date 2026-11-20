@@ -10,8 +10,8 @@ export async function GET() {
 
   return NextResponse.json(
     {
-      organization: "CreativeX Technology (Pvt) Ltd",
-      brand: "CreativeX Technology AI",
+      organization: "Creativex Technology (Pvt) Ltd",
+      brand: "Creativex Technology",
       headquarters: "Rajagiriya, Colombo, Western Province, Sri Lanka",
       careersUrl: `${CAREERS_BASE_URL}/careers`,
       talentPoolUrl: `${CAREERS_BASE_URL}/careers/talent-pool`,

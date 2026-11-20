@@ -1579,7 +1579,7 @@ export function EmployeePortal() {
       phone: "+94 77 000 0000",
       allocatedTerritory: newEmpTerritory,
       status: "active",
-      bio: "New team member onboarded to CreativeX Technology operational graph.",
+      bio: "New team member onboarded to Creativex Technology operational graph.",
       kpis: [
         {
           id: `kpi-init-${Date.now()}`,
@@ -2407,7 +2407,7 @@ export function EmployeePortal() {
   });
 
   if (!mounted) {
-    return <div className="ems-loading-screen">Initializing CreativeX Employee Management System...</div>;
+    return <div className="ems-loading-screen">Initializing Creativex Technology Employee Management System...</div>;
   }
 
   return (
@@ -2425,7 +2425,7 @@ export function EmployeePortal() {
         <div className="site-width ems-top-bar-inner">
           <div className="ems-top-brand">
             <Link href="/" className="ems-brand-link">
-              <span className="ems-brand-tag">CreativeX EMS</span>
+              <span className="ems-brand-tag">Creativex EMS</span>
             </Link>
             <span className="ems-bar-divider" />
             <span className="ems-system-title">Enterprise Employee Management System</span>
@@ -2469,13 +2469,13 @@ export function EmployeePortal() {
                 <div className="ems-login-brand">
                   <img
                     src="/brand/creativex-logo-light.png"
-                    alt="CreativeX Technology"
+                    alt="Creativex Technology"
                     width={220}
                     height={58}
                     className="ems-login-logo"
                   />
                 </div>
-                <h2>CreativeX Employee Portal</h2>
+                <h2>Creativex Employee Portal</h2>
                 <p>
                   Sign in with your authorized corporate email to access your workspace, supervisor KPI evaluations,
                   and company performance records.
@@ -2869,14 +2869,14 @@ export function EmployeePortal() {
                                   <div>{cleanedSupervisor}</div>
                                   <span className="ems-hr-exec-sub">
                                     {currentViewEmp.role === "admin"
-                                      ? "CreativeX Board of Directors"
+                                      ? "Creativex Technology Board of Directors"
                                       : "Strategic Leadership & Solutions Engineering"}
                                   </span>
                                 </>
                               ) : (
                                 <div>
                                   {currentViewEmp.role === "admin"
-                                    ? "CreativeX Board of Directors"
+                                    ? "Creativex Technology Board of Directors"
                                     : "Strategic Leadership & Solutions Engineering"}
                                 </div>
                               );
@@ -2990,7 +2990,7 @@ export function EmployeePortal() {
                             <CheckCircle2 size={14} />
                             <div className="ems-hr-clearance-text">
                               <strong>IP Assignment</strong>
-                              <span>100% CreativeX Tech</span>
+                              <span>100% Creativex Technology</span>
                             </div>
                           </div>
                           <div className="ems-hr-clearance-item">

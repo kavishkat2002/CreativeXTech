@@ -6,7 +6,7 @@ import { ArrowDownRight, ArrowUpRight, Check, Mail, MapPin, Phone } from "lucide
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
 const mailto =
-  "mailto:info@creativexlab.online?subject=CreativeX%20project%20conversation&body=Hello%20CreativeX%2C%0A%0ACompany%20and%20role%3A%0AThe%20workflow%20or%20product%20I%20want%20to%20improve%3A%0AWho%20uses%20it%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0ATimeline%20or%20important%20constraints%3A%0A%0A";
+  "mailto:info@creativexlab.online?subject=Creativex%20Technology%20project%20conversation&body=Hello%20Creativex%20Technology%2C%0A%0ACompany%20and%20role%3A%0AThe%20workflow%20or%20product%20I%20want%20to%20improve%3A%0AWho%20uses%20it%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0ATimeline%20or%20important%20constraints%3A%0A%0A";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -17,9 +17,9 @@ export function ContactClient() {
   const contactJsonLd = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    name: "Contact CreativeX Technology AI",
+    name: "Contact Creativex Technology",
     url: "https://creativexlab.online/contact",
-    about: { "@type": "Organization", name: "CreativeX Technology AI", email: "info@creativexlab.online" },
+    about: { "@type": "Organization", name: "Creativex Technology", email: "info@creativexlab.online" },
   };
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -171,7 +171,7 @@ export function ContactClient() {
       </section>
 
       <section className="contact-page-final">
-        <div className="site-width contact-page-final-layout"><p className="section-index">Ready when you are</p><div><h2>Start with the problem—not the technology.</h2><a href={mailto}>Email CreativeX <ArrowUpRight /></a></div></div>
+        <div className="site-width contact-page-final-layout"><p className="section-index">Ready when you are</p><div><h2>Start with the problem—not the technology.</h2><a href={mailto}>Email Creativex Technology <ArrowUpRight /></a></div></div>
       </section>
       <SiteFooter />
     </main>

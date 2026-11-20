@@ -148,9 +148,9 @@ export const staticJobs: JobPost[] = [
     level: "Senior",
     salary_range: "Competitive + Performance Equity",
     summary:
-      "Architect CreativeX autonomous AI business agents, hybrid RAG pipelines, and tool-calling orchestration layers for enterprise operations across logistics, hospitality, retail, and SaaS.",
+      "Architect Creativex Technology autonomous AI business agents, hybrid RAG pipelines, and tool-calling orchestration layers for enterprise operations across logistics, hospitality, retail, and SaaS.",
     description:
-      "At CreativeX Technology (Pvt) Ltd, we engineer autonomous AI agents, predictive analytics platforms, IoT command centers, and resilient cloud products for clients across Sri Lanka, Malaysia, Australia, the UAE, Nepal, and Bangladesh. We are looking for a Senior AI Systems Engineer to design and ship deterministic, observable AI agent systems—including omnichannel platforms like our Alexa AI Business Agent—into live client operations. You will work directly with founding engineers, product designers, and delivery leads to build LLM orchestration, evaluation harnesses, retrieval pipelines, and human-in-the-loop escalation workflows using TypeScript, Python, Next.js, Supabase/PostgreSQL (pgvector), and Cloudflare Workers.",
+      "At Creativex Technology (Pvt) Ltd, we engineer autonomous AI agents, predictive analytics platforms, IoT command centers, and resilient cloud products for clients across Sri Lanka, Malaysia, Australia, the UAE, Nepal, and Bangladesh. We are looking for a Senior AI Systems Engineer to design and ship deterministic, observable AI agent systems—including omnichannel platforms like our Alexa AI Business Agent—into live client operations. You will work directly with founding engineers, product designers, and delivery leads to build LLM orchestration, evaluation harnesses, retrieval pipelines, and human-in-the-loop escalation workflows using TypeScript, Python, Next.js, Supabase/PostgreSQL (pgvector), and Cloudflare Workers.",
     responsibilities: [
       "Architect production multi-agent workflows and deterministic tool-calling orchestration with structured outputs, guardrails, fallback policies, and human-in-the-loop escalation.",
       "Build hybrid RAG and governed knowledge pipelines using vector embeddings, PostgreSQL (pgvector), metadata filtering, and verifiable source citations.",
@@ -211,7 +211,7 @@ export const staticJobs: JobPost[] = [
     summary:
       "Build fast, resilient web platforms, AI operator consoles, logistics & IoT control towers, and edge-deployed SaaS products using Next.js, React 19, TypeScript, Supabase, and Cloudflare Workers.",
     description:
-      "As a Full-Stack Next.js & Edge Engineer at CreativeX Technology (Pvt) Ltd, you will translate complex operational workflows into crisp, high-speed web applications for clients across Sri Lanka, Malaysia, Australia, the UAE, Nepal, and Bangladesh. From server-rendered public platforms with strong technical SEO/GEO to real-time AI agent operator consoles, logistics control towers, and smart-facility dashboards backed by Supabase/PostgreSQL, Drizzle ORM, and Cloudflare Workers, you will own features end-to-end.",
+      "As a Full-Stack Next.js & Edge Engineer at Creativex Technology (Pvt) Ltd, you will translate complex operational workflows into crisp, high-speed web applications for clients across Sri Lanka, Malaysia, Australia, the UAE, Nepal, and Bangladesh. From server-rendered public platforms with strong technical SEO/GEO to real-time AI agent operator consoles, logistics control towers, and smart-facility dashboards backed by Supabase/PostgreSQL, Drizzle ORM, and Cloudflare Workers, you will own features end-to-end.",
     responsibilities: [
       "Architect and deliver full-stack web applications using Next.js App Router, React 19, TypeScript, and Cloudflare Workers.",
       "Implement responsive, WCAG-accessible UI systems with Tailwind CSS and Radix/shadcn primitives alongside Product Designers.",
@@ -268,14 +268,14 @@ export const staticJobs: JobPost[] = [
     level: "Mid-Senior",
     salary_range: "Competitive",
     summary:
-      "Shape human-centered interfaces for CreativeX autonomous AI business agents, logistics & IoT control towers, and high-craft enterprise SaaS products.",
+      "Shape human-centered interfaces for Creativex Technology autonomous AI business agents, logistics & IoT control towers, and high-craft enterprise SaaS products.",
     description:
-      "At CreativeX Technology (Pvt) Ltd, we build production AI agents, predictive analytics platforms, IoT command centers, and custom web/mobile products for clients across Sri Lanka, Malaysia, Australia, the UAE, Nepal, and Bangladesh. We are seeking a Product Designer who bridges systems thinking and sharp editorial visual craft. You will design intuitive operator consoles, human-in-the-loop AI escalation workflows, high-density logistics and smart-facility dashboards, and scalable Figma design systems aligned with our Next.js, Tailwind CSS, and Radix/shadcn engineering stack.",
+      "At Creativex Technology (Pvt) Ltd, we build production AI agents, predictive analytics platforms, IoT command centers, and custom web/mobile products for clients across Sri Lanka, Malaysia, Australia, the UAE, Nepal, and Bangladesh. We are seeking a Product Designer who bridges systems thinking and sharp editorial visual craft. You will design intuitive operator consoles, human-in-the-loop AI escalation workflows, high-density logistics and smart-facility dashboards, and scalable Figma design systems aligned with our Next.js, Tailwind CSS, and Radix/shadcn engineering stack.",
     responsibilities: [
       "Design end-to-end product experiences—from discovery and information architecture to wireframes, interactive Figma prototypes, and production-ready UI—for AI agents and B2B operational platforms.",
       "Craft transparent AI interaction patterns including human-in-the-loop handoffs, confidence/citation states, tool-call audit trails, and exception-first operator workflows.",
       "Architect high-density enterprise dashboards (export logistics control towers, IoT facility monitoring, retail demand intelligence) with strong typographic hierarchy and scannability.",
-      "Maintain and evolve CreativeX design tokens, component libraries, and motion guidelines in Figma aligned with Tailwind CSS and Radix/shadcn UI primitives.",
+      "Maintain and evolve Creativex Technology design tokens, component libraries, and motion guidelines in Figma aligned with Tailwind CSS and Radix/shadcn UI primitives.",
       "Partner closely with Next.js/TypeScript engineers during implementation to ensure responsive precision, WCAG accessibility, and micro-interaction polish.",
       "Participate in client discovery sessions, pre-sales solution prototypes, and usability testing on live operational workflows.",
     ],
@@ -330,7 +330,7 @@ export const staticJobs: JobPost[] = [
     summary:
       "Proactive, target-driven Business Development Intern to build B2B client relationships, prospect via LinkedIn and calls, present IT & software solutions, and drive sales growth.",
     description:
-      "At CreativeX Technology Pvt Ltd, we help businesses solve challenges and explore new opportunities through technology and digital solutions. We are looking for a proactive, target-driven Business Development Intern (IT & Software Products) for a Full-Time Remote Internship (Rajagiriya, Sri Lanka · 9:00 AM – 6:00 PM) to build client relationships, bring in new business, and grow B2B software sales.",
+      "At Creativex Technology Pvt Ltd, we help businesses solve challenges and explore new opportunities through technology and digital solutions. We are looking for a proactive, target-driven Business Development Intern (IT & Software Products) for a Full-Time Remote Internship (Rajagiriya, Sri Lanka · 9:00 AM – 6:00 PM) to build client relationships, bring in new business, and grow B2B software sales.",
     responsibilities: [
       "Find and approach potential clients through calls, visits, LinkedIn, and networking.",
       "Understand customer needs and present suitable technology solutions with support from our team.",
@@ -388,7 +388,7 @@ export const staticJobs: JobPost[] = [
     summary:
       "Motivated, technology-curious Pre-Sales Intern to bridge prospective clients and technical teams through discovery calls, product demos, customized proposals, and AI/automation solution consulting.",
     description:
-      "CreativeX Technology (Pvt) Ltd is a registered software development and IT consulting company specializing in custom software, web and mobile applications, AI/ML solutions, business automation, data & analytics, cloud technologies, and digital transformation across Sri Lanka, Malaysia, Australia, the UAE, Nepal, and Bangladesh. We are looking for a motivated, confident, and technology-curious Pre-Sales Intern (Full-Time / Part-Time Remote Internship · Rajagiriya, Sri Lanka · 9:00 AM – 6:00 PM) to communicate with prospective clients, translate business challenges into practical software solutions, support demos and pitches, and prepare tailored proposals.",
+      "Creativex Technology (Pvt) Ltd is a registered software development and IT consulting company specializing in custom software, web and mobile applications, AI/ML solutions, business automation, data & analytics, cloud technologies, and digital transformation across Sri Lanka, Malaysia, Australia, the UAE, Nepal, and Bangladesh. We are looking for a motivated, confident, and technology-curious Pre-Sales Intern (Full-Time / Part-Time Remote Internship · Rajagiriya, Sri Lanka · 9:00 AM – 6:00 PM) to communicate with prospective clients, translate business challenges into practical software solutions, support demos and pitches, and prepare tailored proposals.",
     responsibilities: [
       "Engage with prospective clients to understand their business needs, challenges, objectives, and expectations.",
       "Participate in client discovery calls, meetings, presentations, and requirement-gathering sessions.",

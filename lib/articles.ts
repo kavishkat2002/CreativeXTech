@@ -259,9 +259,9 @@ export const staticArticles: Article[] = [
       },
       {
         id: "creativex-approach",
-        heading: "How CreativeX Technology approaches enterprise AI delivery",
+        heading: "How Creativex Technology approaches enterprise AI delivery",
         paragraphs: [
-          "At CreativeX Technology (Pvt) Ltd in Rajagiriya, Colombo, we design AI systems grounded in real operational work. Our squads build autonomous AI agents, predictive demand forecasting models, and omnichannel WhatsApp bots designed for measurable business results.",
+          "At Creativex Technology (Pvt) Ltd in Rajagiriya, Colombo, we design AI systems grounded in real operational work. Our squads build autonomous AI agents, predictive demand forecasting models, and omnichannel WhatsApp bots designed for measurable business results.",
           "We offer fixed-scope discovery prototypes allowing enterprises to prove economic value and operational feasibility before committing to full-scale rollout.",
         ],
       },
@@ -272,7 +272,7 @@ export const staticArticles: Article[] = [
       "Insist on transparent human-in-the-loop oversight for consequential operational decisions.",
     ],
     references: [
-      { label: "CreativeX: AI Development Company in Sri Lanka", href: "/ai-development-sri-lanka" },
+      { label: "Creativex Technology: AI Development Company in Sri Lanka", href: "/ai-development-sri-lanka" },
       { label: "Google Cloud: Responsible AI Principles", href: "https://cloud.google.com/responsible-ai" },
     ],
   },
@@ -315,8 +315,8 @@ export const staticArticles: Article[] = [
       "Predictive data analytics turns fragmented operational logs into actionable executive decisions.",
     ],
     references: [
-      { label: "CreativeX: Industry AI Solutions", href: "/solutions" },
-      { label: "CreativeX: AI Development in Sri Lanka", href: "/ai-development-sri-lanka" },
+      { label: "Creativex Technology: Industry AI Solutions", href: "/solutions" },
+      { label: "Creativex Technology: AI Development in Sri Lanka", href: "/ai-development-sri-lanka" },
     ],
   },
   {
@@ -352,8 +352,8 @@ export const staticArticles: Article[] = [
       "Ensure all automated workflows connect directly into a single central customer record.",
     ],
     references: [
-      { label: "CreativeX: AI Automation & Agents", href: "/services/ai-automation-agents" },
-      { label: "CreativeX: CreativeOS Work OS for SMEs", href: "/creativeos" },
+      { label: "Creativex Technology: AI Automation & Agents", href: "/services/ai-automation-agents" },
+      { label: "Creativex Technology: CreativeOS Work OS for SMEs", href: "/creativeos" },
     ],
   },
   {
@@ -389,8 +389,8 @@ export const staticArticles: Article[] = [
       "Insist on an API-first architecture that allows seamless future integrations.",
     ],
     references: [
-      { label: "CreativeX: ERP Solutions Provider Sri Lanka", href: "/erp-solutions-sri-lanka" },
-      { label: "CreativeX: Retail & Distribution Solution", href: "/solutions" },
+      { label: "Creativex Technology: ERP Solutions Provider Sri Lanka", href: "/erp-solutions-sri-lanka" },
+      { label: "Creativex Technology: Retail & Distribution Solution", href: "/solutions" },
     ],
   },
   {
@@ -409,7 +409,7 @@ export const staticArticles: Article[] = [
         heading: "The true financial and operational trade-offs",
         paragraphs: [
           "Enterprise leaders frequently debate whether to purchase commercial off-the-shelf (COTS) ERP software or invest in custom ERP development. While ready-made software promises rapid deployment, it frequently leads to expensive customization workarounds.",
-          "Custom ERP development by CreativeX Technology offers an alternative: 100% intellectual property ownership, zero per-seat monthly license fees, and software designed precisely around your company's operational differentiators.",
+          "Custom ERP development by Creativex Technology offers an alternative: 100% intellectual property ownership, zero per-seat monthly license fees, and software designed precisely around your company's operational differentiators.",
         ],
       },
       {
@@ -427,8 +427,8 @@ export const staticArticles: Article[] = [
       "For businesses with unique distribution or manufacturing workflows, custom ERP provides a decisive competitive edge.",
     ],
     references: [
-      { label: "CreativeX: ERP Solutions in Sri Lanka", href: "/erp-solutions-sri-lanka" },
-      { label: "CreativeX: Custom Software Development", href: "/custom-software-development" },
+      { label: "Creativex Technology: ERP Solutions in Sri Lanka", href: "/erp-solutions-sri-lanka" },
+      { label: "Creativex Technology: Custom Software Development", href: "/custom-software-development" },
     ],
   },
   {
@@ -461,11 +461,11 @@ export const staticArticles: Article[] = [
     takeaways: [
       "A POS processes counter transactions; an ERP manages the entire business operating backbone.",
       "Multi-outlet retailers require centralized real-time inventory synchronization to prevent stockouts.",
-      "CreativeX ERP integrates POS speed with comprehensive enterprise accounting and supply chain control.",
+      "Creativex Technology ERP integrates POS speed with comprehensive enterprise accounting and supply chain control.",
     ],
     references: [
-      { label: "CreativeX: ERP Solutions Provider Sri Lanka", href: "/erp-solutions-sri-lanka" },
-      { label: "CreativeX: Retail Distribution Solutions", href: "/solutions#retail-distribution" },
+      { label: "Creativex Technology: ERP Solutions Provider Sri Lanka", href: "/erp-solutions-sri-lanka" },
+      { label: "Creativex Technology: Retail Distribution Solutions", href: "/solutions#retail-distribution" },
     ],
   },
   {
@@ -501,8 +501,8 @@ export const staticArticles: Article[] = [
       "Budget for post-launch maintenance, security updates, and automated database backups.",
     ],
     references: [
-      { label: "CreativeX: Custom Software Development Sri Lanka", href: "/custom-software-development" },
-      { label: "CreativeX: Contact & Quote Calculator", href: "/contact" },
+      { label: "Creativex Technology: Custom Software Development Sri Lanka", href: "/custom-software-development" },
+      { label: "Creativex Technology: Contact & Quote Calculator", href: "/contact" },
     ],
   },
   {
@@ -535,11 +535,11 @@ export const staticArticles: Article[] = [
     takeaways: [
       "Evaluate IT providers on operational uptime, security standards, and response time SLAs.",
       "Ensure your partner has deep experience in enterprise cloud architecture and automated data backups.",
-      "CreativeX Technology acts as an accountable technology partner from infrastructure setup to custom software build.",
+      "Creativex Technology acts as an accountable technology partner from infrastructure setup to custom software build.",
     ],
     references: [
-      { label: "CreativeX: IT Solutions Provider in Sri Lanka", href: "/it-solutions-sri-lanka" },
-      { label: "CreativeX: Cloud Solutions Engineering", href: "/services/cloud-solutions" },
+      { label: "Creativex Technology: IT Solutions Provider in Sri Lanka", href: "/it-solutions-sri-lanka" },
+      { label: "Creativex Technology: Cloud Solutions Engineering", href: "/services/cloud-solutions" },
     ],
   },
   {
@@ -565,7 +565,7 @@ export const staticArticles: Article[] = [
         id: "key-capabilities",
         heading: "Automated capabilities built for Sri Lankan commercial workflows",
         paragraphs: [
-          "CreativeX WhatsApp agents handle automated catalog browsing, order status lookups, automated payment link dispatch, booking appointments, and seamless escalation to human customer service agents when complex questions arise.",
+          "Creativex Technology WhatsApp agents handle automated catalog browsing, order status lookups, automated payment link dispatch, booking appointments, and seamless escalation to human customer service agents when complex questions arise.",
         ],
       },
     ],
@@ -575,8 +575,8 @@ export const staticArticles: Article[] = [
       "Seamless CRM and ERP synchronization prevents data silos and lost opportunities.",
     ],
     references: [
-      { label: "CreativeX: AI Automation & WhatsApp Agents", href: "/services/ai-automation-agents" },
-      { label: "CreativeX: AI Development Company Sri Lanka", href: "/ai-development-sri-lanka" },
+      { label: "Creativex Technology: AI Automation & WhatsApp Agents", href: "/services/ai-automation-agents" },
+      { label: "Creativex Technology: AI Development Company Sri Lanka", href: "/ai-development-sri-lanka" },
     ],
   },
   {
@@ -609,11 +609,11 @@ export const staticArticles: Article[] = [
     takeaways: [
       "Chatbots converse; autonomous AI agents coordinate and execute operational work.",
       "Agents require secure tool-use permissions and explicit human approval gates for high-consequence actions.",
-      "CreativeX designs governed multi-agent mesh systems tailored to enterprise business operations.",
+      "Creativex Technology designs governed multi-agent mesh systems tailored to enterprise business operations.",
     ],
     references: [
-      { label: "CreativeX: AI Automation & Agents", href: "/services/ai-automation-agents" },
-      { label: "CreativeX: AI Development Company in Sri Lanka", href: "/ai-development-sri-lanka" },
+      { label: "Creativex Technology: AI Automation & Agents", href: "/services/ai-automation-agents" },
+      { label: "Creativex Technology: AI Development Company in Sri Lanka", href: "/ai-development-sri-lanka" },
     ],
   },
 

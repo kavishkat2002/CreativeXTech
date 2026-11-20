@@ -115,7 +115,7 @@ insert into public.ems_employees (
   'admin', 'Founder & Chief Technology Officer', 'Executive Management & Product Engineering',
   'board-001', 'Board of Directors / Strategic Council', '2024-01-01', 'Founder / Permanent Full-Time',
   'Colombo HQ & Global Distributed', '+94 77 123 4567', 'active',
-  'Leading software engineering, systems design, edge client delivery, and strategic oversight across all CreativeX product initiatives.'
+  'Leading software engineering, systems design, edge client delivery, and strategic oversight across all Creativex Technology product initiatives.'
 ),
 (
   'emp-bdi-001', 'CX-EMP-041', 'Kavindu Senanayake', 'intern.bd@creativexlab.online', '@Intern2026',

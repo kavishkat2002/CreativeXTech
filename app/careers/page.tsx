@@ -26,15 +26,15 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const description =
     jobTitles.length > 0
-      ? `Explore ${jobs.length} open position${jobs.length === 1 ? "" : "s"} at CreativeX Technology AI (${jobTitles.join(", ")}). Hiring top Sri Lankan talent in Colombo & worldwide remote AI engineers, full-stack builders, and product designers.`
-      : "Join CreativeX Technology AI. Explore open roles in AI agents, full-stack Next.js engineering, and enterprise product design across Colombo studio and remote global squads.";
+      ? `Explore ${jobs.length} open position${jobs.length === 1 ? "" : "s"} at Creativex Technology (${jobTitles.join(", ")}). Hiring top Sri Lankan talent in Colombo & worldwide remote AI engineers, full-stack builders, and product designers.`
+      : "Join Creativex Technology. Explore open roles in AI agents, full-stack Next.js engineering, and enterprise product design across Colombo studio and remote global squads.";
 
   return {
-    title: "Careers & Open AI Engineering Jobs | CreativeX Technology AI",
+    title: "Careers & Open AI Engineering Jobs | Creativex Technology",
     description,
     keywords: [
-      "CreativeX Careers",
-      "CreativeX Technology AI Jobs",
+      "Creativex Technology Careers",
+      "Creativex Technology Jobs",
       "AI Engineer Jobs Sri Lanka",
       "Software Engineer Vacancies Sri Lanka",
       "Tech Internships Colombo",
@@ -71,10 +71,10 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: "Careers & Open AI Engineering Jobs | CreativeX Technology AI",
+      title: "Careers & Open AI Engineering Jobs | Creativex Technology",
       description,
       url: `${baseUrl}/careers`,
-      siteName: "CreativeX Technology AI",
+      siteName: "Creativex Technology",
       locale: "en_US",
       type: "website",
       images: [
@@ -82,13 +82,13 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `${baseUrl}/brand/creativex-robot-lockup.webp`,
           width: 1200,
           height: 630,
-          alt: "Careers at CreativeX Technology AI",
+          alt: "Careers at Creativex Technology",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Careers & Open AI Engineering Jobs | CreativeX Technology AI",
+      title: "Careers & Open AI Engineering Jobs | Creativex Technology",
       description,
       images: [`${baseUrl}/brand/creativex-robot-lockup.webp`],
     },
@@ -133,19 +133,19 @@ export default async function CareersPage() {
         "@type": "CollectionPage",
         "@id": `${baseUrl}/careers#webpage`,
         url: `${baseUrl}/careers`,
-        name: "Careers & Open Positions at CreativeX Technology AI",
+        name: "Careers & Open Positions at Creativex Technology",
         description:
-          "Official hiring portal for CreativeX Technology PVT LTD featuring AI systems engineering, full-stack Next.js, and product design roles.",
+          "Official hiring portal for Creativex Technology PVT LTD featuring AI systems engineering, full-stack Next.js, and product design roles.",
         inLanguage: "en-US",
         isPartOf: {
           "@type": "WebSite",
-          name: "CreativeX Technology AI",
+          name: "Creativex Technology",
           url: baseUrl,
         },
         about: {
           "@type": "Organization",
-          name: "CreativeX Technology PVT LTD",
-          alternateName: "CreativeX Technology AI",
+          name: "Creativex Technology PVT LTD",
+          alternateName: "Creativex Technology",
           url: baseUrl,
           logo: `${baseUrl}/brand/creativex-wordmark.webp`,
         },
@@ -160,7 +160,7 @@ export default async function CareersPage() {
       {
         "@type": "ItemList",
         "@id": `${baseUrl}/careers#open-positions`,
-        name: "CreativeX Technology AI Open Positions",
+        name: "Creativex Technology Open Positions",
         numberOfItems: jobs.length,
         itemListElement: jobs.map((job, index) => ({
           "@type": "ListItem",
@@ -245,7 +245,7 @@ export default async function CareersPage() {
 
       <CareersBoard initialJobs={jobs} />
 
-      {/* CreativeX Talent Pool: Intern, Associate & Senior Tracks */}
+      {/* Creativex Technology Talent Pool: Intern, Associate & Senior Tracks */}
       <section
         id="talent-pool"
         className="careers-talent-pool-section"

@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
       try {
         const resend = new Resend(resendApiKey);
         await resend.emails.send({
-          from: "CreativeXTech Careers <onboarding@resend.dev>",
+          from: "Creativex Technology Careers <onboarding@resend.dev>",
           to: "tkavishka101@gmail.com",
           subject: `[ATS ${atsResult.score}% · ${atsResult.verdict.toUpperCase()}] ${applicationRecord.job_title} — ${applicationRecord.applicant_name}`,
           text: [

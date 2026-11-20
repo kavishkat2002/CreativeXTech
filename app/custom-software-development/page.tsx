@@ -5,9 +5,9 @@ import { CustomSoftwareClient } from "@/components/custom-software-client";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "Custom Software Development Sri Lanka | Software Engineering Company | CreativeX",
+  title: "Custom Software Development Sri Lanka | Software Engineering Company | Creativex Technology",
   description:
-    "CreativeX Technology (Pvt) Ltd is a premier software development company in Sri Lanka. We build custom web apps, mobile applications, enterprise SaaS platforms, and dedicated offshore engineering squads for businesses in Sri Lanka, Australia, UAE, and worldwide.",
+    "Creativex Technology (Pvt) Ltd is a premier software development company in Sri Lanka. We build custom web apps, mobile applications, enterprise SaaS platforms, and dedicated offshore engineering squads for businesses in Sri Lanka, Australia, UAE, and worldwide.",
   keywords: [
     "Software development company Sri Lanka",
     "Custom software development Sri Lanka",
@@ -29,17 +29,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Custom Software Development Sri Lanka | CreativeX Technology",
+    title: "Custom Software Development Sri Lanka | Creativex Technology",
     description:
       "Enterprise custom software development, modern web applications, mobile engineering, and dedicated offshore squads in Colombo, Sri Lanka.",
     url: `${baseUrl}/custom-software-development`,
     type: "website",
-    siteName: "CreativeX Technology",
+    siteName: "Creativex Technology",
     images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Custom Software Development Sri Lanka" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Custom Software Development Sri Lanka | CreativeX Technology",
+    title: "Custom Software Development Sri Lanka | Creativex Technology",
     description:
       "Custom software engineering, full-stack web and mobile development, and dedicated squads from Colombo, Sri Lanka.",
     images: [`${baseUrl}/og.png`],
@@ -60,7 +60,7 @@ const faqs = [
     a: "You do. Under our standard software engineering agreements, your organization retains 100% ownership of all source code, database schemas, digital assets, and proprietary algorithms upon milestone completion. We provide full GitHub repository access from Day 1 and operate with strict Non-Disclosure Agreements (NDAs).",
   },
   {
-    q: "How do CreativeX dedicated squads collaborate with overseas clients?",
+    q: "How do Creativex Technology dedicated squads collaborate with overseas clients?",
     a: "We integrate directly into your existing communication and sprint ecosystem. Our squads operate in your Slack channels, participate in your daily stand-ups via Zoom/Google Meet, track user stories in Jira or Linear, and submit Pull Requests to your GitHub repositories. Timezone overlap with Australia (AEST), the Gulf (GST), and the UK (GMT) ensures real-time collaboration during regular working hours.",
   },
   {

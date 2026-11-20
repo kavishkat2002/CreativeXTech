@@ -18,12 +18,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const article = await getArticle(slug);
   if (!article) {
     return {
-      title: "Article Not Found | CreativeX Technology AI",
+      title: "Article Not Found | Creativex Technology",
       robots: { index: false, follow: false },
     };
   }
   return {
-    title: `${article.title} | CreativeX Technology AI`,
+    title: `${article.title} | Creativex Technology`,
     description: article.excerpt,
     keywords: article.tags,
     alternates: {
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: `${baseUrl}/blog/${article.slug}`,
       publishedTime: article.publishedDate,
       modifiedTime: article.updatedDate,
-      authors: ["CreativeX Technology AI"],
+      authors: ["Creativex Technology"],
       tags: article.tags,
       images: [
         {
@@ -89,8 +89,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     datePublished: article.publishedDate,
     dateModified: article.updatedDate,
     mainEntityOfPage: `${baseUrl}/blog/${article.slug}`,
-    author: { "@type": "Organization", name: "CreativeX Technology AI", url: baseUrl },
-    publisher: { "@type": "Organization", name: "CreativeX Technology AI", url: baseUrl, logo: { "@type": "ImageObject", url: `${baseUrl}/brand/creativex-robot-lockup.webp` } },
+    author: { "@type": "Organization", name: "Creativex Technology", url: baseUrl },
+    publisher: { "@type": "Organization", name: "Creativex Technology", url: baseUrl, logo: { "@type": "ImageObject", url: `${baseUrl}/brand/creativex-robot-lockup.webp` } },
     keywords: article.tags.join(", "),
     inLanguage: "en",
     isAccessibleForFree: true,
@@ -124,7 +124,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <h1>{article.title}</h1>
                 <p className="article-deck">{article.excerpt}</p>
                 <div className="article-byline">
-                  <span>CreativeX Editorial</span>
+                  <span>Creativex Technology Editorial</span>
                   <time dateTime={article.publishedDate}>{formatArticleDate(article.publishedDate)}</time>
                   <span><Clock3 /> {article.readTime}</span>
                 </div>

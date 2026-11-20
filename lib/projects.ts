@@ -57,7 +57,7 @@ export const staticProjects = [
     title: "Alexa AI Business Agent",
     headline: "One agent for every customer conversation.",
     summary: "A connected business agent that brings enquiries from social, messaging, and web channels into one operating flow—then captures leads, schedules follow-ups, tracks orders, and escalates the decisions that need a person.",
-    stage: "CreativeX product concept",
+    stage: "Creativex Technology product concept",
     filter: "AI agents",
     tags: ["Omnichannel AI", "Lead operations", "Human handoff"],
     hasCaseStudy: true,

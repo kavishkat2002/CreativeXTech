@@ -7,12 +7,12 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | CreativeX Technology (Pvt) Ltd",
+  title: "Privacy Policy | Creativex Technology (Pvt) Ltd",
   description:
-    "Learn how CreativeX Technology (Pvt) Ltd collects, uses, processes, and protects personal information when you visit our website or use our technology and digital services.",
+    "Learn how Creativex Technology (Pvt) Ltd collects, uses, processes, and protects personal information when you visit our website or use our technology and digital services.",
   keywords: [
     "Privacy Policy",
-    "CreativeX Technology Privacy",
+    "Creativex Technology Privacy",
     "Data Protection Sri Lanka",
     "Sri Lanka PDPA Compliance",
     "Enterprise AI Data Security",
@@ -38,19 +38,19 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Privacy Policy | CreativeX Technology (Pvt) Ltd",
+    title: "Privacy Policy | Creativex Technology (Pvt) Ltd",
     description:
-      "Learn how CreativeX Technology (Pvt) Ltd collects, uses, processes, and protects personal information when you visit our website or use our technology and digital services.",
+      "Learn how Creativex Technology (Pvt) Ltd collects, uses, processes, and protects personal information when you visit our website or use our technology and digital services.",
     url: `${baseUrl}/privacy-policy`,
     type: "website",
-    siteName: "CreativeX Technology AI",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "CreativeX Technology Privacy Policy" }],
+    siteName: "Creativex Technology",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Creativex Technology Privacy Policy" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Privacy Policy | CreativeX Technology (Pvt) Ltd",
+    title: "Privacy Policy | Creativex Technology (Pvt) Ltd",
     description:
-      "Learn how CreativeX Technology (Pvt) Ltd collects, uses, processes, and protects personal information when you visit our website or use our technology and digital services.",
+      "Learn how Creativex Technology (Pvt) Ltd collects, uses, processes, and protects personal information when you visit our website or use our technology and digital services.",
     images: [`${baseUrl}/og.png`],
   },
 };
@@ -74,7 +74,7 @@ const privacySections: PrivacySection[] = [
     number: "01",
     heading: "Introduction & Scope",
     paragraphs: [
-      "CreativeX Technology (Pvt) Ltd (\"CreativeX\", \"we\", \"our\", or \"us\") is committed to protecting the privacy, confidentiality, and security of personal information entrusted to us by clients, website visitors, candidates, and partners.",
+      "Creativex Technology (Pvt) Ltd (\"Creativex Technology\", \"we\", \"our\", or \"us\") is committed to protecting the privacy, confidentiality, and security of personal information entrusted to us by clients, website visitors, candidates, and partners.",
       "This Privacy Policy describes our practices regarding the collection, storage, processing, transfer, disclosure, and protection of personal data when you visit our corporate website (https://creativexlab.online), engage our enterprise consulting and software engineering services, use our platforms (such as CreativeOS), or communicate with our engineering squads.",
       "By accessing or using our website and services, you acknowledge that you have read, understood, and agreed to the practices outlined in this Privacy Policy.",
     ],
@@ -87,7 +87,7 @@ const privacySections: PrivacySection[] = [
       "Under applicable data protection laws, including the Sri Lanka Personal Data Protection Act (PDPA No. 9 of 2022) and international frameworks such as the General Data Protection Regulation (GDPR), the legal entity responsible for processing your personal information is:",
     ],
     bullets: [
-      "Company Name: CreativeX Technology (Pvt) Ltd",
+      "Company Name: Creativex Technology (Pvt) Ltd",
       "Company Registration: Registered Private Limited Company under the Companies Act of Sri Lanka",
       "Headquarters: 166 / B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka",
       "Corporate Email: info@creativexlab.online",
@@ -133,7 +133,7 @@ const privacySections: PrivacySection[] = [
     number: "04",
     heading: "How We Collect Your Personal Information",
     paragraphs: [
-      "CreativeX Technology collects personal information through fair, lawful, and transparent channels only:",
+      "Creativex Technology collects personal information through fair, lawful, and transparent channels only:",
     ],
     bullets: [
       "Direct Interactions: Directly from you when you submit a project enquiry, fill in the contact form, request a CreativeOS walkthrough, or apply to our open roles.",
@@ -177,8 +177,8 @@ const privacySections: PrivacySection[] = [
     number: "07",
     heading: "Artificial Intelligence, Machine Learning & Client Data Safeguards",
     paragraphs: [
-      "As a specialized AI consultancy and software development company, CreativeX Technology enforces rigorous data sovereignty and model isolation principles:",
-      "1. Zero Customer Data Used for Public Model Training: CreativeX Technology NEVER uses client-provided confidential data, proprietary databases, internal documents, or customer personal information to train or fine-tune public foundation models (such as public models operated by OpenAI, Google, Anthropic, or Meta).",
+      "As a specialized AI consultancy and software development company, Creativex Technology enforces rigorous data sovereignty and model isolation principles:",
+      "1. Zero Customer Data Used for Public Model Training: Creativex Technology NEVER uses client-provided confidential data, proprietary databases, internal documents, or customer personal information to train or fine-tune public foundation models (such as public models operated by OpenAI, Google, Anthropic, or Meta).",
       "2. Ring-Fenced Enterprise Environments: Client models, Retrieval-Augmented Generation (RAG) vector embeddings, and autonomous agent instances are deployed inside isolated, private tenant environments with strict VPC peering, zero-retention API policies, and end-to-end encryption.",
       "3. 100% Client Intellectual Property: All custom algorithms, trained model weights, database schemas, and application source code engineered under our enterprise agreements remain the exclusive intellectual property of the client.",
       "4. Human-in-the-Loop Governance: Our AI workflows incorporate human oversight, traceability, deterministic fallbacks, and comprehensive audit logs to ensure responsible and ethical AI deployment.",
@@ -202,7 +202,7 @@ const privacySections: PrivacySection[] = [
     number: "09",
     heading: "Information Sharing, Disclosure & Subprocessors",
     paragraphs: [
-      "CreativeX Technology does not sell, rent, lease, or monetize personal information to third-party data brokers, marketers, or advertisers under any circumstances.",
+      "Creativex Technology does not sell, rent, lease, or monetize personal information to third-party data brokers, marketers, or advertisers under any circumstances.",
       "We disclose personal information only to trusted service providers and subprocessors who assist us in operating our business under strict confidentiality agreements:",
     ],
     bullets: [
@@ -217,7 +217,7 @@ const privacySections: PrivacySection[] = [
     number: "10",
     heading: "International & Cross-Border Data Transfers",
     paragraphs: [
-      "CreativeX Technology serves international clients across Sri Lanka, Australia, the United Kingdom, the United Arab Emirates, Malaysia, Singapore, and the United States. Consequently, your data may be stored or processed in jurisdictions outside your country of residence.",
+      "Creativex Technology serves international clients across Sri Lanka, Australia, the United Kingdom, the United Arab Emirates, Malaysia, Singapore, and the United States. Consequently, your data may be stored or processed in jurisdictions outside your country of residence.",
       "Whenever personal data is transferred across international borders, we ensure that an adequate level of data protection is maintained by implementing recognized safeguards:",
     ],
     bullets: [
@@ -277,7 +277,7 @@ const privacySections: PrivacySection[] = [
     number: "14",
     heading: "Compliance with Sri Lanka Personal Data Protection Act (PDPA No. 9 of 2022)",
     paragraphs: [
-      "CreativeX Technology (Pvt) Ltd is incorporated and domiciled in Sri Lanka and operates in strict compliance with the Personal Data Protection Act, No. 9 of 2022 (PDPA).",
+      "Creativex Technology (Pvt) Ltd is incorporated and domiciled in Sri Lanka and operates in strict compliance with the Personal Data Protection Act, No. 9 of 2022 (PDPA).",
       "We adhere to the core principles established under the Act:",
     ],
     bullets: [
@@ -307,7 +307,7 @@ const privacySections: PrivacySection[] = [
     number: "16",
     heading: "Children's and Minors' Privacy",
     paragraphs: [
-      "CreativeX Technology's website, platforms, and services are directed strictly at enterprise organizations, commercial businesses, and professionals aged 18 and older.",
+      "Creativex Technology's website, platforms, and services are directed strictly at enterprise organizations, commercial businesses, and professionals aged 18 and older.",
       "We do not knowingly collect, solicit, or maintain personal information from children or minors under the age of 18. If we discover that personal information has been collected from a child under 18 without verifiable parental consent, we will promptly purge that information from our servers.",
     ],
   },
@@ -318,7 +318,7 @@ const privacySections: PrivacySection[] = [
     paragraphs: [
       "We may update this Privacy Policy periodically to reflect changes in our technology stack, service offerings, operational workflows, or statutory data privacy regulations.",
       "Any revisions will be published on this page with an updated \"Last Updated\" date at the top and bottom of the document. For significant updates, we may also provide prominent notifications on our homepage or communicate directly with active client accounts.",
-      "We encourage you to review this Privacy Policy periodically to stay informed about how CreativeX Technology protects your data.",
+      "We encourage you to review this Privacy Policy periodically to stay informed about how Creativex Technology protects your data.",
     ],
   },
   {
@@ -330,7 +330,7 @@ const privacySections: PrivacySection[] = [
     ],
     bullets: [
       "Attention: Data Protection Office / Legal Governance",
-      "Entity: CreativeX Technology (Pvt) Ltd",
+      "Entity: Creativex Technology (Pvt) Ltd",
       "Address: 166 / B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka",
       "Email: info@creativexlab.online",
       "Hotline: +94 76 2345 336 (076 2345 336)",
@@ -350,9 +350,9 @@ export default function PrivacyPolicyPage() {
         "@type": "WebPage",
         "@id": `${baseUrl}/privacy-policy#webpage`,
         url: `${baseUrl}/privacy-policy`,
-        name: "Privacy Policy | CreativeX Technology (Pvt) Ltd",
+        name: "Privacy Policy | Creativex Technology (Pvt) Ltd",
         description:
-          "Learn how CreativeX Technology (Pvt) Ltd collects, uses, processes, and protects personal information when you visit our website or use our technology and digital services.",
+          "Learn how Creativex Technology (Pvt) Ltd collects, uses, processes, and protects personal information when you visit our website or use our technology and digital services.",
         breadcrumb: {
           "@type": "BreadcrumbList",
           itemListElement: [
@@ -364,7 +364,7 @@ export default function PrivacyPolicyPage() {
       {
         "@type": "Organization",
         "@id": `${baseUrl}/#organization`,
-        name: "CreativeX Technology (Pvt) Ltd",
+        name: "Creativex Technology (Pvt) Ltd",
         url: baseUrl,
         logo: `${baseUrl}/brand/creativex-wordmark.webp`,
         address: {
@@ -408,14 +408,14 @@ export default function PrivacyPolicyPage() {
                 <small>Governance</small>
               </div>
               <div>
-                <p className="section-index">CreativeX Technology (Pvt) Ltd · Governance</p>
+                <p className="section-index">Creativex Technology (Pvt) Ltd · Governance</p>
                 <h1>Privacy Policy</h1>
                 <p className="article-deck">
-                  Learn how CreativeX Technology (Pvt) Ltd collects, uses, processes, and protects personal information
+                  Learn how Creativex Technology (Pvt) Ltd collects, uses, processes, and protects personal information
                   when you visit our website or use our technology and digital services.
                 </p>
                 <div className="article-byline">
-                  <span>CreativeX Legal &amp; Compliance</span>
+                  <span>Creativex Technology Legal &amp; Compliance</span>
                   <time dateTime="2026-11-17">Effective: {effectiveDate}</time>
                   <span>
                     <Clock3 size={13} /> Last Updated: {lastUpdated}
@@ -469,7 +469,7 @@ export default function PrivacyPolicyPage() {
           <div className="article-body">
             <div className="article-section" style={{ paddingBottom: "32px", borderBottom: "1px solid rgba(11, 12, 11, 0.12)" }}>
               <p style={{ fontSize: "16px", lineHeight: "1.7", color: "var(--ink)", margin: 0 }}>
-                This Privacy Policy is issued by <strong>CreativeX Technology (Pvt) Ltd</strong>, registered in Colombo,
+                This Privacy Policy is issued by <strong>Creativex Technology (Pvt) Ltd</strong>, registered in Colombo,
                 Sri Lanka. We adhere to privacy-by-design engineering principles and prioritize transparent, lawful, and
                 secure data processing across all web assets, custom engineering projects, and internal operating frameworks.
                 For commercial terms governing software delivery and intellectual property, please review our{" "}
@@ -613,7 +613,7 @@ export default function PrivacyPolicyPage() {
                   maxWidth: "720px",
                 }}
               >
-                CreativeX Technology (Pvt) Ltd reviews and audits its data handling practices annually. If you have any
+                Creativex Technology (Pvt) Ltd reviews and audits its data handling practices annually. If you have any
                 inquiries, wish to exercise statutory data subject rights, or require data deletion, reach out directly
                 to our Data Protection and Compliance team:
               </p>

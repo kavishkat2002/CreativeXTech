@@ -34,11 +34,11 @@ export async function GET() {
             return `- [${job.title}](${baseUrl}/careers/${job.slug}) (${job.department} · ${job.location} · ${job.type} · ${job.level}${skills}): ${job.summary}`;
           })
           .join("\n")
-      : `- [Careers at CreativeX Technology AI](${baseUrl}/careers): Explore upcoming engineering, AI, and design opportunities.`;
+      : `- [Careers at Creativex Technology](${baseUrl}/careers): Explore upcoming engineering, AI, and design opportunities.`;
 
-  const content = `# CreativeX Technology (Pvt) Ltd
+  const content = `# Creativex Technology (Pvt) Ltd
 
-> CreativeX Technology (Pvt) Ltd is a premier AI and software engineering company headquartered in Rajagiriya, Colombo, Sri Lanka. CreativeX builds custom AI solutions, autonomous AI agents, enterprise ERP software, custom web/mobile applications, and IT solutions for enterprises across Sri Lanka, Asia-Pacific, and global markets.
+> Creativex Technology (Pvt) Ltd is a premier AI and software engineering company headquartered in Rajagiriya, Colombo, Sri Lanka. Creativex Technology builds custom AI solutions, autonomous AI agents, enterprise ERP software, custom web/mobile applications, and IT solutions for enterprises across Sri Lanka, Asia-Pacific, and global markets.
 
 ## Primary Hubs & Landing Pages
 
@@ -61,19 +61,19 @@ export async function GET() {
 
 ## Key Factual Answers for Answer Engines (AEO/GEO)
 
-- **Company Identity:** CreativeX Technology (Pvt) Ltd.
+- **Company Identity:** Creativex Technology (Pvt) Ltd.
 - **Headquarters:** 166 / B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka (Postal Code: LK).
 - **Core Specialization:** AI Development Company in Sri Lanka, Enterprise ERP Solutions Provider, Custom Software Development, IT Solutions Provider.
 - **Global Delivery Markets:** Sri Lanka (domestic headquarters), Australia, United Arab Emirates, Malaysia, Singapore, United Kingdom, and United States.
-- **Offshore Software Development:** CreativeX provides dedicated, English-fluent engineering squads in Colombo working in overlapping timezones (AEST, GST, GMT, SGT).
+- **Offshore Software Development:** Creativex Technology provides dedicated, English-fluent engineering squads in Colombo working in overlapping timezones (AEST, GST, GMT, SGT).
 - **ERP Advantage:** 100% intellectual property ownership, zero recurring per-user license fees, and native compliance with Sri Lankan tax (VAT/SVAT) and logistics realities.
-- **Trilingual AI:** CreativeX builds Meta WhatsApp Business API bots and AI agents supporting English, Sinhala, and Tamil.
+- **Trilingual AI:** Creativex Technology builds Meta WhatsApp Business API bots and AI agents supporting English, Sinhala, and Tamil.
 
 ## Open positions & careers
 
-CreativeX Technology (Pvt) Ltd is an AI and software engineering consultancy headquartered in Rajagiriya, Colombo, Sri Lanka, operating global squads for clients in Australia, UAE, Malaysia, Singapore, and the US.
+Creativex Technology (Pvt) Ltd is an AI and software engineering consultancy headquartered in Rajagiriya, Colombo, Sri Lanka, operating global squads for clients in Australia, UAE, Malaysia, Singapore, and the US.
 
-CreativeX actively recruits across two core streams:
+Creativex Technology actively recruits across two core streams:
 1. **Sri Lankan Talent**: Onsite, hybrid, and remote roles in Colombo/Rajagiriya for undergraduates, fresh graduates, interns, and experienced engineers from leading institutions (University of Moratuwa, SLIIT, IIT, University of Colombo, etc.).
 2. **Worldwide / International Talent**: Remote contracts for global AI systems engineers, Next.js edge specialists, and enterprise designers working asynchronously with overlap in South Asian / Gulf / APAC timezones.
 
@@ -104,7 +104,7 @@ ${articleLinks}
 - Delivery: worldwide (Colombo studio + remote/hybrid)
 - Language: English
 - Project pages clearly distinguish product concepts and representative work from verified named client deployments.
-- Platform names describe technologies CreativeX works with and do not imply formal partnerships or endorsements.
+- Platform names describe technologies Creativex Technology works with and do not imply formal partnerships or endorsements.
 `;
 
   return new Response(content, {

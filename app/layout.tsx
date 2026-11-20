@@ -17,15 +17,15 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "CreativeX Technology | AI & Software Engineering Company in Sri Lanka",
-    template: "%s | CreativeX Technology",
+    default: "Creativex Technology | AI & Software Engineering Company in Sri Lanka",
+    template: "%s | Creativex Technology",
   },
   description:
-    "CreativeX Technology (Pvt) Ltd is a premier AI and software engineering company in Sri Lanka. We engineer custom AI solutions, enterprise ERP systems, business automation, cloud platforms, and web & mobile applications for businesses in Sri Lanka and worldwide.",
-  applicationName: "CreativeX Technology",
-  authors: [{ name: "CreativeX Technology (Pvt) Ltd", url: baseUrl }],
-  creator: "CreativeX Technology (Pvt) Ltd",
-  publisher: "CreativeX Technology (Pvt) Ltd",
+    "Creativex Technology (Pvt) Ltd is a premier AI and software engineering company in Sri Lanka. We engineer custom AI solutions, enterprise ERP systems, business automation, cloud platforms, and web & mobile applications for businesses in Sri Lanka and worldwide.",
+  applicationName: "Creativex Technology",
+  authors: [{ name: "Creativex Technology (Pvt) Ltd", url: baseUrl }],
+  creator: "Creativex Technology (Pvt) Ltd",
+  publisher: "Creativex Technology (Pvt) Ltd",
   category: "AI, Custom Software & Enterprise ERP Solutions",
   alternates: {
     canonical: baseUrl,
@@ -54,18 +54,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "CreativeX Technology | AI & Software Engineering Company in Sri Lanka",
+    title: "Creativex Technology | AI & Software Engineering Company in Sri Lanka",
     description:
       "Premier AI development, custom software engineering, enterprise ERP solutions, and business automation for organizations in Sri Lanka and worldwide.",
     type: "website",
     url: baseUrl,
-    siteName: "CreativeX Technology",
+    siteName: "Creativex Technology",
     locale: "en_US",
-    images: [{ url: "/og.png", width: 1730, height: 909, alt: "CreativeX Technology - AI & Software Engineering Company in Sri Lanka" }],
+    images: [{ url: "/og.png", width: 1730, height: 909, alt: "Creativex Technology - AI & Software Engineering Company in Sri Lanka" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CreativeX Technology | AI & Software Engineering Company in Sri Lanka",
+    title: "Creativex Technology | AI & Software Engineering Company in Sri Lanka",
     description:
       "Premier AI development, custom software engineering, enterprise ERP solutions, and business automation for organizations in Sri Lanka and worldwide.",
     images: ["/og.png"],
@@ -88,14 +88,13 @@ export default function RootLayout({
       {
         "@type": ["Organization", "LocalBusiness", "ProfessionalService"],
         "@id": `${baseUrl}/#organization`,
-        name: "CreativeX Technology",
-        legalName: "CreativeX Technology (Pvt) Ltd",
+        name: "Creativex Technology",
+        legalName: "Creativex Technology (Pvt) Ltd",
         alternateName: [
-          "CreativeX",
-          "CreativeX Tech",
-          "CreativeX Technology AI",
-          "CreativeX Technology (Pvt) Ltd",
-          "CreativeX AI Lab",
+          "Creativex Technology",
+          "Creativex Tech",
+          "Creativex Technology (Pvt) Ltd",
+          "Creativex AI Lab",
         ],
         url: baseUrl,
         logo: `${baseUrl}/brand/creativex-wordmark.webp`,
@@ -104,7 +103,7 @@ export default function RootLayout({
         telephone: "+94762345336",
         priceRange: "$$",
         description:
-          "CreativeX Technology (Pvt) Ltd is a premier AI and software engineering company headquartered in Rajagiriya, Colombo, Sri Lanka. CreativeX delivers custom AI development, enterprise ERP systems, IT solutions, business automation, cloud platforms, and full-stack software products for clients across Sri Lanka, Asia-Pacific, and worldwide.",
+          "Creativex Technology (Pvt) Ltd is a premier AI and software engineering company headquartered in Rajagiriya, Colombo, Sri Lanka. Creativex Technology delivers custom AI development, enterprise ERP systems, IT solutions, business automation, cloud platforms, and full-stack software products for clients across Sri Lanka, Asia-Pacific, and worldwide.",
         address: {
           "@type": "PostalAddress",
           streetAddress: "166 / B Perera Mawatha",
@@ -143,7 +142,7 @@ export default function RootLayout({
         ],
         hasOfferCatalog: {
           "@type": "OfferCatalog",
-          name: "CreativeX Core Capabilities",
+          name: "Creativex Technology Core Capabilities",
           itemListElement: [
             {
               "@type": "Offer",
@@ -217,7 +216,7 @@ export default function RootLayout({
         "@type": "WebSite",
         "@id": `${baseUrl}/#website`,
         url: baseUrl,
-        name: "CreativeX Technology",
+        name: "Creativex Technology",
         description:
           "AI and software engineering company in Sri Lanka building AI solutions, ERP systems, custom software, and enterprise automation worldwide.",
         publisher: { "@id": `${baseUrl}/#organization` },

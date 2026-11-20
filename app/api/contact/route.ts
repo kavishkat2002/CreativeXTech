@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       try {
         const resend = new Resend(resendApiKey);
         const { data, error } = await resend.emails.send({
-          from: "CreativeXTech Contact Form <onboarding@resend.dev>",
+          from: "Creativex Technology Contact Form <onboarding@resend.dev>",
           to: "tkavishka101@gmail.com",
           subject: `New Submission: ${subject}`,
           text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nDate: ${date || "N/A"}\nTime: ${time || "N/A"}\n\nMessage:\n${message}`,

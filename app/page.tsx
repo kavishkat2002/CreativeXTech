@@ -4,9 +4,9 @@ import { HomePageClient } from "@/components/home-page-client";
 const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
-  title: "AI & Software Engineering Company in Sri Lanka | CreativeX Technology",
+  title: "AI & Software Engineering Company in Sri Lanka | Creativex Technology",
   description:
-    "CreativeX Technology is a Sri Lankan AI and software engineering company delivering custom AI solutions, enterprise ERP systems, business automation, web and mobile applications, and IT solutions for businesses in Sri Lanka and worldwide.",
+    "Creativex Technology is a Sri Lankan AI and software engineering company delivering custom AI solutions, enterprise ERP systems, business automation, web and mobile applications, and IT solutions for businesses in Sri Lanka and worldwide.",
   keywords: [
     "AI Development Company in Sri Lanka",
     "AI Solutions Provider in Sri Lanka",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "WhatsApp AI Chatbot Sri Lanka",
     "Autonomous AI Agents",
     "Enterprise Software Solutions",
-    "CreativeX Technology (Pvt) Ltd",
+    "Creativex Technology (Pvt) Ltd",
   ],
   alternates: {
     canonical: baseUrl,
@@ -44,19 +44,19 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "AI & Software Engineering Company in Sri Lanka | CreativeX Technology",
+    title: "AI & Software Engineering Company in Sri Lanka | Creativex Technology",
     description:
-      "CreativeX Technology delivers custom AI solutions, enterprise ERP software, business automation, and software engineering for businesses in Sri Lanka and worldwide.",
+      "Creativex Technology delivers custom AI solutions, enterprise ERP software, business automation, and software engineering for businesses in Sri Lanka and worldwide.",
     type: "website",
     url: baseUrl,
-    siteName: "CreativeX Technology",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "CreativeX Technology - AI & Software Engineering in Sri Lanka" }],
+    siteName: "Creativex Technology",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Creativex Technology - AI & Software Engineering in Sri Lanka" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI & Software Engineering Company in Sri Lanka | CreativeX Technology",
+    title: "AI & Software Engineering Company in Sri Lanka | Creativex Technology",
     description:
-      "CreativeX Technology delivers custom AI solutions, enterprise ERP software, business automation, and software engineering for businesses in Sri Lanka and worldwide.",
+      "Creativex Technology delivers custom AI solutions, enterprise ERP software, business automation, and software engineering for businesses in Sri Lanka and worldwide.",
     images: [`${baseUrl}/og.png`],
   },
 };
@@ -69,9 +69,9 @@ export default function Home() {
         "@type": "WebPage",
         "@id": `${baseUrl}/#webpage`,
         url: baseUrl,
-        name: "AI & Software Engineering Company in Sri Lanka | CreativeX Technology",
+        name: "AI & Software Engineering Company in Sri Lanka | Creativex Technology",
         description:
-          "CreativeX Technology (Pvt) Ltd is an AI and software engineering company in Sri Lanka delivering custom AI development, enterprise ERP systems, IT solutions, and business automation.",
+          "Creativex Technology (Pvt) Ltd is an AI and software engineering company in Sri Lanka delivering custom AI development, enterprise ERP systems, IT solutions, and business automation.",
         isPartOf: { "@id": `${baseUrl}/#website` },
         about: { "@id": `${baseUrl}/#organization` },
         inLanguage: "en-US",

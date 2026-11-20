@@ -355,7 +355,7 @@ export default function ProjectEditorPage() {
           </div>
           <div>
             <label style={{ display: "block", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>Stage</label>
-            <input type="text" value={formData.stage} onChange={e => setFormData({ ...formData, stage: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px" }} placeholder="CreativeX product concept" />
+            <input type="text" value={formData.stage} onChange={e => setFormData({ ...formData, stage: e.target.value })} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "6px" }} placeholder="Creativex Technology product concept" />
           </div>
         </div>
 

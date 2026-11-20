@@ -610,7 +610,7 @@ export function CreativeOSShowcase() {
         <div className="cos-site-width">
           <div className="cos-hero-header">
             <div className="cos-eyebrow-badge">
-              <span>CreativeOS by CreativeX Technology · Enterprise Edition</span>
+              <span>CreativeOS by Creativex Technology · Enterprise Edition</span>
             </div>
             <h1 className="cos-hero-headline">
               One Calm Workspace for Every Team, Workflow, and Forecast.
@@ -642,7 +642,7 @@ export function CreativeOSShowcase() {
                 <span className="dot dot-green" />
               </div>
               <div className="cos-window-title">
-                CreativeOS Workspace — <strong>CreativeX Colombo HQ</strong>
+                CreativeOS Workspace — <strong>Creativex Technology Colombo HQ</strong>
               </div>
               <div className="cos-window-meta">v3.4.2 · Production</div>
             </div>
@@ -1723,7 +1723,7 @@ export function CreativeOSShowcase() {
                   <h3 className="cos-aeo-title">At a Glance: What is CreativeOS?</h3>
                   <p className="cos-aeo-text">
                     <strong>CreativeOS</strong> is an autonomous, agentic Work Operating System developed by{" "}
-                    <strong>CreativeX Technology (Pvt) Ltd</strong>. It unifies stage-gated project delivery, real-time client
+                    <strong>Creativex Technology (Pvt) Ltd</strong>. It unifies stage-gated project delivery, real-time client
                     approval bridges, autonomous background copilot agents, and predictive capacity analytics powered by
                     Meta Prophet and LightGBM. It natively factors in statutory labor costs (
                     <strong>AU 11.5% Superannuation</strong>, <strong>UK 13.8% NIC/PAYE</strong>,{" "}
@@ -2538,7 +2538,7 @@ def forecast_squad_capacity(historical_df: pd.DataFrame, squad_id: str):
               <thead>
                 <tr>
                   <th className="cos-bm-feature">Capability &amp; Architectural Standard</th>
-                  <th className="cos-bm-creativeos">CreativeOS (CreativeX)</th>
+                  <th className="cos-bm-creativeos">CreativeOS (Creativex Technology)</th>
                   <th>Atlassian Jira</th>
                   <th>Monday.com</th>
                   <th>ClickUp</th>
@@ -2821,7 +2821,7 @@ def forecast_squad_capacity(historical_df: pd.DataFrame, squad_id: str):
                   <CheckCircle2 size={36} className="text-emerald" />
                   <h3>Walkthrough Request Received</h3>
                   <p>
-                    Thank you, <strong>{formName}</strong>. A CreativeX Solutions Architect will reach out to{" "}
+                    Thank you, <strong>{formName}</strong>. A Creativex Technology Solutions Architect will reach out to{" "}
                     <strong>{formEmail}</strong> within 1 business day with your tailored preview environment.
                   </p>
                   <button
