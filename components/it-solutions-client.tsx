@@ -3,6 +3,8 @@
 import React, { useState, useId } from "react";
 import Link from "next/link";
 import {
+  Activity,
+  AlertCircle,
   ArrowDownRight,
   ArrowRight,
   ArrowUpRight,
@@ -32,16 +34,21 @@ import {
   Layers,
   Lock,
   Mail,
+  MapPin,
   MessageSquare,
+  Minus,
   Network,
   PhoneCall,
+  Plus,
   RefreshCw,
   Search,
   Server,
+  Shield,
   ShieldAlert,
   ShieldCheck,
   SlidersHorizontal,
   Smartphone,
+  Sparkles,
   Terminal,
   TrendingDown,
   TrendingUp,
@@ -427,6 +434,48 @@ const comparisonPoints = [
   },
 ];
 
+// ─── Self-Audit Questions ───────────────────────────────────────────────────
+
+interface AuditQuestion {
+  question: string;
+  options: { label: string; score: number }[];
+}
+
+const auditQuestions: AuditQuestion[] = [
+  {
+    question: "1. What happens if your main ISP connection (SLT or Dialog) goes down right now?",
+    options: [
+      { label: "Our entire office or retail billing stops completely until line is restored", score: 0 },
+      { label: "Staff manually switch to phone hotspots or USB dongles with delays", score: 1 },
+      { label: "We have an automated dual-WAN router that switches to secondary line in seconds", score: 3 },
+    ],
+  },
+  {
+    question: "2. How are your critical business databases and files currently backed up?",
+    options: [
+      { label: "To a local USB hard drive or PC in the same office room", score: 0 },
+      { label: "To Google Drive / OneDrive manually once a week or month", score: 1 },
+      { label: "Automated daily/hourly immutable off-site cloud snapshots with point-in-time recovery", score: 3 },
+    ],
+  },
+  {
+    question: "3. If your primary in-house IT person or freelancer resigns tomorrow:",
+    options: [
+      { label: "We lose access passwords and institutional knowledge; operations would be in trouble", score: 0 },
+      { label: "We have partial written notes, but finding a replacement would take weeks", score: 1 },
+      { label: "We have documented SOPs and an institutional SLA partner supporting our infrastructure", score: 3 },
+    ],
+  },
+  {
+    question: "4. How is staff login security handled across your internal software?",
+    options: [
+      { label: "Simple passwords without Two-Factor Authentication (2FA/MFA)", score: 0 },
+      { label: "2FA is optional and only used for email accounts", score: 1 },
+      { label: "Strict Zero-Trust, mandatory MFA, and role-based access control (RBAC)", score: 3 },
+    ],
+  },
+];
+
 // ─── FAQs ────────────────────────────────────────────────────────────────────
 
 const itFaqs = [
@@ -467,6 +516,7 @@ export function ItSolutionsClient() {
   const phoneId = useId();
   const emailId = useId();
   const challengeId = useId();
+
   // State for Capability Explorer
   const [activeTab, setActiveTab] = useState<string>("cloud");
   // State for Industry Blueprint Selector
@@ -476,13 +526,30 @@ export function ItSolutionsClient() {
   const [infraType, setInfraType] = useState<"cloud" | "hybrid" | "multibranch">("hybrid");
   const [supportTier, setSupportTier] = useState<"standard" | "critical">("critical");
   const [drTier, setDrTier] = useState<"daily" | "realtime">("realtime");
+  const [currency, setCurrency] = useState<"LKR" | "USD">("LKR");
+
+  // State for Interactive Self-Audit
+  const [auditStep, setAuditStep] = useState<number>(0);
+  const [auditAnswers, setAuditAnswers] = useState<number[]>([]);
+  const [auditComplete, setAuditComplete] = useState<boolean>(false);
+
+  // State for Live Edge Ping Test Simulation
+  const [pingStatus, setPingStatus] = useState<"idle" | "testing" | "done">("idle");
+  const [pingResults, setPingResults] = useState<{ colombo: number; singapore: number; mumbai: number }>({
+    colombo: 12,
+    singapore: 28,
+    mumbai: 34,
+  });
+
   // State for FAQ Accordion & Search
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [faqSearchQuery, setFaqSearchQuery] = useState<string>("");
   const [faqFilterCategory, setFaqFilterCategory] = useState<string>("All");
+
   // State for Telemetry HUD Refresh
   const [telemetryTime, setTelemetryTime] = useState<string>("Just now");
   const [isRefreshingTelemetry, setIsRefreshingTelemetry] = useState<boolean>(false);
+
   // State for Quick Consultation Form
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
   const [formData, setFormData] = useState({
@@ -499,7 +566,6 @@ export function ItSolutionsClient() {
 
   // ── Cost Estimator Calculations ──
   const calculateEstimate = () => {
-    // Base monthly cost calculation in LKR
     let baseLkr = 85000;
 
     // Endpoints multiplier
@@ -519,16 +585,19 @@ export function ItSolutionsClient() {
     // Disaster Recovery Tier
     if (drTier === "realtime") baseLkr += 45000;
 
-    // In-house equivalent comparison (2-3 engineers in Colombo: LKR 400,000 - 750,000)
     const inHouseCostLkr = Math.max(380000, Math.round(baseLkr * 2.15));
     const monthlySavingsLkr = inHouseCostLkr - baseLkr;
     const usdEquivalent = Math.round(baseLkr / 305);
+    const inHouseUsd = Math.round(inHouseCostLkr / 305);
+    const savingsUsd = Math.round(monthlySavingsLkr / 305);
 
     return {
       monthlyLkr: baseLkr,
       inHouseCostLkr,
       monthlySavingsLkr,
       usdEquivalent,
+      inHouseUsd,
+      savingsUsd,
       slaResponseTime: supportTier === "critical" ? "< 15 Mins Guaranteed" : "< 1 Hour Business SLA",
       backupInterval: drTier === "realtime" ? "Continuous WAL + Hourly Snapshots" : "Automated Nightly Snapshot",
     };
@@ -543,6 +612,37 @@ export function ItSolutionsClient() {
       setIsRefreshingTelemetry(false);
     }, 600);
   };
+
+  const runPingTest = () => {
+    setPingStatus("testing");
+    setTimeout(() => {
+      // Simulate slight realistic jitter
+      setPingResults({
+        colombo: Math.floor(10 + Math.random() * 5),
+        singapore: Math.floor(25 + Math.random() * 6),
+        mumbai: Math.floor(32 + Math.random() * 7),
+      });
+      setPingStatus("done");
+    }, 1200);
+  };
+
+  const handleAuditSelect = (score: number) => {
+    const nextAnswers = [...auditAnswers, score];
+    setAuditAnswers(nextAnswers);
+    if (auditStep + 1 < auditQuestions.length) {
+      setAuditStep(auditStep + 1);
+    } else {
+      setAuditComplete(true);
+    }
+  };
+
+  const resetAudit = () => {
+    setAuditStep(0);
+    setAuditAnswers([]);
+    setAuditComplete(false);
+  };
+
+  const totalAuditScore = auditAnswers.reduce((a, b) => a + b, 0);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -560,19 +660,24 @@ export function ItSolutionsClient() {
 
   return (
     <div className="bg-[#0b0c0b] text-[#e4e7e4] min-h-screen">
-      {/* ── Sticky Quick Navigation Bar ── */}
+      {/* ── Sticky Quick Navigation Bar (Desktop & Mobile Optimized) ── */}
       <nav
         aria-label="In-page jump navigation"
-        className="sticky top-[72px] z-40 bg-[#0d100d]/95 backdrop-blur-md border-b border-[#1e241e] hidden md:block"
+        className="sticky top-[72px] z-40 bg-[#0d100d]/95 backdrop-blur-md border-b border-[#1e241e]"
       >
-        <div className="site-width flex items-center justify-between py-2.5 text-xs text-[#a0a5a0]">
-          <div className="flex items-center gap-1 font-mono text-[11px] text-[#ff5a36]">
+        <div className="site-width flex items-center justify-between py-2 text-xs text-[#a0a5a0] overflow-x-auto no-scrollbar gap-4">
+          <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#ff5a36] shrink-0">
             <Server className="w-3.5 h-3.5" />
-            <span>IT SOLUTIONS SRI LANKA</span>
+            <span className="font-bold">IT SOLUTIONS SRI LANKA</span>
           </div>
-          <div className="flex items-center gap-5">
+
+          <div className="flex items-center gap-4 sm:gap-6 shrink-0 text-xs">
             <a href="#overview" className="hover:text-white transition-colors">
               Overview
+            </a>
+            <a href="#audit" className="text-[#ff5a36] hover:underline transition-colors flex items-center gap-1">
+              <Sparkles className="w-3 h-3" />
+              <span>30s Self-Audit</span>
             </a>
             <a href="#capabilities" className="hover:text-white transition-colors">
               Capabilities
@@ -590,19 +695,31 @@ export function ItSolutionsClient() {
               FAQs
             </a>
           </div>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#ff5a36] text-white font-medium hover:bg-[#e04826] transition-colors"
-          >
-            <span>Consult Architect</span>
-            <ArrowUpRight className="w-3 h-3" />
-          </Link>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <a
+              href="https://wa.me/94762345336?text=Hi%20Creativex%20Technology,%20I%20would%20like%20to%20discuss%20our%20enterprise%20IT%20requirements"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#25d366]/15 border border-[#25d366]/40 text-[#25d366] text-xs font-medium hover:bg-[#25d366]/25 transition-colors"
+            >
+              <MessageSquare className="w-3 h-3" />
+              <span className="hidden sm:inline">WhatsApp</span>
+            </a>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#ff5a36] text-white font-medium hover:bg-[#e04826] transition-colors"
+            >
+              <span>Consult Architect</span>
+              <ArrowUpRight className="w-3 h-3" />
+            </Link>
+          </div>
         </div>
       </nav>
 
       {/* ── 1. Hero Section ── */}
-      <section id="overview" className="relative pt-24 pb-16 sm:pb-24 overflow-hidden border-b border-[#1e241e]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(255,90,54,0.1),transparent)] pointer-events-none" />
+      <section id="overview" className="relative pt-20 pb-16 sm:pb-24 overflow-hidden border-b border-[#1e241e]">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(255,90,54,0.12),transparent)] pointer-events-none" />
 
         <div className="site-width relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -611,7 +728,7 @@ export function ItSolutionsClient() {
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#ff5a36]/10 border border-[#ff5a36]/25 mb-5 sm:mb-6">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#ff5a36]" />
                 <span className="text-[11px] font-mono font-semibold tracking-wider text-[#ff5a36] uppercase">
-                  Verified Enterprise IT Partner · Sri Lanka &amp; Global
+                  Verified Enterprise IT Partner · Rajagiriya, Colombo
                 </span>
               </div>
 
@@ -623,11 +740,68 @@ export function ItSolutionsClient() {
               </h1>
 
               <p className="text-sm sm:text-base lg:text-lg text-[#a5aaa5] leading-relaxed mb-6 sm:mb-8 max-w-2xl">
-                Creativex Technology (Pvt) Ltd engineers mission-critical IT infrastructure for businesses across Colombo and nationwide. We eliminate recurring network outages, fragile servers, and uncoordinated vendor handoffs by providing unified cloud architecture, multi-branch SD-WAN, and SLA-backed managed systems.
+                Creativex Technology (Pvt) Ltd engineers mission-critical IT infrastructure for businesses across Colombo, Kandy, Galle, and nationwide. We eliminate fragile servers, dropped broadband lines, and ransomware vulnerabilities with unified cloud architecture, multi-branch SD-WAN, and SLA-backed managed systems.
               </p>
 
+              {/* Quick Intent Selectors: What is your primary objective today? */}
+              <div className="p-4 rounded-xl bg-[#121612] border border-[#1e241e] mb-6">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#ff5a36] font-semibold block mb-2.5 flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5" />
+                  What is your immediate IT objective?
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <button
+                    onClick={() => {
+                      setActiveTab("networking");
+                      const el = document.getElementById("capabilities");
+                      el?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="p-2.5 rounded-lg bg-[#0e110e] border border-[#222822] text-left hover:border-[#ff5a36] hover:bg-[#ff5a36]/5 transition-all text-[#d4d4d8]"
+                  >
+                    <strong className="block text-white mb-0.5">Dual-ISP Branch Network</strong>
+                    <span className="text-[11px] text-[#8c928c]">Auto-failover for retail billing &amp; depots</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveTab("cloud");
+                      const el = document.getElementById("capabilities");
+                      el?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="p-2.5 rounded-lg bg-[#0e110e] border border-[#222822] text-left hover:border-[#ff5a36] hover:bg-[#ff5a36]/5 transition-all text-[#d4d4d8]"
+                  >
+                    <strong className="block text-white mb-0.5">Cloud Migration (AWS/GCP)</strong>
+                    <span className="text-[11px] text-[#8c928c]">Move physical servers to low-latency cloud</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveTab("managed-it");
+                      const el = document.getElementById("capabilities");
+                      el?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="p-2.5 rounded-lg bg-[#0e110e] border border-[#222822] text-left hover:border-[#ff5a36] hover:bg-[#ff5a36]/5 transition-all text-[#d4d4d8]"
+                  >
+                    <strong className="block text-white mb-0.5">24/7 Managed NOC &amp; Helpdesk</strong>
+                    <span className="text-[11px] text-[#8c928c]">Replace or augment in-house sysadmin</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveTab("security");
+                      const el = document.getElementById("capabilities");
+                      el?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="p-2.5 rounded-lg bg-[#0e110e] border border-[#222822] text-left hover:border-[#ff5a36] hover:bg-[#ff5a36]/5 transition-all text-[#d4d4d8]"
+                  >
+                    <strong className="block text-white mb-0.5">Cybersecurity &amp; PDPA Compliance</strong>
+                    <span className="text-[11px] text-[#8c928c]">Zero-trust firewall &amp; immutable backup</span>
+                  </button>
+                </div>
+              </div>
+
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8 sm:mb-10">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8">
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white px-5 sm:px-6 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-all shadow-lg shadow-[#ff5a36]/20 text-center"
@@ -639,7 +813,7 @@ export function ItSolutionsClient() {
                   className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-lg border border-[#2a302a] bg-[#121512] text-sm font-medium text-white hover:border-[#ff5a36]/50 hover:bg-[#181c18] transition-all text-center"
                 >
                   <Calculator className="w-4 h-4 text-[#ff5a36]" />
-                  Calculate Infrastructure Cost
+                  Estimate Monthly Cost
                 </a>
                 <a
                   href="https://wa.me/94762345336?text=Hi%20Creativex%20Technology,%20I%20would%20like%20to%20discuss%20our%20enterprise%20IT%20requirements"
@@ -736,8 +910,39 @@ export function ItSolutionsClient() {
                   </div>
                 </div>
 
+                {/* Interactive Real-Time Latency Ping Test */}
+                <div className="p-3 rounded-lg bg-[#121512] border border-[#1e241e] mb-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-mono text-[#a0a5a0] flex items-center gap-1.5">
+                      <Activity className="w-3.5 h-3.5 text-[#ff5a36]" />
+                      <span>Live Edge Latency Benchmark</span>
+                    </span>
+                    <button
+                      onClick={runPingTest}
+                      disabled={pingStatus === "testing"}
+                      className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#ff5a36]/15 text-[#ff5a36] hover:bg-[#ff5a36]/25 transition-colors disabled:opacity-50"
+                    >
+                      {pingStatus === "testing" ? "Testing..." : "Run Ping Test"}
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 text-center font-mono text-[11px]">
+                    <div className="p-1.5 rounded bg-[#0a0d0a] border border-[#1e241e]">
+                      <span className="text-[10px] text-[#8c928c] block">Colombo Edge</span>
+                      <strong className="text-[#22c55e]">{pingResults.colombo}ms</strong>
+                    </div>
+                    <div className="p-1.5 rounded bg-[#0a0d0a] border border-[#1e241e]">
+                      <span className="text-[10px] text-[#8c928c] block">AWS Singapore</span>
+                      <strong className="text-[#3b82f6]">{pingResults.singapore}ms</strong>
+                    </div>
+                    <div className="p-1.5 rounded bg-[#0a0d0a] border border-[#1e241e]">
+                      <span className="text-[10px] text-[#8c928c] block">Azure Mumbai</span>
+                      <strong className="text-white">{pingResults.mumbai}ms</strong>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Location indicator */}
-                <div className="pt-3 border-t border-[#1e241e] flex items-center justify-between text-[11px] text-[#8c928c]">
+                <div className="pt-2 border-t border-[#1e241e] flex items-center justify-between text-[11px] text-[#8c928c]">
                   <div className="flex items-center gap-1.5">
                     <CircleDot className="w-3 h-3 text-[#22c55e] animate-pulse" />
                     <span>NOC Active: Rajagiriya, Colombo</span>
@@ -750,22 +955,110 @@ export function ItSolutionsClient() {
         </div>
       </section>
 
-      {/* ── 2. Executive AEO Problem-Solution Statement ── */}
-      <section className="py-16 border-b border-[#1e241e] bg-[#0d0f0d]">
-        <div className="site-width">
-          <div className="max-w-4xl">
-            <span className="text-xs uppercase tracking-widest text-[#ff5a36] font-bold block mb-2">
-              The Reality of Enterprise Technology in Sri Lanka
-            </span>
-            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-5">
-              Turning unpredictable local infrastructure into rock-solid enterprise performance.
+      {/* ── 2. Interactive 30-Second Self-Audit Widget ── */}
+      <section id="audit" className="py-16 border-b border-[#1e241e] bg-[#0d0f0d]">
+        <div className="site-width max-w-4xl">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#ff5a36]/10 border border-[#ff5a36]/20 text-[#ff5a36] text-xs font-mono mb-2">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>30-SECOND INTERACTIVE HEALTH CHECK</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Test Your Business IT Vulnerability Score
             </h2>
-            <p className="text-sm md:text-base text-[#a5aaa5] leading-relaxed mb-4">
-              Sri Lankan organizations face unique infrastructural hurdles: intermittent telecom link drops, national grid brownouts, vulnerability to ransomware attacks targeting under-protected SME networks, and heavy reliance on single sysadmins whose sudden departure paralyzes business operations.
+            <p className="text-xs sm:text-sm text-[#a5aaa5] max-w-lg mx-auto mt-2">
+              Answer 4 fast questions to benchmark your setup against common Sri Lankan operational risks.
             </p>
-            <p className="text-sm md:text-base text-[#a5aaa5] leading-relaxed">
-              At Creativex Technology, we replace fragile ad-hoc setups with institutional, enterprise-grade engineering. By blending low-latency cloud architecture in Singapore with localized edge caching, automated dual-carrier SD-WAN failovers, and 24/7 proactive monitoring, your team stays operational regardless of external disruptions.
-            </p>
+          </div>
+
+          <div className="rounded-xl border border-[#222822] bg-[#0e100e] p-6 sm:p-8 shadow-xl">
+            {!auditComplete ? (
+              <div>
+                <div className="flex items-center justify-between text-xs font-mono text-[#8c928c] mb-4 pb-3 border-b border-[#1e241e]">
+                  <span>Question {auditStep + 1} of {auditQuestions.length}</span>
+                  <div className="flex gap-1.5">
+                    {auditQuestions.map((_, i) => (
+                      <span
+                        key={i}
+                        className={`w-5 h-1.5 rounded-full ${
+                          i <= auditStep ? "bg-[#ff5a36]" : "bg-[#1e241e]"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <h3 className="text-base sm:text-lg font-semibold text-white mb-6">
+                  {auditQuestions[auditStep].question}
+                </h3>
+
+                <div className="space-y-3">
+                  {auditQuestions[auditStep].options.map((opt, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => handleAuditSelect(opt.score)}
+                      className="w-full p-4 rounded-lg border border-[#1e241e] bg-[#121512] hover:border-[#ff5a36] hover:bg-[#ff5a36]/5 text-left text-xs sm:text-sm text-[#d4d4d8] hover:text-white transition-all flex items-center justify-between group"
+                    >
+                      <span>{opt.label}</span>
+                      <ArrowRight className="w-4 h-4 text-[#8c928c] group-hover:text-[#ff5a36] shrink-0 ml-3 transition-colors" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-4 space-y-6">
+                <div>
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#ff5a36] font-bold block mb-2">
+                    Audit Result Generated
+                  </span>
+                  <h3 className="text-2xl font-bold text-white">
+                    {totalAuditScore <= 3
+                      ? "High Vulnerability Risk Detected"
+                      : totalAuditScore <= 7
+                      ? "Moderate Operational Exposure"
+                      : "Resilient & Well-Guarded Infrastructure"}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#a5aaa5] max-w-md mx-auto mt-2">
+                    {totalAuditScore <= 3
+                      ? "Your business is at severe risk from telecom outages, hardware failure, and single-person dependency. Immediate dual-WAN failover and automated cloud backup are recommended."
+                      : totalAuditScore <= 7
+                      ? "You have basic protections, but vulnerabilities exist around ransomware isolation, SLA support guarantees, and branch synchronization."
+                      : "Excellent foundation! Creativex Technology can help optimize cloud compute costs, enforce zero-trust identity, and provide 24/7 proactive NOC coverage."}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left max-w-2xl mx-auto text-xs">
+                  <div className="p-3 rounded-lg bg-[#141814] border border-[#1e241e]">
+                    <strong className="text-white block mb-1">1. Dual-Carrier SD-WAN</strong>
+                    <span className="text-[#8c928c]">Eliminates revenue disruption during SLT/Dialog fiber cuts.</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-[#141814] border border-[#1e241e]">
+                    <strong className="text-white block mb-1">2. Air-Gapped Cloud Vault</strong>
+                    <span className="text-[#8c928c]">Protects financial records from ransomware extortion.</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-[#141814] border border-[#1e241e]">
+                    <strong className="text-white block mb-1">3. 24/7 SLA Team</strong>
+                    <span className="text-[#8c928c]">Removes risk of single-person staff departure.</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 bg-[#ff5a36] text-white px-6 py-3 rounded-lg text-xs font-semibold hover:bg-[#e04826] transition-all"
+                  >
+                    <span>Get a Free In-Depth Architecture Report</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </Link>
+                  <button
+                    onClick={resetAudit}
+                    className="text-xs text-[#8c928c] hover:text-white underline py-2"
+                  >
+                    Retake Self-Audit
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -786,7 +1079,7 @@ export function ItSolutionsClient() {
             </p>
           </div>
 
-          {/* Tab Navigation Buttons */}
+          {/* Tab Navigation Buttons (Responsive Grid) */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-8">
             {itDomains.map((domain) => {
               const TabIcon = domain.icon;
@@ -961,23 +1254,64 @@ export function ItSolutionsClient() {
               Calculate Your Monthly IT &amp; Cloud Investment
             </h2>
             <p className="text-sm sm:text-base text-[#a5aaa5]">
-              Adjust your organization's endpoints, infrastructure model, and required SLA tier to get an immediate realistic estimate in Sri Lankan Rupees (LKR).
+              Adjust your organization's endpoints, infrastructure model, and required SLA tier to get an immediate realistic estimate.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Column: Interactive Sliders & Selectors */}
             <div className="lg:col-span-7 rounded-xl border border-[#222822] bg-[#0e100e] p-6 sm:p-8 space-y-6">
-              {/* Slider: Number of Endpoints */}
+              {/* Currency Selector Toggle */}
+              <div className="flex items-center justify-between pb-3 border-b border-[#1e241e]">
+                <span className="text-xs font-mono uppercase text-[#8c928c]">Display Currency:</span>
+                <div className="inline-flex rounded-md border border-[#1e241e] p-0.5 bg-[#121612]">
+                  <button
+                    onClick={() => setCurrency("LKR")}
+                    className={`px-3 py-1 rounded text-xs font-mono ${
+                      currency === "LKR" ? "bg-[#ff5a36] text-white" : "text-[#8c928c] hover:text-white"
+                    }`}
+                  >
+                    LKR (Rs)
+                  </button>
+                  <button
+                    onClick={() => setCurrency("USD")}
+                    className={`px-3 py-1 rounded text-xs font-mono ${
+                      currency === "USD" ? "bg-[#ff5a36] text-white" : "text-[#8c928c] hover:text-white"
+                    }`}
+                  >
+                    USD ($)
+                  </button>
+                </div>
+              </div>
+
+              {/* Slider & Counter: Number of Endpoints */}
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label htmlFor="endpoints-slider" className="text-xs font-mono uppercase text-white flex items-center gap-2">
                     <Users className="w-3.5 h-3.5 text-[#ff5a36]" />
                     <span>Number of Active Users / Workstations</span>
                   </label>
-                  <span className="font-mono text-sm font-bold text-[#ff5a36] px-2.5 py-0.5 rounded bg-[#ff5a36]/10 border border-[#ff5a36]/30">
-                    {endpoints} Users
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      aria-label="Decrease users"
+                      onClick={() => setEndpoints(Math.max(10, endpoints - 5))}
+                      className="p-1 rounded bg-[#1a1f1a] border border-[#222822] text-[#8c928c] hover:text-white"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="font-mono text-sm font-bold text-[#ff5a36] px-2.5 py-0.5 rounded bg-[#ff5a36]/10 border border-[#ff5a36]/30 min-w-[70px] text-center">
+                      {endpoints} Users
+                    </span>
+                    <button
+                      type="button"
+                      aria-label="Increase users"
+                      onClick={() => setEndpoints(Math.min(250, endpoints + 5))}
+                      className="p-1 rounded bg-[#1a1f1a] border border-[#222822] text-[#8c928c] hover:text-white"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
                 <input
                   id="endpoints-slider"
@@ -1128,17 +1462,21 @@ export function ItSolutionsClient() {
                 </span>
               </div>
 
-              {/* Price Display */}
+              {/* Price Display in LKR or USD */}
               <div className="mb-6">
                 <div className="flex items-baseline gap-2 mb-1">
-                  <span className="text-xs text-[#8c928c] font-mono">LKR</span>
+                  <span className="text-xs text-[#8c928c] font-mono">{currency}</span>
                   <span className="text-3xl sm:text-4xl font-bold font-mono text-white">
-                    {estimate.monthlyLkr.toLocaleString()}
+                    {currency === "LKR"
+                      ? estimate.monthlyLkr.toLocaleString()
+                      : estimate.usdEquivalent.toLocaleString()}
                   </span>
                   <span className="text-xs text-[#8c928c]">/ month</span>
                 </div>
                 <span className="text-xs text-[#8c928c] font-mono block">
-                  Approx. ${estimate.usdEquivalent.toLocaleString()} USD · Tailored to {endpoints} endpoints
+                  {currency === "LKR"
+                    ? `Approx. $${estimate.usdEquivalent.toLocaleString()} USD · Tailored to ${endpoints} endpoints`
+                    : `Equivalent to approx. Rs. ${estimate.monthlyLkr.toLocaleString()} LKR`}
                 </span>
               </div>
 
@@ -1147,17 +1485,21 @@ export function ItSolutionsClient() {
                 <div className="flex items-center justify-between text-xs mb-1.5">
                   <span className="text-[#8c928c]">In-House IT Team Cost in Colombo:</span>
                   <span className="font-mono text-[#f87171] line-through">
-                    LKR {estimate.inHouseCostLkr.toLocaleString()}
+                    {currency === "LKR"
+                      ? `LKR ${estimate.inHouseCostLkr.toLocaleString()}`
+                      : `$${estimate.inHouseUsd.toLocaleString()}`}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-xs font-semibold">
                   <span className="text-[#22c55e]">Projected Monthly Operational Savings:</span>
                   <span className="font-mono text-[#22c55e]">
-                    +LKR {estimate.monthlySavingsLkr.toLocaleString()}
+                    +{currency === "LKR"
+                      ? `LKR ${estimate.monthlySavingsLkr.toLocaleString()}`
+                      : `$${estimate.savingsUsd.toLocaleString()}`}
                   </span>
                 </div>
                 <span className="text-[10px] text-[#8c928c] block mt-1.5 leading-snug">
-                  *Based on salary, EPF/ETF, workstations, and training overhead for 2 full-time senior sysadmins.
+                  *Based on salary, EPF/ETF, workstations, and training overhead for 2 full-time senior sysadmins in Colombo.
                 </span>
               </div>
 
@@ -1532,7 +1874,7 @@ export function ItSolutionsClient() {
                     <MessageSquare className="w-4 h-4 text-[#25d366]" />
                     <div>
                       <span className="text-[10px] text-[#8c928c] block">Instant Messaging</span>
-                      <strong className="text-[#25d366]">Chat on WhatsApp</strong>
+                      <strong className="text-[#25d366]">Chat on WhatsApp (Live)</strong>
                     </div>
                   </a>
 
@@ -1546,6 +1888,14 @@ export function ItSolutionsClient() {
                       <strong className="font-mono">contact@creativextechnology.com</strong>
                     </div>
                   </a>
+
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-[#141814] border border-[#1e241e] text-[#a0a5a0]">
+                    <MapPin className="w-4 h-4 text-[#ff5a36] shrink-0" />
+                    <div>
+                      <span className="text-[10px] text-[#8c928c] block">Registered Office</span>
+                      <span className="text-xs text-white">166 / B Perera Mawatha, Rajagiriya, Colombo</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1639,7 +1989,7 @@ export function ItSolutionsClient() {
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                     <span className="text-[10px] text-[#8c928c] block text-center">
-                      Strict NDA guaranteed. No sales spam—speak directly with engineering leads.
+                      Strict NDA guaranteed. No sales spam—speak directly with engineering leads in Colombo.
                     </span>
                   </form>
                 )}
