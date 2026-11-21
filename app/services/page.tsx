@@ -95,10 +95,11 @@ export default async function ServicesPage() {
             <p className="services-page-kicker">Strategy · Product · Engineering · Operations</p>
             <h1>Services designed around the work.</h1>
             <p>From AI strategy to production software, Creativex Technology connects the business decision, user experience, data, and engineering required to make intelligent systems useful.</p>
-            <a href="#services-directory">Explore every service <ArrowDownRight /></a>
+            <a href="#services-directory" className="inline-flex items-center gap-2 bg-[#ff5a36] text-white px-5 py-3 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-all">
+              Explore every service <ArrowDownRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
-        <span className="services-page-word" aria-hidden="true">BUILD</span>
       </section>
 
       <section id="services-directory" className="services-directory">

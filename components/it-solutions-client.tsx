@@ -719,7 +719,7 @@ export function ItSolutionsClient() {
 
       {/* ── 1. Hero Section ── */}
       <section id="overview" className="relative pt-20 pb-16 sm:pb-24 overflow-hidden border-b border-[#1e241e]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(255,90,54,0.12),transparent)] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#121612]/40 via-transparent to-transparent pointer-events-none" />
 
         <div className="site-width relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -804,7 +804,7 @@ export function ItSolutionsClient() {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white px-5 sm:px-6 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-all shadow-lg shadow-[#ff5a36]/20 text-center"
+                  className="inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white px-5 sm:px-6 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-all text-center"
                 >
                   Schedule an Architecture Audit <ArrowUpRight className="w-4 h-4" />
                 </Link>
@@ -1090,7 +1090,7 @@ export function ItSolutionsClient() {
                   onClick={() => setActiveTab(domain.id)}
                   className={`flex flex-col items-start p-3.5 rounded-lg border text-left transition-all ${
                     isActive
-                      ? "border-[#ff5a36] bg-[#ff5a36]/10 text-white shadow-md shadow-[#ff5a36]/10"
+                      ? "border-[#ff5a36] bg-[#ff5a36]/10 text-white"
                       : "border-[#1e241e] bg-[#0e100e] text-[#8c928c] hover:border-[#2a302a] hover:text-[#e4e7e4]"
                   }`}
                 >
@@ -1526,7 +1526,7 @@ export function ItSolutionsClient() {
               {/* CTA Button */}
               <Link
                 href="/contact"
-                className="w-full inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white py-3.5 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-all shadow-lg shadow-[#ff5a36]/20 text-center"
+                className="w-full inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white py-3.5 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-all text-center"
               >
                 <span>Lock In This Architecture Scope</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -1983,7 +1983,7 @@ export function ItSolutionsClient() {
 
                     <button
                       type="submit"
-                      className="w-full inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white py-3 rounded-lg text-xs font-semibold hover:bg-[#e04826] transition-colors shadow-md shadow-[#ff5a36]/20"
+                      className="w-full inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white py-3 rounded-lg text-xs font-semibold hover:bg-[#e04826] transition-colors"
                     >
                       <span>Request Architecture Discovery Call</span>
                       <ArrowRight className="w-3.5 h-3.5" />

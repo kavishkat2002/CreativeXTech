@@ -198,17 +198,16 @@ export default function AiDevelopmentSriLankaPage() {
             <p>
               Creativex Technology (Pvt) Ltd is a leading Sri Lankan AI engineering consultancy. We design, build, and deploy production-grade artificial intelligence systems—from autonomous AI agents and predictive analytics to generative LLMs—grounded in real business operations.
             </p>
-            <div className="flex flex-wrap gap-4 pt-4">
-              <a href="#ai-capabilities" className="inline-flex items-center gap-2 text-sm text-[#ff5a36] font-medium hover:underline">
+            <div className="flex flex-wrap gap-3.5 pt-4">
+              <a href="#ai-capabilities" className="inline-flex items-center gap-2 bg-[#ff5a36] text-white px-5 py-3 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-all">
                 Explore AI capabilities <ArrowDownRight className="w-4 h-4" />
               </a>
-              <Link href="/contact" className="inline-flex items-center gap-2 text-sm text-[#a0a5a0] hover:text-white">
+              <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-[#2a302a] bg-[#141814] text-sm font-medium text-white hover:border-[#ff5a36]/50 transition-all">
                 Book an AI consultation <ArrowUpRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
         </div>
-        <span className="services-page-word" aria-hidden="true">INTELLIGENCE</span>
       </section>
 
       {/* Executive Answer Section (AEO) */}
