@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   async redirects() {
     return [
+      {
+        // Consolidate legacy service URL to dedicated high-intent pillar page to prevent ranking cannibalization
+        source: "/services/custom-software-development",
+        destination: "/custom-software-development",
+        permanent: true,
+      },
       // ─────────────────────────────────────────────────────────────────────
       // Hostname-level redirects:
       //   creativexlab.online (old domain) → www.creativextechnology.com

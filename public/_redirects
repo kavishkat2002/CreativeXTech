@@ -16,6 +16,9 @@
 # 4. Test redirect chains to prevent loops before going live.
 # =============================================================================
 
+# Canonical path consolidation: eliminate duplicate ranking / keyword cannibalization
+/services/custom-software-development /custom-software-development 301
+
 # Redirect non-www new domain → www (prevents duplicate indexing)
 https://creativextechnology.com/* https://www.creativextechnology.com/:splat 301
 

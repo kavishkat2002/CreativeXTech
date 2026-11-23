@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowLeft, ArrowUpRight, Check, ShieldCheck } from "lucide-react";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
@@ -11,11 +11,22 @@ const baseUrl = "https://www.creativextechnology.com";
 
 export async function generateStaticParams() {
   const allServices = await getServices();
-  return allServices.map((service) => ({ slug: service.slug }));
+  return allServices
+    .filter((service) => service.slug !== "custom-software-development")
+    .map((service) => ({ slug: service.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
+  if (slug === "custom-software-development") {
+    return {
+      title: "Custom Software Development | Creativex Technology",
+      robots: { index: false, follow: true },
+      alternates: {
+        canonical: `${baseUrl}/custom-software-development`,
+      },
+    };
+  }
   const service = await getService(slug);
   if (!service) {
     return {
@@ -40,6 +51,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  if (slug === "custom-software-development") {
+    permanentRedirect("/custom-software-development");
+  }
   const service = await getService(slug);
   if (!service) notFound();
   
@@ -49,6 +63,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const ServiceIcon = getServiceIcon(service.slug);
   const serviceIndex = allServices.findIndex((item) => item.slug === service.slug);
   const nextService = allServices[(serviceIndex + 1) % allServices.length];
+  const nextServiceHref = nextService.slug === "custom-software-development" ? "/custom-software-development" : `/services/${nextService.slug}`;
   
   const jsonLd = {
     "@context": "https://schema.org",
@@ -147,7 +162,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       <section className="service-next">
         <div className="site-width service-next-layout">
           <div><p className="section-index">Start a {service.title.toLowerCase()} conversation</p><h2>Begin with the workflow and the result you need.</h2><a href="/contact">Discuss this service <ArrowUpRight /></a></div>
-          <a className="service-next-card" href={`/services/${nextService.slug}`}><span>Next service / {nextService.number}</span><strong>{nextService.title}</strong><ArrowUpRight /></a>
+          <a className="service-next-card" href={nextServiceHref}><span>Next service / {nextService.number}</span><strong>{nextService.title}</strong><ArrowUpRight /></a>
         </div>
       </section>
       <SiteFooter />

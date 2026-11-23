@@ -54,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const jobs = await getJobs();
 
     const serviceEntries: MetadataRoute.Sitemap = (services || [])
-      .filter((service) => service && service.slug)
+      .filter((service) => service && service.slug && service.slug !== "custom-software-development")
       .map((service) => ({
         url: `${baseUrl}/services/${service.slug}`,
         lastModified: siteFallbackDate,
