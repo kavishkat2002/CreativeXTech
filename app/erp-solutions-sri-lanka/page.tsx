@@ -19,11 +19,14 @@ export const metadata: Metadata = {
     "ERP software for SMEs Sri Lanka",
     "Distribution management software Sri Lanka",
     "Manufacturing ERP Sri Lanka",
+    "ERP system Colombo",
+    "Zero license ERP Sri Lanka",
   ],
   alternates: {
     canonical: `${baseUrl}/erp-solutions-sri-lanka`,
     languages: {
       "en-US": `${baseUrl}/erp-solutions-sri-lanka`,
+      "en-AU": `${baseUrl}/erp-solutions-sri-lanka`,
       "en-LK": `${baseUrl}/erp-solutions-sri-lanka`,
       "x-default": `${baseUrl}/erp-solutions-sri-lanka`,
     },
@@ -31,14 +34,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ERP Solutions Provider in Sri Lanka | Creativex Technology",
     description:
-      "Modern, custom ERP development for Sri Lankan enterprises and growing SMEs. Connect inventory, billing, procurement, and accounts with 100% IP ownership.",
+      "Modern, custom ERP development for Sri Lankan enterprises and growing SMEs. Connect inventory, billing, procurement, and accounts with 100% IP ownership and zero per-seat fees.",
     url: `${baseUrl}/erp-solutions-sri-lanka`,
     type: "website",
     siteName: "Creativex Technology",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "ERP Solutions Provider in Sri Lanka" }],
+    locale: "en_US",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "ERP Solutions Provider in Sri Lanka — Creativex Technology" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@creativex_tech",
     title: "ERP Solutions Provider in Sri Lanka | Creativex Technology",
     description:
       "Custom ERP development, inventory systems, and enterprise management software built for Sri Lankan businesses.",
@@ -78,18 +83,49 @@ export default function ErpSolutionsSriLankaPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebPage",
+        "@id": `${baseUrl}/erp-solutions-sri-lanka/#webpage`,
+        url: `${baseUrl}/erp-solutions-sri-lanka`,
+        name: "ERP Solutions Provider in Sri Lanka | Custom ERP Software | Creativex Technology",
+        description:
+          "Creativex Technology delivers custom ERP solutions in Sri Lanka for inventory, supply chain, multi-branch retail, and manufacturing with zero recurring per-seat license fees.",
+        isPartOf: { "@id": `${baseUrl}/#website` },
+        about: { "@id": `${baseUrl}/#organization` },
+        inLanguage: "en-US",
+        datePublished: "2024-01-01",
+        dateModified: "2026-11-24",
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: `${baseUrl}/og.png`,
+          width: 1730,
+          height: 909,
+        },
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: [".services-page-hero", ".about-intro", ".faq-section"],
+        },
+      },
+      {
         "@type": "Service",
         "@id": `${baseUrl}/erp-solutions-sri-lanka/#service`,
         name: "ERP Solutions & Enterprise Software in Sri Lanka",
         serviceType: "Enterprise Resource Planning (ERP) & Business Software Development",
         provider: { "@id": `${baseUrl}/#organization` },
+        url: `${baseUrl}/erp-solutions-sri-lanka`,
         areaServed: [
+          { "@type": "City", name: "Colombo", containedInPlace: { "@type": "Country", name: "Sri Lanka" } },
           { "@type": "Country", name: "Sri Lanka" },
           { "@type": "AdministrativeArea", name: "Asia-Pacific" },
           { "@type": "AdministrativeArea", name: "Worldwide" },
         ],
         description:
           "Custom ERP development company in Sri Lanka engineering tailored business management systems, inventory tracking, distribution management, and accounting software.",
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "LKR",
+          lowPrice: "850000",
+          offerCount: 6,
+        },
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "ERP Modules & Capabilities",
@@ -117,6 +153,7 @@ export default function ErpSolutionsSriLankaPage() {
       },
       {
         "@type": "BreadcrumbList",
+        "@id": `${baseUrl}/erp-solutions-sri-lanka/#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
           { "@type": "ListItem", position: 2, name: "Solutions", item: `${baseUrl}/solutions` },

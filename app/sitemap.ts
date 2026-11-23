@@ -8,43 +8,52 @@ import { getServices } from "@/lib/services";
 export const dynamic = "force-dynamic";
 
 const baseUrl = "https://www.creativextechnology.com";
+
+/**
+ * Last-modified date for static core pages.
+ * Update this when making content/structural changes to these pages.
+ */
+const CORE_LAST_MODIFIED = new Date("2026-11-24T00:00:00.000Z");
+
+/** Fallback date when dynamic content has no timestamp */
 const siteFallbackDate = new Date("2026-09-12T00:00:00.000Z");
 
 /**
- * Advanced XML Sitemap Generator (SEO & GEO Optimized)
- * 
+ * Advanced XML Sitemap Generator — SEO, AEO & GEO Optimised
+ *
  * Strategy Principles:
  * 1. Include ONLY 200 OK canonical, indexable URLs.
  * 2. Omit priority & changefreq fields (ignored by Googlebot & AI crawlers).
- * 3. Provide accurate, dynamic lastModified timestamps to optimize crawl budget.
- * 4. Exclude noindex, redirect, draft, and administrative paths.
+ * 3. Provide accurate, meaningful lastModified timestamps to signal crawl priority.
+ * 4. Exclude noindex, redirect, draft, admin, and API paths.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Core canonical routes
-  const corePaths = [
-    "",
-    "/ai-development-sri-lanka",
-    "/erp-solutions-sri-lanka",
-    "/it-solutions-sri-lanka",
-    "/custom-software-development",
-    "/creativeos",
-    "/services",
-    "/solutions",
-    "/projects",
-    "/blog",
-    "/careers",
-    "/careers/talent-pool",
-    "/about",
-    "/contact",
-    "/privacy-policy",
-    "/terms-and-conditions",
+  /**
+   * Core canonical routes with accurate lastModified signals.
+   * Homepage is highest-priority; pillar pages are regularly updated.
+   */
+  const corePaths: Array<{ path: string; date: Date }> = [
+    { path: "", date: CORE_LAST_MODIFIED },
+    { path: "/ai-development-sri-lanka", date: CORE_LAST_MODIFIED },
+    { path: "/erp-solutions-sri-lanka", date: CORE_LAST_MODIFIED },
+    { path: "/it-solutions-sri-lanka", date: CORE_LAST_MODIFIED },
+    { path: "/custom-software-development", date: CORE_LAST_MODIFIED },
+    { path: "/creativeos", date: CORE_LAST_MODIFIED },
+    { path: "/services", date: CORE_LAST_MODIFIED },
+    { path: "/solutions", date: CORE_LAST_MODIFIED },
+    { path: "/projects", date: CORE_LAST_MODIFIED },
+    { path: "/blog", date: CORE_LAST_MODIFIED },
+    { path: "/careers", date: CORE_LAST_MODIFIED },
+    { path: "/careers/talent-pool", date: CORE_LAST_MODIFIED },
+    { path: "/about", date: CORE_LAST_MODIFIED },
+    { path: "/contact", date: CORE_LAST_MODIFIED },
+    { path: "/privacy-policy", date: new Date("2026-09-01T00:00:00.000Z") },
+    { path: "/terms-and-conditions", date: new Date("2026-09-01T00:00:00.000Z") },
   ];
 
-  const currentDate = new Date();
-
-  const coreEntries: MetadataRoute.Sitemap = corePaths.map((path) => ({
+  const coreEntries: MetadataRoute.Sitemap = corePaths.map(({ path, date }) => ({
     url: `${baseUrl}${path}`,
-    lastModified: currentDate,
+    lastModified: date,
   }));
 
   try {
@@ -103,4 +112,3 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return coreEntries;
   }
 }
-

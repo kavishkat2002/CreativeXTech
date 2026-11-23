@@ -46,6 +46,13 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: `${baseUrl}/creativeos`,
+    languages: {
+      "en-US": `${baseUrl}/creativeos`,
+      "en-AU": `${baseUrl}/creativeos`,
+      "en-GB": `${baseUrl}/creativeos`,
+      "en-LK": `${baseUrl}/creativeos`,
+      "x-default": `${baseUrl}/creativeos`,
+    },
   },
   openGraph: {
     title: "CreativeOS — Autonomous Work Operating System & Predictive Capacity Engine",

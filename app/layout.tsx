@@ -26,12 +26,14 @@ export const metadata: Metadata = {
   authors: [{ name: "Creativex Technology (Pvt) Ltd", url: baseUrl }],
   creator: "Creativex Technology (Pvt) Ltd",
   publisher: "Creativex Technology (Pvt) Ltd",
-  category: "AI, Custom Software & Enterprise ERP Solutions",
+  category: "Technology — AI & Enterprise Software Engineering",
+  referrer: "origin-when-cross-origin",
   alternates: {
     canonical: baseUrl,
     languages: {
       "en-US": baseUrl,
       "en-GB": baseUrl,
+      "en-AU": baseUrl,
       "en-LK": baseUrl,
       "x-default": baseUrl,
     },
@@ -64,14 +66,24 @@ export const metadata: Metadata = {
     url: baseUrl,
     siteName: "Creativex Technology",
     locale: "en_US",
-    images: [{ url: "/og.png", width: 1730, height: 909, alt: "Creativex Technology - AI & Software Engineering Company in Sri Lanka" }],
+    images: [
+      {
+        url: "/og.png",
+        width: 1730,
+        height: 909,
+        alt: "Creativex Technology - AI & Software Engineering Company in Sri Lanka",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@creativex_tech",
+    creator: "@creativex_tech",
     title: "Creativex Technology | AI & Software Engineering Company in Sri Lanka",
     description:
       "Premier AI development, custom software engineering, enterprise ERP solutions, and business automation for organizations in Sri Lanka and worldwide.",
-    images: ["/og.png"],
+    images: [{ url: "/og.png", alt: "Creativex Technology" }],
   },
   icons: {
     icon: [
@@ -79,6 +91,9 @@ export const metadata: Metadata = {
     ],
     shortcut: "/favicon.svg",
     apple: "/favicon.svg",
+  },
+  other: {
+    "og:locale:alternate": ["en_LK", "en_GB", "en_AU"],
   },
 };
 
@@ -102,8 +117,21 @@ export default function RootLayout({
           "Creativex AI Lab",
         ],
         url: baseUrl,
-        logo: `${baseUrl}/brand/creativex-wordmark.webp`,
-        image: `${baseUrl}/brand/creativex-wordmark.webp`,
+        logo: {
+          "@type": "ImageObject",
+          "@id": `${baseUrl}/#logo`,
+          url: `${baseUrl}/brand/creativex-wordmark.webp`,
+          contentUrl: `${baseUrl}/brand/creativex-wordmark.webp`,
+          width: 400,
+          height: 100,
+          caption: "Creativex Technology Logo",
+        },
+        image: {
+          "@type": "ImageObject",
+          url: `${baseUrl}/og.png`,
+          width: 1730,
+          height: 909,
+        },
         email: "info@creativexlab.online",
         telephone: "+94762345336",
         priceRange: "$$",
@@ -114,6 +142,7 @@ export default function RootLayout({
           streetAddress: "166 / B Perera Mawatha",
           addressLocality: "Rajagiriya",
           addressRegion: "Western Province",
+          postalCode: "10100",
           addressCountry: "LK",
         },
         geo: {
@@ -121,6 +150,7 @@ export default function RootLayout({
           latitude: 6.9069,
           longitude: 79.8974,
         },
+        hasMap: "https://maps.google.com/?q=Rajagiriya,+Colombo,+Sri+Lanka",
         areaServed: [
           { "@type": "Country", name: "Sri Lanka" },
           { "@type": "Country", name: "Australia" },
@@ -145,6 +175,8 @@ export default function RootLayout({
           "Web & Mobile Digital Product Engineering",
           "Offshore Software Engineering Squads",
         ],
+        knowsLanguage: ["en", "si", "ta"],
+        numberOfEmployees: { "@type": "QuantitativeValue", minValue: 10, maxValue: 50 },
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Creativex Technology Core Capabilities",
@@ -197,24 +229,56 @@ export default function RootLayout({
             email: "info@creativexlab.online",
             telephone: "+94762345336",
             contactType: "customer service",
-            availableLanguage: ["English", "Sinhala"],
+            availableLanguage: [
+              { "@type": "Language", name: "English" },
+              { "@type": "Language", name: "Sinhala" },
+              { "@type": "Language", name: "Tamil" },
+            ],
             areaServed: "Worldwide",
+            hoursAvailable: {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              opens: "09:00",
+              closes: "18:00",
+            },
           },
           {
             "@type": "ContactPoint",
             email: "info@creativexlab.online",
             telephone: "+94762345336",
             contactType: "sales",
-            availableLanguage: ["English", "Sinhala"],
+            availableLanguage: [
+              { "@type": "Language", name: "English" },
+              { "@type": "Language", name: "Sinhala" },
+            ],
             areaServed: "Worldwide",
+          },
+          {
+            "@type": "ContactPoint",
+            contactType: "technical support",
+            email: "info@creativexlab.online",
+            areaServed: "Worldwide",
+            availableLanguage: [{ "@type": "Language", name: "English" }],
           },
         ],
         founder: {
           "@type": "Person",
+          "@id": `${baseUrl}/#founder`,
           name: "Kavishka Thilakarathna",
           jobTitle: "Executive Director & Technology Lead",
+          worksFor: { "@id": `${baseUrl}/#organization` },
         },
         foundingDate: "2024",
+        foundingLocation: {
+          "@type": "Place",
+          name: "Rajagiriya, Colombo, Sri Lanka",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Rajagiriya",
+            addressRegion: "Western Province",
+            addressCountry: "LK",
+          },
+        },
         slogan: "Engineering Tomorrow's Intelligence Today",
         currenciesAccepted: "LKR, USD, AUD, GBP, EUR, AED, SGD",
         paymentAccepted: "Bank Transfer, Credit Card, Wire Transfer",
@@ -232,7 +296,13 @@ export default function RootLayout({
           "https://www.instagram.com/creativex_tech/",
           "https://www.tiktok.com/@creativex_techno",
           "https://www.youtube.com/@CreativeXTech",
+          "https://twitter.com/creativex_tech",
         ],
+        // Speakable: key factual content blocks readable by voice assistants & AI
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: [".about-intro", ".services-directory-head", ".faq-section"],
+        },
       },
       {
         "@type": "WebSite",
@@ -247,10 +317,14 @@ export default function RootLayout({
         description:
           "AI and software engineering company in Sri Lanka building AI solutions, ERP systems, custom software, and enterprise automation worldwide.",
         publisher: { "@id": `${baseUrl}/#organization` },
-        inLanguage: "en-US",
+        inLanguage: ["en-US", "en-LK"],
+        copyrightYear: new Date().getFullYear(),
         potentialAction: {
           "@type": "SearchAction",
-          target: `${baseUrl}/blog?q={search_term_string}`,
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${baseUrl}/blog?q={search_term_string}`,
+          },
           "query-input": "required name=search_term_string",
         },
       },
@@ -298,6 +372,13 @@ export default function RootLayout({
           {
             "@type": "SiteNavigationElement",
             position: 6,
+            name: "IT Solutions Sri Lanka",
+            description: "Enterprise IT solutions, cloud infrastructure, cybersecurity, and digital transformation for Sri Lankan businesses.",
+            url: `${baseUrl}/it-solutions-sri-lanka`,
+          },
+          {
+            "@type": "SiteNavigationElement",
+            position: 7,
             name: "Contact Us",
             description: "Talk to our engineering team in Colombo about your AI, ERP, or custom software project.",
             url: `${baseUrl}/contact`,
@@ -313,7 +394,14 @@ export default function RootLayout({
         <meta name="google-site-verification" content="GVZZ1telPd2vPJ5mQlTB7Up1pyeP94YYIVAL0UfYwqc" />
         <meta name="codex-preview" content="development" />
         <meta name="format-detection" content="telephone=no" />
-        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM Context Summary" />
+        {/* Core Web Vitals — resource hints */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        {/* AEO/GEO — LLM manifests for AI crawlers */}
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM Context Summary (Compact)" />
+        {/* Canonical brand identity */}
+        <link rel="me" href="https://www.linkedin.com/company/creativex-technology" />
+        <link rel="me" href="https://twitter.com/creativex_tech" />
         <script
           dangerouslySetInnerHTML={{
             __html: "try{if(sessionStorage.getItem('creativex-loader-seen')==='true')document.documentElement.classList.add('cx-loader-seen')}catch(e){}",

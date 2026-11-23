@@ -8,22 +8,26 @@ import { getServices, getServiceIcon } from "@/lib/services";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Services | AI & Software Engineering | Creativex Technology",
-  description: "Explore Creativex Technology's engineering services across custom AI development, enterprise ERP systems, predictive data analytics, and cloud platforms.",
+  title: "Services | AI, ERP & Software Engineering | Creativex Technology",
+  description: "Explore Creativex Technology's full engineering service directory: custom AI development, enterprise ERP systems, IT solutions, cloud platforms, and dedicated offshore software squads in Sri Lanka.",
   keywords: [
-    "AI Engineering Services",
+    "AI Engineering Services Sri Lanka",
     "Autonomous AI Agents Development",
     "Predictive Analytics Solutions",
     "Smart IoT Asset Management",
     "Custom Web Product Engineering",
-    "Mobile Software Development",
+    "Mobile Software Development Sri Lanka",
     "Cloud Architecture & Serverless",
     "Enterprise AI Consultation",
+    "Software Engineering Services Colombo",
+    "ERP Development Services Sri Lanka",
   ],
   alternates: {
     canonical: `${baseUrl}/services`,
     languages: {
       "en-US": `${baseUrl}/services`,
+      "en-AU": `${baseUrl}/services`,
+      "en-LK": `${baseUrl}/services`,
       "x-default": `${baseUrl}/services`,
     },
   },
@@ -40,16 +44,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Creativex Technology AI & Software Engineering Services",
-    description: "Strategy, intelligent systems, and production engineering designed around real business operations.",
+    title: "Creativex Technology — AI, ERP & Software Engineering Services",
+    description: "Full engineering service directory: AI development, ERP solutions, IT services, cloud platforms, and dedicated offshore squads from Colombo, Sri Lanka.",
     url: `${baseUrl}/services`,
     type: "website",
     siteName: "Creativex Technology",
+    locale: "en_US",
     images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Creativex Technology Services" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Creativex Technology AI & Software Engineering Services",
+    site: "@creativex_tech",
+    title: "Creativex Technology — AI, ERP & Software Engineering Services",
     description: "Strategy, intelligent systems, and production engineering designed around real business operations.",
     images: [`${baseUrl}/og.png`],
   },

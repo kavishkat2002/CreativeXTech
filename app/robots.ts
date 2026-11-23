@@ -5,17 +5,42 @@ const baseUrl = "https://www.creativextechnology.com";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
+      // ── Search engine crawlers ──────────────────────────────────────────
       {
         userAgent: [
           "Googlebot",
           "Googlebot-Image",
+          "Googlebot-Video",
+          "Googlebot-News",
+          "Google-InspectionTool",
           "Bingbot",
+          "msnbot",
           "Slurp",
           "DuckDuckBot",
           "Baiduspider",
           "YandexBot",
           "Applebot",
           "Applebot-Extended",
+          "LinkedInBot",
+          "Twitterbot",
+          "facebookexternalhit",
+          "FacebookBot",
+          "WhatsApp",
+        ],
+        allow: ["/", "/_next/static/", "/_next/image/"],
+        disallow: [
+          "/admin",
+          "/admin/",
+          "/api/",
+          "/api/*",
+          "/employee",
+          "/employee/",
+          "/_env",
+        ],
+      },
+      // ── AI / LLM crawlers — allow full content access for GEO/AEO ──────
+      {
+        userAgent: [
           "GPTBot",
           "OAI-SearchBot",
           "ChatGPT-User",
@@ -28,20 +53,44 @@ export default function robots(): MetadataRoute.Robots {
           "CCBot",
           "cohere-ai",
           "meta-externalagent",
-          "FacebookBot",
           "DuckAssistBot",
           "Diffbot",
+          "YouBot",
+          "AnthropicAI",
+          "Timpibot",
+          "PetalBot",
+          "Kangaroo Bot",
         ],
-        allow: "/",
-        disallow: ["/admin", "/admin/", "/api/", "/api/*"],
+        allow: ["/", "/llms.txt", "/sitemap.xml"],
+        disallow: [
+          "/admin",
+          "/admin/",
+          "/api/",
+          "/api/*",
+          "/employee",
+          "/employee/",
+        ],
       },
+      // ── Wildcard fallback ───────────────────────────────────────────────
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/admin/", "/api/", "/api/*"],
+        disallow: [
+          "/admin",
+          "/admin/",
+          "/api/",
+          "/api/*",
+          "/employee",
+          "/employee/",
+          "/_env",
+        ],
       },
     ],
-    sitemap: [`${baseUrl}/sitemap.xml`, `${baseUrl}/rss.xml`, `${baseUrl}/careers/rss.xml`],
+    sitemap: [
+      `${baseUrl}/sitemap.xml`,
+      `${baseUrl}/rss.xml`,
+      `${baseUrl}/careers/rss.xml`,
+    ],
     host: baseUrl,
   };
 }

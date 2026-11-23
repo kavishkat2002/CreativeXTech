@@ -75,14 +75,35 @@ export default function Home() {
         isPartOf: { "@id": `${baseUrl}/#website` },
         about: { "@id": `${baseUrl}/#organization` },
         inLanguage: "en-US",
+        datePublished: "2024-01-01",
+        dateModified: "2026-11-24",
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: `${baseUrl}/og.png`,
+          width: 1730,
+          height: 909,
+        },
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: ["h1", ".about-intro", ".faq-section", ".services-directory-head"],
+        },
+        // Internal breadcrumb for homepage
+        breadcrumb: {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+          ],
+        },
       },
       {
         "@type": "SoftwareApplication",
+        "@id": `${baseUrl}/creativeos/#app`,
         name: "CreativeOS Work Operating System",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Cloud / Multi-Platform",
         url: `${baseUrl}/creativeos`,
         publisher: { "@id": `${baseUrl}/#organization` },
+        description: "Multi-tasking Work Operating System with workflow automation and predictive analytics, engineered for Sri Lankan Startups, Mid-Range SMEs, and Enterprises.",
         offers: {
           "@type": "Offer",
           price: "0",
@@ -90,17 +111,6 @@ export default function Home() {
           availability: "https://schema.org/InStock",
           url: `${baseUrl}/contact`,
         },
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: baseUrl,
-          },
-        ],
       },
     ],
   };

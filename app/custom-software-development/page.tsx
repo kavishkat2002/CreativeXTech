@@ -7,7 +7,7 @@ const baseUrl = "https://www.creativextechnology.com";
 export const metadata: Metadata = {
   title: "Custom Software Development Sri Lanka | Software Engineering Company | Creativex Technology",
   description:
-    "Creativex Technology (Pvt) Ltd is a premier software development company in Sri Lanka. We build custom web apps, mobile applications, enterprise SaaS platforms, and dedicated offshore engineering squads for businesses in Sri Lanka, Australia, UAE, and worldwide.",
+    "Creativex Technology is a premier software development company in Sri Lanka. We build custom web apps, mobile applications, enterprise SaaS platforms, and dedicated offshore engineering squads for businesses in Sri Lanka, Australia, UAE, and worldwide.",
   keywords: [
     "Software development company Sri Lanka",
     "Custom software development Sri Lanka",
@@ -19,11 +19,15 @@ export const metadata: Metadata = {
     "Offshore software development Sri Lanka",
     "Software development company in Asia",
     "Dedicated developers Colombo",
+    "Next.js development Sri Lanka",
+    "Flutter app development Sri Lanka",
+    "Full stack development Sri Lanka",
   ],
   alternates: {
     canonical: `${baseUrl}/custom-software-development`,
     languages: {
       "en-US": `${baseUrl}/custom-software-development`,
+      "en-AU": `${baseUrl}/custom-software-development`,
       "en-LK": `${baseUrl}/custom-software-development`,
       "x-default": `${baseUrl}/custom-software-development`,
     },
@@ -31,14 +35,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Custom Software Development Sri Lanka | Creativex Technology",
     description:
-      "Enterprise custom software development, modern web applications, mobile engineering, and dedicated offshore squads in Colombo, Sri Lanka.",
+      "Enterprise custom software development, modern web applications, mobile engineering, and dedicated offshore squads in Colombo, Sri Lanka. 100% IP ownership.",
     url: `${baseUrl}/custom-software-development`,
     type: "website",
     siteName: "Creativex Technology",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Custom Software Development Sri Lanka" }],
+    locale: "en_US",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Custom Software Development Sri Lanka — Creativex Technology" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@creativex_tech",
     title: "Custom Software Development Sri Lanka | Creativex Technology",
     description:
       "Custom software engineering, full-stack web and mobile development, and dedicated squads from Colombo, Sri Lanka.",
@@ -78,18 +84,53 @@ export default function CustomSoftwareDevelopmentPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebPage",
+        "@id": `${baseUrl}/custom-software-development/#webpage`,
+        url: `${baseUrl}/custom-software-development`,
+        name: "Custom Software Development Sri Lanka | Software Engineering Company | Creativex Technology",
+        description:
+          "Creativex Technology is a premier custom software development company in Sri Lanka building web apps, mobile platforms, SaaS products, and dedicated offshore squads.",
+        isPartOf: { "@id": `${baseUrl}/#website` },
+        about: { "@id": `${baseUrl}/#organization` },
+        inLanguage: "en-US",
+        datePublished: "2024-01-01",
+        dateModified: "2026-11-24",
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: `${baseUrl}/og.png`,
+          width: 1730,
+          height: 909,
+        },
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: [".services-page-hero", ".about-intro", ".faq-section"],
+        },
+      },
+      {
         "@type": "Service",
         "@id": `${baseUrl}/custom-software-development/#service`,
         name: "Custom Software Development & Engineering in Sri Lanka",
         serviceType: "Custom Software Engineering & Dedicated Developer Squads",
         provider: { "@id": `${baseUrl}/#organization` },
+        url: `${baseUrl}/custom-software-development`,
         areaServed: [
+          { "@type": "City", name: "Colombo", containedInPlace: { "@type": "Country", name: "Sri Lanka" } },
           { "@type": "Country", name: "Sri Lanka" },
+          { "@type": "Country", name: "Australia" },
+          { "@type": "Country", name: "United Arab Emirates" },
+          { "@type": "Country", name: "United Kingdom" },
           { "@type": "AdministrativeArea", name: "Asia-Pacific" },
           { "@type": "AdministrativeArea", name: "Worldwide" },
         ],
         description:
           "Full-lifecycle custom software development company in Colombo, Sri Lanka engineering production-grade web applications, mobile platforms, enterprise cloud architectures, and dedicated offshore squads.",
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "LKR",
+          lowPrice: "850000",
+          highPrice: "3800000",
+          offerCount: 6,
+        },
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Engineering Disciplines",
@@ -117,6 +158,7 @@ export default function CustomSoftwareDevelopmentPage() {
       },
       {
         "@type": "BreadcrumbList",
+        "@id": `${baseUrl}/custom-software-development/#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
           { "@type": "ListItem", position: 2, name: "Services", item: `${baseUrl}/services` },

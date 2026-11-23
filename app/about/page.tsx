@@ -12,13 +12,19 @@ export const metadata: Metadata = {
   keywords: [
     "About Creativex Technology",
     "AI Consultancy Global",
-    "Software Engineering Team",
+    "Software Engineering Team Sri Lanka",
     "Autonomous AI Agents Expertise",
     "Enterprise AI Solutions Company",
+    "Creativex Technology Colombo",
   ],
   alternates: {
     canonical: `${baseUrl}/about`,
-    languages: { "en-US": `${baseUrl}/about`, "x-default": `${baseUrl}/about` },
+    languages: {
+      "en-US": `${baseUrl}/about`,
+      "en-AU": `${baseUrl}/about`,
+      "en-LK": `${baseUrl}/about`,
+      "x-default": `${baseUrl}/about`,
+    },
   },
   robots: {
     index: true,
@@ -33,16 +39,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "About Creativex Technology",
+    title: "About Creativex Technology — AI & Software Engineering",
     description: "Enterprise AI and software engineering grounded in real operations, responsible AI delivery, and measurable business outcomes.",
     url: `${baseUrl}/about`,
     type: "website",
     siteName: "Creativex Technology",
+    locale: "en_US",
     images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "About Creativex Technology" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Creativex Technology",
+    site: "@creativex_tech",
+    title: "About Creativex Technology — AI & Software Engineering",
     description: "Enterprise AI and software engineering grounded in real operations, responsible AI delivery, and measurable business outcomes.",
     images: [`${baseUrl}/og.png`],
   },
@@ -70,14 +78,23 @@ export default function AboutPage() {
     "@graph": [
       {
         "@type": "AboutPage",
+        "@id": `${baseUrl}/about/#aboutpage`,
         name: "About Creativex Technology",
         url: `${baseUrl}/about`,
         description: "AI and software engineering company delivering automation, analytics, IoT, cloud, and digital product systems worldwide.",
         about: { "@id": `${baseUrl}/#organization` },
+        isPartOf: { "@id": `${baseUrl}/#website` },
         inLanguage: "en-US",
+        datePublished: "2024-01-01",
+        dateModified: "2026-11-24",
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: [".about-hero", ".about-intro"],
+        },
       },
       {
         "@type": "BreadcrumbList",
+        "@id": `${baseUrl}/about/#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
           { "@type": "ListItem", position: 2, name: "About", item: `${baseUrl}/about` },

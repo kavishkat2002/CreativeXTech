@@ -27,7 +27,12 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: `${baseUrl}/solutions`,
-    languages: { "en-US": `${baseUrl}/solutions`, "x-default": `${baseUrl}/solutions` },
+    languages: {
+      "en-US": `${baseUrl}/solutions`,
+      "en-AU": `${baseUrl}/solutions`,
+      "en-LK": `${baseUrl}/solutions`,
+      "x-default": `${baseUrl}/solutions`,
+    },
   },
   robots: {
     index: true,
@@ -47,10 +52,12 @@ export const metadata: Metadata = {
     url: `${baseUrl}/solutions`,
     type: "website",
     siteName: "Creativex Technology",
+    locale: "en_US",
     images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Creativex Technology Industry Solutions" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@creativex_tech",
     title: "Enterprise AI & Software Solutions | Creativex Technology",
     description: "Operational AI, data analytics, IoT platforms, and digital product engineering tailored for global industries.",
     images: [`${baseUrl}/og.png`],
@@ -64,7 +71,24 @@ export default async function SolutionsPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebPage",
+        "@id": `${baseUrl}/solutions/#webpage`,
+        url: `${baseUrl}/solutions`,
+        name: "Industry AI & Enterprise Software Solutions | Creativex Technology",
+        description: "Tailored AI automation, enterprise ERP software, predictive data models, IoT operations, and custom software solutions for global industries.",
+        isPartOf: { "@id": `${baseUrl}/#website` },
+        about: { "@id": `${baseUrl}/#organization` },
+        inLanguage: "en-US",
+        datePublished: "2024-01-01",
+        dateModified: "2026-11-24",
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: [".solutions-hero", ".solutions-directory"],
+        },
+      },
+      {
         "@type": "ItemList",
+        "@id": `${baseUrl}/solutions/#itemlist`,
         name: "Creativex Technology industry solutions",
         itemListElement: solutions.map((solution, index) => ({
           "@type": "ListItem",
@@ -76,6 +100,7 @@ export default async function SolutionsPage() {
       },
       {
         "@type": "BreadcrumbList",
+        "@id": `${baseUrl}/solutions/#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
           { "@type": "ListItem", position: 2, name: "Solutions", item: `${baseUrl}/solutions` },

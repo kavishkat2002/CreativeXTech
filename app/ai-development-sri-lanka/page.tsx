@@ -22,7 +22,7 @@ const baseUrl = "https://www.creativextechnology.com";
 export const metadata: Metadata = {
   title: "AI Development Company in Sri Lanka | Creativex Technology",
   description:
-    "Creativex Technology (Pvt) Ltd is a premier AI development company in Sri Lanka. We build custom AI software, autonomous AI agents, machine learning models, and enterprise automation for businesses in Sri Lanka and Asia-Pacific.",
+    "Creativex Technology is a premier AI development company in Sri Lanka. We build custom AI software, autonomous AI agents, machine learning models, predictive analytics, and enterprise AI automation for businesses in Sri Lanka and Asia-Pacific.",
   keywords: [
     "AI company in Sri Lanka",
     "AI development company in Sri Lanka",
@@ -35,11 +35,15 @@ export const metadata: Metadata = {
     "AI agent development company Sri Lanka",
     "Enterprise AI solutions Sri Lanka",
     "AI development company in Asia",
+    "WhatsApp AI chatbot Sri Lanka",
+    "Autonomous AI agents Sri Lanka",
+    "AI automation company Colombo",
   ],
   alternates: {
     canonical: `${baseUrl}/ai-development-sri-lanka`,
     languages: {
       "en-US": `${baseUrl}/ai-development-sri-lanka`,
+      "en-AU": `${baseUrl}/ai-development-sri-lanka`,
       "en-LK": `${baseUrl}/ai-development-sri-lanka`,
       "x-default": `${baseUrl}/ai-development-sri-lanka`,
     },
@@ -51,10 +55,12 @@ export const metadata: Metadata = {
     url: `${baseUrl}/ai-development-sri-lanka`,
     type: "website",
     siteName: "Creativex Technology",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "AI Development Company in Sri Lanka" }],
+    locale: "en_US",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "AI Development Company in Sri Lanka — Creativex Technology" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@creativex_tech",
     title: "AI Development Company in Sri Lanka | Creativex Technology",
     description:
       "Custom AI development, machine learning, and autonomous agent engineering for enterprises in Sri Lanka and worldwide.",
@@ -129,12 +135,37 @@ export default function AiDevelopmentSriLankaPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebPage",
+        "@id": `${baseUrl}/ai-development-sri-lanka/#webpage`,
+        url: `${baseUrl}/ai-development-sri-lanka`,
+        name: "AI Development Company in Sri Lanka | Creativex Technology",
+        description:
+          "Creativex Technology is a premier AI development company in Sri Lanka building autonomous AI agents, machine learning models, generative AI, and enterprise automation.",
+        isPartOf: { "@id": `${baseUrl}/#website` },
+        about: { "@id": `${baseUrl}/#organization` },
+        inLanguage: "en-US",
+        datePublished: "2024-01-01",
+        dateModified: "2026-11-24",
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: `${baseUrl}/og.png`,
+          width: 1730,
+          height: 909,
+        },
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: [".services-page-hero", ".about-intro", ".faq-section"],
+        },
+      },
+      {
         "@type": "Service",
         "@id": `${baseUrl}/ai-development-sri-lanka/#service`,
         name: "AI Development Services in Sri Lanka",
         serviceType: "Artificial Intelligence & Machine Learning Engineering",
         provider: { "@id": `${baseUrl}/#organization` },
+        url: `${baseUrl}/ai-development-sri-lanka`,
         areaServed: [
+          { "@type": "City", name: "Colombo", containedInPlace: { "@type": "Country", name: "Sri Lanka" } },
           { "@type": "Country", name: "Sri Lanka" },
           { "@type": "Country", name: "Australia" },
           { "@type": "Country", name: "United Arab Emirates" },
@@ -144,6 +175,13 @@ export default function AiDevelopmentSriLankaPage() {
         ],
         description:
           "Enterprise AI development company in Sri Lanka specializing in autonomous AI agents, machine learning, generative AI, and intelligent enterprise software.",
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "LKR",
+          lowPrice: "450000",
+          highPrice: "1800000",
+          offerCount: 6,
+        },
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "AI Development Capabilities",
@@ -169,6 +207,7 @@ export default function AiDevelopmentSriLankaPage() {
       },
       {
         "@type": "BreadcrumbList",
+        "@id": `${baseUrl}/ai-development-sri-lanka/#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
           { "@type": "ListItem", position: 2, name: "Services", item: `${baseUrl}/services` },

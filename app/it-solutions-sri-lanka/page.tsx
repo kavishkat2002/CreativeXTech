@@ -7,7 +7,7 @@ const baseUrl = "https://www.creativextechnology.com";
 export const metadata: Metadata = {
   title: "IT Solutions Provider in Sri Lanka | Enterprise IT Services | Creativex Technology",
   description:
-    "Creativex Technology (Pvt) Ltd is a verified IT solutions provider in Sri Lanka. We deliver enterprise IT services, cloud infrastructure, 24/7 managed systems, cybersecurity, and multi-branch networking across Colombo and nationwide.",
+    "Creativex Technology is a verified IT solutions provider in Sri Lanka. We deliver enterprise cloud infrastructure, 24/7 managed IT services, cybersecurity governance, legacy modernization, and multi-branch network engineering for businesses in Colombo and nationwide.",
   keywords: [
     "IT solutions provider in Sri Lanka",
     "Best IT solutions company in Sri Lanka",
@@ -21,11 +21,14 @@ export const metadata: Metadata = {
     "Managed IT services Colombo",
     "24/7 IT support Sri Lanka",
     "Cybersecurity company Sri Lanka",
+    "Network engineering Sri Lanka",
+    "IT outsourcing Sri Lanka",
   ],
   alternates: {
     canonical: `${baseUrl}/it-solutions-sri-lanka`,
     languages: {
       "en-US": `${baseUrl}/it-solutions-sri-lanka`,
+      "en-AU": `${baseUrl}/it-solutions-sri-lanka`,
       "en-LK": `${baseUrl}/it-solutions-sri-lanka`,
       "x-default": `${baseUrl}/it-solutions-sri-lanka`,
     },
@@ -33,17 +36,19 @@ export const metadata: Metadata = {
   openGraph: {
     title: "IT Solutions Provider in Sri Lanka | Creativex Technology",
     description:
-      "Enterprise IT solutions, cloud platforms, digital transformation, and software engineering for businesses across Sri Lanka and worldwide.",
+      "Enterprise IT solutions, cloud platforms, digital transformation, and 24/7 managed services for businesses across Sri Lanka. Creativex Technology — Rajagiriya, Colombo.",
     url: `${baseUrl}/it-solutions-sri-lanka`,
     type: "website",
     siteName: "Creativex Technology",
-    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "IT Solutions Provider in Sri Lanka" }],
+    locale: "en_US",
+    images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "IT Solutions Provider in Sri Lanka — Creativex Technology" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@creativex_tech",
     title: "IT Solutions Provider in Sri Lanka | Creativex Technology",
     description:
-      "Enterprise IT solutions, cloud architecture, and digital engineering for Sri Lankan organizations.",
+      "Enterprise IT solutions, cloud architecture, 24/7 managed services, and digital engineering for Sri Lankan organizations.",
     images: [`${baseUrl}/og.png`],
   },
 };
@@ -107,17 +112,56 @@ export default function ItSolutionsSriLankaPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebPage",
+        "@id": `${baseUrl}/it-solutions-sri-lanka/#webpage`,
+        url: `${baseUrl}/it-solutions-sri-lanka`,
+        name: "IT Solutions Provider in Sri Lanka | Enterprise IT Services | Creativex Technology",
+        description:
+          "Creativex Technology is a verified IT solutions provider in Sri Lanka delivering enterprise cloud infrastructure, 24/7 managed IT services, cybersecurity, and digital transformation.",
+        isPartOf: { "@id": `${baseUrl}/#website` },
+        about: { "@id": `${baseUrl}/#organization` },
+        inLanguage: "en-US",
+        datePublished: "2024-01-01",
+        dateModified: "2026-11-24",
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: `${baseUrl}/og.png`,
+          width: 1730,
+          height: 909,
+        },
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: [".services-page-hero", ".about-intro", ".faq-section"],
+        },
+      },
+      {
         "@type": "Service",
         "@id": `${baseUrl}/it-solutions-sri-lanka/#service`,
         name: "Enterprise IT Solutions & Services in Sri Lanka",
         serviceType: "Information Technology (IT) Solutions & Digital Transformation",
         provider: { "@id": `${baseUrl}/#organization` },
+        url: `${baseUrl}/it-solutions-sri-lanka`,
         areaServed: [
+          { "@type": "City", name: "Colombo", containedInPlace: { "@type": "Country", name: "Sri Lanka" } },
           { "@type": "Country", name: "Sri Lanka" },
           { "@type": "AdministrativeArea", name: "Worldwide" },
         ],
         description:
-          "Enterprise IT solutions provider in Sri Lanka delivering cloud infrastructure, digital transformation, custom business software, and technology advisory.",
+          "Enterprise IT solutions provider in Sri Lanka delivering cloud infrastructure, digital transformation, cybersecurity governance, legacy modernization, and 24/7 managed IT services.",
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "LKR",
+          lowPrice: "65000",
+          highPrice: "480000",
+          offerCount: 6,
+          offers: itCapabilities.map((c, i) => ({
+            "@type": "Offer",
+            position: i + 1,
+            name: c.name,
+            description: c.description,
+            seller: { "@id": `${baseUrl}/#organization` },
+          })),
+        },
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "IT Capabilities",
@@ -143,6 +187,7 @@ export default function ItSolutionsSriLankaPage() {
       },
       {
         "@type": "BreadcrumbList",
+        "@id": `${baseUrl}/it-solutions-sri-lanka/#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
           { "@type": "ListItem", position: 2, name: "Services", item: `${baseUrl}/services` },
