@@ -4,7 +4,9 @@ import { HomePageClient } from "@/components/home-page-client";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Creativex Technology | AI & Software Engineering Company in Sri Lanka",
+  title: {
+    absolute: "Creativex Technology — AI & Software Engineering Company in Sri Lanka",
+  },
   description:
     "Creativex Technology is a Sri Lankan AI and software engineering company delivering custom AI solutions, enterprise ERP systems, business automation, web and mobile applications, and IT solutions for businesses in Sri Lanka and worldwide.",
   keywords: [

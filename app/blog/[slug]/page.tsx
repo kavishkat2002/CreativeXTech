@@ -18,12 +18,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const article = await getArticle(slug);
   if (!article) {
     return {
-      title: "Article Not Found | Creativex Technology",
+      title: "Article Not Found",
       robots: { index: false, follow: false },
     };
   }
   return {
-    title: `${article.title} | Creativex Technology`,
+    title: article.title,
     description: article.excerpt,
     keywords: article.tags,
     authors: [{ name: "Creativex Technology", url: `https://www.creativextechnology.com` }],

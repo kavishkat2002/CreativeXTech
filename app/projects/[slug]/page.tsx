@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   if (!project || isExplicitlyHiddenProject(project)) {
     return {
-      title: "Project Case Study | Creativex Technology",
+      title: "Project Case Study",
       description: "Explore operational AI agents, smart facility platforms, and software engineering case studies by Creativex Technology.",
     };
   }
@@ -32,7 +32,7 @@ export async function generateMetadata({
   const ogImage = (project as any).media_url || `${baseUrl}/brand/creativex-robot-lockup.webp`;
 
   return {
-    title: `${project.title} | Creativex Technology Case Study`,
+    title: `${project.title} — Case Study`,
     description: project.headline || project.summary,
     keywords: project.tags,
     alternates: {

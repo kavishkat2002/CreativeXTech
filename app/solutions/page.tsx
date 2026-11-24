@@ -14,7 +14,7 @@ import { ProfessionalServicesSolutionSection } from "@/components/professional-s
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Industry AI & Enterprise Software Solutions | Creativex Technology",
+  title: "Industry AI & Enterprise Software Solutions",
   description: "Explore tailored AI automation, enterprise ERP software, predictive data models, IoT operations, and custom software solutions for export & logistics, hospitality, retail, professional services, and startups worldwide.",
   keywords: [
     "Logistics AI Solutions",

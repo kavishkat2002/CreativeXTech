@@ -18,7 +18,7 @@ const project =
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Herbcey Store WhatsApp Assistant — Production Case Study | Creativex Technology",
+  title: "Herbcey Store WhatsApp Assistant — Production Case Study",
   description:
     "A production-grade conversational commerce engine for Herbcey featuring Meta Cloud API, live customer consultations, automated orders, and WhatsApp mobile app coexistence with 5-minute human takeover cooldown.",
   keywords: [
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Herbcey Store WhatsApp Assistant — Production Case Study | Creativex Technology",
+    title: "Herbcey Store WhatsApp Assistant — Production Case Study",
     description:
       "A production-grade WhatsApp store assistant with Meta Cloud API, live consultations, automated orders, and mobile phone app coexistence.",
     url: `${baseUrl}/projects/herbcey-store-whatsapp-assistant`,
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Herbcey Store WhatsApp Assistant — Production Case Study | Creativex Technology",
+    title: "Herbcey Store WhatsApp Assistant — Production Case Study",
     description:
       "Production-grade WhatsApp conversational commerce with Meta Cloud API and Echo Active mobile coexistence.",
     images: [`${baseUrl}/images/herbcey-whatsapp-assistant.png`],

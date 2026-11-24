@@ -4,7 +4,7 @@ import { ContactClient } from "@/components/contact-client";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Talk to Creativex Technology Engineers",
+  title: "Contact Us — Talk to Our Engineering Team",
   description:
     "Talk to our engineering team in Colombo about your AI, ERP, or custom software project. Book a consultation or prepare your project brief with Creativex Technology.",
   keywords: [

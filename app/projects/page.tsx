@@ -9,7 +9,7 @@ import { staticProjects } from "@/lib/projects";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "AI Agents & Software Engineering Projects | Creativex Technology",
+  title: "AI Agents & Software Engineering Projects",
   description: "Discover Creativex Technology projects—from enterprise AI business agents and export logistics control towers to smart facility hubs and AI-native SaaS platforms.",
   keywords: [
     "AI Case Studies",

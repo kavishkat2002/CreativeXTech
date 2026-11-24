@@ -8,7 +8,7 @@ import { getServices, getServiceIcon } from "@/lib/services";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Services | AI, ERP & Software Engineering | Creativex Technology",
+  title: "Services — AI, ERP & Software Engineering",
   description: "Explore Creativex Technology's full engineering service directory: custom AI development, enterprise ERP systems, IT solutions, cloud platforms, and dedicated offshore software squads in Sri Lanka.",
   keywords: [
     "AI Engineering Services Sri Lanka",

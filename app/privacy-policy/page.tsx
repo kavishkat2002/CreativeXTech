@@ -7,7 +7,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Creativex Technology (Pvt) Ltd",
+  title: "Privacy Policy",
   description:
     "Learn how Creativex Technology (Pvt) Ltd collects, uses, processes, and protects personal information when you visit our website or use our technology and digital services.",
   keywords: [

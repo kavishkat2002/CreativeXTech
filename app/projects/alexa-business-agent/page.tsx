@@ -10,7 +10,7 @@ const project = projects[0];
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Alexa AI Business Agent — Case Study | Creativex Technology",
+  title: "Alexa AI Business Agent — Case Study",
   description: "A Creativex Technology product concept for an omnichannel AI agent that captures leads, follows up, tracks orders, and keeps people in control.",
   alternates: {
     canonical: `${baseUrl}/projects/alexa-business-agent`,

@@ -9,7 +9,7 @@ import { getArticles, formatArticleDate } from "@/lib/articles";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Technology, Technical SEO & Generative Engine Insights | Creativex Technology",
+  title: "Technology, Technical SEO & Generative Engine Insights",
   description: "Practical research and engineering field notes on AI system design, Generative Engine Optimization (GEO), technical SEO, structured data, web performance, and reliable AI agents.",
   keywords: [
     "Generative Engine Optimization",

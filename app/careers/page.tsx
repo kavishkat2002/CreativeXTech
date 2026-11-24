@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       : "Explore open engineering and AI roles at Creativex Technology in Colombo and global remote squads. Build high-impact AI agents and cloud systems.";
 
   return {
-    title: "Careers | Open AI & Software Engineering Jobs | Creativex Technology",
+    title: "Careers — Open AI & Software Engineering Jobs",
     description,
     keywords: [
       "Creativex Technology Careers",

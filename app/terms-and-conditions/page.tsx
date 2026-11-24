@@ -7,7 +7,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | Creativex Technology (Pvt) Ltd",
+  title: "Terms & Conditions",
   description:
     "Read the Terms & Conditions of Creativex Technology (Pvt) Ltd covering website usage, software development, AI solutions, intellectual property, payments, project delivery, and service agreements.",
   keywords: [
