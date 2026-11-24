@@ -7,7 +7,7 @@ import { staticProjects as projects } from "@/lib/projects";
 
 const project = projects[0];
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "Alexa AI Business Agent — Case Study | Creativex Technology",
@@ -36,8 +36,8 @@ export default function AlexaCaseStudyPage() {
     name: project.title,
     headline: project.headline,
     description: "A Creativex Technology product concept for an omnichannel AI business agent that captures enquiries, qualifies leads, schedules follow-ups, tracks orders, and escalates important decisions to people.",
-    url: "https://creativexlab.online/projects/alexa-business-agent",
-    creator: { "@id": "https://creativexlab.online/#organization" },
+    url: "https://www.creativextechnology.com/projects/alexa-business-agent",
+    creator: { "@id": "https://www.creativextechnology.com/#organization" },
     about: ["AI agents", "omnichannel customer operations", "lead management", "human-in-the-loop automation"],
     genre: "Product concept case study",
     inLanguage: "en",

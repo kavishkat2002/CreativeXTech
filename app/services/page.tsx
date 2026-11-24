@@ -5,7 +5,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getServices, getServiceIcon } from "@/lib/services";
 
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "Services | AI, ERP & Software Engineering | Creativex Technology",

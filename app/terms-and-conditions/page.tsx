@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowUpRight, Check, ChevronUp, Clock3, FileText, Mail, MapP
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions | Creativex Technology (Pvt) Ltd",
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
     "Intellectual Property Terms",
   ],
   alternates: {
-    canonical: "https://creativexlab.online/terms-and-conditions",
+    canonical: "https://www.creativextechnology.com/terms-and-conditions",
     languages: {
-      "x-default": "https://creativexlab.online/terms-and-conditions",
+      "x-default": "https://www.creativextechnology.com/terms-and-conditions",
     },
   },
   robots: {
@@ -74,7 +74,7 @@ const termsSections: TermsSection[] = [
     heading: "Introduction & Acceptance of Terms",
     paragraphs: [
       "These Terms and Conditions (\"Terms\", \"Agreement\") constitute a legally binding agreement between you (whether individually or on behalf of an enterprise entity, \"Client\", \"User\", or \"you\") and Creativex Technology (Pvt) Ltd (\"Creativex Technology\", \"Company\", \"we\", \"us\", or \"our\"), a private limited company incorporated and operating under the laws of the Democratic Socialist Republic of Sri Lanka.",
-      "These Terms govern your access to and use of the Creativex Technology website (https://creativexlab.online), digital tools, client portals (including the Creativex Technology Employee Management System and CreativeOS demo environments), and any commercial software engineering, artificial intelligence (AI) consulting, ERP implementation, mobile development, or cloud architecture services provided by us.",
+      "These Terms govern your access to and use of the Creativex Technology website (https://www.creativextechnology.com), digital tools, client portals (including the Creativex Technology Employee Management System and CreativeOS demo environments), and any commercial software engineering, artificial intelligence (AI) consulting, ERP implementation, mobile development, or cloud architecture services provided by us.",
       "By accessing our website, executing a Statement of Work (SOW), submitting a project brief, or engaging our engineering squads, you explicitly represent that you have read, understood, and agreed to be bound by these Terms in full. If you do not agree to these Terms, you must immediately discontinue use of our website and services.",
     ],
   },
@@ -179,7 +179,7 @@ const termsSections: TermsSection[] = [
     paragraphs: [
       "Both parties agree to comply with applicable data protection regulations, including the Sri Lanka Personal Data Protection Act (PDPA No. 9 of 2022) and, where applicable, the EU/UK General Data Protection Regulation (GDPR) and the Australian Privacy Principles (APPs).",
       "Where Creativex Technology processes personal data on behalf of Client during software testing, data migration, or system hosting, Creativex Technology acts strictly as a Data Processor and shall execute a formal Data Processing Addendum (DPA) incorporating technical security measures.",
-      "For comprehensive details on how Creativex Technology collects, stores, and processes information, please review our official Privacy Policy at https://creativexlab.online/privacy-policy.",
+      "For comprehensive details on how Creativex Technology collects, stores, and processes information, please review our official Privacy Policy at https://www.creativextechnology.com/privacy-policy.",
     ],
   },
   {
@@ -359,8 +359,8 @@ const termsSections: TermsSection[] = [
       "Corporate Headquarters: 166 / B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka",
       "Legal & Business Email: info@creativexlab.online",
       "Direct Hotline: +94 76 2345 336 (076 2345 336)",
-      "Official Domain: https://creativexlab.online",
-      "Privacy Policy Reference: https://creativexlab.online/privacy-policy",
+      "Official Domain: https://www.creativextechnology.com",
+      "Privacy Policy Reference: https://www.creativextechnology.com/privacy-policy",
     ],
   },
 ];

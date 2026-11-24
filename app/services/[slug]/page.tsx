@@ -7,7 +7,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getService, getServices, getServiceIcon } from "@/lib/services";
 
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export async function generateStaticParams() {
   const allServices = await getServices();

@@ -15,7 +15,7 @@ const project =
   staticProjects.find((p) => p.slug === "herbcey-store-whatsapp-assistant") ||
   staticProjects[staticProjects.length - 1];
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "Herbcey Store WhatsApp Assistant — Production Case Study | Creativex Technology",

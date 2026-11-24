@@ -1,6 +1,6 @@
 import type { JobPost } from "./careers";
 
-export const CAREERS_BASE_URL = "https://creativexlab.online";
+export const CAREERS_BASE_URL = "https://www.creativextechnology.com";
 
 export function mapEmploymentType(type: string): string {
   const normalized = type.toLowerCase().trim();

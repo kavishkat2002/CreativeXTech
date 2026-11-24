@@ -5,7 +5,7 @@ import { getSolutions } from "@/lib/solutions";
 
 export const dynamic = "force-dynamic";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export async function GET() {
   const [services, solutions, articles, jobs] = await Promise.all([

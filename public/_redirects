@@ -1,6 +1,6 @@
 # Cloudflare Pages / Workers — Redirect Rules
 # =============================================================================
-# Canonical Production Domain: https://creativexlab.online
+# Canonical Production Domain: https://www.creativextechnology.com
 # =============================================================================
 
 # Redirect removed SEO pillar pages to canonical core pages
@@ -9,7 +9,9 @@
 /ai-development-sri-lanka /services/ai-automation-agents 301
 /erp-solutions-sri-lanka /solutions 301
 
-# Canonicalize www & alternate domains to https://creativexlab.online
-https://www.creativexlab.online/* https://creativexlab.online/:splat 301
-https://creativextechnology.com/* https://creativexlab.online/:splat 301
-https://www.creativextechnology.com/* https://creativexlab.online/:splat 301
+# Redirect non-www new domain → www (prevents duplicate indexing)
+https://creativextechnology.com/* https://www.creativextechnology.com/:splat 301
+
+# Redirect old domain → new www canonical (preserves all URL paths)
+https://creativexlab.online/* https://www.creativextechnology.com/:splat 301
+https://www.creativexlab.online/* https://www.creativextechnology.com/:splat 301

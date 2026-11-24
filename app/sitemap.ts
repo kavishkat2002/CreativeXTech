@@ -7,7 +7,7 @@ import { getServices } from "@/lib/services";
 
 export const dynamic = "force-dynamic";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 /**
  * Last-modified date for static core pages.
@@ -22,7 +22,7 @@ const siteFallbackDate = new Date("2026-09-12T00:00:00.000Z");
  * Advanced XML Sitemap Generator — SEO, AEO & GEO Optimised
  *
  * Strategy Principles:
- * 1. Include ONLY 200 OK canonical, indexable URLs for https://creativexlab.online.
+ * 1. Include ONLY 200 OK canonical, indexable URLs for https://www.creativextechnology.com.
  * 2. Omit priority & changefreq fields (ignored by Googlebot & AI crawlers).
  * 3. Provide accurate, meaningful lastModified timestamps to signal crawl priority.
  * 4. Exclude noindex, redirect, draft, admin, and API paths.

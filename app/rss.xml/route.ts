@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getArticles } from "@/lib/articles";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export async function GET() {
   const articles = await getArticles();

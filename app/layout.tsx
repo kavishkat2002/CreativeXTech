@@ -5,7 +5,7 @@ import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 export const viewport: Viewport = {

@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowUpRight, Check, Clock3, FileText, Mail, MapPin, Phone }
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
-const baseUrl = "https://creativexlab.online";
+const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Creativex Technology (Pvt) Ltd",
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
     "Confidentiality & Privacy",
   ],
   alternates: {
-    canonical: "https://creativexlab.online/privacy-policy",
+    canonical: "https://www.creativextechnology.com/privacy-policy",
     languages: {
-      "x-default": "https://creativexlab.online/privacy-policy",
+      "x-default": "https://www.creativextechnology.com/privacy-policy",
     },
   },
   robots: {
@@ -74,7 +74,7 @@ const privacySections: PrivacySection[] = [
     heading: "Introduction & Scope",
     paragraphs: [
       "Creativex Technology (Pvt) Ltd (\"Creativex Technology\", \"we\", \"our\", or \"us\") is committed to protecting the privacy, confidentiality, and security of personal information entrusted to us by clients, website visitors, candidates, and partners.",
-      "This Privacy Policy describes our practices regarding the collection, storage, processing, transfer, disclosure, and protection of personal data when you visit our corporate website (https://creativexlab.online), engage our enterprise consulting and software engineering services, use our platforms (such as CreativeOS), or communicate with our engineering squads.",
+      "This Privacy Policy describes our practices regarding the collection, storage, processing, transfer, disclosure, and protection of personal data when you visit our corporate website (https://www.creativextechnology.com), engage our enterprise consulting and software engineering services, use our platforms (such as CreativeOS), or communicate with our engineering squads.",
       "By accessing or using our website and services, you acknowledge that you have read, understood, and agreed to the practices outlined in this Privacy Policy.",
     ],
   },
@@ -91,7 +91,7 @@ const privacySections: PrivacySection[] = [
       "Headquarters: 166 / B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka",
       "Corporate Email: info@creativexlab.online",
       "Telephone Hotline: +94 76 2345 336 (076 2345 336)",
-      "Official Domain: https://creativexlab.online",
+      "Official Domain: https://www.creativextechnology.com",
     ],
   },
   {
@@ -333,7 +333,7 @@ const privacySections: PrivacySection[] = [
       "Address: 166 / B Perera Mawatha, Rajagiriya, Colombo, Western Province, Sri Lanka",
       "Email: info@creativexlab.online",
       "Hotline: +94 76 2345 336 (076 2345 336)",
-      "Website: https://creativexlab.online",
+      "Website: https://www.creativextechnology.com",
     ],
   },
 ];

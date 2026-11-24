@@ -25,23 +25,23 @@ const nextConfig: NextConfig = {
         destination: "/solutions",
         permanent: true,
       },
-      // Canonicalize all hostname variations to https://creativexlab.online
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.creativexlab.online" }],
-        destination: "https://creativexlab.online/:path*",
-        permanent: true,
-      },
+      // Canonicalize all hostname variations to https://www.creativextechnology.com
       {
         source: "/:path*",
         has: [{ type: "host", value: "creativextechnology.com" }],
-        destination: "https://creativexlab.online/:path*",
+        destination: "https://www.creativextechnology.com/:path*",
         permanent: true,
       },
       {
         source: "/:path*",
-        has: [{ type: "host", value: "www.creativextechnology.com" }],
-        destination: "https://creativexlab.online/:path*",
+        has: [{ type: "host", value: "creativexlab.online" }],
+        destination: "https://www.creativextechnology.com/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.creativexlab.online" }],
+        destination: "https://www.creativextechnology.com/:path*",
         permanent: true,
       },
     ];
