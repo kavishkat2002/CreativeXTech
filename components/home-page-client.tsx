@@ -574,9 +574,6 @@ export function HomePageClient() {
                   {newsletterStatus === "error" && <span style={{ fontSize: "12px", color: "red", marginTop: "4px" }}>Something went wrong. Please try again.</span>}
                 </form>
               </div>
-              <div className="contact-brand-card">
-                <Image src="/brand/creativex-robot-lockup.webp" alt="Creativex Technology logo" width={600} height={400} style={{ width: "100%", height: "auto" }} unoptimized />
-              </div>
             </div>
           </div>
         </section>
