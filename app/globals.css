@@ -18590,9 +18590,9 @@ article#retail-distribution {
 }
 
 .nav-employee-link.is-disabled {
-  pointer-events: none;
-  cursor: default;
-  user-select: none;
+  pointer-events: none !important;
+  cursor: default !important;
+  user-select: none !important;
   opacity: 0.8;
 }
 

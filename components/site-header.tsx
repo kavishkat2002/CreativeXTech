@@ -181,6 +181,7 @@ export function SiteHeader({
                 role="button"
                 tabIndex={-1}
                 title="Employee (Disabled)"
+                style={{ pointerEvents: "none", cursor: "default", userSelect: "none" }}
               >
                 <span className="nav-employee-badge">EMS</span>
                 <span>Employee</span>
