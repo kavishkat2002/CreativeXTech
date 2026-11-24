@@ -4,7 +4,7 @@ import { HomePageClient } from "@/components/home-page-client";
 const baseUrl = "https://www.creativextechnology.com";
 
 export const metadata: Metadata = {
-  title: "AI & Software Engineering Company in Sri Lanka | Creativex Technology",
+  title: "Creativex Technology | AI & Software Engineering Company in Sri Lanka",
   description:
     "Creativex Technology is a Sri Lankan AI and software engineering company delivering custom AI solutions, enterprise ERP systems, business automation, web and mobile applications, and IT solutions for businesses in Sri Lanka and worldwide.",
   keywords: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "AI & Software Engineering Company in Sri Lanka | Creativex Technology",
+    title: "Creativex Technology | AI & Software Engineering Company in Sri Lanka",
     description:
       "Creativex Technology delivers custom AI solutions, enterprise ERP software, business automation, and software engineering for businesses in Sri Lanka and worldwide.",
     type: "website",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI & Software Engineering Company in Sri Lanka | Creativex Technology",
+    title: "Creativex Technology | AI & Software Engineering Company in Sri Lanka",
     description:
       "Creativex Technology delivers custom AI solutions, enterprise ERP software, business automation, and software engineering for businesses in Sri Lanka and worldwide.",
     images: [`${baseUrl}/og.png`],

@@ -307,13 +307,9 @@ export default function RootLayout({
       {
         "@type": "WebSite",
         "@id": `${baseUrl}/#website`,
-        url: baseUrl,
+        url: `${baseUrl}/`,
         name: "Creativex Technology",
-        alternateName: [
-          "Creativex Technology",
-          "Creativex Tech",
-          "Creativex AI Lab",
-        ],
+        alternateName: ["Creativex Tech", "Creativex AI Lab"],
         description:
           "AI and software engineering company in Sri Lanka building AI solutions, ERP systems, custom software, and enterprise automation worldwide.",
         publisher: { "@id": `${baseUrl}/#organization` },
