@@ -18589,6 +18589,13 @@ article#retail-distribution {
   text-decoration: none;
 }
 
+.nav-employee-link.is-disabled {
+  pointer-events: none;
+  cursor: default;
+  user-select: none;
+  opacity: 0.8;
+}
+
 .nav-employee-link:hover,
 .nav-employee-link.active {
   color: #FFFFFF;

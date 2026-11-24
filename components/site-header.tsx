@@ -175,15 +175,16 @@ export function SiteHeader({
           ) : item.section === "employee" ? (
             <div className="nav-employee-divider-wrap" key="employee-nav-wrap">
               <span className="nav-vertical-divider" aria-hidden="true" />
-              <Link
-                className={`nav-employee-link ${activeSection === "employee" ? "active" : ""}`}
-                aria-current={activeSection === "employee" ? "location" : undefined}
-                href="/employee"
-                title="Employee Management System & Staff Portal"
+              <span
+                className="nav-employee-link is-disabled"
+                aria-disabled="true"
+                role="button"
+                tabIndex={-1}
+                title="Employee (Disabled)"
               >
                 <span className="nav-employee-badge">EMS</span>
                 <span>Employee</span>
-              </Link>
+              </span>
             </div>
           ) : (
             <Link
@@ -289,6 +290,18 @@ export function SiteHeader({
                       </div>
                     </AccordionContent>
                   </AccordionItem>
+                ) : item.section === "employee" ? (
+                  <div key={item.section} className="border-b border-white/[0.07]">
+                    <div className="flex items-center justify-between py-3.5 opacity-60 pointer-events-none select-none">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-[11px] font-semibold text-[#ff5a36]">0{index + 1}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="nav-employee-badge">EMS</span>
+                          <span className="text-[16px] font-medium text-white/70">Employee</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 ) : (
                   <div key={item.section} className="border-b border-white/[0.07]">
                     <SheetClose asChild>
