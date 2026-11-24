@@ -379,28 +379,35 @@ export function CustomSoftwareClient() {
   return (
     <div className="bg-[#0b0c0b] text-[#e4e7e4] min-h-screen">
       {/* ── 1. Hero Section: Software Engineering in Sri Lanka ── */}
-      <section className="relative pt-24 pb-16 sm:pb-20 overflow-hidden border-b border-[#1e241e]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(255,90,54,0.08),transparent)] pointer-events-none" />
+      <section className="relative pt-24 pb-16 sm:pb-20 overflow-hidden border-b border-[#1e241e] bg-[#0b0c0b]">
+        <div
+          className="absolute inset-0 pointer-events-none opacity-35"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        />
 
         <div className="site-width relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Hero Column */}
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#ff5a36]/10 border border-[#ff5a36]/25 mb-5 sm:mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#141814] border border-[#222822] mb-5 sm:mb-6">
                 <Code2 className="w-3.5 h-3.5 text-[#ff5a36]" />
                 <span className="text-[11px] font-mono font-semibold tracking-wider text-[#ff5a36] uppercase">
                   Production-Grade Engineering · Sri Lanka &amp; Global
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.18] sm:leading-[1.15] mb-5 sm:mb-6">
-                Custom Software Development in Sri Lanka <br className="hidden sm:inline" />
-                <span className="text-[#a5aaa5] text-xl sm:text-3xl lg:text-4xl font-normal block sm:inline mt-1 sm:mt-0">
-                  Senior Squads. Zero Technical Debt.
-                </span>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15] mb-3">
+                Custom Software Development in Sri Lanka
               </h1>
+              <p className="text-lg sm:text-2xl font-medium text-[#d4d8d4] tracking-tight mb-5">
+                Senior Squads. Zero Technical Debt.
+              </p>
 
-              <p className="text-sm sm:text-base lg:text-lg text-[#a5aaa5] leading-relaxed mb-6 sm:mb-8 max-w-2xl">
+              <p className="text-sm sm:text-base lg:text-lg text-[#a5aaa5] leading-relaxed mb-7 sm:mb-8 max-w-2xl">
                 Creativex Technology (Pvt) Ltd engineers enterprise web applications, mobile platforms, multi-tenant SaaS products, and dedicated offshore squads. From Colombo to Australia, the UAE, and the UK, we build software designed to survive real production scale.
               </p>
 
@@ -408,13 +415,13 @@ export function CustomSoftwareClient() {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8 sm:mb-10">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white px-5 sm:px-6 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-all shadow-lg shadow-[#ff5a36]/20 text-center"
+                  className="inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white px-5 sm:px-6 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-colors text-center"
                 >
                   Schedule an Engineering Consultation <ArrowUpRight className="w-4 h-4" />
                 </Link>
                 <a
                   href="#estimator"
-                  className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-lg border border-[#2a302a] bg-[#121512] text-sm font-medium text-white hover:border-[#ff5a36]/50 hover:bg-[#181c18] transition-all text-center"
+                  className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-lg border border-[#2a302a] bg-[#121512] text-sm font-medium text-white hover:border-[#ff5a36] hover:bg-[#161a16] transition-colors text-center"
                 >
                   <Calculator className="w-4 h-4 text-[#ff5a36]" />
                   Estimate Project Cost &amp; Timeline
@@ -422,7 +429,7 @@ export function CustomSoftwareClient() {
               </div>
 
               {/* Quick Trust Badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-6 border-t border-[#1e241e] text-xs text-[#8c928c]">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-6 border-t border-[#1e241e] text-xs text-[#a5aaa5]">
                 <div className="flex items-center gap-2.5">
                   <BadgeCheck className="w-4 h-4 text-[#ff5a36] shrink-0" />
                   <span>100% Source Code Ownership</span>
@@ -438,9 +445,9 @@ export function CustomSoftwareClient() {
               </div>
             </div>
 
-            {/* Right Hero Column: Production Telemetry HUD Card */}
+            {/* Right Hero Column: Production Telemetry Card */}
             <div className="lg:col-span-5">
-              <div className="rounded-xl border border-[#222822] bg-[#0d100d] p-4 sm:p-6 shadow-2xl relative">
+              <div className="rounded-xl border border-[#222822] bg-[#101310] p-5 sm:p-6 relative">
                 {/* Header Strip */}
                 <div className="flex items-center justify-between pb-3.5 border-b border-[#1e241e] mb-4 sm:mb-5">
                   <div className="flex items-center gap-2">
@@ -449,19 +456,19 @@ export function CustomSoftwareClient() {
                       PRODUCTION PIPELINE TELEMETRY
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono px-2.5 py-1 rounded border border-[#2a302a] bg-[#141814] text-[#d4d4d8] font-medium">
+                  <span className="text-[10px] font-mono px-2.5 py-1 rounded border border-[#222822] bg-[#141814] text-[#d4d4d8] font-medium">
                     PIPELINE VERIFIED
                   </span>
                 </div>
 
                 {/* Key Metrics Strip */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 sm:mb-5">
-                  <div className="p-3 sm:p-3.5 rounded-lg bg-[#121612] border border-[#1e241e]">
+                  <div className="p-3 sm:p-3.5 rounded-lg bg-[#141814] border border-[#1e241e]">
                     <span className="text-[11px] text-[#8c928c] block mb-1">Test Coverage Baseline</span>
                     <strong className="text-xl font-bold text-white font-mono">94.8%</strong>
                     <span className="text-[10px] text-[#8c928c] block mt-0.5">Automated Unit + E2E</span>
                   </div>
-                  <div className="p-3 sm:p-3.5 rounded-lg bg-[#121612] border border-[#1e241e]">
+                  <div className="p-3 sm:p-3.5 rounded-lg bg-[#141814] border border-[#1e241e]">
                     <span className="text-[11px] text-[#8c928c] block mb-1">Sprint Milestone Velocity</span>
                     <strong className="text-xl font-bold text-white font-mono">98.6%</strong>
                     <span className="text-[10px] text-[#ff5a36] block mt-0.5">On-Time Acceptance</span>
@@ -482,7 +489,7 @@ export function CustomSoftwareClient() {
                       <Zap className="w-3.5 h-3.5 text-[#ff5a36] shrink-0" />
                       <span className="text-white truncate">Edge API Deployment</span>
                     </div>
-                    <span className="text-[#3b82f6] font-mono text-[11px] shrink-0">Deployed (18s ago)</span>
+                    <span className="text-[#ff5a36] font-mono text-[11px] shrink-0">Deployed (18s ago)</span>
                   </div>
                   <div className="p-2.5 rounded-md bg-[#141814] border border-[#1e241e] flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">
@@ -541,18 +548,24 @@ export function CustomSoftwareClient() {
             </p>
           </div>
 
-          {/* Domain Selector Tab Strip (Touch Scrollable on Mobile) */}
-          <div className="flex overflow-x-auto no-scrollbar gap-2 p-1.5 rounded-xl bg-[#121512] border border-[#1e241e] mb-6 sm:mb-8 pb-2 sm:pb-1.5 sm:flex-wrap">
+          {/* Domain Selector Tab Strip (All Tabs Visible & Accessible) */}
+          <div
+            role="tablist"
+            aria-label="Software Engineering Domains"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-wrap gap-2 p-2 rounded-xl bg-[#121512] border border-[#1e241e] mb-6 sm:mb-8"
+          >
             {softwareDomains.map((d) => {
               const Icon = d.icon;
               const isActive = activeTab === d.id;
               return (
                 <button
                   key={d.id}
+                  role="tab"
+                  aria-selected={isActive}
                   onClick={() => setActiveTab(d.id)}
-                  className={`shrink-0 sm:shrink flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                  className={`flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-xs font-semibold text-left transition-colors ${
                     isActive
-                      ? "bg-[#ff5a36] text-white shadow-md shadow-[#ff5a36]/20"
+                      ? "bg-[#ff5a36] text-white"
                       : "text-[#a5aaa5] hover:text-white hover:bg-[#1a1f1a]"
                   }`}
                 >
@@ -564,7 +577,7 @@ export function CustomSoftwareClient() {
           </div>
 
           {/* Active Domain Live Display Card */}
-          <div className="rounded-xl border border-[#222822] bg-[#0e110e] p-5 sm:p-8">
+          <div role="tabpanel" className="rounded-xl border border-[#222822] bg-[#0e110e] p-5 sm:p-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left Column: Details & Capabilities */}
               <div className="lg:col-span-7">
@@ -614,9 +627,9 @@ export function CustomSoftwareClient() {
                 </div>
               </div>
 
-              {/* Right Column: Live Mock Telemetry Screen */}
+              {/* Right Column: Live Telemetry Preview */}
               <div className="lg:col-span-5">
-                <div className="rounded-lg border border-[#262c26] bg-[#080a08] p-4 sm:p-5 shadow-xl">
+                <div className="rounded-lg border border-[#222822] bg-[#0b0d0b] p-4 sm:p-5">
                   {/* Mock Screen Header */}
                   <div className="flex items-center justify-between pb-3 border-b border-[#1e241e] mb-4 gap-2">
                     <span className="text-[10px] font-mono text-[#8c928c] uppercase tracking-wider truncate">
@@ -634,7 +647,7 @@ export function CustomSoftwareClient() {
                       <span className="text-[10px] text-[#8c928c] block">{currentDomain.metricLabel}</span>
                       <strong className="text-base sm:text-lg font-mono text-white font-bold">{currentDomain.metricValue}</strong>
                     </div>
-                    <span className="text-[10px] font-mono px-2 py-1 rounded bg-[#ff5a36]/15 text-[#ff5a36] font-semibold">
+                    <span className="text-[10px] font-mono px-2 py-1 rounded bg-[#1a1f1a] border border-[#2a302a] text-[#ff5a36] font-semibold">
                       {currentDomain.metricBadge}
                     </span>
                   </div>
@@ -642,16 +655,16 @@ export function CustomSoftwareClient() {
                   {/* Rows */}
                   <div className="space-y-2 mb-4">
                     {currentDomain.mockScreenRows.map((row, i) => (
-                      <div key={i} className="p-2.5 rounded bg-[#0f120f] border border-[#1a1f1a] text-xs">
+                      <div key={i} className="p-2.5 rounded bg-[#101310] border border-[#1a1f1a] text-xs">
                         <div className="flex items-center justify-between mb-1 gap-2">
                           <span className="font-semibold text-white text-[11px] truncate">{row.label}</span>
                           <span
                             className={`font-mono text-[10px] font-medium shrink-0 ${
                               row.statusType === "success"
-                                ? "text-white font-medium"
+                                ? "text-[#e4e7e4]"
                                 : row.statusType === "orange"
-                                ? "text-[#f59e0b]"
-                                : "text-[#3b82f6]"
+                                ? "text-[#ff5a36]"
+                                : "text-[#a5aaa5]"
                             }`}
                           >
                             {row.status}
@@ -665,7 +678,7 @@ export function CustomSoftwareClient() {
                   {/* Bottom Action */}
                   <Link
                     href="/contact"
-                    className="w-full py-2.5 rounded bg-[#181d18] border border-[#2a342a] text-xs font-semibold text-white hover:bg-[#ff5a36] hover:border-[#ff5a36] text-center block transition-all"
+                    className="w-full py-2.5 rounded-lg bg-[#181d18] border border-[#2a342a] text-xs font-semibold text-white hover:bg-[#ff5a36] hover:border-[#ff5a36] text-center block transition-colors"
                   >
                     Architect This For Your Organization →
                   </Link>
@@ -709,19 +722,22 @@ export function CustomSoftwareClient() {
                   ].map((item) => (
                     <button
                       key={item.id}
+                      type="button"
+                      aria-pressed={projectType === item.id}
                       onClick={() => {
                         setProjectType(item.id as "mvp" | "saas" | "enterprise" | "mobile");
                         if (item.id === "mvp") {
                           setScaleLevel("standard");
                         }
                       }}
-                      className={`p-3 rounded-lg border text-left text-xs font-semibold transition-all ${
+                      className={`p-3 rounded-lg border text-left text-xs font-semibold flex items-center justify-between gap-2 transition-colors ${
                         projectType === item.id
-                          ? "border-[#ff5a36] bg-[#ff5a36]/10 text-white"
-                          : "border-[#1e241e] bg-[#121512] text-[#8c928c] hover:text-white"
+                          ? "border-[#ff5a36] bg-[#1a1412] text-white"
+                          : "border-[#1e241e] bg-[#121512] text-[#8c928c] hover:text-white hover:border-[#2e362e]"
                       }`}
                     >
-                      {item.label}
+                      <span>{item.label}</span>
+                      {projectType === item.id && <Check className="w-3.5 h-3.5 text-[#ff5a36] shrink-0" />}
                     </button>
                   ))}
                 </div>
@@ -738,11 +754,13 @@ export function CustomSoftwareClient() {
                   ].map((item) => (
                     <button
                       key={item.id}
-                      onClick={() => setScaleLevel(item.id as any)}
-                      className={`p-2.5 sm:p-3 rounded-lg border text-left transition-all ${
+                      type="button"
+                      aria-pressed={scaleLevel === item.id}
+                      onClick={() => setScaleLevel(item.id as "standard" | "high" | "enterprise")}
+                      className={`p-2.5 sm:p-3 rounded-lg border text-left transition-colors ${
                         scaleLevel === item.id
-                          ? "border-[#ff5a36] bg-[#ff5a36]/10 text-white"
-                          : "border-[#1e241e] bg-[#121512] text-[#8c928c] hover:text-white"
+                          ? "border-[#ff5a36] bg-[#1a1412] text-white"
+                          : "border-[#1e241e] bg-[#121512] text-[#8c928c] hover:text-white hover:border-[#2e362e]"
                       }`}
                     >
                       <span className="text-xs font-semibold block">{item.label}</span>
@@ -770,7 +788,7 @@ export function CustomSoftwareClient() {
             </div>
 
             {/* Right Estimator Results Card */}
-            <div className="lg:col-span-6 rounded-xl border border-[#2a342a] bg-[#101410] p-5 sm:p-8 shadow-2xl">
+            <div className="lg:col-span-6 rounded-xl border border-[#222822] bg-[#101310] p-5 sm:p-8">
               <span className="text-[11px] font-mono font-semibold text-[#ff5a36] uppercase tracking-wider block mb-2">
                 ESTIMATED ENGINEERING INVESTMENT
               </span>
@@ -813,8 +831,8 @@ export function CustomSoftwareClient() {
               </div>
 
               <Link
-                href="/contact"
-                className="w-full py-3.5 rounded-lg bg-[#ff5a36] text-white text-sm font-semibold text-center hover:bg-[#e04826] transition-all block"
+                href={`/contact?scope=${projectType}&scale=${scaleLevel}`}
+                className="w-full py-3.5 rounded-lg bg-[#ff5a36] text-white text-sm font-semibold text-center hover:bg-[#e04826] transition-colors block"
               >
                 Request a Detailed Technical Scope &amp; Quote
               </Link>
@@ -932,10 +950,13 @@ export function CustomSoftwareClient() {
               return (
                 <div
                   key={i}
-                  className="rounded-xl border border-[#1e241e] bg-[#0d100d] overflow-hidden transition-all"
+                  className={`rounded-xl border bg-[#0d100d] overflow-hidden transition-colors ${
+                    isOpen ? "border-[#ff5a36]/40" : "border-[#1e241e]"
+                  }`}
                 >
                   <button
                     type="button"
+                    aria-expanded={isOpen}
                     onClick={() => setOpenFaq(isOpen ? null : i)}
                     className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 hover:bg-[#121612] transition-colors"
                   >
@@ -961,8 +982,8 @@ export function CustomSoftwareClient() {
       {/* ── 8. Conversion CTA & Technical Discovery Booking ── */}
       <section className="py-16 sm:py-20 bg-[#090b09]">
         <div className="site-width">
-          <div className="rounded-2xl border border-[#2e382e] bg-gradient-to-br from-[#121812] via-[#0d120d] to-[#0a0d0a] p-6 sm:p-12 text-center max-w-4xl mx-auto shadow-2xl relative overflow-hidden">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#ff5a36]/10 text-[#ff5a36] border border-[#ff5a36]/25 text-xs font-mono font-semibold mb-5 sm:mb-6">
+          <div className="rounded-2xl border border-[#222822] bg-[#101310] p-6 sm:p-12 text-center max-w-4xl mx-auto relative overflow-hidden">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#141814] text-[#ff5a36] border border-[#222822] text-xs font-mono font-semibold mb-5 sm:mb-6">
               <Calendar className="w-3.5 h-3.5" />
               <span>COLOMBO ENGINEERING DISCOVERY CALL</span>
             </div>
@@ -978,13 +999,13 @@ export function CustomSoftwareClient() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white px-6 sm:px-8 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-all shadow-lg shadow-[#ff5a36]/20 text-center"
+                className="inline-flex items-center justify-center gap-2 bg-[#ff5a36] text-white px-6 sm:px-8 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#e04826] transition-colors text-center"
               >
                 Book a Free Engineering Consultation <ArrowUpRight className="w-4 h-4" />
               </Link>
               <a
                 href="#capabilities"
-                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-lg border border-[#2a302a] bg-[#121512] text-sm font-medium text-white hover:border-[#ff5a36]/50 hover:bg-[#181c18] transition-all text-center"
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-lg border border-[#2a302a] bg-[#141814] text-sm font-medium text-white hover:border-[#ff5a36] hover:bg-[#181c18] transition-colors text-center"
               >
                 Review Capabilities Spectrum
               </a>
