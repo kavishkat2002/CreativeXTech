@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
+import { CustomSoftwareClient } from "@/components/custom-software-client";
 import { getService, getServices, getServiceIcon } from "@/lib/services";
 
 
@@ -126,6 +127,18 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       { "@type": "ListItem", position: 3, name: service.title, item: `${baseUrl}/services/${service.slug}` },
     ],
   };
+
+  if (slug === "custom-software-development") {
+    return (
+      <main id="top" className="site-shell min-h-screen bg-[#0b0c0b]">
+        <a className="skip-link" href="#domains">Skip to Engineering Domains</a>
+        <SiteHeader activeSection="services" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }} />
+        <CustomSoftwareClient />
+      </main>
+    );
+  }
 
   return (
     <main id="top" className="site-shell service-detail-page">
