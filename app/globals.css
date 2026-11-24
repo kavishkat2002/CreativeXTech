@@ -10237,23 +10237,29 @@ body.cx-is-loading {
   color: #ff5a36;
   background: #ff5a36;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 0;
   filter: none;
   
   /* Angled wave mask with clean edge sweep */
   -webkit-mask-image: linear-gradient(115deg, transparent 0%, transparent 22%, black 36%, black 64%, transparent 78%, transparent 100%);
+  mask-image: linear-gradient(115deg, transparent 0%, transparent 22%, black 36%, black 64%, transparent 78%, transparent 100%);
   -webkit-mask-size: 260% 100%;
+  mask-size: 260% 100%;
   -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
   animation: cx-wave-sweep 2.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
 }
 
 @keyframes cx-wave-sweep {
   0% {
     -webkit-mask-position: 0% 0%;
+    mask-position: 0% 0%;
   }
   100% {
     -webkit-mask-position: 100% 0%;
+    mask-position: 100% 0%;
   }
 }
 

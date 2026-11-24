@@ -1,6 +1,8 @@
-# Cloudflare Pages / Workers — Redirect Rules
+# Cloudflare Workers Static Assets — Relative Redirect Rules
 # =============================================================================
-# Canonical Production Domain: https://www.creativextechnology.com
+# NOTE: Cloudflare Workers Assets _redirects ONLY supports relative source paths.
+# Hostname-level redirects (creativexlab.online / apex → www.creativextechnology.com)
+# are handled in next.config.ts and Cloudflare Dashboard → Rules → Redirect Rules.
 # =============================================================================
 
 # Redirect removed SEO pillar pages to canonical core pages
@@ -8,10 +10,3 @@
 /it-solutions-sri-lanka /services 301
 /ai-development-sri-lanka /services/ai-automation-agents 301
 /erp-solutions-sri-lanka /solutions 301
-
-# Redirect non-www new domain → www (prevents duplicate indexing)
-https://creativextechnology.com/* https://www.creativextechnology.com/:splat 301
-
-# Redirect old domain → new www canonical (preserves all URL paths)
-https://creativexlab.online/* https://www.creativextechnology.com/:splat 301
-https://www.creativexlab.online/* https://www.creativextechnology.com/:splat 301
