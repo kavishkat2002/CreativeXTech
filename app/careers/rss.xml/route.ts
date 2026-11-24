@@ -4,7 +4,7 @@ import { getJobs } from "@/lib/careers";
 
 export const dynamic = "force-dynamic";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export async function GET() {
   const jobs = await getJobs();

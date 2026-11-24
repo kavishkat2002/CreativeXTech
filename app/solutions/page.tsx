@@ -11,7 +11,7 @@ import { RetailDistributionSolutionSection } from "@/components/retail-distribut
 import { ProfessionalServicesSolutionSection } from "@/components/professional-services-solution";
 
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "Industry AI & Enterprise Software Solutions | Creativex Technology",

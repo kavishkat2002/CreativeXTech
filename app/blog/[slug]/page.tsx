@@ -6,7 +6,7 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getArticles, getArticle, getArticleSlugs, formatArticleDate } from "@/lib/articles";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export async function generateStaticParams() {
   const slugs = await getArticleSlugs();
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${article.title} | Creativex Technology`,
     description: article.excerpt,
     keywords: article.tags,
-    authors: [{ name: "Creativex Technology", url: `https://www.creativextechnology.com` }],
+    authors: [{ name: "Creativex Technology", url: `https://creativexlab.online` }],
     alternates: {
       canonical: `${baseUrl}/blog/${article.slug}`,
       languages: {

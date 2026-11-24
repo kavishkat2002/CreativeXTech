@@ -7,13 +7,13 @@ import { getServices } from "@/lib/services";
 
 export const dynamic = "force-dynamic";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 /**
  * Last-modified date for static core pages.
  * Update this when making content/structural changes to these pages.
  */
-const CORE_LAST_MODIFIED = new Date("2026-11-24T00:00:00.000Z");
+const CORE_LAST_MODIFIED = new Date("2026-11-25T00:00:00.000Z");
 
 /** Fallback date when dynamic content has no timestamp */
 const siteFallbackDate = new Date("2026-09-12T00:00:00.000Z");
@@ -22,7 +22,7 @@ const siteFallbackDate = new Date("2026-09-12T00:00:00.000Z");
  * Advanced XML Sitemap Generator — SEO, AEO & GEO Optimised
  *
  * Strategy Principles:
- * 1. Include ONLY 200 OK canonical, indexable URLs.
+ * 1. Include ONLY 200 OK canonical, indexable URLs for https://creativexlab.online.
  * 2. Omit priority & changefreq fields (ignored by Googlebot & AI crawlers).
  * 3. Provide accurate, meaningful lastModified timestamps to signal crawl priority.
  * 4. Exclude noindex, redirect, draft, admin, and API paths.
@@ -30,14 +30,9 @@ const siteFallbackDate = new Date("2026-09-12T00:00:00.000Z");
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   /**
    * Core canonical routes with accurate lastModified signals.
-   * Homepage is highest-priority; pillar pages are regularly updated.
    */
   const corePaths: Array<{ path: string; date: Date }> = [
     { path: "", date: CORE_LAST_MODIFIED },
-    { path: "/ai-development-sri-lanka", date: CORE_LAST_MODIFIED },
-    { path: "/erp-solutions-sri-lanka", date: CORE_LAST_MODIFIED },
-    { path: "/it-solutions-sri-lanka", date: CORE_LAST_MODIFIED },
-    { path: "/custom-software-development", date: CORE_LAST_MODIFIED },
     { path: "/creativeos", date: CORE_LAST_MODIFIED },
     { path: "/services", date: CORE_LAST_MODIFIED },
     { path: "/solutions", date: CORE_LAST_MODIFIED },
@@ -63,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const jobs = await getJobs();
 
     const serviceEntries: MetadataRoute.Sitemap = (services || [])
-      .filter((service) => service && service.slug && service.slug !== "custom-software-development")
+      .filter((service) => service && service.slug)
       .map((service) => ({
         url: `${baseUrl}/services/${service.slug}`,
         lastModified: siteFallbackDate,

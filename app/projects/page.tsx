@@ -6,7 +6,7 @@ import { ProjectGallery } from "@/components/project-gallery";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { staticProjects } from "@/lib/projects";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "AI Agents & Software Engineering Projects | Creativex Technology",
@@ -21,7 +21,12 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: `${baseUrl}/projects`,
-    languages: { "en-US": `${baseUrl}/projects`, "x-default": `${baseUrl}/projects` },
+    languages: {
+      "en-US": `${baseUrl}/projects`,
+      "en-AU": `${baseUrl}/projects`,
+      "en-LK": `${baseUrl}/projects`,
+      "x-default": `${baseUrl}/projects`,
+    },
   },
   robots: {
     index: true,
@@ -41,10 +46,12 @@ export const metadata: Metadata = {
     url: `${baseUrl}/projects`,
     type: "website",
     siteName: "Creativex Technology",
+    locale: "en_US",
     images: [{ url: `${baseUrl}/brand/creativex-robot-lockup.webp`, width: 1200, height: 630, alt: "Creativex Technology Projects" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@creativex_tech",
     title: "AI & Software Engineering Projects | Creativex Technology",
     description: "Explore operational AI agents, smart facility platforms, logistics control towers, and SaaS product engineering by Creativex Technology.",
     images: [`${baseUrl}/brand/creativex-robot-lockup.webp`],

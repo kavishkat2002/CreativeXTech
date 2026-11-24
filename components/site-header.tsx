@@ -43,10 +43,6 @@ const footerNavigation = [
 
 function sectionHref(section: string, homePage: boolean) {
   if (section === "home") return "/";
-  if (section === "ai-development-sri-lanka") return "/ai-development-sri-lanka";
-  if (section === "erp-solutions-sri-lanka") return "/erp-solutions-sri-lanka";
-  if (section === "it-solutions-sri-lanka") return "/it-solutions-sri-lanka";
-  if (section === "custom-software-development") return "/custom-software-development";
   if (section === "creativeos") return "/creativeos";
   if (section === "solutions") return "/solutions";
   if (section === "projects") return "/projects";
@@ -131,7 +127,7 @@ export function SiteHeader({
                   <strong>Choose a capability</strong>
                 </div>
                 {liveServices.map((service) => {
-                  const href = service.slug === "custom-software-development" ? "/custom-software-development" : `/services/${service.slug}`;
+                  const href = `/services/${service.slug}`;
                   return (
                     <Link href={href} key={service.slug}>
                       <span>{service.number}</span>
@@ -229,7 +225,7 @@ export function SiteHeader({
                       <div className="sheet-nav-subbox">
                         <div className="sheet-nav-subhead">Capabilities</div>
                         {liveServices.map((service) => {
-                          const href = service.slug === "custom-software-development" ? "/custom-software-development" : `/services/${service.slug}`;
+                          const href = `/services/${service.slug}`;
                           return (
                             <SheetClose asChild key={service.slug}>
                               <Link href={href} className="sheet-nav-sublink">

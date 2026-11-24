@@ -1,32 +1,21 @@
 import type { Metadata } from "next";
 import { ArrowLeft, ArrowUpRight, Check, ShieldCheck } from "lucide-react";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getService, getServices, getServiceIcon } from "@/lib/services";
 
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export async function generateStaticParams() {
   const allServices = await getServices();
-  return allServices
-    .filter((service) => service.slug !== "custom-software-development")
-    .map((service) => ({ slug: service.slug }));
+  return allServices.map((service) => ({ slug: service.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  if (slug === "custom-software-development") {
-    return {
-      title: "Custom Software Development | Creativex Technology",
-      robots: { index: false, follow: true },
-      alternates: {
-        canonical: `${baseUrl}/custom-software-development`,
-      },
-    };
-  }
   const service = await getService(slug);
   if (!service) {
     return {
@@ -42,18 +31,43 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       canonical: `${baseUrl}/services/${service.slug}`,
       languages: {
         "en-US": `${baseUrl}/services/${service.slug}`,
+        "en-AU": `${baseUrl}/services/${service.slug}`,
+        "en-LK": `${baseUrl}/services/${service.slug}`,
         "x-default": `${baseUrl}/services/${service.slug}`,
       },
     },
-    openGraph: { title: service.title, description: service.copy, url: `${baseUrl}/services/${service.slug}`, type: "website" },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    openGraph: {
+      title: `${service.title} | Creativex Technology`,
+      description: service.copy,
+      url: `${baseUrl}/services/${service.slug}`,
+      siteName: "Creativex Technology",
+      locale: "en_US",
+      type: "website",
+      images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: service.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@creativex_tech",
+      title: `${service.title} | Creativex Technology`,
+      description: service.copy,
+      images: [`${baseUrl}/og.png`],
+    },
   };
 }
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  if (slug === "custom-software-development") {
-    permanentRedirect("/custom-software-development");
-  }
   const service = await getService(slug);
   if (!service) notFound();
   
@@ -63,23 +77,45 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const ServiceIcon = getServiceIcon(service.slug);
   const serviceIndex = allServices.findIndex((item) => item.slug === service.slug);
   const nextService = allServices[(serviceIndex + 1) % allServices.length];
-  const nextServiceHref = nextService.slug === "custom-software-development" ? "/custom-software-development" : `/services/${nextService.slug}`;
+  const nextServiceHref = `/services/${nextService.slug}`;
   
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Service",
-    name: service.title,
-    description: service.copy,
-    url: `${baseUrl}/services/${service.slug}`,
-    serviceType: service.title,
-    provider: { "@id": `${baseUrl}/#organization` },
-    areaServed: "Worldwide",
-    audience: { "@type": "BusinessAudience", audienceType: "Organizations improving business operations with AI and software" },
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: `${service.title} capabilities`,
-      itemListElement: service.features.map((feature, index) => ({ "@type": "ListItem", position: index + 1, name: feature })),
-    },
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${baseUrl}/services/${service.slug}/#webpage`,
+        url: `${baseUrl}/services/${service.slug}`,
+        name: `${service.title} | Creativex Technology`,
+        description: service.copy,
+        isPartOf: { "@id": `${baseUrl}/#website` },
+        about: { "@id": `${baseUrl}/#organization` },
+        inLanguage: "en-US",
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: [".service-detail-hero", ".service-overview"],
+        },
+      },
+      {
+        "@type": "Service",
+        "@id": `${baseUrl}/services/${service.slug}/#service`,
+        name: service.title,
+        description: service.copy,
+        url: `${baseUrl}/services/${service.slug}`,
+        serviceType: service.title,
+        provider: { "@id": `${baseUrl}/#organization` },
+        areaServed: [
+          { "@type": "Country", name: "Sri Lanka" },
+          { "@type": "AdministrativeArea", name: "Worldwide" },
+        ],
+        audience: { "@type": "BusinessAudience", audienceType: "Organizations improving business operations with AI and software" },
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: `${service.title} capabilities`,
+          itemListElement: service.features.map((feature, index) => ({ "@type": "ListItem", position: index + 1, name: feature })),
+        },
+      },
+    ],
   };
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",

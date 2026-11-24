@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowUpRight, Check, Clock3, FileText, Mail, MapPin, Phone }
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Creativex Technology (Pvt) Ltd",
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
     "Confidentiality & Privacy",
   ],
   alternates: {
-    canonical: "https://www.creativextechnology.com/privacy-policy",
+    canonical: "https://creativexlab.online/privacy-policy",
     languages: {
-      "x-default": "https://www.creativextechnology.com/privacy-policy",
+      "x-default": "https://creativexlab.online/privacy-policy",
     },
   },
   robots: {

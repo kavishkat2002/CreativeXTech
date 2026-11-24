@@ -5,7 +5,7 @@ import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 export const viewport: Viewport = {
@@ -185,40 +185,40 @@ export default function RootLayout({
               "@type": "Offer",
               itemOffered: {
                 "@type": "Service",
-                name: "AI Development in Sri Lanka",
-                url: `${baseUrl}/ai-development-sri-lanka`,
-              },
-            },
-            {
-              "@type": "Offer",
-              itemOffered: {
-                "@type": "Service",
-                name: "Enterprise ERP Solutions in Sri Lanka",
-                url: `${baseUrl}/erp-solutions-sri-lanka`,
-              },
-            },
-            {
-              "@type": "Offer",
-              itemOffered: {
-                "@type": "Service",
-                name: "IT Solutions & Digital Transformation in Sri Lanka",
-                url: `${baseUrl}/it-solutions-sri-lanka`,
-              },
-            },
-            {
-              "@type": "Offer",
-              itemOffered: {
-                "@type": "Service",
-                name: "Custom Software Development in Sri Lanka",
-                url: `${baseUrl}/custom-software-development`,
-              },
-            },
-            {
-              "@type": "Offer",
-              itemOffered: {
-                "@type": "Service",
                 name: "AI Automation & Autonomous Agents",
                 url: `${baseUrl}/services/ai-automation-agents`,
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Data & Predictive Analytics",
+                url: `${baseUrl}/services/data-predictive-analytics`,
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Cloud Solutions",
+                url: `${baseUrl}/services/cloud-solutions`,
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Custom Software Development",
+                url: `${baseUrl}/services/custom-software-development`,
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Web & Mobile Product Engineering",
+                url: `${baseUrl}/services/web-mobile-product-engineering`,
               },
             },
           ],
@@ -358,23 +358,23 @@ export default function RootLayout({
           {
             "@type": "SiteNavigationElement",
             position: 4,
-            name: "AI Development Sri Lanka",
-            description: "Custom AI development, autonomous AI agents, machine learning models, and enterprise automation engineered in Sri Lanka.",
-            url: `${baseUrl}/ai-development-sri-lanka`,
+            name: "Solutions",
+            description: "Industry-tailored AI automation, enterprise ERP software, predictive data models, and IoT operations.",
+            url: `${baseUrl}/solutions`,
           },
           {
             "@type": "SiteNavigationElement",
             position: 5,
-            name: "ERP Solutions Sri Lanka",
-            description: "Custom ERP solutions in Sri Lanka for inventory, supply chain, and retail with zero recurring per-user licensing fees.",
-            url: `${baseUrl}/erp-solutions-sri-lanka`,
+            name: "CreativeOS",
+            description: "Autonomous Work Operating System with workflow automation and predictive capacity analytics.",
+            url: `${baseUrl}/creativeos`,
           },
           {
             "@type": "SiteNavigationElement",
             position: 6,
-            name: "IT Solutions Sri Lanka",
-            description: "Enterprise IT solutions, cloud infrastructure, cybersecurity, and digital transformation for Sri Lankan businesses.",
-            url: `${baseUrl}/it-solutions-sri-lanka`,
+            name: "Projects",
+            description: "Representative engineering projects and verified AI and software deployments.",
+            url: `${baseUrl}/projects`,
           },
           {
             "@type": "SiteNavigationElement",

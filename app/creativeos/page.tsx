@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CreativeOSShowcase } from "@/components/creativeos-showcase";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "CreativeOS — Autonomous Work Operating System & Predictive Capacity Engine | Australia, UK, Nepal & Global",

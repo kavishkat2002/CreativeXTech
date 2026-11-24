@@ -5,7 +5,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getServices, getServiceIcon } from "@/lib/services";
 
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "Services | AI, ERP & Software Engineering | Creativex Technology",
@@ -117,7 +117,7 @@ export default async function ServicesPage() {
           <div className="services-directory-grid">
             {allServices.map((service) => {
               const Icon = getServiceIcon(service.slug);
-              const serviceHref = service.slug === "custom-software-development" ? "/custom-software-development" : `/services/${service.slug}`;
+              const serviceHref = `/services/${service.slug}`;
               return (
                 <a href={serviceHref} className="service-directory-card" key={service.slug}>
                   <header><span>{service.number}</span><Icon aria-hidden="true" /></header>

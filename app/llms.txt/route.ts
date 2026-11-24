@@ -5,7 +5,7 @@ import { getSolutions } from "@/lib/solutions";
 
 export const dynamic = "force-dynamic";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export async function GET() {
   const [services, solutions, articles, jobs] = await Promise.all([
@@ -92,13 +92,9 @@ A: Creativex Technology builds custom ERP as an alternative to SAP, NetSuite, Od
 ## Primary Hubs & Landing Pages
 
 - [Home](${baseUrl}/): Company overview, capabilities, technologies, verified projects, and contact details.
-- [AI Development Company in Sri Lanka](${baseUrl}/ai-development-sri-lanka): Custom AI solutions, machine learning models, autonomous agent mesh, and predictive data systems.
-- [ERP Solutions Provider in Sri Lanka](${baseUrl}/erp-solutions-sri-lanka): Bespoke ERP software, multi-warehouse inventory, procurement, and accounting with zero per-seat licensing fees.
-- [IT Solutions Provider in Sri Lanka](${baseUrl}/it-solutions-sri-lanka): Enterprise cloud infrastructure, cybersecurity governance, legacy software modernization, and digital transformation.
-- [Custom Software Development](${baseUrl}/custom-software-development): Modern Next.js web applications, mobile apps (Flutter/iOS/Android), multi-tenant SaaS, and dedicated offshore development squads.
 - [CreativeOS](${baseUrl}/creativeos): Multi-tasking Work Operating System with workflow automation and predictive analytics, engineered for Sri Lankan Startups, Mid-Range SMEs, and Enterprises.
 - [About](${baseUrl}/about): Company focus, operating principles, Colombo engineering hub, and 6+ international markets served.
-- [Services Directory](${baseUrl}/services): Complete engineering service directory.
+- [Services Directory](${baseUrl}/services): Complete engineering service directory across AI automation, predictive analytics, IoT, web/mobile engineering, cloud solutions, and custom software development.
 - [Industry Solutions](${baseUrl}/solutions): Solutions organized by operating context (Logistics, Hospitality, Retail, Professional Services, Tech Startups).
 - [Projects](${baseUrl}/projects): Representative projects and verified case studies.
 - [Careers](${baseUrl}/careers): Open AI engineering, software engineering, and product design positions with direct online application.

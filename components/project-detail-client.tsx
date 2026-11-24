@@ -114,7 +114,7 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
   const tags = project.tags || [];
   const Icon = getProjectIcon(project.slug);
 
-  const baseUrl = "https://www.creativextechnology.com";
+  const baseUrl = "https://creativexlab.online";
 
   const projectJsonLd = {
     "@context": "https://schema.org",

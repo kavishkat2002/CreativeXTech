@@ -272,7 +272,7 @@ export const staticArticles: Article[] = [
       "Insist on transparent human-in-the-loop oversight for consequential operational decisions.",
     ],
     references: [
-      { label: "Creativex Technology: AI Development Company in Sri Lanka", href: "/ai-development-sri-lanka" },
+      { label: "Creativex Technology: AI Automation & Agents", href: "/services/ai-automation-agents" },
       { label: "Google Cloud: Responsible AI Principles", href: "https://cloud.google.com/responsible-ai" },
     ],
   },
@@ -316,7 +316,7 @@ export const staticArticles: Article[] = [
     ],
     references: [
       { label: "Creativex Technology: Industry AI Solutions", href: "/solutions" },
-      { label: "Creativex Technology: AI Development in Sri Lanka", href: "/ai-development-sri-lanka" },
+      { label: "Creativex Technology: AI Automation & Agents", href: "/services/ai-automation-agents" },
     ],
   },
   {
@@ -389,7 +389,7 @@ export const staticArticles: Article[] = [
       "Insist on an API-first architecture that allows seamless future integrations.",
     ],
     references: [
-      { label: "Creativex Technology: ERP Solutions Provider Sri Lanka", href: "/erp-solutions-sri-lanka" },
+      { label: "Creativex Technology: Enterprise & Industry Solutions", href: "/solutions" },
       { label: "Creativex Technology: Retail & Distribution Solution", href: "/solutions" },
     ],
   },
@@ -427,8 +427,8 @@ export const staticArticles: Article[] = [
       "For businesses with unique distribution or manufacturing workflows, custom ERP provides a decisive competitive edge.",
     ],
     references: [
-      { label: "Creativex Technology: ERP Solutions in Sri Lanka", href: "/erp-solutions-sri-lanka" },
-      { label: "Creativex Technology: Custom Software Development", href: "/custom-software-development" },
+      { label: "Creativex Technology: Enterprise & Industry Solutions", href: "/solutions" },
+      { label: "Creativex Technology: Custom Software Development", href: "/services/custom-software-development" },
     ],
   },
   {
@@ -464,7 +464,7 @@ export const staticArticles: Article[] = [
       "Creativex Technology ERP integrates POS speed with comprehensive enterprise accounting and supply chain control.",
     ],
     references: [
-      { label: "Creativex Technology: ERP Solutions Provider Sri Lanka", href: "/erp-solutions-sri-lanka" },
+      { label: "Creativex Technology: Enterprise & Industry Solutions", href: "/solutions" },
       { label: "Creativex Technology: Retail Distribution Solutions", href: "/solutions#retail-distribution" },
     ],
   },
@@ -501,7 +501,7 @@ export const staticArticles: Article[] = [
       "Budget for post-launch maintenance, security updates, and automated database backups.",
     ],
     references: [
-      { label: "Creativex Technology: Custom Software Development Sri Lanka", href: "/custom-software-development" },
+      { label: "Creativex Technology: Custom Software Development", href: "/services/custom-software-development" },
       { label: "Creativex Technology: Contact & Quote Calculator", href: "/contact" },
     ],
   },
@@ -538,7 +538,7 @@ export const staticArticles: Article[] = [
       "Creativex Technology acts as an accountable technology partner from infrastructure setup to custom software build.",
     ],
     references: [
-      { label: "Creativex Technology: IT Solutions Provider in Sri Lanka", href: "/it-solutions-sri-lanka" },
+      { label: "Creativex Technology: Engineering Services", href: "/services" },
       { label: "Creativex Technology: Cloud Solutions Engineering", href: "/services/cloud-solutions" },
     ],
   },
@@ -576,7 +576,7 @@ export const staticArticles: Article[] = [
     ],
     references: [
       { label: "Creativex Technology: AI Automation & WhatsApp Agents", href: "/services/ai-automation-agents" },
-      { label: "Creativex Technology: AI Development Company Sri Lanka", href: "/ai-development-sri-lanka" },
+      { label: "Creativex Technology: AI Automation & Agents", href: "/services/ai-automation-agents" },
     ],
   },
   {
@@ -613,7 +613,7 @@ export const staticArticles: Article[] = [
     ],
     references: [
       { label: "Creativex Technology: AI Automation & Agents", href: "/services/ai-automation-agents" },
-      { label: "Creativex Technology: AI Development Company in Sri Lanka", href: "/ai-development-sri-lanka" },
+      { label: "Creativex Technology: AI Automation & Agents", href: "/services/ai-automation-agents" },
     ],
   },
 

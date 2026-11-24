@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HomePageClient } from "@/components/home-page-client";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "AI & Software Engineering Company in Sri Lanka | Creativex Technology",

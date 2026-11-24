@@ -4,7 +4,7 @@ import { ArrowDownRight, ArrowUpRight, Bot, BriefcaseBusiness, ChartNoAxesCombin
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { GlobalReachSection } from "@/components/global-reach-section";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "About Us | Creativex Technology — AI & Software Engineering Company",

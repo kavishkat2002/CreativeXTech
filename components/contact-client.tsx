@@ -18,7 +18,7 @@ export function ContactClient() {
     "@context": "https://schema.org",
     "@type": "ContactPage",
     name: "Contact Creativex Technology",
-    url: "https://www.creativextechnology.com/contact",
+    url: "https://creativexlab.online/contact",
     about: { "@type": "Organization", name: "Creativex Technology", email: "info@creativexlab.online" },
   };
 

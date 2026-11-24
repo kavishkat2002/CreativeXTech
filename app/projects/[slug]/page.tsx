@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ProjectDetailClient } from "@/components/project-detail-client";
 import { staticProjects, getProjects, isExplicitlyHiddenProject } from "@/lib/projects";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export const dynamicParams = true;
 export const revalidate = 0;

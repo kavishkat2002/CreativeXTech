@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowUpRight, Check, ChevronUp, Clock3, FileText, Mail, MapP
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 
-const baseUrl = "https://www.creativextechnology.com";
+const baseUrl = "https://creativexlab.online";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions | Creativex Technology (Pvt) Ltd",
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
     "Intellectual Property Terms",
   ],
   alternates: {
-    canonical: "https://www.creativextechnology.com/terms-and-conditions",
+    canonical: "https://creativexlab.online/terms-and-conditions",
     languages: {
-      "x-default": "https://www.creativextechnology.com/terms-and-conditions",
+      "x-default": "https://creativexlab.online/terms-and-conditions",
     },
   },
   robots: {
