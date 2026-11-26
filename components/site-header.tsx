@@ -383,12 +383,12 @@ export function SiteFooter({ homePage = false }: { homePage?: boolean }) {
           </a>
         </div>
         <div className="footer-bottom-bar col-span-full flex flex-wrap justify-between items-center border-t border-white/10 pt-4 gap-3" style={{ justifyContent: "space-between" }}>
-          <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 font-mono font-semibold text-[9px] tracking-widest text-white/40 uppercase" style={{ textAlign: "left" }}>
+          <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 font-mono font-semibold text-[9px] leading-relaxed tracking-widest text-white/40 uppercase" style={{ textAlign: "left" }}>
             <span>© {new Date().getFullYear()} Creativex Technology PVT LTD. All rights reserved.</span>
           </div>
-          <div className="flex gap-4 text-[11px] text-white/45">
-            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms &amp; Conditions</Link>
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-[12px] sm:text-[11px] text-white/50">
+            <Link href="/privacy-policy" className="inline-flex items-center min-h-[36px] hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms-and-conditions" className="inline-flex items-center min-h-[36px] hover:text-white transition-colors">Terms &amp; Conditions</Link>
           </div>
         </div>
       </div>

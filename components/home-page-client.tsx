@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 
+import { HomeHeroEcosystem } from "@/components/home-hero-ecosystem";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
-import { Button } from "@/components/ui/button";
 import { staticProjects, getProjects, getProjectIcon, Project } from "@/lib/projects";
 import { services as staticServices, getServices, getServiceIcon, Service } from "@/lib/services";
 
@@ -212,14 +212,6 @@ export function HomePageClient() {
     };
   }, []);
 
-  function trackHero(event: MouseEvent<HTMLElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-    event.currentTarget.style.setProperty("--hero-x", `${x * 15}px`);
-    event.currentTarget.style.setProperty("--hero-y", `${y * 9}px`);
-  }
-
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -241,47 +233,7 @@ export function HomePageClient() {
       <SiteHeader activeSection={activeSection} scrollProgress={scrollProgress} homePage />
 
       <div id="main-content">
-        <section className="reference-hero" onMouseMove={trackHero}>
-          <div className="reference-grid" aria-hidden="true" />
-          <div className="site-width reference-hero-inner">
-            <div className="reference-copy">
-              <p className="reference-kicker"><span /> Think Creative. Build Smart.</p>
-              <h1>We turn complex operations into intelligent systems that <em>move.</em></h1>
-              <p className="reference-note">
-                — AI, data, cloud, and product engineering grounded in real
-                business operations
-              </p>
-            </div>
-
-            <div className="reference-figure">
-              <div className="reference-halo" />
-              <Image
-                src="/creativex-android-v2.png"
-                alt="Creativex Technology AI Systems Visual"
-                priority
-                unoptimized
-                width={640}
-                height={640}
-              />
-              <div className="reference-scan" />
-            </div>
-
-            <div className="reference-word" aria-hidden="true">CREATIVE<span>X</span></div>
-
-            <div className="reference-bottom">
-              <div className="reference-disciplines" role="region" aria-label="Our disciplines">
-                <span>Strategy</span><span>Product</span><span>Engineering</span>
-              </div>
-              <div className="reference-actions">
-                <a className="reference-secondary" href="#services">Explore our approach <ArrowUpRight /></a>
-                <Button asChild className="reference-cta">
-                  <a href="#contact">Start Creative Project <ArrowUpRight /></a>
-                </Button>
-              </div>
-            </div>
-          </div>
-          <div className="reference-side-note" aria-hidden="true">© {new Date().getFullYear()} Creativex Technology PVT LTD</div>
-        </section>
+        <HomeHeroEcosystem />
 
         <section className="partner-band" aria-labelledby="partner-band-title">
           <div className="partner-band-label" id="partner-band-title">
