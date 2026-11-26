@@ -256,7 +256,7 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
                 {project.systemDirectionCopy && <p>{project.systemDirectionCopy}</p>}
               </div>
               {project.systemConsole && (
-                <div className="case-study-console" aria-label="Illustrative agent workspace">
+                <div className="case-study-console" role="region" aria-label="Illustrative agent workspace">
                   {/* Top bar */}
                   <div className="case-study-console-top">
                     <span>
@@ -310,7 +310,7 @@ export function ProjectDetailClient({ initialProject }: { initialProject?: Proje
 
               {/* Fallback: no systemConsole but has system direction — show a clean placeholder */}
               {!project.systemConsole && (project.systemDirectionTitle || project.systemDirectionCopy) && (
-                <div className="case-study-console" aria-label="System overview">
+                <div className="case-study-console" role="region" aria-label="System overview">
                   <div className="case-study-console-top">
                     <span><i /> {(project.system || "SYSTEM").toUpperCase()} / OVERVIEW</span>
                     <strong>In development</strong>

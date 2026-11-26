@@ -269,7 +269,7 @@ export function HomePageClient() {
             <div className="reference-word" aria-hidden="true">CREATIVE<span>X</span></div>
 
             <div className="reference-bottom">
-              <div className="reference-disciplines" aria-label="Our disciplines">
+              <div className="reference-disciplines" role="region" aria-label="Our disciplines">
                 <span>Strategy</span><span>Product</span><span>Engineering</span>
               </div>
               <div className="reference-actions">
@@ -352,7 +352,7 @@ export function HomePageClient() {
             <p>Modern AI, cloud, data, and product tools selected to fit your systems and operating needs.</p>
           </div>
 
-          <div className="technology-marquee" aria-label="Technologies we work with">
+          <div className="technology-marquee" role="region" aria-label="Technologies we work with">
             <div className="technology-marquee-track">
               {[0, 1].map((copyIndex) => (
                 <div
@@ -390,7 +390,7 @@ export function HomePageClient() {
             <a className="contact-action" href="/projects">View all projects <ArrowUpRight /></a>
           </div>
 
-          <div className="home-project-marquee" aria-label="Selected Creativex Technology projects">
+          <div className="home-project-marquee" role="region" aria-label="Selected Creativex Technology projects">
             <div className="home-project-track">
               {[0, 1].map((copyIndex) => (
                 <div className="home-project-set" aria-hidden={copyIndex === 1} key={copyIndex}>

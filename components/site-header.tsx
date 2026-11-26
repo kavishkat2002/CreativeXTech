@@ -56,8 +56,8 @@ function sectionHref(section: string, homePage: boolean) {
 
 export function Brand() {
   return (
-    <span className="brand-lockup" aria-label="Creativex Technology">
-      <span className="brand-logo-frame" aria-hidden="true">
+    <span className="brand-lockup">
+      <span className="brand-logo-frame">
         <img src="/brand/creativex-wordmark.webp" alt="Creativex Technology" width={160} height={40} />
       </span>
     </span>
@@ -121,7 +121,7 @@ export function SiteHeader({
               >
                 Services <ChevronDown />
               </Link>
-              <div className="nav-pulldown-menu nav-services-menu" aria-label="Service pages">
+              <div className="nav-pulldown-menu nav-services-menu" role="region" aria-label="Service pages">
                 <div className="nav-pulldown-head">
                   <span>AI & software services</span>
                   <strong>Choose a capability</strong>
@@ -148,7 +148,7 @@ export function SiteHeader({
               >
                 Solutions <ChevronDown />
               </Link>
-              <div className="nav-pulldown-menu" aria-label="Solution pages">
+              <div className="nav-pulldown-menu" role="region" aria-label="Solution pages">
                 <div className="nav-pulldown-head">
                   <span>Operating Systems &amp; Industry Solutions</span>
                   <strong>Choose an operating context</strong>
