@@ -21,6 +21,38 @@ export interface Service {
   icon?: any; // the resolved React component
 }
 
+export interface IotFaqItem {
+  q: string;
+  a: string;
+}
+
+export const iotFaqs: IotFaqItem[] = [
+  {
+    q: "What devices and equipment can be connected to the system?",
+    a: "We integrate environmental probes (temperature, humidity, air quality), energy sub-meters, vibration and current sensors, PLC and Modbus-enabled plant machinery, cold-room controllers, RFID/BLE asset tags, GPS trackers, and robotic workcell telemetry interfaces through standard industrial edge gateways.",
+  },
+  {
+    q: "Can this work with existing equipment and systems?",
+    a: "Yes. You rarely need to replace functional machinery to gain operational visibility. We bridge existing PLCs, serial/Modbus controllers, and legacy equipment through non-intrusive clamp-on sensors or edge gateways, and sync outputs directly into your ERP, CMMS, or internal portals via clean APIs.",
+  },
+  {
+    q: "What kind of dashboards and alerts are available?",
+    a: "We design custom operational control rooms tailored to your team: live equipment status views, floor or zone summaries, historical condition curves, maintenance logs, and multi-channel alerting via web, mobile tools, email, SMS, or WhatsApp with clear escalation and sign-off tracking.",
+  },
+  {
+    q: "Can multiple facilities and locations be monitored?",
+    a: "Yes. Platforms are structured multi-site from day one, allowing regional managers to compare facilities in one overview while giving local supervisors and shift technicians role-scoped access to their specific building, cold store, line, or yard.",
+  },
+  {
+    q: "How does an IoT implementation project work?",
+    a: "Every project starts by mapping physical assets and the operational decisions you need to improve. We then validate hardware and gateway connectivity on site, build the telemetry pipeline, dashboards, and alert rules iteratively, and verify real workflow adoption alongside your operators.",
+  },
+  {
+    q: "Do you offer a pilot or phased rollout?",
+    a: "Yes. We strongly recommend starting with one critical production line, cold-storage room, or priority facility zone to prove signal quality, alert accuracy, and team workflow fit before expanding across remaining equipment or sites.",
+  },
+];
+
 export const services = [
   {
     slug: "ai-automation-agents",
@@ -59,15 +91,41 @@ export const services = [
     number: "03",
     eyebrow: "Connected operations",
     title: "IoT & Smart Operations",
-    headline: "Connect physical signals to coordinated action.",
-    copy: "We connect assets, environments, and teams through real-time telemetry, operational control tools, alerting, and intelligence that supports faster field decisions.",
-    overview: "Creativex Technology develops connected-operation platforms that bring device data, business context, alerts, and field workflows into one usable environment. Systems are designed for resilience, clear ownership, and the realities of people working across facilities and the field.",
-    details: ["IoT architecture", "Telemetry & alerts", "Operations control rooms"],
-    features: ["Telemetry pipelines and device communication", "State modeling, anomaly alerts, and incident workflows", "Integration with physical assets, sensors, and legacy systems", "Field and dispatch interfaces designed for shift work", "Audit logs and operational history"],
-    useCases: ["Cold-chain and perishable cargo monitoring", "Production line and facility condition visibility", "Distributed fleet and remote equipment oversight", "Environmental, security, and access alerting"],
-    process: ["Survey physical assets and operational points of failure", "Design telemetry pipelines and control schemas", "Build the alerting and operational interface", "Field test, train operators, and harden the system"],
-    controls: ["Role-scoped device commands and safety interlocks", "Device identity, encryption, and firmware safeguards", "Graceful operation during network dropouts", "Incident logs with traceable field resolutions"],
-    outcomes: ["Earlier intervention before asset loss", "Less manual monitoring and verification overhead", "A single operational view of physical assets"],
+    headline: "Connect physical systems. Make every operation smarter.",
+    copy: "We connect devices, equipment and environments through IoT, real-time telemetry, operational dashboards, alerts and field workflows — turning operations into intelligent, efficient and reliable systems.",
+    overview: "Creativex Technology develops connected-operation platforms that bring device data, industrial automation telemetry, business context, alerts, and field workflows into one usable environment designed for operational resilience and clear shift ownership.",
+    details: ["IoT & gateway architecture", "Real-time telemetry & alerts", "Operations control rooms"],
+    features: [
+      "Device, sensor & gateway architecture",
+      "Real-time telemetry & event processing",
+      "Rules, anomaly detection & alert orchestration",
+      "Operations dashboards & mobile field tools",
+      "Maintenance & business system integration",
+      "Asset & environmental monitoring",
+    ],
+    useCases: [
+      "Smart facilities & energy monitoring",
+      "Equipment health & predictive maintenance",
+      "Cold-chain & environmental monitoring",
+      "Connected logistics & asset tracking",
+    ],
+    process: [
+      "Map assets & operational decisions",
+      "Validate connectivity & data quality",
+      "Build dashboards, alerts & workflows",
+      "Pilot, measure & expand across sites",
+    ],
+    controls: [
+      "Secure device identity & communication",
+      "Offline & degraded-mode behaviour",
+      "Clear alert ownership & escalation",
+      "Telemetry health & observability",
+    ],
+    outcomes: [
+      "Earlier response to operational issues",
+      "Less manual monitoring & coordination",
+      "Better visibility across facilities & assets",
+    ],
     icon: RadioTower,
   },
   {

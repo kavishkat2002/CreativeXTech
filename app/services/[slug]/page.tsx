@@ -5,7 +5,8 @@ import Link from "next/link";
 
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { CustomSoftwareClient } from "@/components/custom-software-client";
-import { getService, getServices, getServiceIcon } from "@/lib/services";
+import { IotSmartOperationsClient } from "@/components/iot-smart-operations-client";
+import { getService, getServices, getServiceIcon, iotFaqs } from "@/lib/services";
 
 
 const baseUrl = "https://www.creativextechnology.com";
@@ -136,6 +137,32 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }} />
         <CustomSoftwareClient />
+      </main>
+    );
+  }
+
+  if (slug === "iot-smart-operations") {
+    const iotFaqJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: iotFaqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.a,
+        },
+      })),
+    };
+
+    return (
+      <main id="top" className="site-shell min-h-screen bg-[#F5F5F3] text-[#151515]">
+        <a className="skip-link" href="#capabilities">Skip to Engineering Capabilities</a>
+        <SiteHeader activeSection="services" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(iotFaqJsonLd).replace(/</g, "\\u003c") }} />
+        <IotSmartOperationsClient />
       </main>
     );
   }
