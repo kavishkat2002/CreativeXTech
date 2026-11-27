@@ -119,9 +119,9 @@ export function SiteHeader({
                 aria-current={activeSection === item.section ? "page" : undefined}
                 href="/services"
               >
-                Services <ChevronDown />
+                Services <ChevronDown aria-hidden="true" />
               </Link>
-              <div className="nav-pulldown-menu nav-services-menu" role="region" aria-label="Service pages">
+              <div className="nav-pulldown-menu nav-services-menu" aria-label="Service pages">
                 <div className="nav-pulldown-head">
                   <span>AI & software services</span>
                   <strong>Choose a capability</strong>
@@ -132,11 +132,11 @@ export function SiteHeader({
                     <Link href={href} key={service.slug}>
                       <span>{service.number}</span>
                       <strong>{service.title}</strong>
-                      <ArrowUpRight />
+                      <ArrowUpRight aria-hidden="true" />
                     </Link>
                   );
                 })}
-                <Link className="nav-pulldown-all" href="/services">View all services <ArrowUpRight /></Link>
+                <Link className="nav-pulldown-all" href="/services">View all services <ArrowUpRight aria-hidden="true" /></Link>
               </div>
             </div>
           ) : item.section === "solutions" ? (
@@ -146,9 +146,9 @@ export function SiteHeader({
                 aria-current={activeSection === item.section ? "page" : undefined}
                 href="/solutions"
               >
-                Solutions <ChevronDown />
+                Solutions <ChevronDown aria-hidden="true" />
               </Link>
-              <div className="nav-pulldown-menu" role="region" aria-label="Solution pages">
+              <div className="nav-pulldown-menu" aria-label="Solution pages">
                 <div className="nav-pulldown-head">
                   <span>Operating Systems &amp; Industry Solutions</span>
                   <strong>Choose an operating context</strong>
@@ -156,16 +156,16 @@ export function SiteHeader({
                 <Link href="/creativeos" className="nav-pulldown-featured">
                   <span>OS</span>
                   <strong>CreativeOS — Work Operating System</strong>
-                  <ArrowUpRight />
+                  <ArrowUpRight aria-hidden="true" />
                 </Link>
                 {liveSolutions.map((solution) => (
                   <Link href={`/solutions#${solution.slug}`} key={solution.slug}>
                     <span>{solution.number}</span>
                     <strong>{solution.label}</strong>
-                    <ArrowUpRight />
+                    <ArrowUpRight aria-hidden="true" />
                   </Link>
                 ))}
-                <Link className="nav-pulldown-all" href="/solutions">View all solutions <ArrowUpRight /></Link>
+                <Link className="nav-pulldown-all" href="/solutions">View all solutions <ArrowUpRight aria-hidden="true" /></Link>
               </div>
             </div>
           ) : item.section === "employee" ? (
@@ -174,8 +174,6 @@ export function SiteHeader({
               <span
                 className="nav-employee-link is-disabled"
                 aria-disabled="true"
-                role="button"
-                tabIndex={-1}
                 title="Employee (Disabled)"
                 style={{ pointerEvents: "none", cursor: "default", userSelect: "none" }}
               >
@@ -195,12 +193,12 @@ export function SiteHeader({
           ))}
         </nav>
         <Button asChild className="header-cta hidden md:inline-flex">
-          <Link href="/contact">Book a Free Call <ArrowUpRight /></Link>
+          <Link href="/contact">Book a Free Call <ArrowUpRight aria-hidden="true" /></Link>
         </Button>
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="mobile-menu md:hidden" aria-label="Open menu">
-              <Menu className="w-5 h-5" />
+              <Menu className="w-5 h-5" aria-hidden="true" />
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="mobile-sheet">
@@ -357,7 +355,12 @@ export function SiteFooter({ homePage = false }: { homePage?: boolean }) {
         <p>A premium tech consultancy delivering innovative AI & software solutions to help businesses scale and thrive.</p>
         <div>
           {footerNavigation.map((item) => (
-            <Link key={item.section} href={sectionHref(item.section, homePage)} className="footer-nav-link">
+            <Link
+              key={item.section}
+              href={sectionHref(item.section, homePage)}
+              rel={item.section === "employee" ? "nofollow" : undefined}
+              className="footer-nav-link"
+            >
               {item.label}
             </Link>
           ))}

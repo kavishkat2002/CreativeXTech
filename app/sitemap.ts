@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { getArticles } from "@/lib/articles";
 import { getJobs } from "@/lib/careers";
-import { getProjects } from "@/lib/projects";
+import { getProjects, isExplicitlyHiddenProject } from "@/lib/projects";
 import { getServices } from "@/lib/services";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +13,7 @@ const baseUrl = "https://www.creativextechnology.com";
  * Last-modified date for static core pages.
  * Update this when making content/structural changes to these pages.
  */
-const CORE_LAST_MODIFIED = new Date("2026-11-25T00:00:00.000Z");
+const CORE_LAST_MODIFIED = new Date("2026-11-27T00:00:00.000Z");
 
 /** Fallback date when dynamic content has no timestamp */
 const siteFallbackDate = new Date("2026-09-12T00:00:00.000Z");
@@ -65,7 +65,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }));
 
     const projectEntries: MetadataRoute.Sitemap = (projects || [])
-      .filter((project) => project && project.slug)
+      .filter(
+        (project) =>
+          project &&
+          project.slug &&
+          project.hasCaseStudy === true &&
+          !isExplicitlyHiddenProject(project)
+      )
       .map((project) => ({
         url: `${baseUrl}/projects/${project.slug}`,
         lastModified: siteFallbackDate,

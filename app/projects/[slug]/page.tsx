@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ProjectDetailClient } from "@/components/project-detail-client";
 import { staticProjects, getProjects, isExplicitlyHiddenProject } from "@/lib/projects";
 
@@ -24,8 +25,12 @@ export async function generateMetadata({
 
   if (!project || isExplicitlyHiddenProject(project)) {
     return {
-      title: "Project Case Study",
-      description: "Explore operational AI agents, smart facility platforms, and software engineering case studies by Creativex Technology.",
+      title: "Project Not Found",
+      description: "The requested project case study could not be found.",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -89,7 +94,7 @@ export default async function ProjectDetailPage({
   const project = projects.find((p) => p.slug?.toLowerCase().trim() === normalized) || staticProjects.find((p) => p.slug?.toLowerCase().trim() === normalized) || null;
 
   if (!project || isExplicitlyHiddenProject(project)) {
-    return <ProjectDetailClient initialProject={null} />;
+    notFound();
   }
 
   const projectBreadcrumbJsonLd = {

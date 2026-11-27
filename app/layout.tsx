@@ -28,16 +28,6 @@ export const metadata: Metadata = {
   publisher: "Creativex Technology (Pvt) Ltd",
   category: "Technology — AI & Enterprise Software Engineering",
   referrer: "origin-when-cross-origin",
-  alternates: {
-    canonical: baseUrl,
-    languages: {
-      "en-US": baseUrl,
-      "en-GB": baseUrl,
-      "en-AU": baseUrl,
-      "en-LK": baseUrl,
-      "x-default": baseUrl,
-    },
-  },
   verification: {
     google: [
       "GVZZ1telPd2vPJ5mQlTB7Up1pyeP94YYIVAL0UfYwqc",

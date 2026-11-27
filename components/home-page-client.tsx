@@ -226,13 +226,13 @@ export function HomePageClient() {
   };
 
   return (
-    <main id="top" className="site-shell">
+    <div id="top" className="site-shell">
       <a className="skip-link" href="#main-content">Skip to content</a>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }} />
 
       <SiteHeader activeSection={activeSection} scrollProgress={scrollProgress} homePage />
 
-      <div id="main-content">
+      <main id="main-content">
         <HomeHeroEcosystem />
 
         <section className="partner-band" aria-labelledby="partner-band-title">
@@ -241,11 +241,14 @@ export function HomePageClient() {
           </div>
           <div className="partner-logo-marquee-container">
             <div className="partner-logo-marquee">
-              {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((partner, index) => (
-                <div className="partner-logo-item" key={index}>
-                  <Image src={partner.src} alt={partner.name} width={140} height={40} unoptimized />
-                </div>
-              ))}
+              {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((partner, index) => {
+                const isDuplicate = index >= partnerLogos.length;
+                return (
+                  <div className="partner-logo-item" key={index} aria-hidden={isDuplicate ? true : undefined}>
+                    <Image src={partner.src} alt={isDuplicate ? "" : partner.name} width={140} height={40} unoptimized />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -279,7 +282,7 @@ export function HomePageClient() {
                 const Icon = getServiceIcon(service.slug);
                 const serviceHref = `/services/${service.slug}`;
                 return (
-                  <a href={serviceHref} key={service.number} className="service-row reveal" aria-label={`Explore ${service.title}`}>
+                  <a href={serviceHref} key={service.number} className="service-row reveal">
                     <div className="service-number">{service.number}</div>
                     <div className="service-title">
                       <p>{service.eyebrow}</p>
@@ -289,7 +292,7 @@ export function HomePageClient() {
                     <div className="service-details">
                       {service.details.map((detail) => <span key={detail}>{detail}</span>)}
                     </div>
-                    <div className="service-icon"><Icon /></div>
+                    <div className="service-icon" aria-hidden="true"><Icon aria-hidden="true" /></div>
                   </a>
                 );
               })}
@@ -316,10 +319,9 @@ export function HomePageClient() {
                     <div
                       key={`${copyIndex}-${technology.name}`}
                       className={`technology-tile technology-${technology.style}`}
-                      aria-label={technology.name}
                     >
                       {technology.icon ? (
-                        <Image src={technology.icon} alt={technology.name} className="technology-mark-img" width={32} height={32} style={{ objectFit: "contain" }} unoptimized />
+                        <Image src={technology.icon} alt="" aria-hidden="true" className="technology-mark-img" width={32} height={32} style={{ objectFit: "contain" }} unoptimized />
                       ) : (
                         <span className="technology-mark" aria-hidden="true">{technology.mark}</span>
                       )}
@@ -339,13 +341,18 @@ export function HomePageClient() {
               <h2 id="home-projects-heading">Systems built around real work.</h2>
               <p>Explore AI agents, connected operations, data products, and cloud software designed for the workflows businesses depend on.</p>
             </div>
-            <a className="contact-action" href="/projects">View all projects <ArrowUpRight /></a>
+            <a className="contact-action" href="/projects">View all projects <ArrowUpRight aria-hidden="true" /></a>
           </div>
 
           <div className="home-project-marquee" role="region" aria-label="Selected Creativex Technology projects">
             <div className="home-project-track">
               {[0, 1].map((copyIndex) => (
-                <div className="home-project-set" aria-hidden={copyIndex === 1} key={copyIndex}>
+                <div
+                  className="home-project-set"
+                  aria-hidden={copyIndex === 1 ? true : undefined}
+                  inert={copyIndex === 1 ? true : undefined}
+                  key={copyIndex}
+                >
                   {liveProjects.map((project) => {
                     const Icon = getProjectIcon(project.slug);
                     const isCaseStudyAvailable = project.hasCaseStudy === true && Boolean(project.caseStudyHref && project.caseStudyHref !== "/#contact" && project.caseStudyHref !== "/contact");
@@ -358,7 +365,6 @@ export function HomePageClient() {
                         href={targetHref}
                         key={`${copyIndex}-${project.slug}`}
                         tabIndex={copyIndex === 1 ? -1 : undefined}
-                        aria-label={`View project: ${project.title}`}
                       >
                         <div className="home-project-thumbnail">
                           {project.media_url ? (
@@ -367,11 +373,13 @@ export function HomePageClient() {
                                 src={project.media_url}
                                 autoPlay muted loop playsInline preload="none"
                                 className="home-project-cover-video"
+                                aria-hidden="true"
                               />
                             ) : (
                               <img
                                 src={project.media_url}
-                                alt={project.title}
+                                alt=""
+                                aria-hidden="true"
                                 className="home-project-cover-img"
                                 loading="lazy"
                               />
@@ -379,8 +387,8 @@ export function HomePageClient() {
                           ) : (
                             <>
                               <span>{project.number} / {String(liveProjects.length).padStart(2, "0")}</span>
-                              <Icon />
-                              <i />
+                              <Icon aria-hidden="true" />
+                              <i aria-hidden="true" />
                               <small>CX / PROJECT SYSTEM</small>
                             </>
                           )}
@@ -390,7 +398,7 @@ export function HomePageClient() {
                           <h3>{project.title}</h3>
                           <div>
                             <span>{actionText}</span>
-                            <ArrowUpRight />
+                            <ArrowUpRight aria-hidden="true" />
                           </div>
                         </div>
                       </a>
@@ -479,7 +487,7 @@ export function HomePageClient() {
               <p className="section-index">Questions / 07</p>
               <h2>Clear answers before we start.</h2>
               <p>AI projects carry enough uncertainty. The working relationship should not.</p>
-              <a href="#contact">Ask something else <ArrowUpRight /></a>
+              <a href="#contact">Ask something else <ArrowUpRight aria-hidden="true" /></a>
             </div>
             <div className="faq-list">
               {faqs.map(([question, answer], index) => (
@@ -500,7 +508,7 @@ export function HomePageClient() {
             <div>
               <h2>Bring us the problem you keep circling.</h2>
               <p>We’ll help you work out whether AI belongs in the answer—and what the smallest credible first move looks like.</p>
-              <a className="contact-action" href="mailto:info@creativexlab.online?subject=Creativex%20Technology%20project%20conversation&body=Hello%20Creativex%20Technology%2C%0A%0AThe%20workflow%20I%20want%20to%20improve%3A%0AWho%20does%20this%20work%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0A%0A">Start a conversation <ArrowUpRight /></a>
+              <a className="contact-action" href="mailto:info@creativexlab.online?subject=Creativex%20Technology%20project%20conversation&body=Hello%20Creativex%20Technology%2C%0A%0AThe%20workflow%20I%20want%20to%20improve%3A%0AWho%20does%20this%20work%20today%3A%0AWhat%20a%20better%20outcome%20looks%20like%3A%0ASystems%20or%20data%20involved%3A%0A%0A">Start a conversation <ArrowUpRight aria-hidden="true" /></a>
             </div>
             <div className="contact-detail-card">
               <div className="newsletter-group">
@@ -529,9 +537,9 @@ export function HomePageClient() {
             </div>
           </div>
         </section>
-      </div>
+      </main>
 
       <SiteFooter homePage />
-    </main>
+    </div>
   );
 }

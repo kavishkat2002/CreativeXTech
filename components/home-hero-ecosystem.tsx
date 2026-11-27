@@ -393,10 +393,11 @@ export function HomeHeroEcosystem() {
               aria-label="Creativex Technology impact metrics"
             >
               {credibilityStats.map((stat, idx) => (
-                <div
-                  key={stat.label}
-                  aria-label={`${stat.target}${stat.suffix} ${stat.label}`}
-                >
+                <div key={stat.label}>
+                  <span className="sr-only">
+                    {stat.target}
+                    {stat.suffix} {stat.label}
+                  </span>
                   <strong
                     aria-hidden="true"
                     className="block text-xl sm:text-2xl font-extrabold tracking-tight tabular-nums text-[#151515]"
@@ -587,7 +588,6 @@ export function HomeHeroEcosystem() {
                     >
                       <Link
                         href={card.href}
-                        aria-label={`Explore ${card.title}`}
                         onMouseEnter={() => setHoveredCard(card.id)}
                         onMouseLeave={() => setHoveredCard(null)}
                         onFocus={() => setHoveredCard(card.id)}
@@ -600,9 +600,9 @@ export function HomeHeroEcosystem() {
                             <Icon className="w-3.5 h-3.5 xl:w-4 xl:h-4" aria-hidden="true" />
                           </span>
                           <div className="min-w-0 flex-1">
-                            <h2 className="text-[11.5px] xl:text-[13.5px] font-bold tracking-tight !text-[#151515] leading-tight">
+                            <span className="block text-[11.5px] xl:text-[13.5px] font-bold tracking-tight !text-[#151515] leading-tight">
                               {card.title}
-                            </h2>
+                            </span>
                             <p className="text-[9.5px] xl:text-[10.5px] font-medium text-[#151515]/60 leading-snug mt-0.5">
                               {card.subtitle}
                             </p>
@@ -699,9 +699,9 @@ export function HomeHeroEcosystem() {
                           <ActiveIcon className="w-4 h-4" aria-hidden="true" />
                         </span>
                         <div className="min-w-0 flex-1">
-                          <h2 className="text-sm font-bold text-[#151515] leading-tight">
+                          <span className="block text-sm font-bold text-[#151515] leading-tight">
                             {mobileActiveCard.title}
-                          </h2>
+                          </span>
                           <p className="text-xs text-[#151515]/60 mt-0.5">
                             {mobileActiveCard.subtitle}
                           </p>
@@ -742,9 +742,9 @@ export function HomeHeroEcosystem() {
                           <Icon className="w-3.5 h-3.5" aria-hidden="true" />
                         </span>
                         <div className="min-w-0 flex-1">
-                          <h2 className="text-[13px] font-bold !text-[#151515] leading-snug">
+                          <span className="block text-[13px] font-bold !text-[#151515] leading-snug">
                             {card.title}
-                          </h2>
+                          </span>
                           <p className="text-[11px] text-[#151515]/60 mt-0.5">
                             {card.subtitle}
                           </p>
