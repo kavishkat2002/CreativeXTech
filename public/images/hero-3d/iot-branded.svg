@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 312" fill="none">
+  <rect width="640" height="312" rx="18" fill="#F7F6F3"/>
+
+  <!-- Subtle floor shadow -->
+  <ellipse cx="320" cy="268" rx="250" ry="14" fill="#151515" opacity="0.09"/>
+
+  <!-- Conveyor belt track -->
+  <rect x="74" y="236" width="492" height="22" rx="11" fill="#151515"/>
+  <rect x="86" y="241" width="468" height="12" rx="6" fill="#2B2B2B"/>
+  <!-- Rollers -->
+  <circle cx="102" cy="247" r="4" fill="#FF4B23"/>
+  <circle cx="162" cy="247" r="4" fill="#8C877E"/>
+  <circle cx="222" cy="247" r="4" fill="#8C877E"/>
+  <circle cx="282" cy="247" r="4" fill="#8C877E"/>
+  <circle cx="342" cy="247" r="4" fill="#8C877E"/>
+  <circle cx="402" cy="247" r="4" fill="#8C877E"/>
+  <circle cx="462" cy="247" r="4" fill="#8C877E"/>
+  <circle cx="522" cy="247" r="4" fill="#FF4B23"/>
+
+  <!-- Conveyor boxes -->
+  <rect x="96" y="200" width="48" height="36" rx="6" fill="#FFFFFF" stroke="#151515" stroke-width="2.2"/>
+  <rect x="112" y="200" width="16" height="12" rx="2" fill="#FF4B23"/>
+
+  <rect x="206" y="200" width="48" height="36" rx="6" fill="#FFFFFF" stroke="#151515" stroke-width="2.2"/>
+  <rect x="222" y="200" width="16" height="12" rx="2" fill="#FF7A3D"/>
+
+  <rect x="424" y="200" width="48" height="36" rx="6" fill="#FFFFFF" stroke="#151515" stroke-width="2.2"/>
+  <rect x="440" y="200" width="16" height="12" rx="2" fill="#FF4B23"/>
+
+  <rect x="498" y="182" width="48" height="36" rx="6" fill="#FFFFFF" stroke="#151515" stroke-width="2.2"/>
+  <rect x="514" y="182" width="16" height="12" rx="2" fill="#FF4B23"/>
+
+  <!-- IoT Sensor Tower (Left) -->
+  <rect x="150" y="176" width="14" height="60" rx="4" fill="#151515"/>
+  <rect x="130" y="120" width="54" height="62" rx="12" fill="#FFFFFF" stroke="#151515" stroke-width="2.4"/>
+  <rect x="142" y="133" width="30" height="22" rx="6" fill="#151515"/>
+  <circle cx="157" cy="144" r="5" fill="#FF4B23"/>
+  <rect x="144" y="163" width="26" height="6" rx="3" fill="#FF7A3D"/>
+  <!-- Antenna -->
+  <line x1="157" y1="120" x2="157" y2="104" stroke="#151515" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="157" cy="100" r="4.5" fill="#FF4B23"/>
+  <!-- Static WiFi arcs -->
+  <path d="M141 90C150 81 164 81 173 90" stroke="#FF4B23" stroke-width="3" stroke-linecap="round"/>
+  <path d="M131 80C146 66 168 66 183 80" stroke="#FF7A3D" stroke-width="3" stroke-linecap="round"/>
+  <path d="M121 70C142 51 172 51 193 70" stroke="#FF9B6A" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Robotic Arm (Center-Right) -->
+  <!-- Base -->
+  <rect x="292" y="206" width="72" height="30" rx="8" fill="#151515"/>
+  <rect x="304" y="194" width="48" height="14" rx="5" fill="#2F2F2F"/>
+  <!-- Lower arm -->
+  <path d="M322 196L364 102L388 112L346 202Z" fill="#FF4B23" stroke="#151515" stroke-width="2.4" stroke-linejoin="round"/>
+  <!-- Elbow joint -->
+  <circle cx="376" cy="106" r="17" fill="#151515"/>
+  <circle cx="376" cy="106" r="7" fill="#FF7A3D"/>
+  <!-- Upper arm -->
+  <path d="M380 94L492 124L486 146L374 116Z" fill="#FF6B2B" stroke="#151515" stroke-width="2.4" stroke-linejoin="round"/>
+  <!-- Shoulder joint -->
+  <circle cx="332" cy="196" r="14" fill="#151515"/>
+  <circle cx="332" cy="196" r="6" fill="#FF4B23"/>
+  <!-- Wrist & Gripper -->
+  <circle cx="492" cy="135" r="12" fill="#151515"/>
+  <rect x="498" y="135" width="12" height="22" rx="4" fill="#2B2B2B"/>
+  <path d="M500 156L488 176L496 180L508 160" stroke="#151515" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M508 156L524 176L516 180L504 160" stroke="#151515" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Telemetry Pill (Top Right) -->
+  <rect x="430" y="42" width="156" height="44" rx="12" fill="#FFFFFF" stroke="#151515" stroke-width="2"/>
+  <circle cx="452" cy="64" r="6" fill="#FF4B23"/>
+  <rect x="466" y="55" width="72" height="7" rx="3.5" fill="#151515"/>
+  <rect x="466" y="67" width="98" height="6" rx="3" fill="#FF7A3D" opacity="0.65"/>
+</svg>

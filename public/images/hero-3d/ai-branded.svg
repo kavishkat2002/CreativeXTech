@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 312" fill="none">
+  <rect width="640" height="312" rx="18" fill="#F7F6F3"/>
+
+  <!-- Subtle architectural grid -->
+  <path d="M40 74H600M40 146H600M40 218H600" stroke="#E8E4DB" stroke-width="1"/>
+  <path d="M160 32V280M320 32V280M480 32V280" stroke="#E8E4DB" stroke-width="1"/>
+
+  <!-- Ambient warm coral glow behind central hub -->
+  <ellipse cx="320" cy="252" rx="140" ry="38" fill="#FF4B23" opacity="0.12"/>
+
+  <!-- Optical traces from AI Hub to Dashboard & Agent Cards -->
+  <path d="M294 242L242 216V192" stroke="#FF4B23" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M320 236V192" stroke="#FF7A3D" stroke-width="3" stroke-linecap="round"/>
+  <path d="M346 242L458 214V198" stroke="#FF4B23" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M268 258H118" stroke="#FF4B23" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 6"/>
+  <path d="M372 258H522" stroke="#FF4B23" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 6"/>
+
+  <!-- Central AI Agent Orchestration Dashboard (Left-Center) -->
+  <rect x="44" y="34" width="336" height="164" rx="16" fill="#FFFFFF" stroke="#151515" stroke-width="2.3"/>
+  <!-- Top bar -->
+  <rect x="44" y="34" width="336" height="30" rx="16" fill="#151515"/>
+  <rect x="44" y="48" width="336" height="16" fill="#151515"/>
+  <circle cx="64" cy="49" r="4" fill="#FF4B23"/>
+  <circle cx="77" cy="49" r="4" fill="#FF9B6A"/>
+  <circle cx="90" cy="49" r="4" fill="#555555"/>
+  <rect x="292" y="43" width="70" height="12" rx="6" fill="#FF4B23"/>
+
+  <!-- Left Mini Sidebar inside Dashboard -->
+  <rect x="58" y="76" width="64" height="108" rx="8" fill="#F7F6F3"/>
+  <rect x="66" y="86" width="48" height="8" rx="4" fill="#FF4B23"/>
+  <rect x="66" y="102" width="40" height="6" rx="3" fill="#151515"/>
+  <rect x="66" y="116" width="44" height="6" rx="3" fill="#B5AFA4"/>
+  <rect x="66" y="130" width="36" height="6" rx="3" fill="#B5AFA4"/>
+  <rect x="66" y="144" width="42" height="6" rx="3" fill="#B5AFA4"/>
+
+  <!-- Main Agent Telemetry Panel -->
+  <rect x="134" y="76" width="230" height="52" rx="10" fill="#F7F6F3"/>
+  <path d="M148 116L178 96L208 108L244 86L278 100L314 84L348 92" stroke="#FF4B23" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="244" cy="86" r="4" fill="#FFFFFF" stroke="#FF4B23" stroke-width="2.2"/>
+  <circle cx="314" cy="84" r="4.5" fill="#FF4B23" stroke="#151515" stroke-width="1.8"/>
+
+  <!-- Bottom 2 Sub-panels -->
+  <rect x="134" y="136" width="124" height="48" rx="9" fill="#151515"/>
+  <rect x="146" y="158" width="12" height="18" rx="3" fill="#FF7A3D"/>
+  <rect x="164" y="150" width="12" height="26" rx="3" fill="#FF4B23"/>
+  <rect x="182" y="154" width="12" height="22" rx="3" fill="#FFFFFF" opacity="0.8"/>
+  <rect x="200" y="144" width="12" height="32" rx="3" fill="#FF4B23"/>
+  <rect x="218" y="152" width="12" height="24" rx="3" fill="#FF9B6A"/>
+
+  <rect x="268" y="136" width="96" height="48" rx="9" fill="#FFFFFF" stroke="#E2DDD3" stroke-width="1.8"/>
+  <circle cx="316" cy="160" r="14" stroke="#ECE8DF" stroke-width="6"/>
+  <circle cx="316" cy="160" r="14" stroke="#FF4B23" stroke-width="6" stroke-dasharray="58 30" transform="rotate(-90 316 160)"/>
+
+  <!-- Right Stacked Autonomous Agent Action Cards -->
+  <!-- Card 1: AI Agent Bot -->
+  <rect x="404" y="34" width="192" height="50" rx="12" fill="#FFFFFF" stroke="#151515" stroke-width="2.2"/>
+  <circle cx="430" cy="59" r="14" fill="#151515"/>
+  <circle cx="425.5" cy="58" r="2.2" fill="#FF4B23"/>
+  <circle cx="434.5" cy="58" r="2.2" fill="#FF4B23"/>
+  <path d="M426 63.5C428 65.5 432 65.5 434 63.5" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="454" y="49" width="84" height="8" rx="4" fill="#151515"/>
+  <rect x="454" y="63" width="120" height="6" rx="3" fill="#FF7A3D"/>
+
+  <!-- Card 2: Decision Routing -->
+  <rect x="404" y="96" width="192" height="50" rx="12" fill="#FFFFFF" stroke="#151515" stroke-width="2.2"/>
+  <rect x="416" y="107" width="28" height="28" rx="8" fill="#FF4B23" opacity="0.14"/>
+  <path d="M424 121L429 126L437 116" stroke="#FF4B23" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="454" y="111" width="104" height="8" rx="4" fill="#151515"/>
+  <rect x="454" y="125" width="76" height="6" rx="3" fill="#B5AFA4"/>
+
+  <!-- Card 3: Automated Execution -->
+  <rect x="404" y="158" width="192" height="50" rx="12" fill="#FFFFFF" stroke="#151515" stroke-width="2.2"/>
+  <rect x="416" y="169" width="28" height="28" rx="8" fill="#FF4B23"/>
+  <path d="M430 175L432.5 180.5L438 183L432.5 185.5L430 191L427.5 185.5L422 183L427.5 180.5L430 175Z" fill="#FFFFFF"/>
+  <rect x="454" y="173" width="94" height="8" rx="4" fill="#151515"/>
+  <rect x="454" y="187" width="118" height="6" rx="3" fill="#FF4B23" opacity="0.65"/>
+
+  <!-- Central Obsidian AI Core Hub (Bottom Center) -->
+  <rect x="268" y="232" width="104" height="50" rx="14" fill="#151515" stroke="#FF4B23" stroke-width="2.5"/>
+  <rect x="282" y="244" width="76" height="26" rx="8" fill="#242424"/>
+  <path d="M320 247L323 254L330 257L323 260L320 267L317 260L310 257L317 254L320 247Z" fill="#FF4B23"/>
+  <circle cx="296" cy="257" r="3" fill="#FF7A3D"/>
+  <circle cx="344" cy="257" r="3" fill="#FF7A3D"/>
+</svg>

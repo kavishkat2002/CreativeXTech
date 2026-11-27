@@ -34,7 +34,7 @@ const ecosystemCards: EcosystemCard[] = [
     title: "AI Automation & Agents",
     subtitle: "Automate. Assist. Scale.",
     href: "/services/ai-automation-agents",
-    image: "/images/hero-3d/ai-studio.jpg",
+    image: "/images/hero-3d/ai-branded.svg",
     icon: Sparkles,
     visual: "ai",
     desktopPos: "top-[1%] left-[6%] xl:left-[10%] w-[198px] xl:w-[244px]",
@@ -58,8 +58,7 @@ const ecosystemCards: EcosystemCard[] = [
     title: "IoT & Smart Operations",
     subtitle: "Connect. Monitor. Control.",
     href: "/services/iot-smart-operations",
-    image: "/images/hero-3d/iot.png",
-    video: "/images/hero-3d/iot-animation.mp4",
+    image: "/images/hero-3d/iot-branded.svg",
     icon: RadioTower,
     visual: "iot",
     desktopPos: "top-[31%] left-[0%] w-[196px] xl:w-[242px]",
@@ -123,53 +122,42 @@ const credibilityStats = [
 function CardCgiVisual({ card }: { card: EcosystemCard }) {
   return (
     <div
-      className={`relative mt-2 w-full aspect-[2.05/1] overflow-hidden rounded-xl ${
-        card.visual === "software" ||
-        card.visual === "data" ||
-        card.visual === "cloud" ||
-        card.visual === "product"
-          ? "bg-[#F7F6F3]"
-          : ""
-      }`}
+      className="relative mt-2 w-full aspect-[2.05/1] overflow-hidden rounded-xl bg-[#F7F6F3]"
     >
-      {card.video ? (
-        <video
-          src={card.video}
-          poster={card.image}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-          style={
-            card.visual === "iot"
-              ? { filter: "hue-rotate(175deg) saturate(1.25) contrast(1.06) brightness(1.08)" }
-              : undefined
-          }
-          className="h-full w-full object-cover object-center"
-        />
-      ) : (
-        <Image
-          src={card.image}
-          alt=""
-          width={480}
-          height={228}
-          unoptimized
-          className={
-            card.visual === "ai"
-              ? "h-full w-full object-cover object-center"
-              : "h-full w-full object-contain object-center"
-          }
-        />
-      )}
+      <Image
+        src={card.image}
+        alt=""
+        width={480}
+        height={228}
+        unoptimized
+        className="h-full w-full object-contain object-center"
+      />
 
       {/* Subtle real-time live animation accents */}
       {card.visual === "ai" && (
-        <span
-          aria-hidden="true"
-          className="cx-anim-sheen pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-        />
+        <>
+          <span
+            aria-hidden="true"
+            className="cx-anim-led pointer-events-none absolute left-[49%] top-[81%] w-2.5 h-2.5 rounded-full bg-[#FF4B23] blur-[2px]"
+          />
+          <span
+            aria-hidden="true"
+            className="cx-anim-sheen pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+          />
+        </>
+      )}
+
+      {card.visual === "iot" && (
+        <>
+          <span
+            aria-hidden="true"
+            className="cx-anim-ping pointer-events-none absolute left-[23.5%] top-[29%] w-3.5 h-3.5 rounded-full border-2 border-[#FF4B23]"
+          />
+          <span
+            aria-hidden="true"
+            className="cx-anim-led pointer-events-none absolute left-[24%] top-[44%] w-2 h-2 rounded-full bg-[#FF4B23] blur-[1.5px]"
+          />
+        </>
       )}
 
       {card.visual === "data" && (
