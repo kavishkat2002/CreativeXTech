@@ -25,12 +25,12 @@ export const metadata: Metadata = {
     "Creativex Technology (Pvt) Ltd",
   ],
   alternates: {
-    canonical: baseUrl,
+    canonical: `${baseUrl}/`,
     languages: {
-      "en-US": baseUrl,
-      "en-GB": baseUrl,
-      "en-LK": baseUrl,
-      "x-default": baseUrl,
+      "en-US": `${baseUrl}/`,
+      "en-GB": `${baseUrl}/`,
+      "en-LK": `${baseUrl}/`,
+      "x-default": `${baseUrl}/`,
     },
   },
   robots: {
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     description:
       "Creativex Technology delivers custom AI solutions, enterprise ERP software, business automation, and software engineering for businesses in Sri Lanka and worldwide.",
     type: "website",
-    url: baseUrl,
+    url: `${baseUrl}/`,
     siteName: "Creativex Technology",
     images: [{ url: `${baseUrl}/og.png`, width: 1730, height: 909, alt: "Creativex Technology - AI & Software Engineering in Sri Lanka" }],
   },
@@ -70,7 +70,7 @@ export default function Home() {
       {
         "@type": "WebPage",
         "@id": `${baseUrl}/#webpage`,
-        url: baseUrl,
+        url: `${baseUrl}/`,
         name: "AI & Software Engineering Company in Sri Lanka | Creativex Technology",
         description:
           "Creativex Technology (Pvt) Ltd is an AI and software engineering company in Sri Lanka delivering custom AI development, enterprise ERP systems, IT solutions, and business automation.",

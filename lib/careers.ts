@@ -146,7 +146,7 @@ export const staticJobs: JobPost[] = [
     location: "Remote · Rajagiriya, Colombo, Sri Lanka",
     type: "Full-time",
     level: "Senior",
-    salary_range: "Competitive + Performance Equity",
+    salary_range: "LKR 280,000 – 450,000 + Performance Equity",
     summary:
       "Architect Creativex Technology autonomous AI business agents, hybrid RAG pipelines, and tool-calling orchestration layers for enterprise operations across logistics, hospitality, retail, and SaaS.",
     description:
@@ -207,7 +207,7 @@ export const staticJobs: JobPost[] = [
     location: "Remote · Rajagiriya, Colombo, Sri Lanka",
     type: "Full-time",
     level: "Mid-Senior",
-    salary_range: "Competitive",
+    salary_range: "LKR 180,000 – 320,000 (Competitive)",
     summary:
       "Build fast, resilient web platforms, AI operator consoles, logistics & IoT control towers, and edge-deployed SaaS products using Next.js, React 19, TypeScript, Supabase, and Cloudflare Workers.",
     description:
@@ -266,7 +266,7 @@ export const staticJobs: JobPost[] = [
     location: "Remote · Rajagiriya, Colombo, Sri Lanka",
     type: "Full-time",
     level: "Mid-Senior",
-    salary_range: "Competitive",
+    salary_range: "LKR 180,000 – 320,000 (Competitive)",
     summary:
       "Shape human-centered interfaces for Creativex Technology autonomous AI business agents, logistics & IoT control towers, and high-craft enterprise SaaS products.",
     description:

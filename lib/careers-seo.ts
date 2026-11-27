@@ -111,6 +111,20 @@ export function parseSalaryRange(salaryText?: string): ParsedSalary | null {
   };
 }
 
+export function getDefaultSalaryForLevel(level?: string): ParsedSalary {
+  const normalized = (level || "").toLowerCase();
+  if (normalized.includes("intern")) {
+    return { currency: "LKR", minValue: 25000, maxValue: 120000, unitText: "MONTH" };
+  }
+  if (normalized.includes("senior") && !normalized.includes("mid")) {
+    return { currency: "LKR", minValue: 280000, maxValue: 450000, unitText: "MONTH" };
+  }
+  if (normalized.includes("associate") || normalized.includes("junior")) {
+    return { currency: "LKR", minValue: 100000, maxValue: 180000, unitText: "MONTH" };
+  }
+  return { currency: "LKR", minValue: 160000, maxValue: 320000, unitText: "MONTH" };
+}
+
 export function buildJobPostingJsonLd(
   job: JobPost,
   baseUrl = CAREERS_BASE_URL
@@ -120,7 +134,7 @@ export function buildJobPostingJsonLd(
   const allSkills = Array.from(
     new Set([...(job.required_skills ?? []), ...(job.nice_to_have ?? [])])
   );
-  const parsedSalary = parseSalaryRange(job.salary_range);
+  const parsedSalary = parseSalaryRange(job.salary_range) ?? getDefaultSalaryForLevel(job.level);
 
   return {
     "@type": "JobPosting",
@@ -183,20 +197,16 @@ export function buildJobPostingJsonLd(
           ],
         }
       : {}),
-    ...(parsedSalary
-      ? {
-          baseSalary: {
-            "@type": "MonetaryAmount",
-            currency: parsedSalary.currency,
-            value: {
-              "@type": "QuantitativeValue",
-              minValue: parsedSalary.minValue,
-              maxValue: parsedSalary.maxValue,
-              unitText: parsedSalary.unitText,
-            },
-          },
-        }
-      : {}),
+    baseSalary: {
+      "@type": "MonetaryAmount",
+      currency: parsedSalary.currency,
+      value: {
+        "@type": "QuantitativeValue",
+        minValue: parsedSalary.minValue,
+        maxValue: parsedSalary.maxValue,
+        unitText: parsedSalary.unitText,
+      },
+    },
     ...(allSkills.length > 0 ? { skills: allSkills.join(", ") } : {}),
     ...(job.requirements?.length
       ? { qualifications: job.requirements.join(" ") }

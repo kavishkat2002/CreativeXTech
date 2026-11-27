@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
    * Core canonical routes with accurate lastModified signals.
    */
   const corePaths: Array<{ path: string; date: Date }> = [
-    { path: "", date: CORE_LAST_MODIFIED },
+    { path: "/", date: CORE_LAST_MODIFIED },
     { path: "/creativeos", date: CORE_LAST_MODIFIED },
     { path: "/services", date: CORE_LAST_MODIFIED },
     { path: "/solutions", date: CORE_LAST_MODIFIED },
