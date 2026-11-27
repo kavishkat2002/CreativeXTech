@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 312" fill="none">
+  <rect width="640" height="312" rx="18" fill="#F7F6F3"/>
+
+  <!-- Subtle architectural background -->
+  <path d="M58 264C58 148 158 58 318 58C478 58 582 148 582 264H58Z" fill="#EFECE5"/>
+  <rect x="116" y="132" width="44" height="132" rx="4" fill="#E6E2D9"/>
+  <rect x="172" y="96" width="54" height="168" rx="4" fill="#E6E2D9"/>
+  <rect x="444" y="108" width="52" height="156" rx="4" fill="#E6E2D9"/>
+  <rect x="506" y="150" width="38" height="114" rx="4" fill="#E6E2D9"/>
+  <path d="M84 114H122C122 104 113 98 103 98C99 90 88 90 84 98C76 98 71 104 71 114H84Z" fill="#FFFFFF" opacity="0.85"/>
+  <path d="M482 76H526C526 65 516 58 505 58C500 49 486 49 481 58C472 58 466 65 466 76H482Z" fill="#FFFFFF" opacity="0.85"/>
+
+  <!-- Chair back -->
+  <path d="M98 172C98 161 107 152 118 152H154C165 152 174 161 174 172V264H98V172Z" fill="#E5E1D8" stroke="#151515" stroke-width="2.5"/>
+
+  <!-- Desktop monitor -->
+  <rect x="294" y="218" width="96" height="46" rx="4" fill="#DDD8CE" stroke="#151515" stroke-width="2.5"/>
+  <rect x="278" y="84" width="210" height="148" rx="14" fill="#FFFFFF" stroke="#151515" stroke-width="2.5"/>
+  <rect x="290" y="104" width="186" height="116" rx="8" fill="#151515"/>
+  <!-- Window controls -->
+  <circle cx="296" cy="94" r="3" fill="#FF4B23"/>
+  <circle cx="306" cy="94" r="3" fill="#FF9B6A"/>
+  <circle cx="316" cy="94" r="3" fill="#D5D0C6"/>
+
+  <!-- Code lines inside monitor -->
+  <rect x="304" y="118" width="52" height="5" rx="2.5" fill="#FF4B23"/>
+  <rect x="362" y="118" width="38" height="5" rx="2.5" fill="#8C877E"/>
+  <rect x="316" y="131" width="76" height="5" rx="2.5" fill="#FFFFFF" opacity="0.85"/>
+  <rect x="316" y="143" width="58" height="5" rx="2.5" fill="#FF7A3D"/>
+  <rect x="316" y="155" width="92" height="5" rx="2.5" fill="#FFFFFF" opacity="0.55"/>
+  <rect x="316" y="167" width="66" height="5" rx="2.5" fill="#FFFFFF" opacity="0.55"/>
+  <rect x="304" y="179" width="44" height="5" rx="2.5" fill="#FF4B23"/>
+  <rect x="304" y="191" width="84" height="5" rx="2.5" fill="#8C877E"/>
+
+  <!-- Floating code card -->
+  <rect x="378" y="132" width="166" height="58" rx="10" fill="#FFFFFF" stroke="#FF4B23" stroke-width="2"/>
+  <rect x="392" y="145" width="128" height="6" rx="3" fill="#151515"/>
+  <rect x="392" y="158" width="96" height="5" rx="2.5" fill="#FF4B23"/>
+  <rect x="392" y="169" width="112" height="5" rx="2.5" fill="#BDB7AC"/>
+
+  <!-- Coral cursor arrow -->
+  <path d="M350 156L372 169L362 172L359 182L350 156Z" fill="#FF4B23" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+
+  <!-- AI Assistant Bot badge -->
+  <circle cx="514" cy="96" r="26" fill="#FFFFFF" stroke="#E5E1D8" stroke-width="2"/>
+  <path d="M514 76V81" stroke="#151515" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="514" cy="74" r="3" fill="#FF4B23"/>
+  <rect x="498" y="81" width="32" height="24" rx="10" fill="#F7F6F3" stroke="#151515" stroke-width="2.2"/>
+  <rect x="493" y="89" width="5" height="9" rx="2.5" fill="#FF4B23"/>
+  <rect x="530" y="89" width="5" height="9" rx="2.5" fill="#FF4B23"/>
+  <rect x="503" y="86" width="22" height="14" rx="6" fill="#151515"/>
+  <circle cx="510" cy="92" r="2.2" fill="#FF6B2B"/>
+  <circle cx="518" cy="92" r="2.2" fill="#FF6B2B"/>
+  <path d="M511 96.5C512.5 98 515.5 98 517 96.5" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- Subtle connection arcs from AI bot -->
+  <path d="M540 98C562 108 564 134 544 148" stroke="#FF4B23" stroke-width="1.6" stroke-dasharray="4 4" opacity="0.7"/>
+  <path d="M538 110C554 122 554 148 536 164" stroke="#151515" stroke-width="1.4" stroke-dasharray="3 4" opacity="0.35"/>
+
+  <!-- Developer Character -->
+  <!-- Neck & Head -->
+  <rect x="171" y="128" width="18" height="20" rx="6" fill="#E39D74" stroke="#151515" stroke-width="2.2"/>
+  <path d="M161 96C161 81 172 71 187 71C202 71 212 81 212 96V109C212 122 201 131 187 131C173 131 161 122 161 109V96Z" fill="#E9A882" stroke="#151515" stroke-width="2.5"/>
+  <!-- Hair -->
+  <path d="M158 95C154 81 163 63 181 62C187 56 202 55 211 64C220 69 221 82 214 91C208 86 196 86 187 88C178 90 171 97 167 104C162 104 159 100 158 95Z" fill="#151515"/>
+  <!-- Ear -->
+  <circle cx="163" cy="105" r="5" fill="#E9A882" stroke="#151515" stroke-width="2"/>
+  <!-- Face -->
+  <circle cx="187" cy="103" r="2.2" fill="#151515"/>
+  <circle cx="201" cy="103" r="2.2" fill="#151515"/>
+  <path d="M195 104V111L198 112" stroke="#151515" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M189 117C192 119.5 196 119.5 198 117" stroke="#151515" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Coral-Orange Hoodie Torso & Arms -->
+  <path d="M126 254C126 204 146 156 184 156C216 156 236 184 252 214L296 232L288 254H126Z" fill="#FF4B23" stroke="#151515" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Hood collar -->
+  <path d="M161 158C164 144 176 138 189 140C202 142 208 152 204 164C194 172 174 172 161 158Z" fill="#E03D18" stroke="#151515" stroke-width="2.5"/>
+  <path d="M174 148C178 156 188 156 193 148" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+  <!-- Drawstrings -->
+  <path d="M178 168V192" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M191 168V189" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="178" cy="193" r="2.5" fill="#FFFFFF"/>
+  <circle cx="191" cy="190" r="2.5" fill="#FFFFFF"/>
+
+  <!-- Front Arm -->
+  <path d="M148 184C144 212 152 238 182 246L222 252L224 236L188 228C178 214 176 196 174 184" fill="#FF6B2B" stroke="#151515" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Hands on keyboard -->
+  <path d="M222 241C230 236 242 240 246 248L228 254L220 250Z" fill="#E9A882" stroke="#151515" stroke-width="2.2"/>
+  <path d="M286 234C294 231 304 236 308 245L290 252L284 246Z" fill="#E9A882" stroke="#151515" stroke-width="2.2"/>
+
+  <!-- Keyboard -->
+  <path d="M214 252H362L368 264H208L214 252Z" fill="#FFFFFF" stroke="#151515" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="224" y1="257" x2="352" y2="257" stroke="#151515" stroke-width="2" stroke-dasharray="8 4"/>
+
+  <!-- Desk accessories & ground line -->
+  <rect x="448" y="232" width="48" height="32" rx="4" fill="#151515"/>
+  <rect x="448" y="232" width="48" height="10" rx="3" fill="#FF4B23"/>
+  <rect x="108" y="256" width="54" height="8" rx="4" fill="#151515"/>
+  <line x1="42" y1="264" x2="598" y2="264" stroke="#151515" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 312" fill="none">
+  <rect width="640" height="312" rx="18" fill="#F7F6F3"/>
+
+  <!-- Subtle engineering grid -->
+  <path d="M40 72H600M40 132H600M40 192H600M40 252H600" stroke="#E8E4DB" stroke-width="1"/>
+  <path d="M120 36V276M240 36V276M360 36V276M480 36V276" stroke="#E8E4DB" stroke-width="1"/>
+
+  <!-- Left Card: Bar Chart + Trend Line -->
+  <rect x="34" y="34" width="340" height="244" rx="16" fill="#FFFFFF" stroke="#151515" stroke-width="2.2"/>
+  <!-- Header pills -->
+  <rect x="56" y="54" width="84" height="10" rx="5" fill="#151515"/>
+  <rect x="148" y="54" width="46" height="10" rx="5" fill="#FF4B23" opacity="0.22"/>
+  <circle cx="348" cy="59" r="5" fill="#FF4B23"/>
+
+  <!-- Chart axes -->
+  <line x1="60" y1="242" x2="350" y2="242" stroke="#151515" stroke-width="2" stroke-linecap="round"/>
+  <line x1="60" y1="92" x2="60" y2="242" stroke="#E2DDD3" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Bars -->
+  <rect x="78" y="198" width="26" height="44" rx="5" fill="#E6E2D9"/>
+  <rect x="118" y="168" width="26" height="74" rx="5" fill="#FF8F5E"/>
+  <rect x="158" y="182" width="26" height="60" rx="5" fill="#151515"/>
+  <rect x="198" y="142" width="26" height="100" rx="5" fill="#FF4B23"/>
+  <rect x="238" y="156" width="26" height="86" rx="5" fill="#FF7A3D"/>
+  <rect x="278" y="114" width="26" height="128" rx="5" fill="#FF4B23"/>
+  <rect x="318" y="96" width="26" height="146" rx="5" fill="#151515"/>
+
+  <!-- Trendline overlay -->
+  <path d="M91 186L131 154L171 168L211 126L251 140L291 100L331 82" stroke="#FF4B23" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="91" cy="186" r="4.5" fill="#FFFFFF" stroke="#FF4B23" stroke-width="2.5"/>
+  <circle cx="131" cy="154" r="4.5" fill="#FFFFFF" stroke="#FF4B23" stroke-width="2.5"/>
+  <circle cx="211" cy="126" r="4.5" fill="#FFFFFF" stroke="#FF4B23" stroke-width="2.5"/>
+  <circle cx="291" cy="100" r="4.5" fill="#FFFFFF" stroke="#FF4B23" stroke-width="2.5"/>
+  <circle cx="331" cy="82" r="5.5" fill="#FF4B23" stroke="#151515" stroke-width="2"/>
+
+  <!-- Right Card: Donut Chart & KPI -->
+  <rect x="394" y="34" width="212" height="244" rx="16" fill="#FFFFFF" stroke="#151515" stroke-width="2.2"/>
+  <rect x="416" y="54" width="76" height="9" rx="4.5" fill="#151515"/>
+  <rect x="416" y="70" width="48" height="7" rx="3.5" fill="#B5AFA4"/>
+
+  <!-- Donut ring -->
+  <circle cx="500" cy="156" r="52" stroke="#ECE8DF" stroke-width="22"/>
+  <circle cx="500" cy="156" r="52" stroke="#151515" stroke-width="22" stroke-dasharray="105 222" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 500 156)"/>
+  <circle cx="500" cy="156" r="52" stroke="#FF4B23" stroke-width="22" stroke-dasharray="130 197" stroke-dashoffset="-112" stroke-linecap="butt" transform="rotate(-90 500 156)"/>
+  <circle cx="500" cy="156" r="52" stroke="#FF9B6A" stroke-width="22" stroke-dasharray="62 265" stroke-dashoffset="-249" stroke-linecap="butt" transform="rotate(-90 500 156)"/>
+  <circle cx="500" cy="156" r="24" fill="#F7F6F3"/>
+  <circle cx="500" cy="156" r="6" fill="#FF4B23"/>
+
+  <!-- Bottom legend pills -->
+  <circle cx="426" cy="242" r="5" fill="#FF4B23"/>
+  <rect x="438" y="238" width="42" height="8" rx="4" fill="#151515"/>
+  <circle cx="502" cy="242" r="5" fill="#151515"/>
+  <rect x="514" y="238" width="42" height="8" rx="4" fill="#B5AFA4"/>
+</svg>

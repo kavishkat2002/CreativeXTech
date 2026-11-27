@@ -20,6 +20,7 @@ interface EcosystemCard {
   subtitle: string;
   href: string;
   image: string;
+  video?: string;
   icon: React.ElementType;
   visual: "ai" | "data" | "iot" | "cloud" | "software" | "product";
   desktopPos: string;
@@ -33,7 +34,7 @@ const ecosystemCards: EcosystemCard[] = [
     title: "AI Automation & Agents",
     subtitle: "Automate. Assist. Scale.",
     href: "/services/ai-automation-agents",
-    image: "/images/hero-3d/ai.png",
+    image: "/images/hero-3d/ai-studio.jpg",
     icon: Sparkles,
     visual: "ai",
     desktopPos: "top-[1%] left-[6%] xl:left-[10%] w-[198px] xl:w-[244px]",
@@ -45,7 +46,7 @@ const ecosystemCards: EcosystemCard[] = [
     title: "Data & Analytics",
     subtitle: "Turn data into decisions.",
     href: "/services/data-predictive-analytics",
-    image: "/images/hero-3d/data.png",
+    image: "/images/hero-3d/data-branded.svg",
     icon: BarChart3,
     visual: "data",
     desktopPos: "top-[0%] right-[5%] xl:right-[8%] w-[198px] xl:w-[244px]",
@@ -58,6 +59,7 @@ const ecosystemCards: EcosystemCard[] = [
     subtitle: "Connect. Monitor. Control.",
     href: "/services/iot-smart-operations",
     image: "/images/hero-3d/iot.png",
+    video: "/images/hero-3d/iot-animation.mp4",
     icon: RadioTower,
     visual: "iot",
     desktopPos: "top-[31%] left-[0%] w-[196px] xl:w-[242px]",
@@ -69,7 +71,7 @@ const ecosystemCards: EcosystemCard[] = [
     title: "Cloud Solutions",
     subtitle: "Secure. Reliable. Scalable.",
     href: "/services/cloud-solutions",
-    image: "/images/hero-3d/cloud.png",
+    image: "/images/hero-3d/cloud-branded.svg",
     icon: Cloud,
     visual: "cloud",
     desktopPos: "top-[29%] right-[0%] w-[196px] xl:w-[242px]",
@@ -81,7 +83,7 @@ const ecosystemCards: EcosystemCard[] = [
     title: "Custom Software Development",
     subtitle: "Build for your business.",
     href: "/services/custom-software-development",
-    image: "/images/hero-3d/software.png",
+    image: "/images/hero-3d/software-branded.svg",
     icon: Code2,
     visual: "software",
     desktopPos: "bottom-[4%] left-[4%] xl:left-[7%] w-[202px] xl:w-[246px]",
@@ -93,7 +95,7 @@ const ecosystemCards: EcosystemCard[] = [
     title: "Web & Mobile Product Engineering",
     subtitle: "Design. Develop. Deploy.",
     href: "/services/web-mobile-product-engineering",
-    image: "/images/hero-3d/product.png",
+    image: "/images/hero-3d/product-branded.svg",
     icon: Smartphone,
     visual: "product",
     desktopPos: "bottom-[3%] right-[4%] xl:right-[7%] w-[204px] xl:w-[248px]",
@@ -120,33 +122,54 @@ const credibilityStats = [
 
 function CardCgiVisual({ card }: { card: EcosystemCard }) {
   return (
-    <div className="relative mt-2 w-full aspect-[2.05/1] overflow-hidden rounded-xl">
-      <Image
-        src={card.image}
-        alt=""
-        width={480}
-        height={228}
-        unoptimized
-        className="h-full w-full object-contain object-bottom"
-      />
+    <div
+      className={`relative mt-2 w-full aspect-[2.05/1] overflow-hidden rounded-xl ${
+        card.visual === "software" ||
+        card.visual === "data" ||
+        card.visual === "cloud" ||
+        card.visual === "product"
+          ? "bg-[#F7F6F3]"
+          : ""
+      }`}
+    >
+      {card.video ? (
+        <video
+          src={card.video}
+          poster={card.image}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          style={
+            card.visual === "iot"
+              ? { filter: "hue-rotate(175deg) saturate(1.25) contrast(1.06) brightness(1.08)" }
+              : undefined
+          }
+          className="h-full w-full object-cover object-center"
+        />
+      ) : (
+        <Image
+          src={card.image}
+          alt=""
+          width={480}
+          height={228}
+          unoptimized
+          className={
+            card.visual === "ai"
+              ? "h-full w-full object-cover object-center"
+              : "h-full w-full object-contain object-center"
+          }
+        />
+      )}
 
-      {/* Subtle real-time live animation accents mapped cleanly over the 3D CGI sprite */}
+      {/* Subtle real-time live animation accents */}
       {card.visual === "ai" && (
-        <>
-          <span
-            aria-hidden="true"
-            className="cx-anim-led pointer-events-none absolute left-[24%] top-[44%] w-2 h-2 rounded-full bg-[#FF6B2B] blur-[2px]"
-          />
-          <span
-            aria-hidden="true"
-            style={{ animationDelay: "0.25s" }}
-            className="cx-anim-led pointer-events-none absolute left-[31%] top-[44%] w-2 h-2 rounded-full bg-[#FF6B2B] blur-[2px]"
-          />
-          <span
-            aria-hidden="true"
-            className="cx-anim-sheen pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-white/35 to-transparent"
-          />
-        </>
+        <span
+          aria-hidden="true"
+          className="cx-anim-sheen pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+        />
       )}
 
       {card.visual === "data" && (
@@ -154,38 +177,6 @@ function CardCgiVisual({ card }: { card: EcosystemCard }) {
           aria-hidden="true"
           className="cx-anim-sheen pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-[#FF7A2F]/15 to-transparent"
         />
-      )}
-
-      {card.visual === "iot" && (
-        <>
-          <span
-            aria-hidden="true"
-            className="cx-anim-ping pointer-events-none absolute left-[17%] top-[28%] w-3.5 h-3.5 rounded-full border-2 border-[#FF4B23]"
-          />
-          <span
-            aria-hidden="true"
-            className="cx-anim-led pointer-events-none absolute left-[18%] top-[53%] w-1.5 h-1.5 rounded-full bg-[#FFB36B] blur-[1px]"
-          />
-        </>
-      )}
-
-      {card.visual === "cloud" && (
-        <>
-          <span
-            aria-hidden="true"
-            className="cx-anim-led pointer-events-none absolute left-[41%] top-[48%] w-1.5 h-1.5 rounded-full bg-[#FF5A26] blur-[1.5px]"
-          />
-          <span
-            aria-hidden="true"
-            style={{ animationDelay: "0.45s" }}
-            className="cx-anim-led pointer-events-none absolute left-[53%] top-[61%] w-1.5 h-1.5 rounded-full bg-[#9BE56A] blur-[1.5px]"
-          />
-          <span
-            aria-hidden="true"
-            style={{ animationDelay: "0.9s" }}
-            className="cx-anim-led pointer-events-none absolute left-[64%] top-[52%] w-1.5 h-1.5 rounded-full bg-[#FF7B3B] blur-[1.5px]"
-          />
-        </>
       )}
 
       {(card.visual === "software" || card.visual === "product") && (

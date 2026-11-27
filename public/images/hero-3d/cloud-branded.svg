@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 312" fill="none">
+  <rect width="640" height="312" rx="18" fill="#F7F6F3"/>
+
+  <!-- Ambient radial glow behind cloud -->
+  <ellipse cx="320" cy="176" rx="210" ry="96" fill="#FF4B23" opacity="0.08"/>
+
+  <!-- Optical uplink traces -->
+  <path d="M126 266H212L238 242" stroke="#FF4B23" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M514 266H428L402 242" stroke="#FF4B23" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="126" cy="266" r="4.5" fill="#FF4B23"/>
+  <circle cx="514" cy="266" r="4.5" fill="#FF4B23"/>
+
+  <!-- Crisp Coral-Orange Cloud Silhouette -->
+  <path d="M178 242H468C506 242 536 212 536 175C536 141 510 113 476 109C463 66 423 36 376 36C334 36 297 60 280 96C268 89 254 85 239 85C194 85 158 121 158 165C158 168 158 171 159 174C132 182 114 206 114 234C114 238 144 242 178 242Z" fill="#FFFFFF" stroke="#FF4B23" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M188 232H462C494 232 520 207 520 176C520 148 498 124 470 120C458 82 423 54 380 54C342 54 309 76 294 108C282 101 268 98 254 98C214 98 182 130 182 169" stroke="#FF9B6A" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- 3x3 Obsidian Server Cluster inside Cloud -->
+  <!-- Column 1 -->
+  <rect x="192" y="136" width="76" height="24" rx="6" fill="#151515"/>
+  <rect x="192" y="166" width="76" height="24" rx="6" fill="#151515"/>
+  <rect x="192" y="196" width="76" height="24" rx="6" fill="#151515"/>
+  <circle cx="206" cy="148" r="3.5" fill="#FF4B23"/>
+  <circle cx="206" cy="178" r="3.5" fill="#FF7A3D"/>
+  <circle cx="206" cy="208" r="3.5" fill="#FF4B23"/>
+  <rect x="218" y="145" width="38" height="6" rx="3" fill="#333333"/>
+  <rect x="218" y="175" width="38" height="6" rx="3" fill="#333333"/>
+  <rect x="218" y="205" width="38" height="6" rx="3" fill="#333333"/>
+
+  <!-- Column 2 -->
+  <rect x="282" y="122" width="76" height="24" rx="6" fill="#151515"/>
+  <rect x="282" y="152" width="76" height="24" rx="6" fill="#151515"/>
+  <rect x="282" y="182" width="76" height="24" rx="6" fill="#151515"/>
+  <circle cx="296" cy="134" r="3.5" fill="#FF4B23"/>
+  <circle cx="296" cy="164" r="3.5" fill="#9BE56A"/>
+  <circle cx="296" cy="194" r="3.5" fill="#FF4B23"/>
+  <rect x="308" y="131" width="38" height="6" rx="3" fill="#333333"/>
+  <rect x="308" y="161" width="38" height="6" rx="3" fill="#333333"/>
+  <rect x="308" y="191" width="38" height="6" rx="3" fill="#333333"/>
+
+  <!-- Column 3 -->
+  <rect x="372" y="136" width="76" height="24" rx="6" fill="#151515"/>
+  <rect x="372" y="166" width="76" height="24" rx="6" fill="#151515"/>
+  <rect x="372" y="196" width="76" height="24" rx="6" fill="#151515"/>
+  <circle cx="386" cy="148" r="3.5" fill="#FF7A3D"/>
+  <circle cx="386" cy="178" r="3.5" fill="#FF4B23"/>
+  <circle cx="386" cy="208" r="3.5" fill="#9BE56A"/>
+  <rect x="398" y="145" width="38" height="6" rx="3" fill="#333333"/>
+  <rect x="398" y="175" width="38" height="6" rx="3" fill="#333333"/>
+  <rect x="398" y="205" width="38" height="6" rx="3" fill="#333333"/>
+
+  <!-- Security Shield Badge -->
+  <circle cx="320" cy="242" r="18" fill="#FF4B23" stroke="#FFFFFF" stroke-width="3"/>
+  <path d="M314 242L318.5 246.5L327 238" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
