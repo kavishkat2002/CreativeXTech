@@ -12,7 +12,6 @@ import {
   SheetClose,
   SheetContent,
   SheetDescription,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
@@ -90,7 +89,7 @@ export function SiteHeader({
         ]);
         
         if (srvRes.data && srvRes.data.length > 0) {
-          const dbSlugs = new Set(srvRes.data.map((s: any) => s.slug));
+          const dbSlugs = new Set(srvRes.data.map((s: { slug: string }) => s.slug));
           const missingStatic = (services as Service[]).filter((s) => !dbSlugs.has(s.slug));
           const merged = [...srvRes.data, ...missingStatic].map((service, index) => ({
             ...service,
@@ -121,7 +120,7 @@ export function SiteHeader({
               >
                 Services <ChevronDown aria-hidden="true" />
               </Link>
-              <div className="nav-pulldown-menu nav-services-menu" aria-label="Service pages">
+              <nav className="nav-pulldown-menu nav-services-menu" aria-label="Service pages">
                 <div className="nav-pulldown-head">
                   <span>AI & software services</span>
                   <strong>Choose a capability</strong>
@@ -137,7 +136,7 @@ export function SiteHeader({
                   );
                 })}
                 <Link className="nav-pulldown-all" href="/services">View all services <ArrowUpRight aria-hidden="true" /></Link>
-              </div>
+              </nav>
             </div>
           ) : item.section === "solutions" ? (
             <div className="nav-pulldown" key={item.section}>
@@ -148,7 +147,7 @@ export function SiteHeader({
               >
                 Solutions <ChevronDown aria-hidden="true" />
               </Link>
-              <div className="nav-pulldown-menu" aria-label="Solution pages">
+              <nav className="nav-pulldown-menu" aria-label="Solution pages">
                 <div className="nav-pulldown-head">
                   <span>Operating Systems &amp; Industry Solutions</span>
                   <strong>Choose an operating context</strong>
@@ -166,7 +165,7 @@ export function SiteHeader({
                   </Link>
                 ))}
                 <Link className="nav-pulldown-all" href="/solutions">View all solutions <ArrowUpRight aria-hidden="true" /></Link>
-              </div>
+              </nav>
             </div>
           ) : item.section === "employee" ? (
             <div className="nav-employee-divider-wrap" key="employee-nav-wrap">

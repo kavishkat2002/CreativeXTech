@@ -36,6 +36,8 @@ export default function robots(): MetadataRoute.Robots {
           "/employee",
           "/employee/",
           "/_env",
+          "/rss.xml",
+          "/careers/rss.xml",
         ],
       },
       // ── AI / LLM crawlers — allow full content access for GEO/AEO ──────
@@ -69,6 +71,8 @@ export default function robots(): MetadataRoute.Robots {
           "/api/*",
           "/employee",
           "/employee/",
+          "/rss.xml",
+          "/careers/rss.xml",
         ],
       },
       // ── Wildcard fallback ───────────────────────────────────────────────
@@ -83,13 +87,13 @@ export default function robots(): MetadataRoute.Robots {
           "/employee",
           "/employee/",
           "/_env",
+          "/rss.xml",
+          "/careers/rss.xml",
         ],
       },
     ],
     sitemap: [
       `${baseUrl}/sitemap.xml`,
-      `${baseUrl}/rss.xml`,
-      `${baseUrl}/careers/rss.xml`,
     ],
     host: baseUrl,
   };

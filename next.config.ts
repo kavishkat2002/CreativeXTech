@@ -25,6 +25,18 @@ const nextConfig: NextConfig = {
         destination: "/solutions",
         permanent: true,
       },
+      {
+        source: "/blog/core-web-vitals-ai-discovery",
+        destination: "/blog/technical-seo-ai-software-companies",
+        permanent: true,
+      },
+      // Enforce HTTPS on production reverse-proxy requests
+      {
+        source: "/:path*",
+        has: [{ type: "header", key: "x-forwarded-proto", value: "http" }],
+        destination: "https://www.creativextechnology.com/:path*",
+        permanent: true,
+      },
       // Canonicalize all hostname variations to https://www.creativextechnology.com
       {
         source: "/:path*",
